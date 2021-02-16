@@ -27,3 +27,6 @@
 
 ## 画面遷移図
 https://xd.adobe.com/view/d0b37ae3-78ed-47a0-b6c1-953b4116184b-85e0/
+
+## ER図
+https://drive.google.com/file/d/12sw0wh9Y-LYrw-pcvJGS2xaTSUEQgte5/view?usp=sharing
