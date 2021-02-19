@@ -18,6 +18,7 @@ jobs:
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: arrangy_test
         # postgresが起動するまで待つヘルスチェックの設定
         options: >-
           --health-cmd pg_isready
@@ -50,11 +51,12 @@ jobs:
       run: |
         gem install bundler
         bundle install  --jobs 4 --retry 3
-    - name: Setup Database
+    - name: Set env
       run: |
-        cp config/database.yml.github-actions config/database.yml
-        bundle exec rake db:create
-        bundle exec rake db:schema:load
+        echo '::set-env name=RAILS_ENV::test'
+        echo '::set-env name=DATABASE_URL::postgres://postgres:postgres@localhost:5432/my_database'
+    - name: Setup Database
+      run: bundle exec rake db:schema:load
       env:
         RAILS_ENV: test
         POSTGRES_USER: postgres
