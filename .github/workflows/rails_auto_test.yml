@@ -3,17 +3,14 @@ name: RailsAutoTest
 on: push
 
 jobs:
-  build:
+  build_and_test:
+    name: Run Rspec
     runs-on: ubuntu-latest
     services:
-      # サービスコンテナへのアクセスに使われるラベル
-      db:
-        # Docker Hubのイメージ
-        image: postgres:13
-        # サービスコンテナ上のTCPポート5432をホストにマップ
-        ports:  
+      postgres:
+        image: postgres:13.2
+        ports:
           - 5432:5432
-        # postgresが起動するまで待つヘルスチェックの設定
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -22,48 +19,39 @@ jobs:
     env:
       RAILS_ENV: test
       BUNDLE_PATH: ./vendor/bundle
-      DATABASE_NAME: github_actions_test
+      DATABASE_NAME: github_actioins_test
       DATABASE_USER: postgres
       DATABASE_PASSWORD: ""
       DATABASE_HOST: 127.0.0.1
       DATABASE_PORT: 5432
-      TZ: Asia/Tokyo
-      RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-
-    container:
-      image: ruby:2.7.2
-      env:
-        RAILS_ENV: test
-
     steps:
-    - uses: actions/checkout@v1
-    - uses: actions/cache@v1
-      with:
-        path: vendor/bundle
-        key: bundle-${{ hashFiles('**/Genfile.lock') }}
-    - uses: actions/cache@v1
-      with:
-        path: node_modules
-        key: yarn-${{ hashFiles('**/yarn.lock') }}
-    - name: Setup yarn and node
-      run: |
-        curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-        echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-        apt-get update -qq
-        apt-get install -y nodejs yarn
-        yarn install
-    - name: Setup bundle
-      run: |
-        gem install bundler
-        bundle install  --jobs 4 --retry 3
-    - name: Setup Database
-      run: |
-        bundle exec rake db:create
-        bundle exec rake db:schema:load
-      env:
-        RAILS_ENV: test
-        POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: postgres
-    - name: run rspec
-      run: |
-        bundle exec rspec
+      - name: check out code
+        uses: actions/checkout@v2
+      - name: chache Gemfile.lock
+        uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: bundle-${{ hashFiles('**/Gemfile.lock') }}
+      - name: chache yarn.lock
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: yarn-${{ hashFiles('**/yarn.lock') }}
+      - name: setup Ruby 2.7.2
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7.2
+      - name: setup node.js 15.0.0
+        uses: actions/setup-node@v1
+        with:
+          node-version: 15.0.0
+      - name: yarn install
+        run: yarn install
+      - name: gem install bundler
+        run: gem install bundler
+      - name: bundle install
+        run: bundle install --path vendor/bundle --jobs 4 --retry 3
+      - name: Setup Database
+        run: |
+          bundle exec rails db:create
+          bundle exec db:schema:load --trace
