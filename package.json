@@ -1,0 +1,26 @@
+{
+  "name": "arrangy",
+  "private": true,
+  "dependencies": {
+    "@rails/actioncable": "^6.0.0",
+    "@rails/activestorage": "^6.0.0",
+    "@rails/ujs": "^6.0.0",
+    "@rails/webpacker": "4.3.0",
+    "vue": "2.6.12",
+    "vue-loader": "15.9.6",
+    "vue-template-compiler": "2.6.12"
+  },
+  "version": "0.1.0",
+  "devDependencies": {
+    "eslint": "7.20.0",
+    "eslint-config-prettier": "7.2.0",
+    "eslint-plugin-vue": "7.6.0",
+    "prettier": "2.2.1",
+    "source-map": "0.7.3",
+    "webpack-dev-server": "3.11.2"
+  },
+  "scripts": {
+    "check_code": "yarn eslint app/frontend/**/{*.js,*.vue}",
+    "fix_code": "yarn prettier --write app/frontend && yarn eslint --fix app/frontend/**/{*.js,*.vue}"
+  }
+}
