@@ -1,0 +1,68 @@
+name: RailsAutoTest
+
+on: push
+
+jobs:
+  build_and_test:
+    name: Run Rspec
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:13.2
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      RAILS_ENV: test
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_HOST: 127.0.0.1
+      POSTGRES_PORT: 5432
+    steps:
+      - name: check out code
+        uses: actions/checkout@v2
+      - name: chache Gemfile.lock
+        uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: bundle-${{ hashFiles('**/Gemfile.lock') }}
+      - name: chache yarn.lock
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: yarn-${{ hashFiles('**/yarn.lock') }}
+      - name: setup Ruby 2.7.2
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7.2
+      - name: setup node.js 15.0.0
+        uses: actions/setup-node@v1
+        with:
+          node-version: 15.0.0
+      - name: yarn install
+        run: yarn install
+      - name: gem install bundler
+        run: gem install bundler
+      - name: bundle install
+        run: bundle install --path vendor/bundle --jobs 4 --retry 3
+      - name: Setup Database
+        run: |
+          cp config/database.yml.github-actions config/database.yml
+          bundle exec rails db:create db:migrate
+      - name: run Rubocop
+        run: bundle exec rubocop
+      - name: run Brakeman
+        run: bundle exec brakeman -A
+      - name: run Prettier and ESLint
+        run: |
+          yarn prettier --check app/frontend
+          yarn eslint app/frontend/**/{*.js,*.vue}
+      - name: run Rspec
+        run: bundle exec rspec
