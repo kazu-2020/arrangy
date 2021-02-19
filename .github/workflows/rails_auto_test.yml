@@ -11,6 +11,8 @@ jobs:
         image: postgres:13.2
         ports:
           - 5432:5432
+        env:
+          POSTGRES_PASSWORD: postgres
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -20,8 +22,6 @@ jobs:
       RAILS_ENV: test
       BUNDLE_PATH: ./vendor/bundle
       DATABASE_NAME: github_actioins_test
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
       DATABASE_HOST: 127.0.0.1
       DATABASE_PORT: 5432
     steps:
