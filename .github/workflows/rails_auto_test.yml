@@ -20,8 +20,8 @@ jobs:
       RAILS_ENV: test
       BUNDLE_PATH: ./vendor/bundle
       DATABASE_NAME: github_actioins_test
-      DATABASE_USER: postgres
-      DATABASE_PASSWORD: ""
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
       DATABASE_HOST: 127.0.0.1
       DATABASE_PORT: 5432
     steps:
