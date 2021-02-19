@@ -10,7 +10,7 @@ jobs:
       # サービスコンテナへのアクセスに使われるラベル
       db:
         # Docker Hubのイメージ
-        image: postgres
+        image: postgres:13.2
         # postgresのパスワードを提供
         env:
           POSTGRES_PASSWORD: postgres
@@ -20,3 +20,36 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+    container:
+      image: ruby:2.7.2
+      env:
+        RAILS_ENV: test
+
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/cache@vi
+      with:
+        path: vendor/bundle
+        key: bundle-${{ hashFiles('**/Genfile.lock') }}
+    - uses: actions/cache@v1
+      with:
+        path: node_modules
+        key: yarn-${{ hashFiles('**/yarn.lock') }}
+    - name: Setup yarn and node
+      run: |
+        curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+        echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+        apt-get update -qq
+        apt-get install -y nodejs yarn
+        yarn install
+    - name: Setup bundle
+      run: |
+        gem install bundler
+        bundle install
+    - name: Setup Database
+      run: |
+        bundle exec rails db:create
+        bundle exec rails db:migrate
+    - name: run rspec
+      run: |
+        bundle exec rspec
