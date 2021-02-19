@@ -55,4 +55,4 @@ jobs:
       - name: Setup Database
         run: |
           cp config/database.yml.github-actions config/database.yml
-          bundle exec rails db:create db:schema:load --trace
+          bundle exec rails db:create db:migrate
