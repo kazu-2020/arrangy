@@ -4,7 +4,7 @@ on: push
 
 jobs:
   build:
-  # 実行環境に「ubuntu」の最新版を使用する。 Dockerコンテナアクションあるいはサービスコンテナを使うなら、「ubuntu」が必須
+  # 実行環境に「ubuntu」の最新版を使用する。 Dockerコンテナアクションあるいはサービスコンテナを使うなら、「ubuntu」が必須。
     runs-on: ubuntu-latest
     services:
       # サービスコンテナへのアクセスに使われるラベル
