@@ -1,0 +1,22 @@
+name: RailsAutoTest
+
+on: push
+
+jobs:
+  build:
+  # 実行環境に「ubuntu」の最新版を使用する。 Dockerコンテナアクションあるいはサービスコンテナを使うなら、「ubuntu」が必須
+    runs-on: ubuntu-latest
+    services:
+      # サービスコンテナへのアクセスに使われるラベル
+      db:
+        # Docker Hubのイメージ
+        image: postgres
+        # postgresのパスワードを提供
+        env:
+          POSTGRES_PASSWORD: postgres
+        # postgresが起動するまで待つヘルスチェックの設定
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
