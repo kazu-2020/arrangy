@@ -26,6 +26,10 @@ gem 'bootsnap', '>= 1.4.2', require: false
 
 group :development, :test do
   # Code check
+  gem 'brakeman', require: false
+  gem 'bullet'
+  gem 'bundler-audit', require: false
+  gem 'rails_best_practices', require: false
   gem 'rubocop', '~> 1.10', require: false
   gem 'rubocop-performance'
   gem 'rubocop-rails'
