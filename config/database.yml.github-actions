@@ -3,6 +3,7 @@ test:
   encoding: unicode
   database: github-actions-sample_test
   pool: 20
+  port: 5432
   username: postgres
   password: postgres
   host: localhost
