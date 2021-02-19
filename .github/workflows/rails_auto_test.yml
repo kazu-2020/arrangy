@@ -24,6 +24,17 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+    env:
+      RAILS_ENV: test
+      BUNDLE_PATH: ./vendor/bundle
+      DATABASE_NAME: github_actions_test
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: ""
+      DATABASE_HOST: 127.0.0.1
+      DATABASE_PORT: 5432
+      TZ: Asia/Tokyo
+      RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+
     container:
       image: ruby:2.7.2
       env:
@@ -52,7 +63,6 @@ jobs:
         bundle install  --jobs 4 --retry 3
     - name: Setup Database
       run: |
-        cp config/database.yml.github-actions config/database.yml
         bundle exec rake db:create
         bundle exec rake db:schema:load
       env:
