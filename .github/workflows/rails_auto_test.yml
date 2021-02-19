@@ -14,10 +14,6 @@ jobs:
         # サービスコンテナ上のTCPポート5432をホストにマップ
         ports:  
           - 5432:5432
-        # postgresのパスワードを提供
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
         # postgresが起動するまで待つヘルスチェックの設定
         options: >-
           --health-cmd pg_isready
