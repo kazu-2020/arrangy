@@ -27,7 +27,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - uses: actions/cache@vi
+    - uses: actions/cache@v1
       with:
         path: vendor/bundle
         key: bundle-${{ hashFiles('**/Genfile.lock') }}
