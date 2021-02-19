@@ -56,5 +56,13 @@ jobs:
         run: |
           cp config/database.yml.github-actions config/database.yml
           bundle exec rails db:create db:migrate
+      - name: run Rubocop
+        run: bundle exec rubocop
+      - name: run Brakeman
+        run: bundle exec brakeman -A
+      - name: run Prettier and ESLint
+        run: |
+          yarn prettier --check app/frontend
+          yarn eslint app/frontend/**/{*.js,*.vue}
       - name: run Rspec
         run: bundle exec rspec
