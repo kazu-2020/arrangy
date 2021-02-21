@@ -32,11 +32,13 @@ module Arrangy
       g.assets false
       g.helper false
       g.skip_routes true
+      g.template_engine nil
       g.test_framework :rspec,
       view_specs: false,
       helper_specs: false,
       routing_specs: false,
-      controller_specs: false
+      controller_specs: false,
+      request_specs: false
     end
 
     config.generators.system_tests = nil
