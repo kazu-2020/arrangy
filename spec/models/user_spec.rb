@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  describe 'メールアドレスの検証' do
-    let(:user) { build(:user) }
+  let(:user) { build(:user) }
 
+  describe 'メールフォーマットの検証' do
     context 'アドレスが適当な場合' do
       valid_addresses = %w[user@example.com USER@foo.COM A_US-ER@foo.bar.org foo.bar@foo.jp foo+bar@baz.com]
       it 'フォーマットバリデーションを通過する' do
@@ -25,8 +25,31 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe 'パスワードフォーマットの検証' do
+    context 'パスワードが適当な場合' do
+      valid_passwords = %w[password fooBAR baz1234]
+      it 'フォーマットバリデーションを通過する' do
+        valid_passwords.each do |password|
+          user.password = password
+          user.password_confirmation = password
+          expect(user.valid?).to eq true
+        end
+      end
+    end
+
+    context 'パスワードが不適当な場合' do
+      invalid_passwords = %w[ｐａｓsｗｏrd パスワード １２３４５６ foo..bar @//#bar foo\ bar]
+      it 'フォーマットバリデーションを通過しない' do
+        invalid_passwords.each do |password|
+          user.password = password
+          user.password_confirmation = password
+          expect(user.valid?).to eq false
+        end
+      end
+    end
+  end
+
   describe 'メールアドレスを小文字に変換して保存する' do
-    let(:user) { build(:user) }
     TEST_EMAIL = "FOO@EXAMPLE.COM"
     it "小文字に変換されている" do
       user.email = TEST_EMAIL
