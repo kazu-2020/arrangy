@@ -1,8 +1,8 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import UserRegister from '../components/pages/UserRegister.vue'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import UserRegister from '../components/pages/UserRegister.vue';
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const router = new VueRouter({
   mode: 'history',
@@ -10,9 +10,9 @@ const router = new VueRouter({
     {
       path: '/register',
       component: UserRegister,
-      name: 'UserRegister'
-    }
-  ]
-})
+      name: 'UserRegister',
+    },
+  ],
+});
 
-export default router
+export default router;

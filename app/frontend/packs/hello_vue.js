@@ -1,9 +1,9 @@
 import Vue from 'vue';
 import App from '../app.vue';
-import vuetify from '../plugins/vuetify'
-import router from '../router/index'
-import * as VeeValidate from '../plugins/vee-validate'
-import axiosInstance from '../plugins/axios'
+import vuetify from '../plugins/vuetify';
+import router from '../router/index';
+import * as VeeValidate from '../plugins/vee-validate';
+import axiosInstance from '../plugins/axios';
 
 Vue.prototype.$axios = axiosInstance;
 

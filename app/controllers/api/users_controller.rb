@@ -1,15 +1,18 @@
-class Api::UsersController < ApplicationController
-  def create
-    user = User.new(set_user)
-    if user.save
-      head 200
-    else
-      head 400
+module Api
+  class UsersController < ApplicationController
+    def create
+      user = User.new(set_user)
+      if user.save
+        head 200
+      else
+        head 400
+      end
     end
-  end
 
-  private
+    private
+
     def set_user
       params.require(:user).permit(:nickname, :email, :password, :password_confirmation)
     end
+  end
 end

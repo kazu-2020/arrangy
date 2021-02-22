@@ -73,9 +73,7 @@
             </ValidationProvider>
           </v-card-text>
           <v-card-actions class="d-flex justify-center">
-            <v-btn
-              color="normal"
-            >
+            <v-btn color="normal">
               戻る
             </v-btn>
             <v-btn
@@ -101,24 +99,25 @@ export default {
         nickname: '',
         email: '',
         password: '',
-        password_confirmation: ''
+        password_confirmation: '',
       },
       showPassword: false,
-      showPasswordConfirmation: false
-    }
+      showPasswordConfirmation: false,
+    };
   },
   methods: {
     createUser() {
-      this.$axios.post('users', { user: this.user })
+      this.$axios
+        .post('users', { user: this.user })
         .then(() => alert('新規登録に成功しました'))
-        .catch((error) => console.log(error))
+        .catch((error) => console.log(error));
     },
     handleShowPassword() {
-      this.showPassword = !this.showPassword
+      this.showPassword = !this.showPassword;
     },
     handleShowPasswordConfirmation() {
-      this.showPasswordConfirmation = !this.showPasswordConfirmation
-  }
-  }
-}
+      this.showPasswordConfirmation = !this.showPasswordConfirmation;
+    },
+  },
+};
 </script>
