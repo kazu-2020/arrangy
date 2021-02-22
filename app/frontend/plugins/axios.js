@@ -6,4 +6,4 @@ const axiosInstance = axios.create({
   headers: { 'X-CSRF-TOKEN': csrf_token }
 })
 
-export { axiosInstance }
+export default axiosInstance
