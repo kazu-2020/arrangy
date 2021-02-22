@@ -55,14 +55,14 @@ jobs:
       - name: Setup Database
         run: |
           cp config/database.yml.github-actions config/database.yml
-          bundle exec rails db:create db:migrate
+          bundle exec rails db:create db:schema:load
       - name: run Rubocop
         run: bundle exec rubocop
       - name: run Brakeman
         run: bundle exec brakeman -A
-      - name: run Prettier and ESLint
+      - name: run ESLint
         run: |
-          yarn prettier --check app/frontend
+          # yarn prettier --check app/frontend
           yarn eslint app/frontend/**/{*.js,*.vue}
       - name: run Rspec
         run: bundle exec rspec
