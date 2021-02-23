@@ -29,14 +29,20 @@ module Arrangy
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
     config.generators do |g|
+      g.assets false
+      g.helper false
+      g.skip_routes true
+      g.template_engine nil
       g.test_framework :rspec,
       view_specs: false,
       helper_specs: false,
       routing_specs: false,
       controller_specs: false,
-      fixuteres: true
+      request_specs: false
     end
 
     config.generators.system_tests = nil
+    config.time_zone = "Asia/Tokyo"
+    config.active_record.default_timezone = :local
   end
 end

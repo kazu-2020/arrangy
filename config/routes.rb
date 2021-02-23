@@ -1,3 +1,9 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  namespace :api, format: 'json' do
+    resources :users, only: %i[create]
+    get 'validations/unique', to: 'validations#unique'
+  end
+
+  get '*path', to: 'static_pages#top'
+  root 'static_pages#top'
 end
