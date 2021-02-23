@@ -60,9 +60,10 @@ jobs:
         run: bundle exec rubocop
       - name: run Brakeman
         run: bundle exec brakeman -A
-      - name: run ESLint
+      - name: run Prettier and ESLint
         run: |
-          # yarn prettier --check app/frontend
-          yarn eslint app/frontend/**/{*.js,*.vue}
+          yarn eslint-config-prettier  app/frontend/**/{*.js,*.vue}
+          yarn prettier --check app/frontend
+          yarn eslint  --max-warnings=-1 app/frontend/**/{*.js,*.vue}
       - name: run Rspec
         run: bundle exec rspec

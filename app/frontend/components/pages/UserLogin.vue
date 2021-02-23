@@ -1,27 +1,13 @@
 <template>
   <v-row class="d-flex align-center justify-center">
     <v-col cols="12" sm="10" md="8" lg="6">
-      <div class="text-h3 text-center">新規作成</div>
+      <div class="text-h3 text-center">ログイン</div>
       <v-card ref="form">
         <ValidationObserver v-slot="{ handleSubmit }">
           <v-card-text>
             <ValidationProvider
               v-slot="{ errors }"
-              mode="blur"
-              rules="required|isUnique:nickname|max:10"
-              name="ニックネーム"
-            >
-              <v-text-field
-                id="user-nickname"
-                v-model="user.nickname"
-                :errorMessages="errors"
-                type="text"
-                label="ニックネーム"
-              />
-            </ValidationProvider>
-            <ValidationProvider
-              v-slot="{ errors }"
-              rules="required|email|isUnique:email|max:50"
+              rules="required|email|max:50"
               mode="blur"
               name="メールアドレス"
             >
@@ -49,25 +35,10 @@
                 @click:append="handleShowPassword"
               />
             </ValidationProvider>
-            <ValidationProvider
-              v-slot="{ errors }"
-              rules="required|confirmed:password"
-              name="パスワード(確認用)"
-            >
-              <v-text-field
-                id="user-confirmation"
-                v-model="user.password_confirmation"
-                :errorMessages="errors"
-                :appendIcon="showPasswordConfirmation ? 'mdi-eye' : 'mdi-eye-off'"
-                :type="showPasswordConfirmation ? 'text' : 'password'"
-                label="パスワード(確認用)"
-                @click:append="handleShowPasswordConfirmation"
-              />
-            </ValidationProvider>
           </v-card-text>
           <v-card-actions class="d-flex justify-center">
             <v-btn color="normal"> 戻る </v-btn>
-            <v-btn color="primary" xLarge @click="handleSubmit(createUser)"> 登録する </v-btn>
+            <v-btn color="primary" xLarge @click="handleSubmit(handleLogin)"> 登録する </v-btn>
           </v-card-actions>
         </ValidationObserver>
       </v-card>
@@ -76,31 +47,24 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 export default {
   data() {
     return {
       user: {
-        nickname: '',
         email: '',
         password: '',
-        password_confirmation: '',
       },
       showPassword: false,
-      showPasswordConfirmation: false,
     };
   },
   methods: {
-    createUser() {
-      this.$axios
-        .post('users', { user: this.user })
-        .then(() => alert('新規登録に成功しました'))
-        .catch((error) => console.log(error));
-    },
+    ...mapActions('users', ['loginUser']),
     handleShowPassword() {
       this.showPassword = !this.showPassword;
     },
-    handleShowPasswordConfirmation() {
-      this.showPasswordConfirmation = !this.showPasswordConfirmation;
+    handleLogin() {
+      this.loginUser(this.user);
     },
   },
 };

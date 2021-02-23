@@ -44,5 +44,7 @@ module Arrangy
     config.generators.system_tests = nil
     config.time_zone = "Asia/Tokyo"
     config.active_record.default_timezone = :local
+    #https://github.com/jsonapi-serializer/jsonapi-serializer/pull/141
+    config.autoload_paths << 'app/serializers'
   end
 end

@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   namespace :api, format: 'json' do
-    resources :users, only: %i[create]
+    resources :users, only: %i[create] do
+      get 'me', on: :collection
+    end
+    resource :sessions, only: %i[create destroy]
     get 'validations/unique', to: 'validations#unique'
   end
 

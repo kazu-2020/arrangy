@@ -1,17 +1,19 @@
 import Vue from 'vue';
 import App from '../app.vue';
-import vuetify from '../plugins/vuetify';
+import store from '../store/index';
 import router from '../router/index';
-import * as VeeValidate from '../plugins/vee-validate';
+import vuetify from '../plugins/vuetify';
+import * as veeValidate from '../plugins/vee-validate';
 import axiosInstance from '../plugins/axios';
 
 Vue.prototype.$axios = axiosInstance;
 
 document.addEventListener('DOMContentLoaded', () => {
   const app = new Vue({
-    vuetify,
+    store,
     router,
-    VeeValidate,
+    vuetify,
+    veeValidate,
     render: (h) => h(App),
   }).$mount();
   document.body.appendChild(app.$el);
