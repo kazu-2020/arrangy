@@ -1,14 +1,7 @@
 <template>
   <v-row class="d-flex align-center justify-center">
-    <v-col
-      cols="12"
-      sm="10"
-      md="8"
-      lg="6"
-    >
-      <div class="text-h3 text-center">
-        新規作成
-      </div>
+    <v-col cols="12" sm="10" md="8" lg="6">
+      <div class="text-h3 text-center">新規作成</div>
       <v-card ref="form">
         <ValidationObserver v-slot="{ handleSubmit }">
           <v-card-text>
@@ -73,15 +66,8 @@
             </ValidationProvider>
           </v-card-text>
           <v-card-actions class="d-flex justify-center">
-            <v-btn color="normal">
-              戻る
-            </v-btn>
-            <v-btn
-              color="primary"
-              xLarge
-              :disabled="invalid"
-              @click="handleSubmit(createUser)"
-            >
+            <v-btn color="normal"> 戻る </v-btn>
+            <v-btn color="primary" xLarge :disabled="invalid" @click="handleSubmit(createUser)">
               登録する
             </v-btn>
           </v-card-actions>
