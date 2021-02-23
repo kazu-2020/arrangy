@@ -7,6 +7,7 @@
           <v-card-text>
             <ValidationProvider
               v-slot="{ errors }"
+              mode="blur"
               rules="required|isUnique:nickname|max:10"
               name="ニックネーム"
             >
@@ -14,7 +15,6 @@
                 id="user-nickname"
                 v-model="user.nickname"
                 :errorMessages="errors"
-                :mode="blur"
                 type="text"
                 label="ニックネーム"
               />
@@ -22,13 +22,13 @@
             <ValidationProvider
               v-slot="{ errors }"
               rules="required|email|isUnique:email|max:50"
+              mode="blur"
               name="メールアドレス"
             >
               <v-text-field
                 id="user-email"
                 v-model="user.email"
                 :errorMessages="errors"
-                :mode="blur"
                 type="email"
                 label="メールアドレス"
               />
@@ -67,9 +67,7 @@
           </v-card-text>
           <v-card-actions class="d-flex justify-center">
             <v-btn color="normal"> 戻る </v-btn>
-            <v-btn color="primary" xLarge :disabled="invalid" @click="handleSubmit(createUser)">
-              登録する
-            </v-btn>
+            <v-btn color="primary" xLarge @click="handleSubmit(createUser)"> 登録する </v-btn>
           </v-card-actions>
         </ValidationObserver>
       </v-card>
