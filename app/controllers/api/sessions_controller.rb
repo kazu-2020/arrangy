@@ -1,5 +1,4 @@
 module Api
-
   class SessionsController < ApplicationController
     def create
       user = login(params[:email], params[:password])
