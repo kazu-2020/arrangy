@@ -50,11 +50,11 @@ RSpec.describe User, type: :model do
   end
 
   describe 'メールアドレスを小文字に変換して保存する' do
-    TEST_EMAIL = "FOO@EXAMPLE.COM"
+    test_email = "FOO@EXAMPLE.COM"
     it "小文字に変換されている" do
-      user.email = TEST_EMAIL
+      user.email = test_email
       user.save
-      expect(User.last.email).to eq TEST_EMAIL.downcase
+      expect(User.last.email).to eq test_email.downcase
     end
   end
 end
