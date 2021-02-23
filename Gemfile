@@ -22,6 +22,9 @@ gem 'jbuilder', '~> 2.7'
 # authentication
 gem 'sorcery'
 
+# serializer
+gem 'jsonapi-serializer'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 
