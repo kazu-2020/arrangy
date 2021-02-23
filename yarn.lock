@@ -7893,6 +7893,11 @@ vuetify@2.4.4:
   resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-2.4.4.tgz#529de23b6b0c65ccfd43fe11f0f3a8a0333e68e6"
   integrity sha512-/4+xX9XbcwXBjrtptDxm5S4NXVaVGF8UJ3U7Nk20fl4aM84PGgGyqVCfi8hVa8t1gd+2Wz4FCztbR7JgJcBIQQ==
 
+vuex@3.6.2:
+  version "3.6.2"
+  resolved "https://registry.yarnpkg.com/vuex/-/vuex-3.6.2.tgz#236bc086a870c3ae79946f107f16de59d5895e71"
+  integrity sha512-ETW44IqCgBpVomy520DT5jf8n0zoCac+sxWnn+hMe/CzaSejb/eVw2YToiXYX+Ex/AuHHia28vWTq4goAexFbw==
+
 watchpack-chokidar2@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/watchpack-chokidar2/-/watchpack-chokidar2-2.0.1.tgz#38500072ee6ece66f3769936950ea1771be1c957"
