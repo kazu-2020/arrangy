@@ -26,6 +26,13 @@ const actions = {
       })
       .catch(() => alert('ログインに失敗しました'));
   },
+  async fetchAuthUser({ commit, state }) {
+    if (state.authUser) return state.authUser;
+    const userResponse = await axios.get('users/me');
+    if (!userResponse) return null;
+    commit('setAuthUser', userResponse.data);
+    return userResponse.data;
+  },
 };
 
 export default {
