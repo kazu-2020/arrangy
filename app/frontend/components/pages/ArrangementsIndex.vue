@@ -1,7 +1,11 @@
 <template>
   <div>
     <p>トップページです</p>
-    <p v-if="!!authUser">ログインしています</p>
+    <div v-if="!!authUser">
+      ログインしています
+      <v-btn color="error" @click="logoutUser">削除</v-btn>
+      <p>{{ authUser }}</p>
+    </div>
   </div>
 </template>
 
@@ -18,7 +22,7 @@ export default {
     ...mapGetters('users', ['authUser']),
   },
   methods: {
-    ...mapActions('users', ['fetchAuthUser']),
+    ...mapActions('users', ['fetchAuthUser', 'logoutUser']),
   },
 };
 </script>

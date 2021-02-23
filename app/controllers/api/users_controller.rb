@@ -10,8 +10,12 @@ module Api
     end
 
     def me
-      json_string =  json_string = UserSerializer.new(current_user).serializable_hash.to_json
-      render json: json_string
+      if current_user
+        json_string = UserSerializer.new(current_user).serializable_hash.to_json
+        render json: json_string
+      else
+        render json: nil
+      end
     end
 
     private

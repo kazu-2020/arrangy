@@ -11,5 +11,9 @@ module Api
       end
     end
 
+    def destroy
+      logout
+      head 200
+    end
   end
 end

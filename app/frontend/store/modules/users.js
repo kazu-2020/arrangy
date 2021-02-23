@@ -20,16 +20,25 @@ const actions = {
     axios
       .post('sessions', user)
       .then((res) => {
-        commit('updateAuthUser', res.data);
+        commit('setAuthUser', res.data);
         router.push({ name: 'TopPage' });
         alert('ログインに成功しました');
       })
       .catch(() => alert('ログインに失敗しました'));
   },
+  logoutUser({ commit }) {
+    axios
+      .delete('sessions')
+      .then(() => {
+        commit('setAuthUser', null);
+        alert('ログアウトしました');
+      })
+      .catch(() => alert('ログアウトに失敗しました'));
+  },
   async fetchAuthUser({ commit, state }) {
     if (state.authUser) return state.authUser;
     const userResponse = await axios.get('users/me');
-    if (!userResponse) return null;
+    // if (!userResponse) return null;
     commit('setAuthUser', userResponse.data);
     return userResponse.data;
   },

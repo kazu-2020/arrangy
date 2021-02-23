@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     resources :users, only: %i[create] do
       get 'me', on: :collection
     end
-    resource :sessions, only: %i[create destory]
+    resource :sessions, only: %i[create destroy]
     get 'validations/unique', to: 'validations#unique'
   end
 
