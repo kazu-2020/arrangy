@@ -3,7 +3,6 @@
     <p>トップページです</p>
     <div v-if="!!authUser">
       ログインしています
-      <v-btn color="error" @click="logoutUser">削除</v-btn>
       <p>{{ authUser }}</p>
     </div>
   </div>
@@ -22,7 +21,7 @@ export default {
     ...mapGetters('users', ['authUser']),
   },
   methods: {
-    ...mapActions('users', ['fetchAuthUser', 'logoutUser']),
+    ...mapActions('users', ['fetchAuthUser']),
   },
 };
 </script>
