@@ -8,7 +8,10 @@
       "eslint:recommended",
       "plugin:vue/base",
       "plugin:vue/essential",
-      "prettier"
+      "plugin:vue/strongly-recommended",
+      "plugin:vue/recommended",
+      "prettier",
+      "prettier/vue"
   ],
   "parserOptions": {
       "ecmaVersion": 12,
