@@ -13,4 +13,7 @@
 
 class Arrangement < ApplicationRecord
   belongs_to :user
+
+  validates :title, presence: true, length: { maximum: 30 }
+  validates :context, presence: true, length: { maximum: 1000 }
 end

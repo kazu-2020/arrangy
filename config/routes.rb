@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       get 'me', on: :collection
     end
     resource :sessions, only: %i[create destroy]
+    resources :arrangements, only: %i[create]
     get 'validations/unique', to: 'validations#unique'
   end
 

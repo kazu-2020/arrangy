@@ -13,9 +13,9 @@
     <v-row>
       <v-col cols="12" sm="5" md="5" lg="5" xl="5">
         <v-card height="100%">
-          <p class="text-h6 pt-8 px-8 text-center font-weight-black">
+          <div class="text-h6 pt-8 px-8 text-center font-weight-black">
             他サービスのアカウントで<br class="br-sp" />ログイン
-          </p>
+          </div>
           <v-card-actions class="d-flex flex-column">
             <v-btn class="mb-12" x-large>Twitterアカウントでログイン</v-btn>
             <v-btn class="mb-12" x-large>Googleアカウントでログイン</v-btn>
@@ -27,9 +27,9 @@
       </v-col>
       <v-col cols="12" sm="5" md="5" lg="5" xl="5">
         <v-card>
-          <p class="text-h6 pt-8 px-8 text-center font-weight-black">
+          <div class="text-h6 pt-8 px-8 text-center font-weight-black">
             ARRANGYアカウントで<br class="br-sp" />ログイン
-          </p>
+          </div>
           <ValidationObserver v-slot="{ handleSubmit }">
             <v-card-text class="px-8">
               <ValidationProvider

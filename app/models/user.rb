@@ -14,6 +14,8 @@
 #   index_users_on_nickname
 
 class User < ApplicationRecord
+  has_many :arrangements, dependent: :destroy
+
   before_save :change_email_to_lowercase
 
   authenticates_with_sorcery!

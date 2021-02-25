@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import ArrangementsIndex from '../components/pages/ArrangementsIndex.vue';
+import ArrangementNew from '../components/pages/ArrangementNew.vue';
 import UserRegister from '../components/pages/UserRegister.vue';
 import UserLogin from '../components/pages/UserLogin.vue';
 
@@ -23,6 +24,11 @@ const router = new VueRouter({
       path: '/login',
       component: UserLogin,
       name: 'UserLogin',
+    },
+    {
+      path: '/arrangements/new',
+      component: ArrangementNew,
+      name: 'ArrangementNew',
     },
   ],
 });
