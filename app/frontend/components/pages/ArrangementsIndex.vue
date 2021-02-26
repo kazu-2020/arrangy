@@ -14,11 +14,11 @@ export default {
   data() {
     return {};
   },
-  created() {
-    this.fetchAuthUser();
-  },
   computed: {
     ...mapGetters('users', ['authUser']),
+  },
+  created() {
+    this.fetchAuthUser();
   },
   methods: {
     ...mapActions('users', ['fetchAuthUser']),

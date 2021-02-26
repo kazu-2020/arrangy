@@ -13,7 +13,8 @@ module Api
     private
 
     def set_arrangement
-      params.require(:arrangement).permit(:title, :context)
+      # binding.pry
+      params.require(:arrangement).permit(:title, :context, { images: [] })
     end
   end
 end

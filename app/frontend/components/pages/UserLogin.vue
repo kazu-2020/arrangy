@@ -34,31 +34,31 @@
             <v-card-text class="px-8">
               <ValidationProvider
                 v-slot="{ errors }"
-                rules="required|email|max:50"
-                mode="blur"
                 name="メールアドレス"
+                mode="blur"
+                :rules="{ required: true, email: true, max: 50 }"
               >
                 <v-text-field
                   id="user-email"
                   v-model="user.email"
-                  :errorMessages="errors"
-                  type="email"
                   label="メールアドレス"
+                  type="email"
+                  :error-messages="errors"
                 />
               </ValidationProvider>
               <ValidationProvider
                 v-slot="{ errors }"
-                :rules="{ required: true, min: 6, regex: /^[0-9a-zA-Z]+$/i }"
-                vid="password"
                 name="パスワード"
+                vid="password"
+                :rules="{ required: true, min: 6, regex: /^[0-9a-zA-Z]+$/i }"
               >
                 <v-text-field
                   id="user-password"
                   v-model="user.password"
-                  :errorMessages="errors"
-                  :appendIcon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                  :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                   :type="showPassword ? 'text' : 'password'"
                   label="パスワード"
+                  :error-messages="errors"
                   @click:append="handleShowPassword"
                 />
               </ValidationProvider>
