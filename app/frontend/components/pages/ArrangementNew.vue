@@ -3,7 +3,8 @@
     <v-row class="d-flex justify-center">
       <v-col cols="12" sm="7">
         <v-card class="pa-4" color="grey lighten-5">
-          <div class="text-h6 pt-8 px-8 text-center font-weight-black">新規投稿</div>
+          <div class="text-h6 pt-8 px-8 mb-5 text-center font-weight-black">新規投稿</div>
+          <v-img v-show="isPreview" class="mb-5" :src="previewImage" contain max-height="300" />
           <ValidationObserver v-slot="{ handleSubmit }">
             <v-card-text>
               <ValidationProvider
@@ -17,15 +18,20 @@
                   id="arrangement-images"
                   label="投稿写真"
                   color="black"
-                  chips
                   clearable
                   hint="有効なファイル形式はjpg jpeg png gifです"
                   prepend-icon
                   prepend-inner-icon="mdi-camera"
-                  show-size
+                  persistent-hint
                   :error-messages="errors"
                   @change="handleFileChange"
-                />
+                >
+                  <template #selection="{ text }">
+                    <v-chip small label color="grey lighten-1">
+                      {{ text }}
+                    </v-chip>
+                  </template>
+                </v-file-input>
               </ValidationProvider>
               <ValidationProvider
                 v-slot="{ errors }"
@@ -61,7 +67,6 @@
                   :error-messages="errors"
                 />
               </ValidationProvider>
-              {{ arrangement }}
             </v-card-text>
             <v-card-actions class="d-flex justify-center">
               <v-btn
@@ -90,6 +95,8 @@ export default {
         context: '',
         images: [],
       },
+      previewImage: '',
+      isPreview: false,
     };
   },
   methods: {
@@ -102,9 +109,17 @@ export default {
     async handleFileChange(value) {
       const result = await this.$refs.fileForm.validate(value);
       if (result.valid) {
-        this.arrangement.images.splice(0, 1, value);
+        const reader = new FileReader();
+        reader.readAsDataURL(value);
+        reader.onload = () => {
+          const imageURL = reader.result;
+          this.arrangement.images.splice(0, 1, imageURL);
+          this.isPreview = true;
+          this.previewImage = imageURL;
+        };
       } else {
-        return;
+        this.isPreview = false;
+        this.previewImage = '';
       }
     },
   },
