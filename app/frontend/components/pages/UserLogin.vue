@@ -13,9 +13,9 @@
     <v-row>
       <v-col cols="12" sm="5" md="5" lg="5" xl="5">
         <v-card height="100%">
-          <p class="text-h6 pt-8 px-8 text-center font-weight-black">
+          <div class="text-h6 pt-8 px-8 text-center font-weight-black">
             他サービスのアカウントで<br class="br-sp" />ログイン
-          </p>
+          </div>
           <v-card-actions class="d-flex flex-column">
             <v-btn class="mb-12" x-large>Twitterアカウントでログイン</v-btn>
             <v-btn class="mb-12" x-large>Googleアカウントでログイン</v-btn>
@@ -27,38 +27,38 @@
       </v-col>
       <v-col cols="12" sm="5" md="5" lg="5" xl="5">
         <v-card>
-          <p class="text-h6 pt-8 px-8 text-center font-weight-black">
+          <div class="text-h6 pt-8 px-8 text-center font-weight-black">
             ARRANGYアカウントで<br class="br-sp" />ログイン
-          </p>
+          </div>
           <ValidationObserver v-slot="{ handleSubmit }">
             <v-card-text class="px-8">
               <ValidationProvider
                 v-slot="{ errors }"
-                rules="required|email|max:50"
-                mode="blur"
                 name="メールアドレス"
+                mode="blur"
+                :rules="{ required: true, email: true, max: 50 }"
               >
                 <v-text-field
                   id="user-email"
                   v-model="user.email"
-                  :errorMessages="errors"
-                  type="email"
                   label="メールアドレス"
+                  type="email"
+                  :error-messages="errors"
                 />
               </ValidationProvider>
               <ValidationProvider
                 v-slot="{ errors }"
-                :rules="{ required: true, min: 6, regex: /^[0-9a-zA-Z]+$/i }"
-                vid="password"
                 name="パスワード"
+                vid="password"
+                :rules="{ required: true, min: 6, regex: /^[0-9a-zA-Z]+$/i }"
               >
                 <v-text-field
                   id="user-password"
                   v-model="user.password"
-                  :errorMessages="errors"
-                  :appendIcon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                  :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                   :type="showPassword ? 'text' : 'password'"
                   label="パスワード"
+                  :error-messages="errors"
                   @click:append="handleShowPassword"
                 />
               </ValidationProvider>

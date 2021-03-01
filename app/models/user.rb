@@ -2,18 +2,20 @@
 # table name users
 #
 # id                 bigint       not null, primary key
-# nickname           string     not null
-# email              string     not null
+# nickname           string       not null
+# email              string       not null
 # crypted_password"  string
 # salt               string
-# created_at         datetime   not null
-# updated_at"        datetime   not null
+# created_at         datetime     not null
+# updated_at"        datetime     not null
 #
 # Index
-#   index_users_on_email     unique: true
-#   index_users_on_nickname  unique: true
+#   index_users_on_email
+#   index_users_on_nickname
 
 class User < ApplicationRecord
+  has_many :arrangements, dependent: :destroy
+
   before_save :change_email_to_lowercase
 
   authenticates_with_sorcery!
