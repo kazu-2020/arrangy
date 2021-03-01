@@ -4,7 +4,7 @@
       <v-col cols="12" sm="7">
         <v-card class="pa-4" color="grey lighten-5">
           <div class="text-h6 pt-8 px-8 mb-5 text-center font-weight-black">新規投稿</div>
-          <v-img v-show="isPreview" class="mb-5" :src="previewImage" contain max-height="300" />
+          <v-img v-show="isPreview" class="mb-5" :src="previewImage" contain height="350" />
           <ValidationObserver v-slot="{ handleSubmit }">
             <v-card-text>
               <ValidationProvider
@@ -12,7 +12,7 @@
                 ref="fileForm"
                 name="投稿写真"
                 mode="change"
-                :rules="{ required: true, ext: ['jpg', 'jpeg', 'png', 'gif'] }"
+                :rules="{ required: true, ext: ['jpg', 'jpeg', 'png', 'gif'], size: 10240 }"
               >
                 <v-file-input
                   id="arrangement-images"
@@ -73,6 +73,8 @@
                 style="color: white"
                 color="red accent-2"
                 x-large
+                :loading="isLoading"
+                :disabled="isLoading"
                 @click="handleSubmit(createArrangement)"
               >
                 <v-icon class="mr-1">mdi-send</v-icon>
@@ -87,6 +89,7 @@
 </template>
 
 <script>
+import Jimp from 'jimp/es';
 export default {
   data() {
     return {
@@ -97,26 +100,43 @@ export default {
       },
       previewImage: '',
       isPreview: false,
+      isLoading: false,
     };
   },
   methods: {
     createArrangement() {
+      this.isLoading = true;
       this.$axios
         .post('arrangements', this.arrangement)
-        .then(() => alert('投稿しました'))
-        .catch((error) => console.log(error));
+        .then(() => {
+          this.isLoading = false;
+          alert('投稿しました');
+        })
+        .catch((error) => {
+          this.isLoading = false;
+          console.log(error);
+        });
     },
     async handleFileChange(value) {
       const result = await this.$refs.fileForm.validate(value);
       if (result.valid) {
-        const reader = new FileReader();
-        reader.readAsDataURL(value);
-        reader.onload = () => {
-          const imageURL = reader.result;
-          this.arrangement.images.splice(0, 1, imageURL);
-          this.isPreview = true;
-          this.previewImage = imageURL;
-        };
+        const imageURL = URL.createObjectURL(value);
+        Jimp.read(imageURL)
+          .then((image) => {
+            image
+              .resize(300, 300)
+              .quality(80)
+              .getBase64(Jimp.MIME_PNG, (err, src) => {
+                this.arrangement.images.splice(0, 1, src);
+                this.isPreview = true;
+                this.previewImage = src;
+              });
+            URL.revokeObjectURL(imageURL);
+          })
+          .catch((error) => {
+            alert('アップロードに失敗しました');
+            console.log(error);
+          });
       } else {
         this.isPreview = false;
         this.previewImage = '';

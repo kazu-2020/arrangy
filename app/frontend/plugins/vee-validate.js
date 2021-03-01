@@ -8,7 +8,7 @@ import {
   setInteractionMode,
 } from 'vee-validate';
 import ja from 'vee-validate/dist/locale/ja.json';
-import { required, email, min, max, regex, confirmed, ext } from 'vee-validate/dist/rules';
+import { required, email, min, max, regex, confirmed, ext, size } from 'vee-validate/dist/rules';
 
 localize('ja', ja);
 
@@ -35,7 +35,10 @@ extend('ext', {
   ...ext,
   message: '有効なファイル形式はではありません',
 });
-
+extend('size', {
+  ...size,
+  message: '10MB以内でなければなりません',
+});
 extend('isUnique', {
   params: ['column'],
   async validate(value, { column }) {
