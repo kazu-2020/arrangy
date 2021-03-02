@@ -32,13 +32,14 @@ const actions = {
       .then(() => {
         commit('setAuthUser', null);
         alert('ログアウトしました');
+        router.go({ path: router.currentRoute.path });
       })
       .catch(() => alert('ログアウトに失敗しました'));
   },
   async fetchAuthUser({ commit, state }) {
     if (state.authUser) return state.authUser;
     const userResponse = await axios.get('users/me');
-    // if (!userResponse) return null;
+    if (!userResponse) return null;
     commit('setAuthUser', userResponse.data);
     return userResponse.data;
   },
