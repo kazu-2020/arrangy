@@ -1,0 +1,130 @@
+<template>
+  <v-card>
+    <div class="text-h6 pt-8 px-8 text-center font-weight-black">
+      メールアドレスを使用して<br class="br-sp" />新規登録
+    </div>
+    <ValidationObserver v-slot="{ handleSubmit }">
+      <v-card-text>
+        <ValidationProvider
+          v-slot="{ errors }"
+          name="ニックネーム"
+          mode="blur"
+          :rules="{ required: true, isUnique: 'nickname', max: 10 }"
+        >
+          <v-text-field
+            id="user-nickname"
+            label="ニックネーム"
+            type="text"
+            :error-messages="errors"
+            :value="nickname"
+            @input="$emit('update:nickname', $event)"
+          />
+        </ValidationProvider>
+        <ValidationProvider
+          v-slot="{ errors }"
+          name="メールアドレス"
+          mode="blur"
+          :rules="{ required: true, email: true, isUnique: 'email', max: 50 }"
+        >
+          <v-text-field
+            id="user-email"
+            label="メールアドレス"
+            type="email"
+            :error-messages="errors"
+            :value="email"
+            @input="$emit('update:email', $event)"
+          />
+        </ValidationProvider>
+        <ValidationProvider
+          v-slot="{ errors }"
+          name="パスワード"
+          vid="password"
+          :rules="{ required: true, min: 6, regex: /^[0-9a-zA-Z]+$/i }"
+        >
+          <v-text-field
+            id="user-password"
+            label="パスワード"
+            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="showPassword ? 'text' : 'password'"
+            :error-messages="errors"
+            :value="password"
+            @input="$emit('update:password', $event)"
+            @click:append="handleShowPassword"
+          />
+        </ValidationProvider>
+        <ValidationProvider
+          v-slot="{ errors }"
+          name="パスワード(確認用)"
+          :rules="{ required: true, confirmed: 'password' }"
+        >
+          <v-text-field
+            id="user-confirmation"
+            label="パスワード(確認用)"
+            :append-icon="showPasswordConfirmation ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="showPasswordConfirmation ? 'text' : 'password'"
+            :error-messages="errors"
+            :value="password_confirmation"
+            @input="$emit('update:password_confirmation', $event)"
+            @click:append="handleShowPasswordConfirmation"
+          />
+        </ValidationProvider>
+      </v-card-text>
+      <v-card-actions class="d-flex justify-center pb-8">
+        <v-btn
+          class="px-4"
+          style="color: white"
+          color="red accent-2"
+          x-large
+          @click="handleSubmit(handleCreateUser)"
+        >
+          <v-icon class="mr-1">mdi-email</v-icon>
+          メールアドレスで登録
+        </v-btn>
+      </v-card-actions>
+    </ValidationObserver>
+  </v-card>
+</template>
+
+<script>
+export default {
+  props: {
+    nickname: {
+      type: String,
+      requred: true,
+      default: '',
+    },
+    email: {
+      type: String,
+      requred: true,
+      default: '',
+    },
+    password: {
+      type: String,
+      requred: true,
+      default: '',
+    },
+    password_confirmation: {
+      type: String,
+      requred: true,
+      default: '',
+    },
+  },
+  data() {
+    return {
+      showPassword: false,
+      showPasswordConfirmation: false,
+    };
+  },
+  methods: {
+    handleShowPassword() {
+      this.showPassword = !this.showPassword;
+    },
+    handleShowPasswordConfirmation() {
+      this.showPasswordConfirmation = !this.showPasswordConfirmation;
+    },
+    handleCreateUser() {
+      this.$emit('create-user');
+    },
+  },
+};
+</script>

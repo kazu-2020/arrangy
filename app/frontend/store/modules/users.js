@@ -16,6 +16,18 @@ const mutations = {
 };
 
 const actions = {
+  registerUser({ commit }, user) {
+    axios
+      .post('users', { user: user })
+      .then((res) => {
+        commit('setAuthUser', res.dada);
+        router.push({ name: 'TopPage' });
+      })
+      .catch((err) => {
+        console.log(err);
+        alert('登録に失敗しました');
+      });
+  },
   loginUser({ commit }, user) {
     axios
       .post('sessions', user)
