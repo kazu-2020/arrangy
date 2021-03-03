@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-footer color="grey lighten-5">
+    <v-footer fixed color="grey lighten-5">
       <v-row justify="center" no-gutters>
         <v-btn v-for="link in links" :key="link" color="black" text rounded class="my-2">
           {{ link }}
