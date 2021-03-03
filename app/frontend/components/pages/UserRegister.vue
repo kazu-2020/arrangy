@@ -26,7 +26,7 @@
         <p>または</p>
       </v-col>
       <v-col cols="12" sm="5" md="5" lg="5" xl="5">
-        <UserRegisterForm v-bind.sync="user" @create-user="createUser" />
+        <UserRegisterForm v-bind.sync="user" @create-user="registerUser(user)" />
       </v-col>
     </v-row>
   </v-container>
@@ -51,9 +51,6 @@ export default {
   },
   methods: {
     ...mapActions('users', ['registerUser']),
-    createUser() {
-      this.registerUser(this.user);
-    },
   },
 };
 </script>

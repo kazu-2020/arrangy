@@ -26,57 +26,7 @@
         <p>または</p>
       </v-col>
       <v-col cols="12" sm="5" md="5" lg="5" xl="5">
-        <v-card>
-          <div class="text-h6 pt-8 px-8 text-center font-weight-black">
-            ARRANGYアカウントで<br class="br-sp" />ログイン
-          </div>
-          <ValidationObserver v-slot="{ handleSubmit }">
-            <v-card-text class="px-8">
-              <ValidationProvider
-                v-slot="{ errors }"
-                name="メールアドレス"
-                mode="blur"
-                :rules="{ required: true, email: true, max: 50 }"
-              >
-                <v-text-field
-                  id="user-email"
-                  v-model="user.email"
-                  label="メールアドレス"
-                  type="email"
-                  :error-messages="errors"
-                />
-              </ValidationProvider>
-              <ValidationProvider
-                v-slot="{ errors }"
-                name="パスワード"
-                vid="password"
-                :rules="{ required: true, min: 6, regex: /^[0-9a-zA-Z]+$/i }"
-              >
-                <v-text-field
-                  id="user-password"
-                  v-model="user.password"
-                  :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                  :type="showPassword ? 'text' : 'password'"
-                  label="パスワード"
-                  :error-messages="errors"
-                  @click:append="handleShowPassword"
-                />
-              </ValidationProvider>
-            </v-card-text>
-            <v-card-actions class="d-flex justify-center pb-8">
-              <v-btn
-                class="px-4"
-                style="color: white"
-                color="red accent-2"
-                x-large
-                @click="handleSubmit(handleLogin)"
-              >
-                <v-icon class="mr-1">mdi-email</v-icon>
-                メールアドレスでログイン
-              </v-btn>
-            </v-card-actions>
-          </ValidationObserver>
-        </v-card>
+        <UserLoginForm v-bind.sync="user" @login-user="loginUser(user)" />
       </v-col>
     </v-row>
   </v-container>
@@ -84,24 +34,21 @@
 
 <script>
 import { mapActions } from 'vuex';
+import UserLoginForm from '../parts/UserLoginForm.vue';
 export default {
+  components: {
+    UserLoginForm,
+  },
   data() {
     return {
       user: {
         email: '',
         password: '',
       },
-      showPassword: false,
     };
   },
   methods: {
     ...mapActions('users', ['loginUser']),
-    handleShowPassword() {
-      this.showPassword = !this.showPassword;
-    },
-    handleLogin() {
-      this.loginUser(this.user);
-    },
   },
 };
 </script>
