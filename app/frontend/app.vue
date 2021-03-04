@@ -2,6 +2,7 @@
   <v-app>
     <TheHeader />
     <v-main class="pt-16">
+      <TheSnackbar />
       <router-view />
     </v-main>
     <TheFooter />
@@ -11,10 +12,12 @@
 <script>
 import TheHeader from './components/global/TheHeader.vue';
 import TheFooter from './components/global/TheFooter.vue';
+import TheSnackbar from './components/global/TheSnackbar.vue';
 export default {
   components: {
     TheHeader,
     TheFooter,
+    TheSnackbar,
   },
 };
 </script>

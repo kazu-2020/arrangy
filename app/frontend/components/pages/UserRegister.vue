@@ -26,7 +26,7 @@
         <p>または</p>
       </v-col>
       <v-col cols="12" sm="5" md="5" lg="5" xl="5">
-        <UserRegisterForm v-bind.sync="user" @create-user="registerUser(user)" />
+        <UserRegisterForm v-bind.sync="user" @create-user="registerFunction" />
       </v-col>
     </v-row>
   </v-container>
@@ -51,6 +51,20 @@ export default {
   },
   methods: {
     ...mapActions('users', ['registerUser']),
+    ...mapActions('snackbars', ['fetchSnackbarData']),
+    registerFunction() {
+      this.registerUser(this.user).then((user) => {
+        if (user) {
+          this.$router.push({ name: 'TopPage' });
+        } else {
+          this.fetchSnackbarData({
+            msg: '新規登録に失敗しました',
+            color: 'error',
+            isShow: true,
+          });
+        }
+      });
+    },
   },
 };
 </script>

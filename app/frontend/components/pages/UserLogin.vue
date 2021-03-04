@@ -1,5 +1,10 @@
 <template>
   <v-container>
+    <div>
+      <v-snackbar v-model="snackbar" top absolute outlined color="error" timeout="2000">
+        {{ text }}
+      </v-snackbar>
+    </div>
     <v-row class="mb-10">
       <v-col class="pt-10">
         <h3 class="text-h4 mb-4 font-weight-black">ログイン</h3>
@@ -26,7 +31,7 @@
         <p>または</p>
       </v-col>
       <v-col cols="12" sm="5" md="5" lg="5" xl="5">
-        <UserLoginForm v-bind.sync="user" @login-user="loginUser(user)" />
+        <UserLoginForm v-bind.sync="user" @login-user="loginFunction" />
       </v-col>
     </v-row>
   </v-container>
@@ -45,10 +50,31 @@ export default {
         email: '',
         password: '',
       },
+      snackbar: false,
+      text: '',
     };
   },
   methods: {
     ...mapActions('users', ['loginUser']),
+    ...mapActions('snackbars', ['fetchSnackbarData']),
+    loginFunction() {
+      this.loginUser(this.user).then((user) => {
+        if (user) {
+          this.$router.push({ name: 'TopPage' });
+          this.fetchSnackbarData({
+            msg: 'ログインしました',
+            color: 'success',
+            isShow: true,
+          });
+        } else {
+          this.fetchSnackbarData({
+            msg: 'ログインに失敗しました',
+            color: 'error',
+            isShow: true,
+          });
+        }
+      });
+    },
   },
 };
 </script>

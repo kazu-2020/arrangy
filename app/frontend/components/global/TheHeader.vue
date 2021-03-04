@@ -8,9 +8,9 @@
     <v-spacer></v-spacer>
     <template v-if="!!authUser">
       <v-btn text>マイページ</v-btn>
-      <v-btn text>新規投稿</v-btn>
+      <v-btn text :to="{ name: 'ArrangementNew' }">新規投稿</v-btn>
       <v-btn text>お気に入り一覧</v-btn>
-      <v-btn text rounded plain :ripple="{ center: true }" x-large @click="logoutUser">
+      <v-btn text rounded plain :ripple="{ center: true }" x-large @click="logoutFunction">
         ログアウト
       </v-btn>
     </template>
@@ -41,6 +41,25 @@ export default {
   },
   methods: {
     ...mapActions('users', ['logoutUser']),
+    ...mapActions('snackbars', ['fetchSnackbarData']),
+    logoutFunction() {
+      this.logoutUser().then((res) => {
+        if (res) {
+          this.$router.go({ path: this.$router.currentRoute.path });
+          this.fetchSnackbarData({
+            msg: 'ログアウトしました',
+            color: 'success',
+            isShow: true,
+          });
+        } else {
+          this.fetchSnackbarData({
+            msg: 'ログアウトに失敗しました',
+            color: 'error',
+            isShow: true,
+          });
+        }
+      });
+    },
   },
 };
 </script>
