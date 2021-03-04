@@ -16,9 +16,9 @@
   "parserOptions": {
       "ecmaVersion": 12,
       "sourceType": "module"
-  }
-//   "rules": {
+  },
+  "rules": {
 //       "vue/attribute-hyphenation": ["warn", "never"],
-//       "vue/prop-name-casing": ["warn", "snake_case"]
-//   }
+      "vue/prop-name-casing": ["warn", "snake_case"]
+  }
 }

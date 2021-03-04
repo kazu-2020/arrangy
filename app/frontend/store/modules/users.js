@@ -1,5 +1,4 @@
 import axios from '../../plugins/axios';
-import router from '../../router/index';
 
 const state = {
   authUser: null,
@@ -16,29 +15,40 @@ const mutations = {
 };
 
 const actions = {
-  loginUser({ commit }, user) {
-    axios
-      .post('sessions', user)
-      .then((res) => {
-        commit('setAuthUser', res.data);
-        router.push({ name: 'TopPage' });
-        alert('ログインに成功しました');
-      })
-      .catch(() => alert('ログインに失敗しました'));
+  async registerUser({ commit }, user) {
+    try {
+      const userResponse = await axios.post('users', { user: user });
+      commit('setAuthUser', userResponse.data);
+      return userResponse.data;
+    } catch (err) {
+      console.log(err);
+      return null;
+    }
   },
-  logoutUser({ commit }) {
-    axios
-      .delete('sessions')
-      .then(() => {
-        commit('setAuthUser', null);
-        alert('ログアウトしました');
-      })
-      .catch(() => alert('ログアウトに失敗しました'));
+  async loginUser({ commit }, user) {
+    try {
+      const userResponse = await axios.post('sessions', user);
+      commit('setAuthUser', userResponse.data);
+      return userResponse.data;
+    } catch (err) {
+      console.log(err);
+      return null;
+    }
+  },
+  async logoutUser({ commit }) {
+    try {
+      const res = await axios.delete('sessions');
+      commit('setAuthUser', null);
+      return res;
+    } catch (err) {
+      console.log(err);
+      return null;
+    }
   },
   async fetchAuthUser({ commit, state }) {
     if (state.authUser) return state.authUser;
     const userResponse = await axios.get('users/me');
-    // if (!userResponse) return null;
+    if (!userResponse) return null;
     commit('setAuthUser', userResponse.data);
     return userResponse.data;
   },

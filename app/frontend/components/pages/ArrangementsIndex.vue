@@ -1,5 +1,9 @@
 <template>
   <div>
+    <WelcomeDialog
+      :dialog="isVisiableWelcomeDialog"
+      @close-dialog="isVisiableWelcomeDialog = false"
+    />
     <p>トップページです</p>
     <div v-if="!!authUser">
       ログインしています
@@ -17,10 +21,24 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import WelcomeDialog from '../parts/WelcomeDialog.vue';
 export default {
+  components: {
+    WelcomeDialog,
+  },
+  beforeRouteEnter(to, from, next) {
+    if (from.name === 'UserRegister')
+      next((self) => {
+        self.fetchAuthUser().then((authUser) => {
+          if (authUser) return (self.isVisiableWelcomeDialog = true);
+        });
+      });
+    else next();
+  },
   data() {
     return {
       arrangements: '',
+      isVisiableWelcomeDialog: false,
     };
   },
   computed: {

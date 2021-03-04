@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+
 import ArrangementsIndex from '../components/pages/ArrangementsIndex.vue';
 import ArrangementNew from '../components/pages/ArrangementNew.vue';
 import UserRegister from '../components/pages/UserRegister.vue';

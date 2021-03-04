@@ -3,7 +3,9 @@ module Api
     def create
       user = User.new(set_user)
       if user.save
-        head 200
+        auto_login(user)
+        json_string = UserSerializer.new(user).serializable_hash.to_json
+        render json: json_string
       else
         head 400
       end

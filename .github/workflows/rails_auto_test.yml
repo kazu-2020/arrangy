@@ -58,12 +58,14 @@ jobs:
           bundle exec rails db:create db:schema:load
       - name: run Rubocop
         run: bundle exec rubocop
-      - name: run Brakeman
-        run: bundle exec brakeman -A
+      - name: run Brakeman and bundler-audit
+        run: |
+          bundle exec brakeman -A
+          bundle exec bundler-audit
       - name: run Prettier and ESLint
         run: |
           yarn eslint-config-prettier  app/frontend/**/{*.js,*.vue}
           yarn prettier --check app/frontend
-          yarn eslint  --max-warnings=-1 app/frontend/**/{*.js,*.vue}
+          yarn eslint  --max-warnings=0 app/frontend/**/{*.js,*.vue}
       - name: run Rspec
         run: bundle exec rspec
