@@ -1,0 +1,22 @@
+[
+  {
+    "component": "jquery",
+    "version": "1.12.4",
+    "justification": "gem capybaraで使用されているだけで問題ない"
+  },
+  {
+    "component": "jquery-ui-dialog",
+    "version": "1.11.4",
+    "justification": "gem capybaraで使用されているだけで問題ない"
+  },
+  {
+    "component": "jquery",
+    "version": "1.6.2",
+    "justification": "gem webdriverで使用されているだけで問題ない"
+  },
+  {
+    "component": "jquery",
+    "version": "1.7.1",
+    "justification": "gem yardで使用されているだけで問題ない"
+  }
+]
