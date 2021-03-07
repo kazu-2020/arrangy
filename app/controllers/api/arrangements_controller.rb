@@ -1,12 +1,14 @@
 module Api
   class ArrangementsController < ApplicationController
-    before_action :require_login
+    before_action :require_login, only: %i[create]
 
     include Api::ArrangementBase64
 
     def index
-      arrangements = Arrangement.all
-      render json: arrangements
+      arrangements = Arrangement.preload(:user)
+      options = { include: [:user] }
+      json_string = ArrangementSerializer.new(arrangements, options).serializable_hash
+      render json: json_string
     end
 
     def create

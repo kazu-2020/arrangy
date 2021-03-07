@@ -4,7 +4,7 @@
       <v-col cols="12" sm="7">
         <v-card class="pa-4" color="grey lighten-5">
           <div class="text-h6 pt-8 px-8 mb-5 text-center font-weight-black">新規投稿</div>
-          <v-img v-show="isPreview" class="mb-5" :src="previewImage" contain height="350" />
+          <v-img v-show="isPreview" class="mb-5" :src="previewImage" contain height="300" />
           <ValidationObserver v-slot="{ handleSubmit }">
             <v-card-text>
               <ValidationProvider
