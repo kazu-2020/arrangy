@@ -9,6 +9,7 @@
     "axios": "0.21.1",
     "fibers": "5.0.0",
     "jimp": "0.16.1",
+    "rails-ujs": "5.2.4-5",
     "retire": "2.2.4",
     "vee-validate": "3.4.5",
     "vue": "2.6.12",
