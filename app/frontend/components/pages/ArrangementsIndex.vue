@@ -16,6 +16,9 @@
           </v-card-subtitle>
         </v-card>
       </v-col>
+      <div class="text-center">
+        <v-pagination v-model="pagy.currentPage" :length="pagy.totalCount" @input="changePage" />
+      </div>
       {{ arrangements }}
     </v-row>
   </v-container>
@@ -36,6 +39,10 @@ export default {
   data() {
     return {
       arrangements: '',
+      pagy: {
+        currentPage: 1,
+        totalCount: null,
+      },
     };
   },
   computed: {
@@ -48,6 +55,19 @@ export default {
   methods: {
     ...mapActions('users', ['fetchAuthUser']),
     fetchArrangements() {
+      this.defineArrangement();
+      this.$devour.findAll('arrangement').then((res) => {
+        this.arrangements = res.data;
+        this.pagy.totalCount = res.meta.pagy.pages;
+      });
+    },
+    changePage(num) {
+      this.defineArrangement();
+      this.$devour.findAll('arrangement', { page: num }).then((res) => {
+        this.arrangements = res.data;
+      });
+    },
+    defineArrangement() {
       this.$devour.define('arrangement', {
         title: '',
         context: '',
@@ -61,9 +81,11 @@ export default {
       this.$devour.define('user', {
         nickname: '',
         email: '',
+        arrangements: {
+          jsonApi: 'hasMany',
+          type: 'arrangement',
+        },
       });
-
-      this.$devour.findAll('arrangement').then((res) => (this.arrangements = res.data));
     },
   },
 };

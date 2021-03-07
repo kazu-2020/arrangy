@@ -5,8 +5,8 @@ module Api
     include Api::ArrangementBase64
 
     def index
-      arrangements = Arrangement.preload(:user)
-      options = { include: [:user] }
+      pagy, arrangements = pagy(Arrangement.preload(:user), items: 2)
+      options = { include: [:user], meta: { pagy: pagy_metadata(pagy)} }
       json_string = ArrangementSerializer.new(arrangements, options).serializable_hash
       render json: json_string
     end
