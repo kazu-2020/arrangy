@@ -7,6 +7,10 @@ ruby '2.7.2'
 gem 'rails', '~> 6.0.3', '>= 6.0.3.4'
 # database
 gem 'pg', '>= 0.18', '< 2.0'
+
+# seed for database
+gem 'seed-fu'
+
 # Use Puma as the app server
 gem 'puma', '~> 4.1'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
@@ -53,6 +57,7 @@ group :development, :test do
   gem 'pry-rails'
 
   # test
+  gem 'faker'
   gem 'factory_bot_rails'
   gem 'rspec-rails', '~> 4.0.2'
   gem 'spring-commands-rspec'
