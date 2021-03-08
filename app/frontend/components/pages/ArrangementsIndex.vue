@@ -1,25 +1,34 @@
 <template>
-  <v-container fluid class="d-flex justify-sm-center">
+  <v-container>
     <v-row>
-      <v-col v-for="arrangement in arrangements" :key="arrangement.id" cols="12" md="3">
-        <v-card>
-          <template v-for="image in arrangement.images">
-            <v-img :key="image.id" :src="image.url" />
-          </template>
-          <v-card-title>
-            <v-avatar size="36" color="indigo" class="mx-3" />
-            <div>{{ arrangement.title }}</div>
+      <v-col v-for="(arrangement, $index) in arrangements" :key="$index" cols="12" sm="4" md="4">
+        <v-card height="100%">
+          <v-img
+            v-for="(image, $imageIndex) in arrangement.images"
+            :key="$imageIndex"
+            :src="image.url"
+            height="300"
+          />
+          <v-card-title class="d-flex flex-nowrap">
+            <v-avatar size="25" color="indigo" class="mx-3" />
+            <div class="text-subtitle-1 text-nowrap">{{ arrangement.title }}</div>
           </v-card-title>
           <v-spacer />
           <v-card-subtitle>
-            <div class="text-subtitle-1">{{ arrangement.user.nickname }}</div>
+            <div class="text-subtitle-1">
+              {{ arrangement.user.nickname }}
+            </div>
           </v-card-subtitle>
         </v-card>
       </v-col>
-      <div class="text-center">
-        <v-pagination v-model="pagy.currentPage" :length="pagy.totalCount" @input="changePage" />
-      </div>
-      {{ arrangements }}
+      <infinite-loading
+        v-if="pagy.isActioned"
+        direction="bottom"
+        spinner="circles"
+        @infinite="infiniteHandler"
+      >
+        <div slot="no-more" />
+      </infinite-loading>
     </v-row>
   </v-container>
 </template>
@@ -38,10 +47,10 @@ export default {
   },
   data() {
     return {
-      arrangements: '',
+      arrangements: [],
       pagy: {
         currentPage: 1,
-        totalCount: null,
+        isActioned: false,
       },
     };
   },
@@ -56,15 +65,24 @@ export default {
     ...mapActions('users', ['fetchAuthUser']),
     fetchArrangements() {
       this.defineArrangement();
-      this.$devour.findAll('arrangement').then((res) => {
-        this.arrangements = res.data;
-        this.pagy.totalCount = res.meta.pagy.pages;
+      this.$devour.findAll('arrangement', { page: this.pagy.currentPage }).then((res) => {
+        this.arrangements.push(...res.data);
+        this.pagy.currentPage += 1;
+        this.pagy.isActioned = true;
       });
     },
-    changePage(num) {
+    infiniteHandler($state) {
       this.defineArrangement();
-      this.$devour.findAll('arrangement', { page: num }).then((res) => {
-        this.arrangements = res.data;
+      this.$devour.findAll('arrangement', { page: this.pagy.currentPage }).then((res) => {
+        // debugger;
+        if (this.pagy.currentPage < res.meta.pagy.pages) {
+          this.pagy.currentPage += 1;
+          this.arrangements.push(...res.data);
+          $state.loaded();
+        } else {
+          this.arrangements.push(...res.data);
+          $state.complete();
+        }
       });
     },
     defineArrangement() {

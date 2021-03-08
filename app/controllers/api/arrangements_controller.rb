@@ -2,10 +2,10 @@ module Api
   class ArrangementsController < ApplicationController
     before_action :require_login, only: %i[create]
 
-    include Api::ArrangementBase64
+    include Api::CreateUploadedfile
 
     def index
-      pagy, arrangements = pagy(Arrangement.preload(:user), items: 2)
+      pagy, arrangements = pagy(Arrangement.preload(:user), items: 20)
       options = { include: [:user], meta: { pagy: pagy_metadata(pagy)} }
       json_string = ArrangementSerializer.new(arrangements, options).serializable_hash
       render json: json_string

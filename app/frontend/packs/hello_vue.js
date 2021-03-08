@@ -6,9 +6,11 @@ import vuetify from '../plugins/vuetify';
 import * as veeValidate from '../plugins/vee-validate';
 import axiosInstance from '../plugins/axios';
 import devour from '../plugins/devour';
+import InfiniteLoading from 'vue-infinite-loading';
 
 Vue.prototype.$axios = axiosInstance;
 Vue.prototype.$devour = devour;
+Vue.use(InfiniteLoading);
 
 document.addEventListener('DOMContentLoaded', () => {
   const app = new Vue({

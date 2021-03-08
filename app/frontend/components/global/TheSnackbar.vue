@@ -3,6 +3,7 @@
     <v-snackbar
       v-model="isVisiable"
       top
+      right
       absolute
       timeout="3000"
       :color="snackbarData.color"
