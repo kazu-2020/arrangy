@@ -42,7 +42,8 @@ module Arrangy
     end
 
     config.generators.system_tests = nil
-    config.i18n.available_locales = :ja
+    # [en]の利用を許可しないとFackerを使用した際に、errorを吐く
+    config.i18n.available_locales = %i[ja en]
     config.i18n.default_locale = :ja
     config.time_zone = "Asia/Tokyo"
     config.active_record.default_timezone = :local

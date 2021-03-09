@@ -4,7 +4,7 @@
       <v-col cols="12" sm="7">
         <v-card class="pa-4" color="grey lighten-5">
           <div class="text-h6 pt-8 px-8 mb-5 text-center font-weight-black">新規投稿</div>
-          <v-img v-show="isPreview" class="mb-5" :src="previewImage" contain height="350" />
+          <v-img v-show="isPreview" class="mb-5" :src="previewImage" contain height="300" />
           <ValidationObserver v-slot="{ handleSubmit }">
             <v-card-text>
               <ValidationProvider
@@ -90,6 +90,7 @@
 
 <script>
 import Jimp from 'jimp/es';
+import { mapActions } from 'vuex';
 export default {
   data() {
     return {
@@ -104,16 +105,26 @@ export default {
     };
   },
   methods: {
+    ...mapActions('snackbars', ['fetchSnackbarData']),
     createArrangement() {
       this.isLoading = true;
-      this.$axios
-        .post('arrangements', this.arrangement)
+      this.$devour
+        .create('arrangement', this.arrangement)
         .then(() => {
-          this.isLoading = false;
-          alert('投稿しました');
+          this.$router.push({ name: 'TopPage' });
+          this.fetchSnackbarData({
+            msg: '新しいアレンジ飯を投稿しました',
+            color: 'success',
+            isShow: true,
+          });
         })
         .catch((error) => {
           this.isLoading = false;
+          this.fetchSnackbarData({
+            msg: '投稿に失敗しました',
+            color: 'error',
+            isShow: true,
+          });
           console.log(error);
         });
     },
@@ -124,8 +135,8 @@ export default {
         Jimp.read(imageURL)
           .then((image) => {
             image
-              .resize(300, 300)
-              .quality(80)
+              .cover(300, 300)
+              .quality(85)
               .getBase64(Jimp.MIME_PNG, (err, src) => {
                 this.arrangement.images.splice(0, 1, src);
                 this.isPreview = true;

@@ -1,4 +1,4 @@
-import axios from '../../plugins/axios';
+import devour from '../../plugins/devour';
 
 const state = {
   authUser: null,
@@ -17,9 +17,9 @@ const mutations = {
 const actions = {
   async registerUser({ commit }, user) {
     try {
-      const userResponse = await axios.post('users', { user: user });
-      commit('setAuthUser', userResponse.data);
-      return userResponse.data;
+      const userResponse = await devour.create('user', user);
+      commit('setAuthUser', userResponse);
+      return userResponse;
     } catch (err) {
       console.log(err);
       return null;
@@ -27,7 +27,7 @@ const actions = {
   },
   async loginUser({ commit }, user) {
     try {
-      const userResponse = await axios.post('sessions', user);
+      const userResponse = await devour.request('api/sessions', 'POST', user);
       commit('setAuthUser', userResponse.data);
       return userResponse.data;
     } catch (err) {
@@ -37,7 +37,7 @@ const actions = {
   },
   async logoutUser({ commit }) {
     try {
-      const res = await axios.delete('sessions');
+      const res = await devour.request('api/sessions', 'DELETE');
       commit('setAuthUser', null);
       return res;
     } catch (err) {
@@ -47,8 +47,8 @@ const actions = {
   },
   async fetchAuthUser({ commit, state }) {
     if (state.authUser) return state.authUser;
-    const userResponse = await axios.get('users/me');
-    if (!userResponse) return null;
+    const userResponse = await devour.find('user', 'me');
+    if (!userResponse.data) return null;
     commit('setAuthUser', userResponse.data);
     return userResponse.data;
   },

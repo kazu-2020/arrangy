@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <TheHeader />
-    <v-main class="pt-16">
+    <v-main class="py-15">
       <TheSnackbar />
       <router-view />
     </v-main>

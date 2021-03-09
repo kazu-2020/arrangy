@@ -1,12 +1,14 @@
 module Api
   class ArrangementsController < ApplicationController
-    before_action :require_login
+    before_action :require_login, only: %i[create]
 
-    include Api::ArrangementBase64
+    include Api::CreateUploadedfile
 
     def index
-      arrangements = Arrangement.all
-      render json: arrangements
+      pagy, arrangements = pagy(Arrangement.preload(:user), items: 20)
+      options = { include: [:user], meta: { pagy: pagy_metadata(pagy) } }
+      json_string = ArrangementSerializer.new(arrangements, options).serializable_hash
+      render json: json_string
     end
 
     def create
@@ -21,8 +23,8 @@ module Api
     private
 
     def set_arrangement
-      params[:arrangement][:images].map! { |image| create_uploadedfile(image) }
-      params.require(:arrangement).permit(:title, :context, { images: [] })
+      params.dig(:data, :attributes, :images).map! { |image| create_uploadedfile(image) }
+      params[:data].require(:attributes).permit(:title, :context, { images: [] })
     end
   end
 end

@@ -1,5 +1,5 @@
 module Api
-  module ArrangementBase64
+  module CreateUploadedfile
     extend ActiveSupport::Concern
 
     def create_uploadedfile(encode_data, filename = 'arrangement_image')

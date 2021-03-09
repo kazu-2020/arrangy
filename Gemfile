@@ -5,14 +5,16 @@ ruby '2.7.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.3', '>= 6.0.3.4'
-# Use postgresql as the database for Active Record
+# database
 gem 'pg', '>= 0.18', '< 2.0'
+
+# seed for database
+gem 'seed-fu'
+
 # Use Puma as the app server
 gem 'puma', '~> 4.1'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
 gem 'webpacker', '~> 4.0'
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.7'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 
@@ -23,10 +25,15 @@ gem 'jbuilder', '~> 2.7'
 gem 'sorcery'
 
 # serializer
+gem 'jbuilder', '~> 2.7'
 gem 'jsonapi-serializer'
 
 # image uploader
 gem 'carrierwave', '~> 2.0'
+
+# pagination
+gem 'pagy', '~> 3.5'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 
@@ -51,6 +58,7 @@ group :development, :test do
 
   # test
   gem 'factory_bot_rails'
+  gem 'faker'
   gem 'rspec-rails', '~> 4.0.2'
   gem 'spring-commands-rspec'
 end
@@ -65,7 +73,7 @@ group :development do
 end
 
 group :test do
-  gem 'capybara'
+  gem 'capybara', require: false
   gem 'webdrivers'
 end
 
