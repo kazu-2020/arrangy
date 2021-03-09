@@ -23,7 +23,7 @@ module Api
     private
 
     def set_user
-      params.require(:user).permit(:nickname, :email, :password, :password_confirmation)
+      params[:data].require(:attributes).permit(:nickname, :email, :password, :password_confirmation)
     end
   end
 end

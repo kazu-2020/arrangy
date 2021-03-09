@@ -1,5 +1,9 @@
 <template>
   <v-container>
+    <WelcomeDialog
+      :dialog="isVisiableWelcomeDialog"
+      @close-dialog="isVisiableWelcomeDialog = false"
+    />
     <v-row>
       <v-col v-for="(arrangement, $index) in arrangements" :key="$index" cols="12" sm="4" md="4">
         <v-card height="100%">
@@ -35,7 +39,11 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import WelcomeDialog from '../parts/WelcomeDialog.vue';
 export default {
+  components: {
+    WelcomeDialog,
+  },
   beforeRouteEnter(to, from, next) {
     if (from.name === 'UserRegister')
       next((self) => {
@@ -48,6 +56,7 @@ export default {
   data() {
     return {
       arrangements: [],
+      isVisiableWelcomeDialog: false,
       pagy: {
         currentPage: 1,
         isActioned: false,
@@ -64,7 +73,6 @@ export default {
   methods: {
     ...mapActions('users', ['fetchAuthUser']),
     fetchArrangements() {
-      this.defineArrangement();
       this.$devour.findAll('arrangement', { page: this.pagy.currentPage }).then((res) => {
         this.arrangements.push(...res.data);
         this.pagy.currentPage += 1;
@@ -72,9 +80,7 @@ export default {
       });
     },
     infiniteHandler($state) {
-      this.defineArrangement();
       this.$devour.findAll('arrangement', { page: this.pagy.currentPage }).then((res) => {
-        // debugger;
         if (this.pagy.currentPage < res.meta.pagy.pages) {
           this.pagy.currentPage += 1;
           this.arrangements.push(...res.data);
@@ -83,26 +89,6 @@ export default {
           this.arrangements.push(...res.data);
           $state.complete();
         }
-      });
-    },
-    defineArrangement() {
-      this.$devour.define('arrangement', {
-        title: '',
-        context: '',
-        images: [],
-        user: {
-          jsonApi: 'hasOne',
-          type: 'user',
-        },
-      });
-
-      this.$devour.define('user', {
-        nickname: '',
-        email: '',
-        arrangements: {
-          jsonApi: 'hasMany',
-          type: 'arrangement',
-        },
       });
     },
   },

@@ -108,8 +108,8 @@ export default {
     ...mapActions('snackbars', ['fetchSnackbarData']),
     createArrangement() {
       this.isLoading = true;
-      this.$axios
-        .post('arrangements', this.arrangement)
+      this.$devour
+        .create('arrangement', this.arrangement)
         .then(() => {
           this.$router.push({ name: 'TopPage' });
           this.fetchSnackbarData({

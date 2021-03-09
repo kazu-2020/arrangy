@@ -25,8 +25,8 @@ gem 'webpacker', '~> 4.0'
 gem 'sorcery'
 
 # serializer
-gem 'jsonapi-serializer'
 gem 'jbuilder', '~> 2.7'
+gem 'jsonapi-serializer'
 
 # image uploader
 gem 'carrierwave', '~> 2.0'
@@ -57,8 +57,8 @@ group :development, :test do
   gem 'pry-rails'
 
   # test
-  gem 'faker'
   gem 'factory_bot_rails'
+  gem 'faker'
   gem 'rspec-rails', '~> 4.0.2'
   gem 'spring-commands-rspec'
 end
