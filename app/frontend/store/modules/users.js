@@ -48,7 +48,7 @@ const actions = {
   async fetchAuthUser({ commit, state }) {
     if (state.authUser) return state.authUser;
     const userResponse = await devour.find('user', 'me');
-    if (!userResponse) return null;
+    if (!userResponse.data) return null;
     commit('setAuthUser', userResponse.data);
     return userResponse.data;
   },

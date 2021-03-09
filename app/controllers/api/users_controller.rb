@@ -12,12 +12,8 @@ module Api
     end
 
     def me
-      if current_user
-        json_string = UserSerializer.new(current_user).serializable_hash.to_json
-        render json: json_string
-      else
-        render json: nil
-      end
+      json_string = UserSerializer.new(current_user).serializable_hash.to_json
+      render json: json_string
     end
 
     private

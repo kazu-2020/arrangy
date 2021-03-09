@@ -73,23 +73,29 @@ export default {
   methods: {
     ...mapActions('users', ['fetchAuthUser']),
     fetchArrangements() {
-      this.$devour.findAll('arrangement', { page: this.pagy.currentPage }).then((res) => {
-        this.arrangements.push(...res.data);
-        this.pagy.currentPage += 1;
-        this.pagy.isActioned = true;
-      });
+      this.$devour
+        .findAll('arrangement', { page: this.pagy.currentPage })
+        .then((res) => {
+          this.arrangements.push(...res.data);
+          this.pagy.currentPage += 1;
+          this.pagy.isActioned = true;
+        })
+        .catch((err) => console.log(err));
     },
     infiniteHandler($state) {
-      this.$devour.findAll('arrangement', { page: this.pagy.currentPage }).then((res) => {
-        if (this.pagy.currentPage < res.meta.pagy.pages) {
-          this.pagy.currentPage += 1;
-          this.arrangements.push(...res.data);
-          $state.loaded();
-        } else {
-          this.arrangements.push(...res.data);
-          $state.complete();
-        }
-      });
+      this.$devour
+        .findAll('arrangement', { page: this.pagy.currentPage })
+        .then((res) => {
+          if (this.pagy.currentPage < res.meta.pagy.pages) {
+            this.pagy.currentPage += 1;
+            this.arrangements.push(...res.data);
+            $state.loaded();
+          } else {
+            this.arrangements.push(...res.data);
+            $state.complete();
+          }
+        })
+        .catch((err) => console.log(err));
     },
   },
 };
