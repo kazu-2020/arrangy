@@ -7,9 +7,11 @@ import * as veeValidate from '../plugins/vee-validate';
 import axiosInstance from '../plugins/axios';
 import devour from '../plugins/devour';
 import InfiniteLoading from 'vue-infinite-loading';
+import FilePond from '../plugins/vue-filepond';
 
 Vue.prototype.$axios = axiosInstance;
 Vue.prototype.$devour = devour;
+Vue.component('FilePond', FilePond);
 Vue.use(InfiniteLoading);
 
 document.addEventListener('DOMContentLoaded', () => {

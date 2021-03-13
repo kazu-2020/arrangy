@@ -91,6 +91,7 @@
 <script>
 import Jimp from 'jimp/es';
 import { mapActions } from 'vuex';
+
 export default {
   data() {
     return {

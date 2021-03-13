@@ -24,6 +24,7 @@
           v-slot="{ errors }"
           name="パスワード"
           vid="password"
+          mode="blur"
           :rules="{ required: true, min: 6, regex: /^[0-9a-zA-Z]+$/i }"
         >
           <v-text-field

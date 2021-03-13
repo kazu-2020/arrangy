@@ -45,6 +45,16 @@ const actions = {
       return null;
     }
   },
+  async updateAuthUser({ commit }, user) {
+    try {
+      const res = await devour.request(`${devour.apiUrl}/profile`, 'PATCH', {}, { user: user });
+      commit('setAuthUser', res.data);
+      return res.data;
+    } catch (err) {
+      console.log(err);
+      return null;
+    }
+  },
   async fetchAuthUser({ commit, state }) {
     if (state.authUser) return state.authUser;
     const userResponse = await devour.find('user', 'me');

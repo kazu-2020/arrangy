@@ -1,10 +1,5 @@
 <template>
   <v-container>
-    <div>
-      <v-snackbar v-model="snackbar" top absolute outlined color="error" timeout="2000">
-        {{ text }}
-      </v-snackbar>
-    </div>
     <v-row class="mb-10">
       <v-col class="pt-10">
         <h3 class="text-h4 mb-4 font-weight-black">ログイン</h3>
@@ -50,8 +45,6 @@ export default {
         email: '',
         password: '',
       },
-      snackbar: false,
-      text: '',
     };
   },
   methods: {

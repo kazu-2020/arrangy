@@ -8,7 +8,7 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <template v-if="!!authUser">
-        <v-btn text>マイページ</v-btn>
+        <v-btn text :to="{ name: 'UserProfile' }">マイページ</v-btn>
         <v-btn text :to="{ name: 'ArrangementNew' }">新規投稿</v-btn>
         <v-btn text>お気に入り一覧</v-btn>
         <v-btn text rounded plain :ripple="{ center: true }" x-large @click="logoutFunction">
