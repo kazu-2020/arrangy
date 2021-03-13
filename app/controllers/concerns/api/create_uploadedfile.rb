@@ -2,9 +2,10 @@ module Api
   module CreateUploadedfile
     extend ActiveSupport::Concern
 
-    def create_uploadedfile(encode_data, filename = 'arrangement_image')
+    def create_uploadedfile(encode_data)
       image_data = split_uri(encode_data)
       decode_data = Base64.decode64(image_data[:form_data])
+      filename =  SecureRandom.base64(8)
       image_params = {
         filename: "#{filename}.#{image_data[:extension]}",
         type: image_data[:content_type],

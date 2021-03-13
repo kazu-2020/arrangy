@@ -2,8 +2,6 @@ module Api
   class ArrangementsController < ApplicationController
     before_action :require_login, only: %i[create]
 
-    include Api::CreateUploadedfile
-
     def index
       pagy, arrangements = pagy(Arrangement.preload(:user), items: 20)
       options = { include: [:user], meta: { pagy: pagy_metadata(pagy) } }
