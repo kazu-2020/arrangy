@@ -40,9 +40,11 @@ extend('size', {
   message: '10MB以内でなければなりません',
 });
 extend('isUnique', {
-  params: ['column'],
-  async validate(value, { column }) {
-    let response = await axios.get('validations/unique', { params: { [column]: value } });
+  params: ['column', 'user_id'],
+  async validate(value, { column, user_id }) {
+    let response = await axios.get('validations/unique', {
+      params: { [column]: value, id: user_id },
+    });
     if (response.data === 'unique') {
       return true;
     } else {
