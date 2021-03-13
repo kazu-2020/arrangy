@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import axios from './axios';
+import devour from './devour';
 import {
   ValidationObserver,
   ValidationProvider,
@@ -42,10 +42,11 @@ extend('size', {
 extend('isUnique', {
   params: ['column', 'user_id'],
   async validate(value, { column, user_id }) {
-    let response = await axios.get('validations/unique', {
-      params: { [column]: value, id: user_id },
+    const res = await devour.request(`${devour.apiUrl}/validations/unique`, 'GET', {
+      [column]: value,
+      id: user_id,
     });
-    if (response.data === 'unique') {
+    if (res.data === 'unique') {
       return true;
     } else {
       return '{_value_}は既に使われています';
