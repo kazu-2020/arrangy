@@ -4,6 +4,7 @@
 # id                 bigint       not null, primary key
 # nickname           string       not null
 # email              string       not null
+# avatar             string
 # crypted_password"  string
 # salt               string
 # created_at         datetime     not null
@@ -19,6 +20,7 @@ class User < ApplicationRecord
   before_save :change_email_to_lowercase
 
   authenticates_with_sorcery!
+  mount_uploader :avatar, AvatarUploader
 
   VALID_EMAIL_FORMAT = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i.freeze
   VALID_PASSWORD_FORMAT = /\A\w+\z/i.freeze
