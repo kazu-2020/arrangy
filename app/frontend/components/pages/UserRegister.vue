@@ -34,7 +34,7 @@
 
 <script>
 import { mapActions } from 'vuex';
-import UserRegisterForm from '../parts/UserRegisterForm';
+import UserRegisterForm from '../parts/forms/UserRegisterForm';
 export default {
   components: {
     UserRegisterForm,

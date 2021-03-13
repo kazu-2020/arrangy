@@ -4,12 +4,12 @@
       メールアドレスを使用して<br class="br-sp" />新規登録
     </div>
     <ValidationObserver v-slot="{ handleSubmit }">
-      <v-card-text>
+      <v-card-text class="px-8">
         <ValidationProvider
           v-slot="{ errors }"
           name="ニックネーム"
           mode="blur"
-          :rules="{ required: true, isUnique: 'nickname', max: 10 }"
+          :rules="rules.nickname"
         >
           <v-text-field
             id="user-nickname"
@@ -24,7 +24,7 @@
           v-slot="{ errors }"
           name="メールアドレス"
           mode="blur"
-          :rules="{ required: true, email: true, isUnique: 'email', max: 50 }"
+          :rules="rules.email"
         >
           <v-text-field
             id="user-email"
@@ -39,7 +39,7 @@
           v-slot="{ errors }"
           name="パスワード"
           vid="password"
-          :rules="{ required: true, min: 6, regex: /^[0-9a-zA-Z]+$/i }"
+          :rules="rules.password"
         >
           <v-text-field
             id="user-password"
@@ -55,7 +55,7 @@
         <ValidationProvider
           v-slot="{ errors }"
           name="パスワード(確認用)"
-          :rules="{ required: true, confirmed: 'password' }"
+          :rules="rules.confirmation"
         >
           <v-text-field
             id="user-confirmation"
@@ -111,6 +111,12 @@ export default {
   },
   data() {
     return {
+      rules: {
+        nickname: { required: true, isUnique: 'nickname', max: 10 },
+        email: { required: true, email: true, isUnique: 'email', max: 50 },
+        password: { required: true, min: 6, regex: /^[0-9a-zA-Z]+$/i },
+        confirmation: { required: true, confirmed: 'password' },
+      },
       showPassword: false,
       showPasswordConfirmation: false,
     };

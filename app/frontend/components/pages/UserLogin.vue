@@ -34,7 +34,7 @@
 
 <script>
 import { mapActions } from 'vuex';
-import UserLoginForm from '../parts/UserLoginForm.vue';
+import UserLoginForm from '../parts/forms/UserLoginForm';
 export default {
   components: {
     UserLoginForm,

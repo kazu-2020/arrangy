@@ -9,7 +9,7 @@
           v-slot="{ errors }"
           name="メールアドレス"
           mode="blur"
-          :rules="{ required: true, email: true, max: 50 }"
+          :rules="rules.email"
         >
           <v-text-field
             id="user-email"
@@ -25,7 +25,7 @@
           name="パスワード"
           vid="password"
           mode="blur"
-          :rules="{ required: true, min: 6, regex: /^[0-9a-zA-Z]+$/i }"
+          :rules="rules.password"
         >
           <v-text-field
             id="user-password"
@@ -69,6 +69,10 @@ export default {
   },
   data() {
     return {
+      rules: {
+        email: { required: true, email: true, max: 50 },
+        password: { required: true, min: 6, regex: /^[0-9a-zA-Z]+$/i },
+      },
       showPassword: false,
     };
   },
