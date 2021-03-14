@@ -46,7 +46,7 @@ extend('isUnique', {
       [column]: value,
       id: user_id,
     });
-    if (res.data === 'unique') {
+    if (res.meta === 'unique') {
       return true;
     } else {
       return '{_value_}は既に使われています';
