@@ -3,7 +3,9 @@ Rails.application.routes.draw do
     resources :users, only: %i[create] do
       get 'me', on: :collection
     end
-    resource :profile, only: %i[update]
+    resource :profile, only: %i[update] do
+      patch 'password', on: :member
+    end
     resource :session, only: %i[create destroy]
     resources :arrangements, only: %i[index create]
     get 'validations/unique', to: 'validations#unique'

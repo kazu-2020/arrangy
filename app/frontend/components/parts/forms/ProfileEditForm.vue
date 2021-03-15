@@ -26,7 +26,7 @@
           {{ errors[0] }}
         </v-alert>
       </ValidationProvider>
-      <ValidationObserver v-slot="{ handleSubmit }">
+      <ValidationObserver v-slot="{ handleSubmit }" class="pb-6" tag="div">
         <ValidationProvider
           v-slot="{ errors }"
           name="ニックネーム"
@@ -64,13 +64,17 @@
             xLarge
             style="color: white"
             color="red accent-2"
-            @click="handleSubmit(handleUpdateUser)"
+            @click="handleSubmit(handleUpdateProfile)"
           >
             更新する
           </v-btn>
           <v-btn class="mx-4" xLarge @click="closeDialog">戻る</v-btn>
         </div>
       </ValidationObserver>
+      <p class="text-body2 text-center">
+        パスワードを変更する場合は
+        <a @click="changeDialog"> こちら </a>
+      </p>
     </v-sheet>
   </v-dialog>
 </template>
@@ -134,9 +138,13 @@ export default {
         this.fileErrorDisplayed = true;
       }
     },
-    handleUpdateUser() {
+    handleUpdateProfile() {
       this.hideErrorMessage();
-      this.$emit('updateUser');
+      this.$emit('updateProfile');
+    },
+    changeDialog() {
+      this.hideErrorMessage();
+      this.$emit('changeDialog');
     },
     closeDialog() {
       this.hideErrorMessage();

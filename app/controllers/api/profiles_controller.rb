@@ -11,6 +11,11 @@ module Api
       end
     end
 
+    def password
+      current_user.password_confirmation = params[:data][:password_confirmation]
+      current_user.change_password(params[:data][:password]) ? head(200) : head(400)
+    end
+
     private
 
     def user_params
