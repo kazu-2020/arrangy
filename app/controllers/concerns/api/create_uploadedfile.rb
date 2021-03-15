@@ -19,11 +19,11 @@ module Api
     def split_uri(data)
       # decodeするにはdata:*/*;base64,を取り除く
       data =~ /^data:(.+);.+,(.+)$/
-      uri = {}
-      uri[:content_type] = Regexp.last_match(1)
-      uri[:form_data] = Regexp.last_match(2)
-      uri[:extension] = Regexp.last_match(1).split('/')[1]
-      uri
+      Hash.new.tap do |uri|
+        uri[:content_type] = Regexp.last_match(1)
+        uri[:form_data] = Regexp.last_match(2)
+        uri[:extension] = Regexp.last_match(1).split('/')[1]
+      end
     end
 
     # https://docs.ruby-lang.org/ja/2.3.0/class/Tempfile.html
