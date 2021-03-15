@@ -1,14 +1,17 @@
 # table information
 # table name users
 #
-# id                 bigint       not null, primary key
-# nickname           string       not null
-# email              string       not null
-# avatar             string
-# crypted_password"  string
-# salt               string
-# created_at         datetime     not null
-# updated_at"        datetime     not null
+# id                               bigint       not null, primary key
+# nickname                         string       not null
+# email                            string       not null
+# avatar                           string
+# crypted_password"                string
+# salt                             string
+# reset_password_token             string
+# reset_password_token_eqpires_at  string
+# reset_password_email_sent_at     datetime
+# created_at                       datetime     not null
+# updated_at"                      datetime     not null
 #
 # Index
 #   index_users_on_email
