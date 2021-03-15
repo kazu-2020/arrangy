@@ -37,7 +37,7 @@ extend('ext', {
 });
 extend('size', {
   ...size,
-  message: '10MB以内でなければなりません',
+  message: 'サイズは10MB以内でなければなりません',
 });
 extend('isUnique', {
   params: ['column', 'user_id'],
