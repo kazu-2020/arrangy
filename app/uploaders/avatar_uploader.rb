@@ -13,11 +13,11 @@ class AvatarUploader < CarrierWave::Uploader::Base
     0.byte..10.megabytes
   end
 
-  def default_url(*args)
-    "/images/" + [version_name, "default_avatar.png"].compact.join('_')
+  def default_url(*_args)
+    "/images/#{[version_name, 'default_avatar.png'].compact.join('_')}"
   end
 
-  #vue側と統一
+  # vue側と統一
   process resize_to_fill: [300, 300, 'Center']
   process convert: 'png'
 

@@ -15,7 +15,7 @@
             id="user-email"
             label="メールアドレス"
             type="email"
-            :error-messages="errors"
+            :errorMessages="errors"
             :value="email"
             @input="$emit('update:email', $event)"
           />
@@ -29,10 +29,10 @@
         >
           <v-text-field
             id="user-password"
-            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            :appendIcon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
             :type="showPassword ? 'text' : 'password'"
             label="パスワード"
-            :error-messages="errors"
+            :errorMessages="errors"
             :value="password"
             @input="$emit('update:password', $event)"
             @click:append="handleShowPassword"
@@ -44,7 +44,7 @@
           class="px-4"
           style="color: white"
           color="red accent-2"
-          x-large
+          xLarge
           @click="handleSubmit(handleLogin)"
         >
           <v-icon class="mr-1">mdi-email</v-icon>

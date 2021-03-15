@@ -17,8 +17,8 @@
             他サービスのアカウントで<br class="br-sp" />ログイン
           </div>
           <v-card-actions class="d-flex flex-column">
-            <v-btn class="mb-12" x-large>Twitterアカウントでログイン</v-btn>
-            <v-btn class="mb-12" x-large>Googleアカウントでログイン</v-btn>
+            <v-btn class="mb-12" xLarge>Twitterアカウントでログイン</v-btn>
+            <v-btn class="mb-12" xLarge>Googleアカウントでログイン</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>

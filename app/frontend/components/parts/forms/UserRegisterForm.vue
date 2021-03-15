@@ -15,7 +15,7 @@
             id="user-nickname"
             label="ニックネーム"
             type="text"
-            :error-messages="errors"
+            :errorMessages="errors"
             :value="nickname"
             @input="$emit('update:nickname', $event)"
           />
@@ -30,7 +30,7 @@
             id="user-email"
             label="メールアドレス"
             type="email"
-            :error-messages="errors"
+            :errorMessages="errors"
             :value="email"
             @input="$emit('update:email', $event)"
           />
@@ -44,9 +44,9 @@
           <v-text-field
             id="user-password"
             label="パスワード"
-            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            :appendIcon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
             :type="showPassword ? 'text' : 'password'"
-            :error-messages="errors"
+            :errorMessages="errors"
             :value="password"
             @input="$emit('update:password', $event)"
             @click:append="handleShowPassword"
@@ -60,9 +60,9 @@
           <v-text-field
             id="user-confirmation"
             label="パスワード(確認用)"
-            :append-icon="showPasswordConfirmation ? 'mdi-eye' : 'mdi-eye-off'"
+            :appendIcon="showPasswordConfirmation ? 'mdi-eye' : 'mdi-eye-off'"
             :type="showPasswordConfirmation ? 'text' : 'password'"
-            :error-messages="errors"
+            :errorMessages="errors"
             :value="password_confirmation"
             @input="$emit('update:password_confirmation', $event)"
             @click:append="handleShowPasswordConfirmation"
@@ -74,7 +74,7 @@
           class="px-4"
           style="color: white"
           color="red accent-2"
-          x-large
+          xLarge
           @click="handleSubmit(handleCreateUser)"
         >
           <v-icon class="mr-1">mdi-email</v-icon>
@@ -103,6 +103,7 @@ export default {
       requred: true,
       default: '',
     },
+    // eslint-disable-next-line vue/prop-name-casing
     password_confirmation: {
       type: String,
       requred: true,

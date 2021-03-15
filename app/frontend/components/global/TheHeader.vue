@@ -11,12 +11,12 @@
         <v-btn text :to="{ name: 'UserProfile' }">マイページ</v-btn>
         <v-btn text :to="{ name: 'ArrangementNew' }">新規投稿</v-btn>
         <v-btn text>お気に入り一覧</v-btn>
-        <v-btn text rounded plain :ripple="{ center: true }" x-large @click="logoutFunction">
+        <v-btn text rounded plain :ripple="{ center: true }" xLarge @click="logoutFunction">
           ログアウト
         </v-btn>
       </template>
       <template v-else>
-        <v-btn :to="{ name: 'UserRegister' }" text rounded plain :ripple="{ center: true }" x-large>
+        <v-btn :to="{ name: 'UserRegister' }" text rounded plain :ripple="{ center: true }" xLarge>
           新規登録
         </v-btn>
         <v-btn
@@ -26,7 +26,7 @@
           rounded
           plain
           :ripple="{ center: true }"
-          x-large
+          xLarge
         >
           ログイン
         </v-btn>
