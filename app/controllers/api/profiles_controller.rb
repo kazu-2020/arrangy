@@ -12,6 +12,7 @@ module Api
     end
 
     private
+
     def user_params
       params[:data][:user][:avatar] = create_uploadedfile(params[:data][:user][:avatar])
       params[:data].require(:user).permit(:nickname, :email, :avatar)
