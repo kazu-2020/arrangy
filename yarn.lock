@@ -1734,7 +1734,7 @@ aws4@^1.8.0:
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.11.0.tgz"
   integrity sha512-xh1Rl34h6Fi1DC2WWKfxUTVqRsNnr6LsKz2+hfwDxQJWmrx8+c7ylaqBMcHfl1U1r2dsifOvKX3LQuLNZ+XSvA==
 
-axios@0.21.1, axios@^0.21.0:
+axios@^0.21.0:
   version "0.21.1"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.1.tgz"
   integrity sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==
@@ -8452,6 +8452,11 @@ vue-eslint-parser@^7.5.0:
     espree "^6.2.1"
     esquery "^1.4.0"
     lodash "^4.17.15"
+
+vue-filepond@^6.0.0:
+  version "6.0.3"
+  resolved "https://registry.yarnpkg.com/vue-filepond/-/vue-filepond-6.0.3.tgz#199871e7d91f4d6a6c4ba5a4e653c6ce9cafbfa9"
+  integrity sha512-m0wArAdpgzOOs19bWA6zzYlHAb2aK+igPoKPZGrzpgKiiELPKW7XZ2OBDXzk7rhpFLkedujVrMqwjPyZfmQTTQ==
 
 vue-hot-reload-api@^2.3.0:
   version "2.3.4"

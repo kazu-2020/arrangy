@@ -4,22 +4,18 @@
 # Available submodules are: :user_activation, :http_basic_auth, :remember_me,
 # :reset_password, :session_timeout, :brute_force_protection, :activity_logging,
 # :magic_login, :external
-Rails.application.config.sorcery.submodules = []
+Rails.application.config.sorcery.submodules = [:reset_password]
 
 # Here you can configure each submodule's features.
 Rails.application.config.sorcery.configure do |config|
   # -- core --
   # What controller action to call for non-authenticated users. You can also
   # override the 'not_authenticated' method of course.
-  # Default: `:not_authenticated`
-  #
-  # config.not_authenticated_action =
+  config.not_authenticated_action = :not_authenticated
 
   # When a non logged-in user tries to enter a page that requires login, save
   # the URL he wants to reach, and send him there after login, using 'redirect_back_or_to'.
-  # Default: `true`
-  #
-  # config.save_return_to_url =
+  config.save_return_to_url = true
 
   # Set domain option for cookies; Useful for remember_me submodule.
   # Default: `nil`
@@ -244,39 +240,25 @@ Rails.application.config.sorcery.configure do |config|
   config.user_config do |user|
     # -- core --
     # Specify username attributes, for example: [:username, :email].
-    # Default: `[:email]`
-    #
-    # user.username_attribute_names =
+    user.username_attribute_names = %i[email]
 
     # Change *virtual* password attribute, the one which is used until an encrypted one is generated.
-    # Default: `:password`
-    #
-    # user.password_attribute_name =
+    user.password_attribute_name = :password
 
     # Downcase the username before trying to authenticate, default is false
-    # Default: `false`
-    #
-    # user.downcase_username_before_authenticating =
+    user.downcase_username_before_authenticating = false
 
     # Change default email attribute.
-    # Default: `:email`
-    #
-    # user.email_attribute_name =
+    user.email_attribute_name = :email
 
     # Change default crypted_password attribute.
-    # Default: `:crypted_password`
-    #
-    # user.crypted_password_attribute_name =
+    user.crypted_password_attribute_name = :crypted_password
 
     # What pattern to use to join the password with the salt
-    # Default: `""`
-    #
-    # user.salt_join_token =
+    user.salt_join_token = ''
 
     # Change default salt attribute.
-    # Default: `:salt`
-    #
-    # user.salt_attribute_name =
+    user.salt_attribute_name = :salt
 
     # How many times to apply encryption to the password.
     # Default: 1 in test env, `nil` otherwise
@@ -285,9 +267,7 @@ Rails.application.config.sorcery.configure do |config|
 
     # Encryption key used to encrypt reversible encryptions such as AES256.
     # WARNING: If used for users' passwords, changing this key will leave passwords undecryptable!
-    # Default: `nil`
-    #
-    # user.encryption_key =
+    user.encryption_key = nil
 
     # Use an external encryption class.
     # Default: `nil`
@@ -295,14 +275,10 @@ Rails.application.config.sorcery.configure do |config|
     # user.custom_encryption_provider =
 
     # Encryption algorithm name. See 'encryption_algorithm=' for available options.
-    # Default: `:bcrypt`
-    #
-    # user.encryption_algorithm =
+    user.encryption_algorithm = :bcrypt
 
     # Make this configuration inheritable for subclasses. Useful for ActiveRecord's STI.
-    # Default: `false`
-    #
-    # user.subclasses_inherit_config =
+    user.subclasses_inherit_config = false
 
     # -- remember_me --
     # How long in seconds the session length will be
@@ -339,9 +315,7 @@ Rails.application.config.sorcery.configure do |config|
 
     # REQUIRED:
     # User activation mailer class.
-    # Default: `nil`
-    #
-    # user.user_activation_mailer =
+    # user.user_activation_mailer = nil
 
     # When true, sorcery will not automatically
     # send the activation details email, and allow you to
@@ -373,42 +347,28 @@ Rails.application.config.sorcery.configure do |config|
 
     # -- reset_password --
     # Password reset token attribute name.
-    # Default: `:reset_password_token`
-    #
-    # user.reset_password_token_attribute_name =
+    user.reset_password_token_attribute_name = :reset_password_token
 
     # Password token expiry attribute name.
-    # Default: `:reset_password_token_expires_at`
-    #
-    # user.reset_password_token_expires_at_attribute_name =
+    user.reset_password_token_expires_at_attribute_name = :reset_password_token_expires_at
 
     # When was password reset email sent. Used for hammering protection.
-    # Default: `:reset_password_email_sent_at`
-    #
-    # user.reset_password_email_sent_at_attribute_name =
+    user.reset_password_email_sent_at_attribute_name = :reset_password_email_sent_at
 
     # REQUIRED:
     # Password reset mailer class.
-    # Default: `nil`
-    #
-    # user.reset_password_mailer =
+    user.reset_password_mailer = UserMailer
 
     # Reset password email method on your mailer class.
-    # Default: `:reset_password_email`
-    #
-    # user.reset_password_email_method_name =
+    user.reset_password_email_method_name = :reset_password_email
 
     # When true, sorcery will not automatically
     # send the password reset details email, and allow you to
     # manually handle how and when the email is sent
-    # Default: `false`
-    #
-    # user.reset_password_mailer_disabled =
+    user.reset_password_mailer_disabled = false
 
     # How many seconds before the reset request expires. nil for never expires.
-    # Default: `nil`
-    #
-    # user.reset_password_expiration_period =
+    user.reset_password_expiration_period = nil
 
     # Hammering protection: how long in seconds to wait before allowing another email to be sent.
     # Default: `5 * 60`
@@ -416,9 +376,7 @@ Rails.application.config.sorcery.configure do |config|
     # user.reset_password_time_between_emails =
 
     # Access counter to a reset password page attribute name
-    # Default: `:access_count_to_reset_password_page`
-    #
-    # user.reset_password_page_access_count_attribute_name =
+    user.reset_password_page_access_count_attribute_name = :access_count_to_reset_password_page
 
     # -- magic_login --
     # Magic login code attribute name.

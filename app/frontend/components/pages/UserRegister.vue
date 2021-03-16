@@ -17,8 +17,8 @@
             他サービスのアカウントで<br class="br-sp" />登録
           </div>
           <v-card-actions class="d-flex flex-column">
-            <v-btn class="mb-12" x-large>Twitterアカウントで登録</v-btn>
-            <v-btn class="mb-12" x-large>Googleアカウントで登録</v-btn>
+            <v-btn class="mb-12" xLarge>Twitterアカウントで登録</v-btn>
+            <v-btn class="mb-12" xLarge>Googleアカウントで登録</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -34,7 +34,7 @@
 
 <script>
 import { mapActions } from 'vuex';
-import UserRegisterForm from '../parts/UserRegisterForm';
+import UserRegisterForm from '../parts/forms/UserRegisterForm';
 export default {
   components: {
     UserRegisterForm,

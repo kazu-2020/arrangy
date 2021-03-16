@@ -1,8 +1,9 @@
 module Api
   class ValidationsController < ApplicationController
     def unique
-      result = User.where(nickname: params[:nickname]).or(User.where(email: params[:email])).exists? ? 'exist' : 'unique' # rubocop:disable Layout/LineLength
-      render json: result
+      users = User.where.not(id: params[:id]).where('nickname = ? or email= ?', params[:nickname], params[:email])
+      result = users.exists? ? 'exist' : 'unique'
+      render json: { meta: result }
     end
   end
 end

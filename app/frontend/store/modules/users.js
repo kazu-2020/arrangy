@@ -27,7 +27,7 @@ const actions = {
   },
   async loginUser({ commit }, user) {
     try {
-      const userResponse = await devour.request('api/sessions', 'POST', user);
+      const userResponse = await devour.request(`${devour.apiUrl}/session`, 'POST', {}, user);
       commit('setAuthUser', userResponse.data);
       return userResponse.data;
     } catch (err) {
@@ -37,9 +37,19 @@ const actions = {
   },
   async logoutUser({ commit }) {
     try {
-      const res = await devour.request('api/sessions', 'DELETE');
+      const res = await devour.request(`${devour.apiUrl}/session`, 'DELETE');
       commit('setAuthUser', null);
       return res;
+    } catch (err) {
+      console.log(err);
+      return null;
+    }
+  },
+  async updateAuthUser({ commit }, user) {
+    try {
+      const res = await devour.request(`${devour.apiUrl}/profile`, 'PATCH', {}, { user: user });
+      commit('setAuthUser', res.data);
+      return res.data;
     } catch (err) {
       console.log(err);
       return null;

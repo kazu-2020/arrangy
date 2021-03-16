@@ -2,9 +2,10 @@ module Api
   module CreateUploadedfile
     extend ActiveSupport::Concern
 
-    def create_uploadedfile(encode_data, filename = 'arrangement_image')
+    def create_uploadedfile(encode_data)
       image_data = split_uri(encode_data)
       decode_data = Base64.decode64(image_data[:form_data])
+      filename =  SecureRandom.base64(8)
       image_params = {
         filename: "#{filename}.#{image_data[:extension]}",
         type: image_data[:content_type],
@@ -18,11 +19,11 @@ module Api
     def split_uri(data)
       # decodeするにはdata:*/*;base64,を取り除く
       data =~ /^data:(.+);.+,(.+)$/
-      uri = {}
-      uri[:content_type] = Regexp.last_match(1)
-      uri[:form_data] = Regexp.last_match(2)
-      uri[:extension] = Regexp.last_match(1).split('/')[1]
-      uri
+      {}.tap do |uri|
+        uri[:content_type] = Regexp.last_match(1)
+        uri[:form_data] = Regexp.last_match(2)
+        uri[:extension] = Regexp.last_match(1).split('/')[1]
+      end
     end
 
     # https://docs.ruby-lang.org/ja/2.3.0/class/Tempfile.html

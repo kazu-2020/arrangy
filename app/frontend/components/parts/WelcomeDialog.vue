@@ -1,5 +1,5 @@
 <template>
-  <v-dialog :value="dialog" max-width="630">
+  <v-dialog :value="dialog" maxWidth="630">
     <v-card>
       <v-card-title class="headline grey lighten-2 d-flex justify-center">
         <span style="color: #d32f2f">ARRANGY</span>へようこそ
@@ -9,10 +9,10 @@
         早速、あなたのアレンジ飯を投稿してみましょう。
       </v-card-text>
       <v-card-actions class="d-flex justify-space-around pb-8">
-        <v-btn style="color: white" color="red accent-2" x-large :to="{ name: 'ArrangementNew' }">
+        <v-btn style="color: white" color="red accent-2" xLarge :to="{ name: 'ArrangementNew' }">
           投稿ページへ
         </v-btn>
-        <v-btn x-large @click.stop="$emit('close-dialog')"> あとで </v-btn>
+        <v-btn xLarge @click.stop="$emit('close-dialog')"> あとで </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

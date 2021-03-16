@@ -1,5 +1,5 @@
 <template>
-  <v-container fill-height>
+  <v-container fillHeight>
     <v-row class="d-flex justify-center">
       <v-col cols="12" sm="7">
         <v-card class="pa-4" color="grey lighten-5">
@@ -20,10 +20,10 @@
                   color="black"
                   clearable
                   hint="有効なファイル形式はjpg jpeg png gifです"
-                  prepend-icon
-                  prepend-inner-icon="mdi-camera"
-                  persistent-hint
-                  :error-messages="errors"
+                  prependIcon
+                  prependInnerIcon="mdi-camera"
+                  persistentHint
+                  :errorMessages="errors"
                   @change="handleFileChange"
                 >
                   <template #selection="{ text }">
@@ -47,7 +47,7 @@
                   clearable
                   color="black"
                   counter="30"
-                  :error-messages="errors"
+                  :errorMessages="errors"
                 />
               </ValidationProvider>
               <ValidationProvider
@@ -60,11 +60,11 @@
                   v-model="arrangement.context"
                   label="投稿内容"
                   outlined
-                  auto-grow
+                  autoGrow
                   clearable
                   color="black"
                   counter="1000"
-                  :error-messages="errors"
+                  :errorMessages="errors"
                 />
               </ValidationProvider>
             </v-card-text>
@@ -72,7 +72,7 @@
               <v-btn
                 style="color: white"
                 color="red accent-2"
-                x-large
+                xLarge
                 :loading="isLoading"
                 :disabled="isLoading"
                 @click="handleSubmit(createArrangement)"
@@ -91,6 +91,7 @@
 <script>
 import Jimp from 'jimp/es';
 import { mapActions } from 'vuex';
+
 export default {
   data() {
     return {
@@ -134,14 +135,11 @@ export default {
         const imageURL = URL.createObjectURL(value);
         Jimp.read(imageURL)
           .then((image) => {
-            image
-              .cover(300, 300)
-              .quality(85)
-              .getBase64(Jimp.MIME_PNG, (err, src) => {
-                this.arrangement.images.splice(0, 1, src);
-                this.isPreview = true;
-                this.previewImage = src;
-              });
+            image.cover(300, 300).getBase64(Jimp.MIME_PNG, (err, src) => {
+              this.arrangement.images.splice(0, 1, src);
+              this.isPreview = true;
+              this.previewImage = src;
+            });
             URL.revokeObjectURL(imageURL);
           })
           .catch((error) => {

@@ -4,18 +4,18 @@
       メールアドレスを使用して<br class="br-sp" />新規登録
     </div>
     <ValidationObserver v-slot="{ handleSubmit }">
-      <v-card-text>
+      <v-card-text class="px-8">
         <ValidationProvider
           v-slot="{ errors }"
           name="ニックネーム"
           mode="blur"
-          :rules="{ required: true, isUnique: 'nickname', max: 10 }"
+          :rules="rules.nickname"
         >
           <v-text-field
             id="user-nickname"
             label="ニックネーム"
             type="text"
-            :error-messages="errors"
+            :errorMessages="errors"
             :value="nickname"
             @input="$emit('update:nickname', $event)"
           />
@@ -24,13 +24,13 @@
           v-slot="{ errors }"
           name="メールアドレス"
           mode="blur"
-          :rules="{ required: true, email: true, isUnique: 'email', max: 50 }"
+          :rules="rules.email"
         >
           <v-text-field
             id="user-email"
             label="メールアドレス"
             type="email"
-            :error-messages="errors"
+            :errorMessages="errors"
             :value="email"
             @input="$emit('update:email', $event)"
           />
@@ -39,14 +39,14 @@
           v-slot="{ errors }"
           name="パスワード"
           vid="password"
-          :rules="{ required: true, min: 6, regex: /^[0-9a-zA-Z]+$/i }"
+          :rules="rules.password"
         >
           <v-text-field
             id="user-password"
             label="パスワード"
-            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            :appendIcon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
             :type="showPassword ? 'text' : 'password'"
-            :error-messages="errors"
+            :errorMessages="errors"
             :value="password"
             @input="$emit('update:password', $event)"
             @click:append="handleShowPassword"
@@ -55,14 +55,14 @@
         <ValidationProvider
           v-slot="{ errors }"
           name="パスワード(確認用)"
-          :rules="{ required: true, confirmed: 'password' }"
+          :rules="rules.confirmation"
         >
           <v-text-field
             id="user-confirmation"
             label="パスワード(確認用)"
-            :append-icon="showPasswordConfirmation ? 'mdi-eye' : 'mdi-eye-off'"
+            :appendIcon="showPasswordConfirmation ? 'mdi-eye' : 'mdi-eye-off'"
             :type="showPasswordConfirmation ? 'text' : 'password'"
-            :error-messages="errors"
+            :errorMessages="errors"
             :value="password_confirmation"
             @input="$emit('update:password_confirmation', $event)"
             @click:append="handleShowPasswordConfirmation"
@@ -74,7 +74,7 @@
           class="px-4"
           style="color: white"
           color="red accent-2"
-          x-large
+          xLarge
           @click="handleSubmit(handleCreateUser)"
         >
           <v-icon class="mr-1">mdi-email</v-icon>
@@ -103,6 +103,7 @@ export default {
       requred: true,
       default: '',
     },
+    // eslint-disable-next-line vue/prop-name-casing
     password_confirmation: {
       type: String,
       requred: true,
@@ -111,6 +112,12 @@ export default {
   },
   data() {
     return {
+      rules: {
+        nickname: { required: true, isUnique: 'nickname', max: 10 },
+        email: { required: true, email: true, isUnique: 'email', max: 50 },
+        password: { required: true, min: 6, regex: /^[0-9a-zA-Z]+$/i },
+        confirmation: { required: true, confirmed: 'password' },
+      },
       showPassword: false,
       showPasswordConfirmation: false,
     };

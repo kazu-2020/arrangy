@@ -11,6 +11,7 @@ jsonApi.headers['CONTENT-TYPE'] = 'application/json';
 jsonApi.define('user', {
   nickname: '',
   email: '',
+  avatar: '',
   password: '',
   password_confirmation: '',
   arrangements: {

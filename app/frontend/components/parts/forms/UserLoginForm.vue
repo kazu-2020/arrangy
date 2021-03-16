@@ -9,13 +9,13 @@
           v-slot="{ errors }"
           name="メールアドレス"
           mode="blur"
-          :rules="{ required: true, email: true, max: 50 }"
+          :rules="rules.email"
         >
           <v-text-field
             id="user-email"
             label="メールアドレス"
             type="email"
-            :error-messages="errors"
+            :errorMessages="errors"
             :value="email"
             @input="$emit('update:email', $event)"
           />
@@ -24,14 +24,15 @@
           v-slot="{ errors }"
           name="パスワード"
           vid="password"
-          :rules="{ required: true, min: 6, regex: /^[0-9a-zA-Z]+$/i }"
+          mode="blur"
+          :rules="rules.password"
         >
           <v-text-field
             id="user-password"
-            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            :appendIcon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
             :type="showPassword ? 'text' : 'password'"
             label="パスワード"
-            :error-messages="errors"
+            :errorMessages="errors"
             :value="password"
             @input="$emit('update:password', $event)"
             @click:append="handleShowPassword"
@@ -43,7 +44,7 @@
           class="px-4"
           style="color: white"
           color="red accent-2"
-          x-large
+          xLarge
           @click="handleSubmit(handleLogin)"
         >
           <v-icon class="mr-1">mdi-email</v-icon>
@@ -68,6 +69,10 @@ export default {
   },
   data() {
     return {
+      rules: {
+        email: { required: true, email: true, max: 50 },
+        password: { required: true, min: 6, regex: /^[0-9a-zA-Z]+$/i },
+      },
       showPassword: false,
     };
   },

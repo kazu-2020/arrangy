@@ -1,10 +1,5 @@
 <template>
   <v-container>
-    <div>
-      <v-snackbar v-model="snackbar" top absolute outlined color="error" timeout="2000">
-        {{ text }}
-      </v-snackbar>
-    </div>
     <v-row class="mb-10">
       <v-col class="pt-10">
         <h3 class="text-h4 mb-4 font-weight-black">ログイン</h3>
@@ -22,8 +17,8 @@
             他サービスのアカウントで<br class="br-sp" />ログイン
           </div>
           <v-card-actions class="d-flex flex-column">
-            <v-btn class="mb-12" x-large>Twitterアカウントでログイン</v-btn>
-            <v-btn class="mb-12" x-large>Googleアカウントでログイン</v-btn>
+            <v-btn class="mb-12" xLarge>Twitterアカウントでログイン</v-btn>
+            <v-btn class="mb-12" xLarge>Googleアカウントでログイン</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -39,7 +34,7 @@
 
 <script>
 import { mapActions } from 'vuex';
-import UserLoginForm from '../parts/UserLoginForm.vue';
+import UserLoginForm from '../parts/forms/UserLoginForm';
 export default {
   components: {
     UserLoginForm,
@@ -50,8 +45,6 @@ export default {
         email: '',
         password: '',
       },
-      snackbar: false,
-      text: '',
     };
   },
   methods: {

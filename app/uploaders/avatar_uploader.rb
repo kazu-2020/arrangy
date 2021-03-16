@@ -1,18 +1,20 @@
-class ImageUploader < CarrierWave::Uploader::Base
+class AvatarUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
 
   # Choose what kind of storage to use for this uploader:
   storage :file
   # storage :fog
 
-  # アップロードされたファイルの保存先(storage :fileの場合)
   def store_dir
     "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
 
-  # 画像サイズのバリデーション(https://github.com/carrierwaveuploader/carrierwave/wiki/How-to%3A-Validate-image-file-size)
   def size_range
     0.byte..10.megabytes
+  end
+
+  def default_url(*_args)
+    "/images/#{[version_name, 'default_avatar.png'].compact.join('_')}"
   end
 
   # vue側と統一
