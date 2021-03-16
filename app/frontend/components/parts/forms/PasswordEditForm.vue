@@ -2,40 +2,16 @@
   <v-dialog :value="isShow" width="650px" @click:outside="closeDialog">
     <v-sheet id="password-edit-from" class="pa-10">
       <ValidationObserver ref="form" v-slot="{ handleSubmit }" class="pb-6" tag="div">
-        <ValidationProvider
-          v-slot="{ errors }"
-          name="パスワード"
-          vid="password"
+        <PasswordField
+          :password="password"
           :rules="rules.password"
-        >
-          <v-text-field
-            id="user-password"
-            label="パスワード"
-            :appendIcon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-            :type="showPassword ? 'text' : 'password'"
-            :errorMessages="errors"
-            :value="password"
-            @input="$emit('update:password', $event)"
-            @click:append="handleShowPassword"
-          />
-        </ValidationProvider>
-        <ValidationProvider
-          v-slot="{ errors }"
-          name="パスワード(確認用)"
+          @input="$emit('update:password', $event)"
+        />
+        <PasswordConfirmationField
+          :password="passwordConfirmation"
           :rules="rules.confirmation"
-        >
-          <v-text-field
-            id="user-confirmation"
-            class="mb-6"
-            label="パスワード(確認用)"
-            :appendIcon="showPasswordConfirmation ? 'mdi-eye' : 'mdi-eye-off'"
-            :type="showPasswordConfirmation ? 'text' : 'password'"
-            :errorMessages="errors"
-            :value="passwordConfirmation"
-            @input="$emit('update:passwordConfirmation', $event)"
-            @click:append="handleShowPasswordConfirmation"
-          />
-        </ValidationProvider>
+          @input="$emit('update:passwordConfirmation', $event)"
+        />
         <div class="d-flex justify-center">
           <v-btn
             class="mx-4"
@@ -58,7 +34,14 @@
 </template>
 
 <script>
+import PasswordField from '../formInputs/PasswordField';
+import PasswordConfirmationField from '../formInputs/PasswordConfirmationField';
+
 export default {
+  components: {
+    PasswordField,
+    PasswordConfirmationField,
+  },
   props: {
     password: {
       type: String,
@@ -78,19 +61,11 @@ export default {
         password: { required: true, min: 6, regex: /^[0-9a-zA-Z]+$/i },
         confirmation: { required: true, confirmed: 'password' },
       },
-      showPassword: false,
-      showPasswordConfirmation: false,
     };
   },
   methods: {
     handleUpdatePassword() {
       this.$emit('updatePassword');
-    },
-    handleShowPassword() {
-      this.showPassword = !this.showPassword;
-    },
-    handleShowPasswordConfirmation() {
-      this.showPasswordConfirmation = !this.showPasswordConfirmation;
     },
     changeDialog() {
       this.$refs.form.reset();

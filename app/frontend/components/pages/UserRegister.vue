@@ -25,8 +25,9 @@
       <v-col class="d-flex justify-center align-center" cols="12" sm="2" md="2" lg="2" xl="2">
         <p>または</p>
       </v-col>
-      <v-col cols="12" sm="5" md="5" lg="5" xl="5">
-        <UserRegisterForm v-bind.sync="user" @create-user="registerFunction" />
+      <!-- 新規登録フォーム(アドレス使用) -->
+      <v-col id="register-form-address" cols="12" sm="5" md="5" lg="5" xl="5">
+        <UserRegisterForm v-bind.sync="user" @registerUser="registerFunction" />
       </v-col>
     </v-row>
   </v-container>
@@ -35,6 +36,7 @@
 <script>
 import { mapActions } from 'vuex';
 import UserRegisterForm from '../parts/forms/UserRegisterForm';
+
 export default {
   components: {
     UserRegisterForm,
