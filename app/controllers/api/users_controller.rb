@@ -1,10 +1,12 @@
 module Api
   class UsersController < ApplicationController
+    skip_before_action :require_login
+
     def create
-      user = User.new(set_user)
+      user = User.new(user_params)
       if user.save
         auto_login(user)
-        json_string = UserSerializer.new(user).serializable_hash.to_json
+        json_string = UserSerializer.new(user).serializable_hash
         render json: json_string
       else
         head 400
@@ -12,13 +14,13 @@ module Api
     end
 
     def me
-      json_string = UserSerializer.new(current_user).serializable_hash.to_json
+      json_string = UserSerializer.new(current_user).serializable_hash
       render json: json_string
     end
 
     private
 
-    def set_user
+    def user_params
       params[:data].require(:attributes).permit(:nickname, :email, :password, :password_confirmation)
     end
   end

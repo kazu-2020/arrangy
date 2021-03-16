@@ -1,6 +1,6 @@
 module Api
   class ArrangementsController < ApplicationController
-    before_action :require_login, only: %i[create mine]
+    skip_before_action :require_login, only: %i[index]
 
     def index
       pagy, arrangements = pagy(Arrangement.preload(:user), items: 20)
@@ -14,7 +14,7 @@ module Api
     end
 
     def create
-      arrangement = current_user.arrangements.build(set_arrangement)
+      arrangement = current_user.arrangements.build(arrangement_params)
       if arrangement.save
         head 200
       else
@@ -35,7 +35,7 @@ module Api
 
     private
 
-    def set_arrangement
+    def arrangement_params
       params.dig(:data, :attributes, :images).map! { |image| create_uploadedfile(image) }
       params[:data].require(:attributes).permit(:title, :context, { images: [] })
     end
