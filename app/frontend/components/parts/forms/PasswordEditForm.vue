@@ -1,6 +1,6 @@
 <template>
   <v-dialog :value="isShow" width="650px" @click:outside="closeDialog">
-    <v-sheet class="pa-10">
+    <v-sheet id="password-edit-from" class="pa-10">
       <ValidationObserver ref="form" v-slot="{ handleSubmit }" class="pb-6" tag="div">
         <ValidationProvider
           v-slot="{ errors }"
