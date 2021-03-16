@@ -6,7 +6,7 @@ module Api
       pagy, arrangements = pagy(Arrangement.preload(:user), items: 20)
       options = {
         include: %i[user],
-        fields: { arrangement: %i[title images], user: %i[nickname avatar] },
+        fields: { arrangement: %i[title images user], user: %i[nickname avatar] },
         meta: { pagy: pagy_metadata(pagy) }
       }
       json_string = ArrangementSerializer.new(arrangements, options).serializable_hash
@@ -26,7 +26,7 @@ module Api
       pagy, arrangements = pagy(current_user.arrangements, item: 20)
       options = {
         include: %i[user],
-        fields: { arrangement: %i[title images], user: %i[nickname avatar] },
+        fields: { arrangement: %i[title images user], user: %i[nickname avatar] },
         meta: { pagy: pagy_metadata(pagy) }
       }
       json_string = ArrangementSerializer.new(arrangements, options).serializable_hash
