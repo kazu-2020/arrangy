@@ -1,5 +1,5 @@
 <template>
-  <v-dialog :value="dialog" maxWidth="630">
+  <v-dialog :value="dialog" maxWidth="630" @click:outside="$emit('close-dialog')">
     <v-card>
       <v-card-title class="headline grey lighten-2 d-flex justify-center">
         <span style="color: #d32f2f">ARRANGY</span>へようこそ
@@ -9,7 +9,7 @@
         早速、あなたのアレンジ飯を投稿してみましょう。
       </v-card-text>
       <v-card-actions class="d-flex justify-space-around pb-8">
-        <v-btn style="color: white" color="red accent-2" xLarge :to="{ name: 'ArrangementNew' }">
+        <v-btn style="color: white" color="red accent-2" xLarge @click="goToPostingPage">
           投稿ページへ
         </v-btn>
         <v-btn xLarge @click.stop="$emit('close-dialog')"> あとで </v-btn>
@@ -23,6 +23,11 @@ export default {
   props: {
     dialog: {
       type: Boolean,
+    },
+  },
+  methods: {
+    goToPostingPage() {
+      this.$router.go({ name: 'ArrangementNew' });
     },
   },
 };

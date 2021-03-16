@@ -1,9 +1,6 @@
 <template>
   <v-container>
-    <WelcomeDialog
-      :dialog="isVisiableWelcomeDialog"
-      @close-dialog="isVisiableWelcomeDialog = false"
-    />
+    <WelcomeDialog :dialog="welcomeDialogDisplayed" @close-dialog="closeWelcomeDialog" />
     <v-row>
       <v-col v-for="(arrangement, $index) in arrangements" :key="$index" cols="12" sm="4" md="4">
         <ArrangementSummary :arrangement="arrangement" :user="arrangement.user" />
@@ -34,7 +31,9 @@ export default {
     if (from.name === 'UserRegister')
       next((self) => {
         self.fetchAuthUser().then((authUser) => {
-          if (authUser) return (self.isVisiableWelcomeDialog = true);
+          if (authUser) {
+            self.handleShowWelcomeDialog();
+          }
         });
       });
     else next();
@@ -42,7 +41,7 @@ export default {
   data() {
     return {
       arrangements: [],
-      isVisiableWelcomeDialog: false,
+      welcomeDialogDisplayed: false,
       pagy: {
         currentPage: 1,
         isActioned: false,
@@ -58,6 +57,13 @@ export default {
   },
   methods: {
     ...mapActions('users', ['fetchAuthUser']),
+    closeWelcomeDialog() {
+      this.handleShowWelcomeDialog();
+      this.$router.go({ path: this.$router.currentRoute.path });
+    },
+    handleShowWelcomeDialog() {
+      this.welcomeDialogDisplayed = !this.welcomeDialogDisplayed;
+    },
     fetchArrangements() {
       this.$devour
         .findAll('arrangement', { page: this.pagy.currentPage })

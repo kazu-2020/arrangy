@@ -2,7 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import store from '../store/index';
 
-import ArrangementsIndex from '../components/pages/ArrangementsIndex.vue';
+import TopPage from '../components/pages/TopPage.vue';
 import ArrangementNew from '../components/pages/ArrangementNew.vue';
 import UserProfile from '../components/pages/UserProfile.vue';
 import UserRegister from '../components/pages/UserRegister.vue';
@@ -15,7 +15,7 @@ const router = new VueRouter({
   routes: [
     {
       path: '/',
-      component: ArrangementsIndex,
+      component: TopPage,
       name: 'TopPage',
     },
     {
