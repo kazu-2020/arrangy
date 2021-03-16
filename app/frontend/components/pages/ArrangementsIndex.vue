@@ -6,24 +6,7 @@
     />
     <v-row>
       <v-col v-for="(arrangement, $index) in arrangements" :key="$index" cols="12" sm="4" md="4">
-        <v-card height="100%">
-          <v-img
-            v-for="(image, $imageIndex) in arrangement.images"
-            :key="$imageIndex"
-            :src="image.url"
-            height="300"
-          />
-          <v-card-title class="d-flex flex-nowrap">
-            <v-avatar size="25" color="indigo" class="mx-3" />
-            <div class="text-subtitle-1 text-nowrap">{{ arrangement.title }}</div>
-          </v-card-title>
-          <v-spacer />
-          <v-card-subtitle>
-            <div class="text-subtitle-1">
-              {{ arrangement.user.nickname }}
-            </div>
-          </v-card-subtitle>
-        </v-card>
+        <ArrangementSummary :arrangement="arrangement" :user="arrangement.user" />
       </v-col>
       <infinite-loading
         v-if="pagy.isActioned"
@@ -40,9 +23,12 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import WelcomeDialog from '../parts/WelcomeDialog.vue';
+import ArrangementSummary from '../parts/cards/ArrangementSummary';
+
 export default {
   components: {
     WelcomeDialog,
+    ArrangementSummary,
   },
   beforeRouteEnter(to, from, next) {
     if (from.name === 'UserRegister')
