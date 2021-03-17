@@ -58,23 +58,28 @@
           <h3 class="text-h6 font-weight-black mb-8 mx-auto">投稿一覧</h3>
         </v-row>
         <v-row>
-          <v-col
-            v-for="(arrangement, $index) in arrangements"
-            :key="$index"
-            cols="12"
-            sm="4"
-            md="4"
-          >
-            <ArrangementSummary :arrangement="arrangement" :user="authUser" />
+          <template v-if="arrangements.length">
+            <v-col
+              v-for="(arrangement, $index) in arrangements"
+              :key="$index"
+              cols="12"
+              sm="4"
+              md="4"
+            >
+              <ArrangementSummary :arrangement="arrangement" :user="authUser" />
+            </v-col>
+            <infinite-loading
+              v-if="pagy.isActioned"
+              direction="bottom"
+              spinner="circles"
+              @infinite="infiniteHandler"
+            >
+              <div slot="no-more" />
+            </infinite-loading>
+          </template>
+          <v-col v-else cols="12" class="text-center">
+            <p>現在、投稿はありません</p>
           </v-col>
-          <infinite-loading
-            v-if="pagy.isActioned"
-            direction="bottom"
-            spinner="circles"
-            @infinite="infiniteHandler"
-          >
-            <div slot="no-more" />
-          </infinite-loading>
         </v-row>
       </v-col>
     </v-row>
@@ -119,7 +124,9 @@ export default {
       .then((res) => {
         this.arrangements = res.data;
         this.pagy.currentPage += 1;
-        this.pagy.isActioned = true;
+        if (res.meta.pagy.pages !== 1) {
+          this.pagy.isActioned = true;
+        }
       });
   },
   methods: {
