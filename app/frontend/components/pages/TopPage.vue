@@ -59,7 +59,6 @@ export default {
     ...mapActions('users', ['fetchAuthUser']),
     closeWelcomeDialog() {
       this.handleShowWelcomeDialog();
-      this.$router.go({ path: this.$router.currentRoute.path });
     },
     handleShowWelcomeDialog() {
       this.welcomeDialogDisplayed = !this.welcomeDialogDisplayed;

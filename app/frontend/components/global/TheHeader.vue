@@ -13,7 +13,7 @@
           <template #activator="{ on }">
             <v-btn icon xLarge v-on="on">
               <v-avatar>
-                <img :src="authUser.avatar" />
+                <img id="header-avatar" :src="authUser.avatar" />
               </v-avatar>
             </v-btn>
           </template>
@@ -39,6 +39,16 @@ import { mapActions, mapGetters } from 'vuex';
 export default {
   computed: {
     ...mapGetters('users', ['authUser']),
+  },
+  watch: {
+    // 新規登録後、アバターの画像が反映されないのに対応する為
+    $route(to, from) {
+      if (from.name === 'UserRegister' && to.name === 'TopPage') {
+        if (this.authUser.data) {
+          document.querySelector('#header-avatar').src = this.authUser.data.avatar;
+        }
+      }
+    },
   },
   methods: {
     ...mapActions('users', ['logoutUser']),
