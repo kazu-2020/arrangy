@@ -68,5 +68,8 @@ yarn-debug.log*
 !/storage/.keep
 /public/uploads
 
+# Ignore uploaded files in test
+/spec/fixtures/uploads
+
 # Ignore solargraph file
 .solargraph.yml
