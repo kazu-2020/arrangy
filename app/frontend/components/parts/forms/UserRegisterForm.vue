@@ -77,7 +77,7 @@ export default {
   data() {
     return {
       rules: {
-        nickname: { required: true, isUnique: 'nickname', max: 10 },
+        nickname: { required: true, isUnique: 'nickname', max: 30 },
         email: { required: true, email: true, isUnique: 'email', max: 50 },
         password: { required: true, min: 6, regex: /^[0-9a-zA-Z]+$/i },
         password_confirmation: { required: true, confirmed: 'password' },

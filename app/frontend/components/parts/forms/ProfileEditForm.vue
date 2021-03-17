@@ -88,7 +88,7 @@ export default {
   data() {
     return {
       rules: {
-        nickname: { required: true, isUnique: ['nickname', this.id], max: 10 },
+        nickname: { required: true, isUnique: ['nickname', this.id], max: 30 },
         email: { required: true, email: true, isUnique: ['email', this.id], max: 50 },
         avatar: { size: 10000, ext: ['jpg', 'jpeg', 'png', 'gif'] },
       },
