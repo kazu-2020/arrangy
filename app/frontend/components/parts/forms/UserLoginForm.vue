@@ -16,7 +16,7 @@
         <v-btn
           class="px-4"
           style="color: white"
-          color="red accent-2"
+          color="#ff5252"
           xLarge
           @click="handleSubmit(handleLoginUser)"
         >

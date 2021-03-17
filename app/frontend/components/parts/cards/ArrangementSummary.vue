@@ -1,5 +1,5 @@
 <template>
-  <v-sheet :id="`arrangement-${arrangement.id}`" height="100%">
+  <v-sheet :id="`arrangement-${arrangement.id}`" height="100%" color="#eeeeee">
     <v-img
       v-for="(image, $imageIndex) in arrangement.images"
       :key="$imageIndex"

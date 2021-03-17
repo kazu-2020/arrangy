@@ -38,7 +38,7 @@
             class="mx-4"
             xLarge
             style="color: white"
-            color="red accent-2"
+            color="#ff5252"
             @click="handleSubmit(handleUpdateProfile)"
           >
             更新する

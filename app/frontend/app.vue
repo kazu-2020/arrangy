@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <TheHeader />
-    <v-main class="py-15">
+    <v-main class="py-15 base-color">
       <TheSnackbar />
       <router-view />
     </v-main>
@@ -47,5 +47,9 @@ export default {
 
 .or-avatar {
   border: solid;
+}
+
+.base-color {
+  background-color: #eeeeee;
 }
 </style>
