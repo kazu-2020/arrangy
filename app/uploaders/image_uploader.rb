@@ -2,6 +2,7 @@ class ImageUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
 
   # アップロードされたファイルの保存先(storage :fileの場合)
+  # rubocop:disable Metrics/AbcSize
   def store_dir
     if Rails.env.test?
       "#{Rails.root}/spec/fixtures/uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
@@ -9,6 +10,7 @@ class ImageUploader < CarrierWave::Uploader::Base
       "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
     end
   end
+  # rubocop:enable Metrics/AbcSize
 
   # 画像サイズのバリデーション(https://github.com/carrierwaveuploader/carrierwave/wiki/How-to%3A-Validate-image-file-size)
   def size_range

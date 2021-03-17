@@ -1,6 +1,7 @@
 class AvatarUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
 
+  # rubocop:disable Metrics/AbcSize
   def store_dir
     if Rails.env.test?
       "#{Rails.root}/spec/fixtures/uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
@@ -8,6 +9,7 @@ class AvatarUploader < CarrierWave::Uploader::Base
       "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
     end
   end
+  # rubocop:enable Metrics/AbcSize
 
   def size_range
     0.byte..10.megabytes
