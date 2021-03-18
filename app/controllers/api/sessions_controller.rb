@@ -1,11 +1,11 @@
 module Api
   class SessionsController < ApplicationController
-    before_action :require_login, only: :destroy
+    skip_before_action :require_login, only: %i[create]
 
     def create
       user = login(params[:data][:email], params[:data][:password])
       if user
-        json_string = UserSerializer.new(user).serializable_hash.to_json
+        json_string = UserSerializer.new(user).serializable_hash
         render json: json_string
       else
         head :unauthorized

@@ -14,7 +14,7 @@
         v-slot="{ errors }"
         name="プロフィール画像"
         mode="change"
-        :rules="formRules.avatar"
+        :rules="rules.avatar"
       >
         <v-file-input
           id="user-avatar"
@@ -27,43 +27,18 @@
         </v-alert>
       </ValidationProvider>
       <ValidationObserver v-slot="{ handleSubmit }" class="pb-6" tag="div">
-        <ValidationProvider
-          v-slot="{ errors }"
-          name="ニックネーム"
-          mode="blur"
-          :rules="formRules.nickname"
-        >
-          <v-text-field
-            id="user-nickname"
-            label="ニックネーム"
-            type="text"
-            :errorMessages="errors"
-            :value="nickname"
-            @input="$emit('update:nickname', $event)"
-          />
-        </ValidationProvider>
-        <ValidationProvider
-          v-slot="{ errors }"
-          name="メールアドレス"
-          mode="blur"
-          :rules="formRules.email"
-        >
-          <v-text-field
-            id="user-email"
-            class="mb-6"
-            label="メールアドレス"
-            type="email"
-            :errorMessages="errors"
-            :value="email"
-            @input="$emit('update:email', $event)"
-          />
-        </ValidationProvider>
+        <NicknameField
+          :nickname="nickname"
+          :rules="rules.nickname"
+          @input="$emit('update:nickname', $event)"
+        />
+        <EmailField :email="email" :rules="rules.email" @input="$emit('update:email', $event)" />
         <div class="d-flex justify-center">
           <v-btn
             class="mx-4"
             xLarge
             style="color: white"
-            color="red accent-2"
+            color="#ff5252"
             @click="handleSubmit(handleUpdateProfile)"
           >
             更新する
@@ -81,8 +56,14 @@
 
 <script>
 import Jimp from 'jimp/es';
+import NicknameField from '../formInputs/NicknameFiled';
+import EmailField from '../formInputs/EmailField';
 
 export default {
+  components: {
+    NicknameField,
+    EmailField,
+  },
   props: {
     id: {
       type: String,
@@ -106,8 +87,8 @@ export default {
   },
   data() {
     return {
-      formRules: {
-        nickname: { required: true, isUnique: ['nickname', this.id], max: 10 },
+      rules: {
+        nickname: { required: true, isUnique: ['nickname', this.id], max: 30 },
         email: { required: true, email: true, isUnique: ['email', this.id], max: 50 },
         avatar: { size: 10000, ext: ['jpg', 'jpeg', 'png', 'gif'] },
       },

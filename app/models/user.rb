@@ -32,7 +32,7 @@ class User < ApplicationRecord
   validates :password, confirmation: true, if: :change_or_create_password
   validates :password_confirmation, presence: true, if: :change_or_create_password
 
-  validates :nickname, presence: true, uniqueness: true, length: { maximum: 10 }
+  validates :nickname, presence: true, uniqueness: true, length: { maximum: 30 }
   validates :email, presence: true, uniqueness: true, length: { maximum: 50 }, format: { with: VALID_EMAIL_FORMAT }
 
   private

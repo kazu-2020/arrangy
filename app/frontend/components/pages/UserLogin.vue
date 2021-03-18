@@ -25,8 +25,9 @@
       <v-col class="d-flex justify-center align-center" cols="12" sm="2" md="2" lg="2" xl="2">
         <p>または</p>
       </v-col>
-      <v-col cols="12" sm="5" md="5" lg="5" xl="5">
-        <UserLoginForm v-bind.sync="user" @login-user="loginFunction" />
+      <!-- ログインフォーム(アドレス使用) -->
+      <v-col id="login-form-address" cols="12" sm="5" md="5" lg="5" xl="5">
+        <UserLoginForm v-bind.sync="user" @loginUser="loginFunction" />
       </v-col>
     </v-row>
   </v-container>

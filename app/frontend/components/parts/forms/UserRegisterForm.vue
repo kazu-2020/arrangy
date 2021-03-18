@@ -5,77 +5,30 @@
     </div>
     <ValidationObserver v-slot="{ handleSubmit }">
       <v-card-text class="px-8">
-        <ValidationProvider
-          v-slot="{ errors }"
-          name="ニックネーム"
-          mode="blur"
+        <NicknameField
+          :nickname="nickname"
           :rules="rules.nickname"
-        >
-          <v-text-field
-            id="user-nickname"
-            label="ニックネーム"
-            type="text"
-            :errorMessages="errors"
-            :value="nickname"
-            @input="$emit('update:nickname', $event)"
-          />
-        </ValidationProvider>
-        <ValidationProvider
-          v-slot="{ errors }"
-          name="メールアドレス"
-          mode="blur"
-          :rules="rules.email"
-        >
-          <v-text-field
-            id="user-email"
-            label="メールアドレス"
-            type="email"
-            :errorMessages="errors"
-            :value="email"
-            @input="$emit('update:email', $event)"
-          />
-        </ValidationProvider>
-        <ValidationProvider
-          v-slot="{ errors }"
-          name="パスワード"
-          vid="password"
+          @input="$emit('update:nickname', $event)"
+        />
+        <EmailField :email="email" :rules="rules.email" @input="$emit('update:email', $event)" />
+        <PasswordField
+          :password="password"
           :rules="rules.password"
-        >
-          <v-text-field
-            id="user-password"
-            label="パスワード"
-            :appendIcon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-            :type="showPassword ? 'text' : 'password'"
-            :errorMessages="errors"
-            :value="password"
-            @input="$emit('update:password', $event)"
-            @click:append="handleShowPassword"
-          />
-        </ValidationProvider>
-        <ValidationProvider
-          v-slot="{ errors }"
-          name="パスワード(確認用)"
-          :rules="rules.confirmation"
-        >
-          <v-text-field
-            id="user-confirmation"
-            label="パスワード(確認用)"
-            :appendIcon="showPasswordConfirmation ? 'mdi-eye' : 'mdi-eye-off'"
-            :type="showPasswordConfirmation ? 'text' : 'password'"
-            :errorMessages="errors"
-            :value="password_confirmation"
-            @input="$emit('update:password_confirmation', $event)"
-            @click:append="handleShowPasswordConfirmation"
-          />
-        </ValidationProvider>
+          @input="$emit('update:password', $event)"
+        />
+        <PasswordConfirmationField
+          :password="password_confirmation"
+          :rules="rules.password_confirmation"
+          @input="$emit('update:password_confirmation', $event)"
+        />
       </v-card-text>
       <v-card-actions class="d-flex justify-center pb-8">
         <v-btn
           class="px-4"
           style="color: white"
-          color="red accent-2"
+          color="#ff5252"
           xLarge
-          @click="handleSubmit(handleCreateUser)"
+          @click="handleSubmit(handleRegisterUser)"
         >
           <v-icon class="mr-1">mdi-email</v-icon>
           メールアドレスで登録
@@ -86,7 +39,18 @@
 </template>
 
 <script>
+import NicknameField from '../formInputs/NicknameFiled';
+import EmailField from '../formInputs/EmailField';
+import PasswordField from '../formInputs/PasswordField';
+import PasswordConfirmationField from '../formInputs/PasswordConfirmationField';
+
 export default {
+  components: {
+    NicknameField,
+    EmailField,
+    PasswordField,
+    PasswordConfirmationField,
+  },
   props: {
     nickname: {
       type: String,
@@ -113,24 +77,16 @@ export default {
   data() {
     return {
       rules: {
-        nickname: { required: true, isUnique: 'nickname', max: 10 },
+        nickname: { required: true, isUnique: 'nickname', max: 30 },
         email: { required: true, email: true, isUnique: 'email', max: 50 },
         password: { required: true, min: 6, regex: /^[0-9a-zA-Z]+$/i },
-        confirmation: { required: true, confirmed: 'password' },
+        password_confirmation: { required: true, confirmed: 'password' },
       },
-      showPassword: false,
-      showPasswordConfirmation: false,
     };
   },
   methods: {
-    handleShowPassword() {
-      this.showPassword = !this.showPassword;
-    },
-    handleShowPasswordConfirmation() {
-      this.showPasswordConfirmation = !this.showPasswordConfirmation;
-    },
-    handleCreateUser() {
-      this.$emit('create-user');
+    handleRegisterUser() {
+      this.$emit('registerUser');
     },
   },
 };

@@ -5,47 +5,20 @@
     </div>
     <ValidationObserver v-slot="{ handleSubmit }">
       <v-card-text class="px-8">
-        <ValidationProvider
-          v-slot="{ errors }"
-          name="メールアドレス"
-          mode="blur"
-          :rules="rules.email"
-        >
-          <v-text-field
-            id="user-email"
-            label="メールアドレス"
-            type="email"
-            :errorMessages="errors"
-            :value="email"
-            @input="$emit('update:email', $event)"
-          />
-        </ValidationProvider>
-        <ValidationProvider
-          v-slot="{ errors }"
-          name="パスワード"
-          vid="password"
-          mode="blur"
+        <EmailField :email="email" :rules="rules.email" @input="$emit('update:email', $event)" />
+        <PasswordField
+          :password="password"
           :rules="rules.password"
-        >
-          <v-text-field
-            id="user-password"
-            :appendIcon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-            :type="showPassword ? 'text' : 'password'"
-            label="パスワード"
-            :errorMessages="errors"
-            :value="password"
-            @input="$emit('update:password', $event)"
-            @click:append="handleShowPassword"
-          />
-        </ValidationProvider>
+          @input="$emit('update:password', $event)"
+        />
       </v-card-text>
       <v-card-actions class="d-flex justify-center pb-8">
         <v-btn
           class="px-4"
           style="color: white"
-          color="red accent-2"
+          color="#ff5252"
           xLarge
-          @click="handleSubmit(handleLogin)"
+          @click="handleSubmit(handleLoginUser)"
         >
           <v-icon class="mr-1">mdi-email</v-icon>
           メールアドレスでログイン
@@ -56,7 +29,14 @@
 </template>
 
 <script>
+import EmailField from '../formInputs/EmailField';
+import PasswordField from '../formInputs/PasswordField';
+
 export default {
+  components: {
+    EmailField,
+    PasswordField,
+  },
   props: {
     email: {
       type: String,
@@ -73,15 +53,11 @@ export default {
         email: { required: true, email: true, max: 50 },
         password: { required: true, min: 6, regex: /^[0-9a-zA-Z]+$/i },
       },
-      showPassword: false,
     };
   },
   methods: {
-    handleLogin() {
-      this.$emit('login-user');
-    },
-    handleShowPassword() {
-      this.showPassword = !this.showPassword;
+    handleLoginUser() {
+      this.$emit('loginUser');
     },
   },
 };

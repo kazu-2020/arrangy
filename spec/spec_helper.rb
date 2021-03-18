@@ -51,7 +51,7 @@ RSpec.configure do |config|
   #   # is tagged with `:focus`, all examples get run. RSpec also provides
   #   # aliases for `it`, `describe`, and `context` that include `:focus`
   #   # metadata: `fit`, `fdescribe` and `fcontext`, respectively.
-  #   config.filter_run_when_matching :focus
+    config.filter_run_when_matching :focus
   #
   #   # Allows RSpec to persist some state between runs in order to support
   #   # the `--only-failures` and `--next-failure` CLI options. We recommend
@@ -78,7 +78,7 @@ RSpec.configure do |config|
   #   # Print the 10 slowest examples and example groups at the
   #   # end of the spec run, to help surface which specs are running
   #   # particularly slow.
-  #   config.profile_examples = 10
+    config.profile_examples = 10
   #
   #   # Run specs in random order to surface order dependencies. If you find an
   #   # order dependency and want to debug it, you can fix the order by providing

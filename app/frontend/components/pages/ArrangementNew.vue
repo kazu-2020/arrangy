@@ -1,7 +1,7 @@
 <template>
-  <v-container fillHeight>
-    <v-row class="d-flex justify-center">
-      <v-col cols="12" sm="7">
+  <v-container>
+    <v-row>
+      <v-col cols="12" sm="7" class="pt-16 mx-auto">
         <v-card class="pa-4" color="grey lighten-5">
           <div class="text-h6 pt-8 px-8 mb-5 text-center font-weight-black">新規投稿</div>
           <v-img v-show="isPreview" class="mb-5" :src="previewImage" contain height="300" />
@@ -71,7 +71,7 @@
             <v-card-actions class="d-flex justify-center">
               <v-btn
                 style="color: white"
-                color="red accent-2"
+                color="#ff5252"
                 xLarge
                 :loading="isLoading"
                 :disabled="isLoading"
