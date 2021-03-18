@@ -11,6 +11,10 @@ class AvatarUploader < CarrierWave::Uploader::Base
   end
   # rubocop:enable Metrics/AbcSize
 
+  def default_url(*_args)
+    "/images/#{[version_name, 'default_avatar.png'].compact.join('_')}"
+  end
+
   def size_range
     0.byte..10.megabytes
   end
