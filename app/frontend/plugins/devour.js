@@ -9,6 +9,7 @@ jsonApi.headers['X-CSRF-TOKEN'] = csrfToken();
 jsonApi.headers['CONTENT-TYPE'] = 'application/json';
 
 jsonApi.define('user', {
+  id: '',
   nickname: '',
   email: '',
   avatar: '',
@@ -21,6 +22,7 @@ jsonApi.define('user', {
 });
 
 jsonApi.define('arrangement', {
+  id: '',
   title: '',
   context: '',
   images: [],
@@ -29,5 +31,19 @@ jsonApi.define('arrangement', {
     type: 'user',
   },
 });
+
+const requestMiddleware = {
+  req: (payload) => {
+    if (['POST', 'PATCH'].includes(payload.req.method)) {
+      const model_name = payload.req.model;
+      const data = payload.req.data.data.attributes;
+      payload.req.data = {};
+      payload.req.data[model_name] = data;
+    }
+    return payload;
+  },
+};
+
+jsonApi.insertMiddlewareBefore('axios-request', requestMiddleware);
 
 export default jsonApi;
