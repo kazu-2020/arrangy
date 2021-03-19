@@ -35,10 +35,17 @@ jsonApi.define('arrangement', {
 const requestMiddleware = {
   req: (payload) => {
     if (['POST', 'PATCH'].includes(payload.req.method)) {
-      const model_name = payload.req.model;
-      const data = payload.req.data.data.attributes;
-      payload.req.data = {};
-      payload.req.data[model_name] = data;
+      // devourのcreate,updateメソッドを使う場合
+      if (payload.req.model) {
+        const model_name = payload.req.model;
+        const data = payload.req.data.data.attributes;
+        payload.req.data = {};
+        payload.req.data[model_name] = data;
+      } else {
+        // requestメソッドを使う場合
+        const data = payload.req.data.data;
+        payload.req.data = data;
+      }
     }
     return payload;
   },
