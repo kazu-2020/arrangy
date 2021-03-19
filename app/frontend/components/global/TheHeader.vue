@@ -44,7 +44,7 @@ export default {
     // 新規登録後、アバターの画像が反映されないのに対応する為
     $route(to, from) {
       if (from.name === 'UserRegister' && to.name === 'TopPage') {
-        if (this.authUser.data) {
+        if (this.authUser?.data) {
           document.querySelector('#header-avatar').src = this.authUser.data.avatar;
         }
       }
