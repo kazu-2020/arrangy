@@ -66,7 +66,9 @@
               sm="4"
               md="4"
             >
-              <ArrangementSummary :arrangement="arrangement" :user="authUser" />
+              <router-link :to="{ name: 'ArrangementShow', params: { id: arrangement.id } }">
+                <ArrangementSummary :arrangement="arrangement" :user="authUser" />
+              </router-link>
             </v-col>
             <infinite-loading
               v-if="pagy.isActioned"
