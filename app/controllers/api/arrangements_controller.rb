@@ -36,8 +36,8 @@ module Api
     private
 
     def arrangement_params
-      params.dig(:data, :attributes, :images).map! { |image| create_uploadedfile(image) }
-      params[:data].require(:attributes).permit(:title, :context, { images: [] })
+      params[:arrangement][:images].map! { |image| create_uploadedfile(image) }
+      params.require(:arrangement).permit(:title, :context, images: [])
     end
   end
 end
