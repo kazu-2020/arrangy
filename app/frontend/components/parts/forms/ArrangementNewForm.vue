@@ -4,9 +4,10 @@
     <ValidationObserver v-slot="{ handleSubmit }">
       <v-card-text>
         <ImagesField
+          ref="avatar"
           :rules="rules.images"
           @change="$emit('uploadFile', $event)"
-          @handlePreview="handlePreview"
+          @uploadFile="handleFileChange"
         />
         <TitleField :title="title" :rules="rules.title" @input="$emit('update:title', $event)" />
         <ContextField
@@ -33,6 +34,7 @@
 </template>
 
 <script>
+import Jimp from 'jimp/es';
 import TitleField from '../formInputs/TitleField';
 import ContextField from '../formInputs/ContextField';
 import ImagesField from '../formInputs/ImagesField';
@@ -78,9 +80,27 @@ export default {
     handleCreateArrangement() {
       this.$emit('createArrangement');
     },
-    handlePreview(boolean, src) {
-      this.isPreview = boolean;
-      this.previewImage = src;
+    async handleFileChange(value) {
+      const result = await this.$refs.avatar.$refs.fileForm.validate(value);
+      if (result.valid) {
+        const imageURL = URL.createObjectURL(value);
+        Jimp.read(imageURL)
+          .then((image) => {
+            image.cover(300, 300).getBase64(Jimp.MIME_PNG, (err, src) => {
+              this.$emit('uploadFile', src);
+              this.previewImage = src;
+              this.isPreview = true;
+            });
+            URL.revokeObjectURL(imageURL);
+          })
+          .catch((error) => {
+            alert('アップロードに失敗しました');
+            console.log(error);
+          });
+      } else {
+        this.previewImage = '';
+        this.isPreview = false;
+      }
     },
   },
 };

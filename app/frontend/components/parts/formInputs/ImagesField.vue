@@ -16,7 +16,7 @@
       prependInnerIcon="mdi-camera"
       persistentHint
       :errorMessages="errors"
-      @change="handleFileChange"
+      @change="$emit('uploadFile', $event)"
     >
       <template #selection="{ text }">
         <v-chip small label color="grey lighten-1">
@@ -28,36 +28,11 @@
 </template>
 
 <script>
-import Jimp from 'jimp/es';
-
 export default {
   props: {
     rules: {
       type: Object,
       required: true,
-    },
-  },
-  methods: {
-    async handleFileChange(value) {
-      const result = await this.$refs.fileForm.validate(value);
-      if (result.valid) {
-        const imageURL = URL.createObjectURL(value);
-        Jimp.read(imageURL)
-          .then((image) => {
-            image.cover(300, 300).getBase64(Jimp.MIME_PNG, (err, src) => {
-              this.$emit('change', src);
-              this.$emit('handlePreview', true, src);
-            });
-            URL.revokeObjectURL(imageURL);
-          })
-          .catch((error) => {
-            alert('アップロードに失敗しました');
-            console.log(error);
-          });
-      } else {
-        this.$emit('change', null);
-        this.$emit('handlePreview', false, null);
-      }
     },
   },
 };
