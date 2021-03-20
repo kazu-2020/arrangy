@@ -18,8 +18,8 @@ const actions = {
   async registerUser({ commit }, user) {
     try {
       const userResponse = await devour.create('user', user);
-      commit('setAuthUser', userResponse);
-      return userResponse;
+      commit('setAuthUser', userResponse.data);
+      return userResponse.data;
     } catch (err) {
       console.log(err);
       return null;
@@ -47,9 +47,14 @@ const actions = {
   },
   async updateAuthUser({ commit }, user) {
     try {
-      const res = await devour.request(`${devour.apiUrl}/profile`, 'PATCH', {}, { user: user });
-      commit('setAuthUser', res.data);
-      return res.data;
+      const userResponse = await devour.request(
+        `${devour.apiUrl}/profile`,
+        'PATCH',
+        {},
+        { user: user }
+      );
+      commit('setAuthUser', userResponse.data);
+      return userResponse.data;
     } catch (err) {
       console.log(err);
       return null;
