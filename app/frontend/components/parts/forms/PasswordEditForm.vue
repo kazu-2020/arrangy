@@ -65,6 +65,7 @@ export default {
   },
   methods: {
     handleUpdatePassword() {
+      this.$refs.form.reset();
       this.$emit('updatePassword');
     },
     changeDialog() {
