@@ -103,6 +103,7 @@ export default {
   },
   data() {
     return {
+      authUserProfile: {},
       authUserEdit: {},
       arrangements: [],
       password: '',
@@ -207,12 +208,12 @@ export default {
           { password: this.password, password_confirmation: this.password_confirmation }
         )
         .then(() => {
-          this.handleShowEditPassword();
           this.fetchSnackbarData({
             msg: 'パスワードを更新しました',
             color: 'success',
             isShow: true,
           });
+          this.closeEditPasswordDialog();
         })
         .catch((err) => {
           this.fetchSnackbarData({
