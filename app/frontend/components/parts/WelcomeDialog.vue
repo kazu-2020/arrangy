@@ -1,6 +1,6 @@
 <template>
   <v-dialog :value="dialog" maxWidth="630" @click:outside="$emit('close-dialog')">
-    <v-card>
+    <v-card id="welcome-dialog">
       <v-card-title class="headline grey lighten-2 d-flex justify-center">
         <span style="color: #d32f2f">ARRANGY</span>へようこそ
       </v-card-title>
