@@ -1,5 +1,7 @@
 module Api
   class UsersController < ApplicationController
+    wrap_parameters :user, include: %i[nickname email password password_confirmation]
+
     skip_before_action :require_login
 
     def create
