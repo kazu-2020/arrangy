@@ -1,6 +1,7 @@
 <template>
   <div>
     <v-snackbar
+      id="global-snackbar"
       v-model="isVisiable"
       top
       right
