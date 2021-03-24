@@ -1,0 +1,46 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "33b69bff77018cc135bf208438ae78951b12cef333141e792ebd8ec9b5c5df12",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `Arrangement#find`",
+      "file": "app/controllers/api/arrangements_controller.rb",
+      "line": 26,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "Arrangement.find(params[:id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Api::ArrangementsController",
+        "method": "show"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "dc62d4394650aafbd8e9905f85251f6dc52145be3319f2f652b3b69e35e85f9d",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `Arrangement#find`",
+      "file": "app/controllers/api/arrangements_controller.rb",
+      "line": 36,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "Arrangement.find(params[:arrangement][:id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Api::ArrangementsController",
+        "method": "update"
+      },
+      "user_input": "params[:arrangement][:id]",
+      "confidence": "Weak",
+      "note": ""
+    }
+  ],
+  "updated": "2021-03-24 11:39:35 +0900",
+  "brakeman_version": "5.0.0"
+}
