@@ -25,7 +25,9 @@
               {{ user.nickname }}
             </h4>
             <v-spacer />
-            <v-btn @click.stop="displayArrangementEditDialog">編集</v-btn>
+            <template v-if="authUser.id === user.id">
+              <v-btn @click.stop="displayArrangementEditDialog">編集</v-btn>
+            </template>
           </v-card-subtitle>
           <v-card-text>
             <v-sheet class="pa-5" :rounded="true" outlined color="#FAFAFA">
