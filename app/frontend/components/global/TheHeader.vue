@@ -17,10 +17,12 @@
               </v-avatar>
             </v-btn>
           </template>
-          <v-list dense flat>
+          <v-list id="header-menu-list" dense flat>
             <v-list-item text plain :to="{ name: 'UserProfile' }">マイページ</v-list-item>
             <v-list-item text>お気に入り一覧</v-list-item>
-            <v-list-item text @click="logoutFunction"> ログアウト </v-list-item>
+            <v-list-item id="header-logout-button" text @click="logoutFunction">
+              ログアウト
+            </v-list-item>
           </v-list>
         </v-menu>
       </template>
@@ -46,12 +48,12 @@ export default {
     logoutFunction() {
       this.logoutUser().then((res) => {
         if (res) {
-          this.$router.go({ path: this.$router.currentRoute.path });
           this.fetchSnackbarData({
             msg: 'ログアウトしました',
             color: 'success',
             isShow: true,
           });
+          this.$router.go();
         } else {
           this.fetchSnackbarData({
             msg: 'ログアウトに失敗しました',
