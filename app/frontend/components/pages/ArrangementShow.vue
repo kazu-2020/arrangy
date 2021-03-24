@@ -25,7 +25,7 @@
               {{ user.nickname }}
             </h4>
             <v-spacer />
-            <template v-if="authUser.id === user.id">
+            <template v-if="authUser && authUser.id === user.id">
               <v-btn @click.stop="displayArrangementEditDialog">編集</v-btn>
             </template>
           </v-card-subtitle>
