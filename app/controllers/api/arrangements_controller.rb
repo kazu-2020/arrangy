@@ -1,6 +1,6 @@
 module Api
   class ArrangementsController < ApplicationController
-    skip_before_action :require_login, only: %i[index]
+    skip_before_action :require_login, only: %i[index show]
 
     def index
       pagy, arrangements = pagy(Arrangement.preload(:user), items: 20)
@@ -22,6 +22,27 @@ module Api
       end
     end
 
+    def show
+      arrangement = Arrangement.find(params[:id])
+      options = {
+        include: %i[user],
+        fields: { arrangement: %i[title context images user], user: %i[nickname avatar] }
+      }
+      json_string = ArrangementSerializer.new(arrangement, options)
+      render json: json_string
+    end
+
+    def update
+      arrangement = Arrangement.find(params[:arrangement][:id])
+      render head 400 unless arrangement.update(arrangement_params)
+      options = {
+        include: %i[user],
+        fields: { arrangement: %i[title context images user], user: %i[nickname avatar] }
+      }
+      json_string = ArrangementSerializer.new(arrangement, options)
+      render json: json_string
+    end
+
     def mine
       pagy, arrangements = pagy(current_user.arrangements, item: 20)
       options = {
@@ -36,8 +57,8 @@ module Api
     private
 
     def arrangement_params
-      params.dig(:data, :attributes, :images).map! { |image| create_uploadedfile(image) }
-      params[:data].require(:attributes).permit(:title, :context, { images: [] })
+      params[:arrangement][:images].map! { |image| create_uploadedfile(image) }
+      params.require(:arrangement).permit(:title, :context, images: [])
     end
   end
 end

@@ -3,7 +3,9 @@
     <WelcomeDialog :dialog="welcomeDialogDisplayed" @close-dialog="closeWelcomeDialog" />
     <v-row>
       <v-col v-for="(arrangement, $index) in arrangements" :key="$index" cols="12" sm="4" md="4">
-        <ArrangementSummary :arrangement="arrangement" :user="arrangement.user" />
+        <router-link :to="{ name: 'ArrangementShow', params: { id: arrangement.id } }">
+          <ArrangementSummary :arrangement="arrangement" :user="arrangement.user" />
+        </router-link>
       </v-col>
       <infinite-loading
         v-if="pagy.isActioned"

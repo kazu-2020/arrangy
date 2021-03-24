@@ -66,7 +66,9 @@
               sm="4"
               md="4"
             >
-              <ArrangementSummary :arrangement="arrangement" :user="authUser" />
+              <router-link :to="{ name: 'ArrangementShow', params: { id: arrangement.id } }">
+                <ArrangementSummary :arrangement="arrangement" :user="authUser" />
+              </router-link>
             </v-col>
             <infinite-loading
               v-if="pagy.isActioned"
@@ -101,6 +103,7 @@ export default {
   },
   data() {
     return {
+      authUserProfile: {},
       authUserEdit: {},
       arrangements: [],
       password: '',
@@ -205,12 +208,12 @@ export default {
           { password: this.password, password_confirmation: this.password_confirmation }
         )
         .then(() => {
-          this.handleShowEditPassword();
           this.fetchSnackbarData({
             msg: 'パスワードを更新しました',
             color: 'success',
             isShow: true,
           });
+          this.closeEditPasswordDialog();
         })
         .catch((err) => {
           this.fetchSnackbarData({

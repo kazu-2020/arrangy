@@ -4,84 +4,12 @@
       <v-col cols="12" sm="7" class="pt-16 mx-auto">
         <v-card class="pa-4" color="grey lighten-5">
           <div class="text-h6 pt-8 px-8 mb-5 text-center font-weight-black">新規投稿</div>
-          <v-img v-show="isPreview" class="mb-5" :src="previewImage" contain height="300" />
-          <ValidationObserver v-slot="{ handleSubmit }">
-            <v-card-text>
-              <ValidationProvider
-                v-slot="{ errors }"
-                ref="fileForm"
-                name="投稿写真"
-                mode="change"
-                :rules="{ required: true, ext: ['jpg', 'jpeg', 'png', 'gif'], size: 10240 }"
-              >
-                <v-file-input
-                  id="arrangement-images"
-                  label="投稿写真"
-                  color="black"
-                  clearable
-                  hint="有効なファイル形式はjpg jpeg png gifです"
-                  prependIcon
-                  prependInnerIcon="mdi-camera"
-                  persistentHint
-                  :errorMessages="errors"
-                  @change="handleFileChange"
-                >
-                  <template #selection="{ text }">
-                    <v-chip small label color="grey lighten-1">
-                      {{ text }}
-                    </v-chip>
-                  </template>
-                </v-file-input>
-              </ValidationProvider>
-              <ValidationProvider
-                v-slot="{ errors }"
-                :rules="{ required: true, max: 30 }"
-                name="タイトル"
-              >
-                <v-text-field
-                  id="arrangement-title"
-                  v-model="arrangement.title"
-                  class="mb-6"
-                  type="text"
-                  label="タイトル"
-                  clearable
-                  color="black"
-                  counter="30"
-                  :errorMessages="errors"
-                />
-              </ValidationProvider>
-              <ValidationProvider
-                v-slot="{ errors }"
-                :rules="{ required: true, max: 1000 }"
-                name="投稿内容"
-              >
-                <v-textarea
-                  id="arrangement-context"
-                  v-model="arrangement.context"
-                  label="投稿内容"
-                  outlined
-                  autoGrow
-                  clearable
-                  color="black"
-                  counter="1000"
-                  :errorMessages="errors"
-                />
-              </ValidationProvider>
-            </v-card-text>
-            <v-card-actions class="d-flex justify-center">
-              <v-btn
-                style="color: white"
-                color="#ff5252"
-                xLarge
-                :loading="isLoading"
-                :disabled="isLoading"
-                @click="handleSubmit(createArrangement)"
-              >
-                <v-icon class="mr-1">mdi-send</v-icon>
-                投稿する
-              </v-btn>
-            </v-card-actions>
-          </ValidationObserver>
+          <ArrangementNewForm
+            v-bind.sync="arrangement"
+            :isLoadng="isLoading"
+            @createArrangement="createArrangement"
+            @uploadFile="uploadFile"
+          />
         </v-card>
       </v-col>
     </v-row>
@@ -89,10 +17,13 @@
 </template>
 
 <script>
-import Jimp from 'jimp/es';
 import { mapActions } from 'vuex';
+import ArrangementNewForm from '../parts/forms/ArrangementNewForm';
 
 export default {
+  components: {
+    ArrangementNewForm,
+  },
   data() {
     return {
       arrangement: {
@@ -100,8 +31,6 @@ export default {
         context: '',
         images: [],
       },
-      previewImage: '',
-      isPreview: false,
       isLoading: false,
     };
   },
@@ -129,27 +58,8 @@ export default {
           console.log(error);
         });
     },
-    async handleFileChange(value) {
-      const result = await this.$refs.fileForm.validate(value);
-      if (result.valid) {
-        const imageURL = URL.createObjectURL(value);
-        Jimp.read(imageURL)
-          .then((image) => {
-            image.cover(300, 300).getBase64(Jimp.MIME_PNG, (err, src) => {
-              this.arrangement.images.splice(0, 1, src);
-              this.isPreview = true;
-              this.previewImage = src;
-            });
-            URL.revokeObjectURL(imageURL);
-          })
-          .catch((error) => {
-            alert('アップロードに失敗しました');
-            console.log(error);
-          });
-      } else {
-        this.isPreview = false;
-        this.previewImage = '';
-      }
+    uploadFile(src) {
+      this.arrangement.images.splice(0, 1, src);
     },
   },
 };

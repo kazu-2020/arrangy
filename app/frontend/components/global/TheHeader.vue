@@ -17,18 +17,20 @@
               </v-avatar>
             </v-btn>
           </template>
-          <v-list dense flat>
+          <v-list id="header-menu-list" dense flat>
             <v-list-item text plain :to="{ name: 'UserProfile' }">マイページ</v-list-item>
             <v-list-item text>お気に入り一覧</v-list-item>
-            <v-list-item text @click="logoutFunction"> ログアウト </v-list-item>
+            <v-list-item id="header-logout-button" text @click="logoutFunction">
+              ログアウト
+            </v-list-item>
           </v-list>
         </v-menu>
       </template>
       <template v-else>
-        <v-btn plain text xLarge :to="{ name: 'UserRegister' }"> 新規登録 </v-btn>
-        <v-btn class="hidden-sm-and-down" plain text xLarge :to="{ name: 'UserLogin' }">
-          ログイン
+        <v-btn class="hidden-sm-and-down" plain text xLarge :to="{ name: 'UserRegister' }">
+          新規登録
         </v-btn>
+        <v-btn plain text xLarge :to="{ name: 'UserLogin' }"> ログイン </v-btn>
       </template>
     </v-app-bar>
   </div>
@@ -40,28 +42,18 @@ export default {
   computed: {
     ...mapGetters('users', ['authUser']),
   },
-  watch: {
-    // 新規登録後、アバターの画像が反映されないのに対応する為
-    $route(to, from) {
-      if (from.name === 'UserRegister' && to.name === 'TopPage') {
-        if (this.authUser.data) {
-          document.querySelector('#header-avatar').src = this.authUser.data.avatar;
-        }
-      }
-    },
-  },
   methods: {
     ...mapActions('users', ['logoutUser']),
     ...mapActions('snackbars', ['fetchSnackbarData']),
     logoutFunction() {
       this.logoutUser().then((res) => {
         if (res) {
-          this.$router.go({ path: this.$router.currentRoute.path });
           this.fetchSnackbarData({
             msg: 'ログアウトしました',
             color: 'success',
             isShow: true,
           });
+          this.$router.go();
         } else {
           this.fetchSnackbarData({
             msg: 'ログアウトに失敗しました',

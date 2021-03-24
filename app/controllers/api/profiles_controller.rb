@@ -10,15 +10,15 @@ module Api
     end
 
     def password
-      current_user.password_confirmation = params[:data][:password_confirmation]
-      current_user.change_password(params[:data][:password]) ? head(200) : head(400)
+      current_user.password_confirmation = params[:password_confirmation]
+      current_user.change_password(params[:password]) ? head(200) : head(400)
     end
 
     private
 
     def user_params
-      params[:data][:user][:avatar] = create_uploadedfile(params[:data][:user][:avatar])
-      params[:data].require(:user).permit(:nickname, :email, :avatar)
+      params[:user][:avatar] = create_uploadedfile(params[:user][:avatar])
+      params.require(:user).permit(:nickname, :email, :avatar)
     end
   end
 end
