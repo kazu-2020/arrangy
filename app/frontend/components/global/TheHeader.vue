@@ -25,10 +25,10 @@
         </v-menu>
       </template>
       <template v-else>
-        <v-btn plain text xLarge :to="{ name: 'UserRegister' }"> 新規登録 </v-btn>
-        <v-btn class="hidden-sm-and-down" plain text xLarge :to="{ name: 'UserLogin' }">
-          ログイン
+        <v-btn class="hidden-sm-and-down" plain text xLarge :to="{ name: 'UserRegister' }">
+          新規登録
         </v-btn>
+        <v-btn plain text xLarge :to="{ name: 'UserLogin' }"> ログイン </v-btn>
       </template>
     </v-app-bar>
   </div>
