@@ -7,7 +7,7 @@ Rails.application.routes.draw do
       patch 'password', on: :member
     end
     resource :session, only: %i[create destroy]
-    resources :arrangements, only: %i[index create show update] do
+    resources :arrangements, only: %i[index create show update destroy] do
       get 'mine', on: :collection
     end
     get 'validations/unique', to: 'validations#unique'
