@@ -18,6 +18,7 @@ RSpec.describe "投稿一覧機能", type: :system, js: true do
           execute_script('window.scroll(0,10000);')
         end
       end
+
       it '50件分のデータが表示されている' do
         expect(all('.arrangement-summary').count).to eq 50
       end
@@ -25,8 +26,10 @@ RSpec.describe "投稿一覧機能", type: :system, js: true do
   end
 
   describe '投稿表示機能' do
-    let(:arrangement) { create(:arrangement, title: 'testタイトル') }
+    let!(:arrangement) { create(:arrangement, title: 'testタイトル') }
+
     before { visit('/') }
+
     it '投稿情報が表示されている' do
       within("#arrangement-#{ arrangement.id }") do
         # 画像データのテストは除く
