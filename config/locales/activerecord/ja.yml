@@ -1,0 +1,16 @@
+ja:
+  activerecord:
+    models:
+      user: 'ユーザー'
+      arrangement: '投稿'
+    attributes:
+      user:
+        nickname: 'ニックネーム'
+        email: 'メールアドレス'
+        password: 'パスワード'
+        password_confirmation: 'パスワード(確認用)'
+        avatar: 'アバター'
+      arrangement:
+        title: 'タイトル'
+        context: '投稿内容'
+        images: '投稿写真'

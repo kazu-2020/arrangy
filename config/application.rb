@@ -43,6 +43,7 @@ module Arrangy
 
     config.generators.system_tests = nil
     config.i18n.default_locale = :ja
+    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to_s]
     config.time_zone = "Asia/Tokyo"
     config.active_record.default_timezone = :local
     #https://github.com/jsonapi-serializer/jsonapi-serializer/pull/141
