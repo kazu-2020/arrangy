@@ -1,5 +1,10 @@
 <template>
-  <v-sheet :id="`arrangement-${arrangement.id}`" height="100%" color="#eeeeee">
+  <v-sheet
+    :id="`arrangement-${arrangement.id}`"
+    class="arrangement-summary"
+    height="100%"
+    color="#eeeeee"
+  >
     <v-img v-for="(image, $imageIndex) in arrangement.images" :key="$imageIndex" :src="image" />
     <v-card-title class="mb-4">
       <h4 class="text-subtitle-1 font-weight-bold">{{ arrangement.title }}</h4>
