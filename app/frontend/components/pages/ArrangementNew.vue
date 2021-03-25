@@ -40,8 +40,8 @@ export default {
       this.isLoading = true;
       this.$devour
         .create('arrangement', this.arrangement)
-        .then(() => {
-          this.$router.push({ name: 'TopPage' });
+        .then((res) => {
+          this.$router.push({ name: 'ArrangementShow', params: { id: res.data.id } });
           this.fetchSnackbarData({
             msg: '新しいアレンジ飯を投稿しました',
             color: 'success',

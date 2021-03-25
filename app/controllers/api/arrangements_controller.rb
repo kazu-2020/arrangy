@@ -17,7 +17,8 @@ module Api
     def create
       arrangement = current_user.arrangements.build(arrangement_params)
       if arrangement.save
-        head 200
+        json_string = ArrangementSerializer.new(arrangement).serializable_hash
+        render json: json_string
       else
         render json: arrangement.errors.full_messages, status: :bad_request
       end
@@ -28,7 +29,7 @@ module Api
         include: %i[user],
         fields: { arrangement: %i[title context images user], user: %i[nickname avatar] }
       }
-      json_string = ArrangementSerializer.new(@arrangement, options)
+      json_string = ArrangementSerializer.new(@arrangement, options).serializable_hash
       render json: json_string
     end
 
@@ -38,7 +39,7 @@ module Api
         include: %i[user],
         fields: { arrangement: %i[title context images user], user: %i[nickname avatar] }
       }
-      json_string = ArrangementSerializer.new(@arrangement, options)
+      json_string = ArrangementSerializer.new(@arrangement, options).serializable_hash
       render json: json_string
     end
 
