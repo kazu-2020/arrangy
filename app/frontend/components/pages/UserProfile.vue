@@ -21,7 +21,7 @@
                 </div>
                 <v-divider class="mb-6" />
               </div>
-              <v-btn class="mb-6" xLarge @click.stop="displayProfileEditDialog">
+              <v-btn class="mb-6 font-weight-bold" xLarge @click.stop="displayProfileEditDialog">
                 <v-icon class="mr-1">mdi-account-cog</v-icon>
                 編集する
               </v-btn>
