@@ -8,6 +8,7 @@
   >
     <v-file-input
       id="arrangement-images"
+      accept="image/jpg, image/jpeg, image/png, image/gif"
       label="投稿写真"
       color="black"
       clearable

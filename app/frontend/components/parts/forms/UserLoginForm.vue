@@ -14,7 +14,7 @@
       </v-card-text>
       <v-card-actions class="d-flex justify-center pb-8">
         <v-btn
-          class="px-4"
+          class="font-weight-bold"
           style="color: white"
           color="#ff5252"
           xLarge

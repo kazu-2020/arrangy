@@ -14,7 +14,7 @@
         />
         <div class="d-flex justify-center">
           <v-btn
-            class="mx-4"
+            class="mx-2 font-weight-bold"
             xLarge
             style="color: white"
             color="#ff5252"
@@ -22,7 +22,7 @@
           >
             更新する
           </v-btn>
-          <v-btn class="mx-4" xLarge @click="closeDialog">戻る</v-btn>
+          <v-btn class="mx-2 font-weight-bold" xLarge @click="closeDialog">戻る</v-btn>
         </div>
       </ValidationObserver>
       <p class="text-body2 text-center">

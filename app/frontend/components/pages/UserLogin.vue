@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container id="login-page">
     <v-row class="mb-10">
       <v-col class="pt-10">
         <h3 class="text-h4 mb-4 font-weight-black">ログイン</h3>

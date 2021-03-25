@@ -1,9 +1,10 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="12" sm="6" class="pt-16 mx-auto">
-        <v-sheet
+      <v-col cols="12" sm="6" class="pt-16">
+        <v-card
           :id="`arrangement-${arrangement.id}`"
+          class="mx-auto"
           height="100%"
           width="80%"
           color="#eeeeee"
@@ -25,8 +26,20 @@
               {{ user.nickname }}
             </h4>
             <v-spacer />
-            <template v-if="authUser.id === user.id">
-              <v-btn @click.stop="displayArrangementEditDialog">編集</v-btn>
+            <template v-if="authUser && authUser.id === user.id">
+              <!-- メニューリスト -->
+              <v-menu rounded left>
+                <template #activator="{ on, attrs }">
+                  <v-btn id="menu-icon" icon v-bind="attrs" v-on="on">
+                    <v-icon>mdi-dots-vertical</v-icon>
+                  </v-btn>
+                </template>
+
+                <v-list id="arrangement-menu-list" dense>
+                  <v-list-item @click.stop="displayArrangementEditDialog"> 編集する </v-list-item>
+                  <v-list-item @click.stop="displayArrangementDeleteDialog"> 削除する </v-list-item>
+                </v-list>
+              </v-menu>
             </template>
           </v-card-subtitle>
           <v-card-text>
@@ -34,7 +47,8 @@
               <pre class="text-body-1" width="100%">{{ arrangement.context }}</pre>
             </v-sheet>
           </v-card-text>
-        </v-sheet>
+        </v-card>
+        <!-- 投稿編集用のダイアログ -->
         <ArrangementEditForm
           v-if="editArrangementActed"
           :isShow="editArrangementDialogDisplayed"
@@ -42,6 +56,12 @@
           @uploadFile="uploadFile"
           @closeDialog="closeEditArrangement"
           @updateArrangement="updateArrangement"
+        />
+        <!-- 投稿削除確認用のダイアログ -->
+        <ConfirmationDialog
+          :isShow="confirmationDialogDisplayed"
+          @closeDialog="closeConfirmationDialog"
+          @deleteArrangement="deleteArrangement"
         />
       </v-col>
       <v-col cols="12" sm="6"></v-col>
@@ -53,10 +73,12 @@
 import { mapActions, mapGetters } from 'vuex';
 import Jimp from 'jimp/es';
 import ArrangementEditForm from '../parts/forms/ArrangementEditForm';
+import ConfirmationDialog from '../parts/dialogs/ConfirmationDialog';
 
 export default {
   components: {
     ArrangementEditForm,
+    ConfirmationDialog,
   },
   data() {
     return {
@@ -64,6 +86,7 @@ export default {
       user: {},
       arrangementEdit: {},
       editArrangementDialogDisplayed: false,
+      confirmationDialogDisplayed: false,
       editArrangementActed: false,
     };
   },
@@ -88,6 +111,9 @@ export default {
     },
     closeEditArrangement() {
       this.handleShowEditArrangement();
+    },
+    closeConfirmationDialog() {
+      this.confirmationDialogDisplayed = false;
     },
     handleShowEditArrangement() {
       this.editArrangementDialogDisplayed = !this.editArrangementDialogDisplayed;
@@ -123,6 +149,19 @@ export default {
           });
           console.log(err);
         });
+    },
+    displayArrangementDeleteDialog() {
+      this.confirmationDialogDisplayed = true;
+    },
+    deleteArrangement() {
+      this.$devour.destroy('arrangement', this.$route.params.id).then(() => {
+        this.fetchSnackbarData({
+          msg: '投稿を削除しました',
+          color: 'success',
+          isShow: true,
+        });
+        this.$router.push({ name: 'UserProfile' });
+      });
     },
   },
 };

@@ -56,7 +56,5 @@ RSpec.describe Arrangement, type: :model do
         expect(arrangement).to be_valid
       end
     end
-
-
   end
 end
