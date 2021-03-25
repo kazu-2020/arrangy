@@ -6,13 +6,10 @@ module Api
 
     def create
       user = User.new(user_params)
-      if user.save
-        auto_login(user)
-        json_string = UserSerializer.new(user).serializable_hash
-        render json: json_string
-      else
-        head 400
-      end
+      user.save!
+      auto_login(user)
+      json_string = UserSerializer.new(user).serializable_hash
+      render json: json_string
     end
 
     def me

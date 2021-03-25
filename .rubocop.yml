@@ -28,3 +28,6 @@ Style/Documentation:
 
 Style/AsciiComments:
   Enabled: false
+
+Naming/VariableNumber:
+  Enabled: :snake_case
