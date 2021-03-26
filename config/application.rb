@@ -42,9 +42,8 @@ module Arrangy
     end
 
     config.generators.system_tests = nil
-    # [en]の利用を許可しないとFackerを使用した際に、errorを吐く
-    config.i18n.available_locales = %i[ja en]
     config.i18n.default_locale = :ja
+    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to_s]
     config.time_zone = "Asia/Tokyo"
     config.active_record.default_timezone = :local
     #https://github.com/jsonapi-serializer/jsonapi-serializer/pull/141

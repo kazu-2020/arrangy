@@ -16,12 +16,9 @@ module Api
 
     def create
       arrangement = current_user.arrangements.build(arrangement_params)
-      if arrangement.save
-        json_string = ArrangementSerializer.new(arrangement).serializable_hash
-        render json: json_string
-      else
-        render json: arrangement.errors.full_messages, status: :bad_request
-      end
+      arrangement.save!
+      json_string = ArrangementSerializer.new(arrangement).serializable_hash
+      render json: json_string
     end
 
     def show
@@ -34,7 +31,7 @@ module Api
     end
 
     def update
-      render head 400 unless @arrangement.update(arrangement_params)
+      @arrangement.update!(arrangement_params)
       options = {
         include: %i[user],
         fields: { arrangement: %i[title context images user], user: %i[nickname avatar] }
@@ -45,7 +42,7 @@ module Api
 
     def destroy
       @arrangement.destroy!
-      head 200
+      head :no_content
     end
 
     def mine

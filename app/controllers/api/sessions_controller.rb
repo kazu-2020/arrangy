@@ -4,17 +4,15 @@ module Api
 
     def create
       user = login(params[:email], params[:password])
-      if user
-        json_string = UserSerializer.new(user).serializable_hash
-        render json: json_string
-      else
-        head :unauthorized
-      end
+      raise ActiveRecord::RecordNotFound unless user
+
+      json_string = UserSerializer.new(user).serializable_hash
+      render json: json_string
     end
 
     def destroy
       logout
-      head 200
+      head :no_content
     end
   end
 end

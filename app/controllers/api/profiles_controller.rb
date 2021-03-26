@@ -1,17 +1,15 @@
 module Api
   class ProfilesController < ApplicationController
     def update
-      if current_user.update(user_params)
-        json_string = UserSerializer.new(current_user).serializable_hash
-        render json: json_string
-      else
-        head 400
-      end
+      current_user.update!(user_params)
+      json_string = UserSerializer.new(current_user).serializable_hash
+      render json: json_string
     end
 
     def password
       current_user.password_confirmation = params[:password_confirmation]
-      current_user.change_password(params[:password]) ? head(200) : head(400)
+      current_user.change_password!(params[:password])
+      head 200
     end
 
     private
