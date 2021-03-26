@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :comment do
-    body { "MyText" }
-    user { nil }
-    arrangement { nil }
+    body { "これはテスト投稿です" }
+    user
+    arrangement
   end
 end
