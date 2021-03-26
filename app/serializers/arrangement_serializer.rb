@@ -12,5 +12,6 @@ class ArrangementSerializer
   # 必要な場合と不必要な場合がある
   attribute :user, &:user_id
 
-  belongs_to :user, serializer: UserSerializer
+  belongs_to :user
+  has_many :comments
 end

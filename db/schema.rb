@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_15_112725) do
+ActiveRecord::Schema.define(version: 2021_03_26_032454) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,16 @@ ActiveRecord::Schema.define(version: 2021_03_15_112725) do
     t.datetime "updated_at", precision: 6, null: false
     t.json "images", null: false
     t.index ["user_id"], name: "index_arrangements_on_user_id"
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.text "body", null: false
+    t.bigint "user_id"
+    t.bigint "arrangement_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["arrangement_id"], name: "index_comments_on_arrangement_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -41,4 +51,6 @@ ActiveRecord::Schema.define(version: 2021_03_15_112725) do
   end
 
   add_foreign_key "arrangements", "users"
+  add_foreign_key "comments", "arrangements"
+  add_foreign_key "comments", "users"
 end

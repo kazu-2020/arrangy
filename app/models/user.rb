@@ -19,6 +19,7 @@
 
 class User < ApplicationRecord
   has_many :arrangements, dependent: :destroy
+  has_many :comments,     dependent: :destroy
 
   before_save :change_email_to_lowercase
 
