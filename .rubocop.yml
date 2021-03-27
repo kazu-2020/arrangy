@@ -31,3 +31,7 @@ Style/AsciiComments:
 
 Naming/VariableNumber:
   Enabled: :snake_case
+
+# https://www.rubydoc.info/gems/rubocop/RuboCop/Cop/Metrics/MethodLength
+Metrics/MethodLength:
+  CountAsOne: ['array', 'heredoc', 'hash']
