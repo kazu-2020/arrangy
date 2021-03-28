@@ -3,13 +3,14 @@ module Api
     skip_before_action :require_login, only: :index
 
     def index
-      comments = Comment.where(arrangement_id: params[:arrangement_id]).order(created_at: :desc).preload(:user)
+      pagy, comments = pagy(Comment.where(arrangement_id: params[:arrangement_id]).order(created_at: :desc).preload(:user), items: 20)
       options = {
         include: %i[user],
         fields: {
           comment: %i[body created_at user],
           user: %i[nickname avatar],
         },
+        meta: { pagy: pagy_metadata(pagy) }
       }
       json_string = CommentSerializer.new(comments, options)
       render json: json_string

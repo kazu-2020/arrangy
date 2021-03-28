@@ -3,6 +3,7 @@
     <ValidationProvider name="コメント" :rules="rules">
       <v-textarea
         id="comment-body"
+        class="pr-5"
         label="コメント"
         autoGrow
         rows="1"
@@ -48,6 +49,6 @@ export default {
 .comment-btn {
   position: absolute;
   bottom: 15px;
-  right: 5px;
+  right: -10px;
 }
 </style>
