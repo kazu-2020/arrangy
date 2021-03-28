@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     end
     resource :session, only: %i[create destroy]
     resources :arrangements, only: %i[index create show update destroy] do
+      resources :comments, only: %i[index create update destroy], shallow: true
       get 'mine', on: :collection
     end
     get 'validations/unique', to: 'validations#unique'

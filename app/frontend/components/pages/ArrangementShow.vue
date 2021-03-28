@@ -20,13 +20,13 @@
           </v-card-title>
           <v-card-subtitle class="d-flex">
             <v-avatar size="25" class="mr-4">
-              <img :src="user.avatar" />
+              <img :src="arrangement.user.avatar" />
             </v-avatar>
             <h4 class="text-subtitle-1">
-              {{ user.nickname }}
+              {{ arrangement.user.nickname }}
             </h4>
             <v-spacer />
-            <template v-if="authUser && authUser.id === user.id">
+            <template v-if="authUser && authUser.id === arrangement.user.id">
               <!-- メニューリスト -->
               <v-menu rounded left>
                 <template #activator="{ on, attrs }">
@@ -48,7 +48,7 @@
             </v-sheet>
           </v-card-text>
         </v-card>
-        <!-- 投稿編集用のダイアログ -->
+        <!-- 投稿編集用ダイアログ -->
         <ArrangementEditForm
           v-if="editArrangementActed"
           :isShow="editArrangementDialogDisplayed"
@@ -57,14 +57,39 @@
           @closeDialog="closeEditArrangement"
           @updateArrangement="updateArrangement"
         />
-        <!-- 投稿削除確認用のダイアログ -->
+        <!-- 投稿削除確認用ダイアログ -->
         <ConfirmationDialog
           :isShow="confirmationDialogDisplayed"
           @closeDialog="closeConfirmationDialog"
           @deleteArrangement="deleteArrangement"
         />
       </v-col>
-      <v-col cols="12" sm="6"></v-col>
+
+      <v-col cols="12" sm="6" class="pt-16">
+        <!-- コメント作成フォーム -->
+        <CommentCreateForm v-bind.sync="commentCreate" @createComment="createComment" />
+        <div>
+          <v-col v-for="(comment, $index) in comments" :key="$index" cols="12" class="pa-0">
+            <v-sheet class="pa-5 d-flex" color="">
+              <v-avatar size="25" class="mr-4">
+                <img :src="comment.user.avatar" />
+              </v-avatar>
+              <div>
+                <div class="d-flex">
+                  <p class="text-subtitle-1 font-weight-bold mr-3">
+                    {{ comment.user.nickname }}
+                  </p>
+                  <p class="text-caption ont-weight-light">
+                    {{ comment.created_at }}
+                  </p>
+                </div>
+                <pre class="text-body-1" width="100%">{{ comment.body }}</pre>
+              </div>
+            </v-sheet>
+            <v-divider />
+          </v-col>
+        </div>
+      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -74,17 +99,31 @@ import { mapActions, mapGetters } from 'vuex';
 import Jimp from 'jimp/es';
 import ArrangementEditForm from '../parts/forms/ArrangementEditForm';
 import ConfirmationDialog from '../parts/dialogs/ConfirmationDialog';
+import CommentCreateForm from '../parts/forms/CommentCreateForm';
 
 export default {
   components: {
     ArrangementEditForm,
     ConfirmationDialog,
+    CommentCreateForm,
   },
   data() {
     return {
-      arrangement: {},
-      user: {},
+      arrangement: {
+        id: '',
+        title: '',
+        context: '',
+        images: [],
+        user: {
+          nickname: '',
+          avatar: '',
+        },
+      },
+      comments: [],
       arrangementEdit: {},
+      commentCreate: {
+        body: '',
+      },
       editArrangementDialogDisplayed: false,
       confirmationDialogDisplayed: false,
       editArrangementActed: false,
@@ -95,14 +134,21 @@ export default {
   },
   created() {
     this.fetchArrangement();
+    this.fetchComment();
   },
   methods: {
     ...mapActions('snackbars', ['fetchSnackbarData']),
     fetchArrangement() {
-      this.$devour.find('arrangement', this.$route.params.id).then((res) => {
-        this.arrangement = res.data;
-        this.user = res.data.user;
-      });
+      this.$devour
+        .find('arrangement', this.$route.params.id)
+        .then((res) => (this.arrangement = res.data));
+    },
+    fetchComment() {
+      this.$devour
+        .one('arrangement', this.$route.params.id)
+        .all('comment')
+        .get()
+        .then((res) => this.comments.push(...res.data));
     },
     displayArrangementEditDialog() {
       this.initArrangement();
@@ -121,9 +167,7 @@ export default {
     initArrangement() {
       this.arrangementEdit = { ...this.arrangement, images: [...this.arrangement.images] };
       Jimp.read(this.arrangementEdit.images[0]).then((image) => {
-        image.getBase64(Jimp.MIME_PNG, (err, src) => {
-          this.arrangementEdit.images.splice(0, 1, src);
-        });
+        image.getBase64(Jimp.MIME_PNG, (err, src) => this.arrangementEdit.images.splice(0, 1, src));
       });
     },
     uploadFile(src) {
@@ -162,6 +206,16 @@ export default {
         });
         this.$router.push({ name: 'UserProfile' });
       });
+    },
+    createComment() {
+      this.$devour
+        .one('arrangement', this.arrangement.id)
+        .all('comment')
+        .post(this.commentCreate)
+        .then((res) => {
+          this.comments.unshift(res.data);
+          this.commentCreate.body = '';
+        });
     },
   },
 };

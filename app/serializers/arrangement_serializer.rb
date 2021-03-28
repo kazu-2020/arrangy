@@ -6,11 +6,6 @@ class ArrangementSerializer
     object.images.map(&:url)
   end
 
-  # relationshipと同名の属性を作る必要がある。
-  # 無い場合、fieldsオプションを使用した際にrelationshipsキーが空になる。
-  # 空の場合、フロントで使用しているdevourがうまくいかない!!
-  # 必要な場合と不必要な場合がある
-  attribute :user, &:user_id
 
   belongs_to :user
   has_many :comments
