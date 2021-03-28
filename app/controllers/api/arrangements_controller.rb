@@ -7,26 +7,35 @@ module Api
       pagy, arrangements = pagy(Arrangement.preload(:user), items: 20)
       options = {
         include: %i[user],
-        fields: { arrangement: %i[title images user], user: %i[nickname avatar] },
+        fields: {
+          arrangement: %i[title images user],
+          user: %i[nickname avatar]
+        },
         meta: { pagy: pagy_metadata(pagy) }
       }
-      json_string = ArrangementSerializer.new(arrangements, options).serializable_hash
+      json_string = ArrangementSerializer.new(arrangements, options)
       render json: json_string
     end
 
     def create
       arrangement = current_user.arrangements.build(arrangement_params)
       arrangement.save!
-      json_string = ArrangementSerializer.new(arrangement).serializable_hash
+      json_string = ArrangementSerializer.new(arrangement)
       render json: json_string
     end
 
     def show
+      # include,fieldsオプションを併用するとrelatiopshipsが{}になる。
+      # {}だとフロントで使用しているdevourが期待する値を返してくれない。
+      # 参考 => https://github.com/Netflix/fast_jsonapi/issues/304
       options = {
         include: %i[user],
-        fields: { arrangement: %i[title context images user], user: %i[nickname avatar] }
+        fields: {
+          arrangement: %i[title context images user],
+          user: %i[nickname avatar],
+        },
       }
-      json_string = ArrangementSerializer.new(@arrangement, options).serializable_hash
+      json_string = ArrangementSerializer.new(@arrangement, options)
       render json: json_string
     end
 
@@ -34,9 +43,12 @@ module Api
       @arrangement.update!(arrangement_params)
       options = {
         include: %i[user],
-        fields: { arrangement: %i[title context images user], user: %i[nickname avatar] }
+        fields: {
+          arrangement: %i[title context images user],
+          user: %i[nickname avatar]
+        }
       }
-      json_string = ArrangementSerializer.new(@arrangement, options).serializable_hash
+      json_string = ArrangementSerializer.new(@arrangement, options)
       render json: json_string
     end
 
@@ -49,10 +61,13 @@ module Api
       pagy, arrangements = pagy(current_user.arrangements, item: 20)
       options = {
         include: %i[user],
-        fields: { arrangement: %i[title images user], user: %i[nickname avatar] },
+        fields: {
+          arrangement: %i[title images user],
+          user: %i[nickname avatar]
+        },
         meta: { pagy: pagy_metadata(pagy) }
       }
-      json_string = ArrangementSerializer.new(arrangements, options).serializable_hash
+      json_string = ArrangementSerializer.new(arrangements, options)
       render json: json_string
     end
 
