@@ -73,27 +73,55 @@
 
       <v-col cols="12" sm="6" class="pt-16 px-sm-16">
         <!-- コメント作成フォーム -->
-        <CommentCreateForm v-bind.sync="commentCreate" @createComment="createComment" />
+        <template v-if="authUser">
+          <CommentCreateForm v-bind.sync="commentCreate" @createComment="createComment" />
+        </template>
         <!-- コメント一覧 -->
         <template v-if="comments.length">
           <v-sheet>
-            <v-col v-for="(comment, $index) in comments" :key="$index" cols="12" class="pa-0">
-              <v-sheet class="pa-5 d-flex" color="">
-                <v-avatar size="25" class="mr-4">
-                  <img :src="comment.user.avatar" />
-                </v-avatar>
-                <div>
+            <v-col
+              v-for="(comment, $index) in comments"
+              :id="`comment-${comment.id}`"
+              :key="$index"
+              cols="12"
+            >
+              <div class="pa-3">
+                <v-row>
+                  <v-avatar size="25" class="mr-3">
+                    <img :src="comment.user.avatar" />
+                  </v-avatar>
                   <div class="d-flex">
                     <p class="text-subtitle-1 font-weight-bold mr-3">
                       {{ comment.user.nickname }}
                     </p>
-                    <p class="text-caption ont-weight-light">
+                    <p class="text-caption font-weight-light mr-1">
                       {{ comment.created_at }}
                     </p>
                   </div>
-                  <pre class="text-body-1">{{ comment.body }}</pre>
-                </div>
-              </v-sheet>
+                  <v-spacer />
+                  <!-- メニューリスト -->
+                  <template v-if="authUser && authUser.id === comment.user.id">
+                    <v-menu rounded left>
+                      <template #activator="{ on, attrs }">
+                        <v-btn id="comment-menu-icon" icon v-bind="attrs" v-on="on">
+                          <v-icon>mdi-dots-vertical</v-icon>
+                        </v-btn>
+                      </template>
+
+                      <v-list id="comment-menu-list" dense>
+                        <v-list-item @click.stop="displayCommentEditDialog(comment)">
+                          編集する
+                        </v-list-item>
+                        <v-list-item @click.stop="displayArrangementDeleteDialog">
+                          削除する
+                        </v-list-item>
+                      </v-list>
+                    </v-menu>
+                  </template>
+                </v-row>
+                <pre
+                  class="text-body-1">{{ comment.body }}<span v-if="comment.edited" class="text-caption font-weight-light">(編集済み)</span></pre>
+              </div>
               <v-divider />
             </v-col>
             <infinite-loading
@@ -104,6 +132,14 @@
             >
               <div slot="no-more" />
             </infinite-loading>
+            <!-- コメント編集用ダイアログ -->
+            <CommentEditForm
+              v-if="editCommentActed"
+              :isShow="editCommentDialogDisplayed"
+              v-bind.sync="commentEdit"
+              @updateComment="updateComment"
+              @closeDialog="closeEditComment"
+            />
           </v-sheet>
         </template>
       </v-col>
@@ -117,12 +153,14 @@ import Jimp from 'jimp/es';
 import ArrangementEditForm from '../parts/forms/ArrangementEditForm';
 import ConfirmationDialog from '../parts/dialogs/ConfirmationDialog';
 import CommentCreateForm from '../parts/forms/CommentCreateForm';
+import CommentEditForm from '../parts/forms/CommentEditForm';
 
 export default {
   components: {
     ArrangementEditForm,
     ConfirmationDialog,
     CommentCreateForm,
+    CommentEditForm,
   },
   data() {
     return {
@@ -141,13 +179,16 @@ export default {
       commentCreate: {
         body: '',
       },
+      commentEdit: {},
       pagy: {
         currentPage: 1,
         isActioned: false,
       },
       editArrangementDialogDisplayed: false,
+      editCommentDialogDisplayed: false,
       confirmationDialogDisplayed: false,
       editArrangementActed: false,
+      editCommentActed: false,
     };
   },
   computed: {
@@ -182,14 +223,25 @@ export default {
       this.handleShowEditArrangement();
       this.editArrangementActed = true;
     },
+    displayCommentEditDialog(comment) {
+      this.commentEdit = { ...comment };
+      this.handleShowEditComment();
+      this.editCommentActed = true;
+    },
     closeEditArrangement() {
       this.handleShowEditArrangement();
+    },
+    closeEditComment() {
+      this.handleShowEditComment();
     },
     closeConfirmationDialog() {
       this.confirmationDialogDisplayed = false;
     },
     handleShowEditArrangement() {
       this.editArrangementDialogDisplayed = !this.editArrangementDialogDisplayed;
+    },
+    handleShowEditComment() {
+      this.editCommentDialogDisplayed = !this.editCommentDialogDisplayed;
     },
     initArrangement() {
       this.arrangementEdit = { ...this.arrangement, images: [...this.arrangement.images] };
@@ -220,6 +272,16 @@ export default {
           });
           console.log(err);
         });
+    },
+    updateComment() {
+      this.$devour
+        .update('comment', this.commentEdit)
+        .then((res) => {
+          const index = this.comments.findIndex((comment) => comment.id === res.data.id);
+          this.comments.splice(index, 1, res.data);
+          this.handleShowEditComment();
+        })
+        .catch((err) => console.log(err));
     },
     displayArrangementDeleteDialog() {
       this.confirmationDialogDisplayed = true;

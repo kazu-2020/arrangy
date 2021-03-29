@@ -11,6 +11,10 @@ class CommentSerializer
     value == '1分未満' ? '今' : "#{ value }前"
   end
 
+  attribute :edited do |record|
+    record.created_at != record.updated_at ? true : false
+  end
+
   belongs_to :user
   belongs_to :arrangement
 end

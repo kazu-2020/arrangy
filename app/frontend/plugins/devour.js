@@ -43,6 +43,7 @@ jsonApi.define('arrangement', {
 jsonApi.define('comment', {
   id: '',
   body: '',
+  edited: '',
   created_at: '',
   user: {
     jsonApi: 'hasOne',

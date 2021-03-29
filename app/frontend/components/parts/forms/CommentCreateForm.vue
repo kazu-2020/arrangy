@@ -9,7 +9,7 @@
         rows="1"
         color="black"
         :value="body"
-        @input="$emit('update:body', $event)"
+        @input="$emit('update:body', $event ? $event.trim() : $event)"
       />
     </ValidationProvider>
     <v-btn
