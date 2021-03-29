@@ -1,7 +1,7 @@
 module Api
   class CommentsController < ApplicationController
     skip_before_action :require_login, only: :index
-    before_action :set_comment, only: :update
+    before_action :set_comment, only: %i[update destroy]
     def index
       pagy, comments = pagy(Comment.where(arrangement_id: params[:arrangement_id]).order(created_at: :desc).preload(:user), items: 20)
       options = {
@@ -44,6 +44,8 @@ module Api
     end
 
     def destroy
+      @comment.destroy!
+      head :no_content
     end
 
     private

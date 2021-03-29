@@ -64,11 +64,16 @@
           @updateArrangement="updateArrangement"
         />
         <!-- 投稿削除確認用ダイアログ -->
-        <ConfirmationDialog
+        <DeleteConfirmationDialog
           :isShow="confirmationDialogDisplayed"
-          @closeDialog="closeConfirmationDialog"
-          @deleteArrangement="deleteArrangement"
-        />
+          @closeDialog="closeDeleteConfirmationDialog"
+          @deleteData="deleteArrangement"
+        >
+          <template #title>投稿を削除する</template>
+          <template #text>
+            この投稿を本当に削除しますか？削除後は元に戻すことはできません。
+          </template>
+        </DeleteConfirmationDialog>
       </v-col>
 
       <v-col cols="12" sm="6" class="pt-16 px-sm-16">
@@ -112,7 +117,7 @@
                         <v-list-item @click.stop="displayCommentEditDialog(comment)">
                           編集する
                         </v-list-item>
-                        <v-list-item @click.stop="displayArrangementDeleteDialog">
+                        <v-list-item @click.stop="displayCommentDeleteDialog(comment)">
                           削除する
                         </v-list-item>
                       </v-list>
@@ -140,6 +145,18 @@
               @updateComment="updateComment"
               @closeDialog="closeEditComment"
             />
+            <!-- コメント削除確認用ダイアログ -->
+            <DeleteConfirmationDialog
+              v-if="deleteConfirmationActed"
+              :isShow="confirmationDialogDisplayed"
+              @closeDialog="closeDeleteConfirmationDialog"
+              @deleteData="deleteComment"
+            >
+              <template #title>コメントを削除する</template>
+              <template #text>
+                このコメントを本当に削除しますか？削除後は元に戻すことはできません。
+              </template>
+            </DeleteConfirmationDialog>
           </v-sheet>
         </template>
       </v-col>
@@ -151,14 +168,14 @@
 import { mapActions, mapGetters } from 'vuex';
 import Jimp from 'jimp/es';
 import ArrangementEditForm from '../parts/forms/ArrangementEditForm';
-import ConfirmationDialog from '../parts/dialogs/ConfirmationDialog';
+import DeleteConfirmationDialog from '../parts/dialogs/DeleteConfirmationDialog';
 import CommentCreateForm from '../parts/forms/CommentCreateForm';
 import CommentEditForm from '../parts/forms/CommentEditForm';
 
 export default {
   components: {
     ArrangementEditForm,
-    ConfirmationDialog,
+    DeleteConfirmationDialog,
     CommentCreateForm,
     CommentEditForm,
   },
@@ -180,6 +197,7 @@ export default {
         body: '',
       },
       commentEdit: {},
+      deletedComment: {},
       pagy: {
         currentPage: 1,
         isActioned: false,
@@ -189,6 +207,7 @@ export default {
       confirmationDialogDisplayed: false,
       editArrangementActed: false,
       editCommentActed: false,
+      deleteConfirmationActed: false,
     };
   },
   computed: {
@@ -234,7 +253,7 @@ export default {
     closeEditComment() {
       this.handleShowEditComment();
     },
-    closeConfirmationDialog() {
+    closeDeleteConfirmationDialog() {
       this.confirmationDialogDisplayed = false;
     },
     handleShowEditArrangement() {
@@ -286,6 +305,11 @@ export default {
     displayArrangementDeleteDialog() {
       this.confirmationDialogDisplayed = true;
     },
+    displayCommentDeleteDialog(comment) {
+      this.deletedComment = { ...comment };
+      this.confirmationDialogDisplayed = true;
+      this.deleteConfirmationActed = true;
+    },
     deleteArrangement() {
       this.$devour.destroy('arrangement', this.$route.params.id).then(() => {
         this.fetchSnackbarData({
@@ -294,6 +318,18 @@ export default {
           isShow: true,
         });
         this.$router.push({ name: 'UserProfile' });
+      });
+    },
+    deleteComment() {
+      this.$devour.destroy('comment', this.deletedComment.id).then(() => {
+        const index = this.comments.findIndex((comment) => comment.id === this.deletedComment.id);
+        this.comments.splice(index, 1);
+        this.confirmationDialogDisplayed = false;
+        this.fetchSnackbarData({
+          msg: 'コメントを削除しました',
+          color: 'success',
+          isShow: true,
+        });
       });
     },
     createComment() {
