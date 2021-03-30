@@ -30,7 +30,7 @@
                   <!-- メニューリスト -->
                   <InitializedMenu :left="true">
                     <template #btn-text>
-                      <v-icon>mdi-dots-vertical</v-icon>
+                      <v-icon id="arrangement-menu-icon">mdi-dots-vertical</v-icon>
                     </template>
                     <template #list>
                       <v-list id="arrangement-menu-list" dense>
