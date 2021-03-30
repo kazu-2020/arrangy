@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "投稿編集機能", type: :system, js: true do
+RSpec.describe "投稿編集", type: :system, js: true do
   let!(:arrangement) { create(:arrangement) }
 
   before do

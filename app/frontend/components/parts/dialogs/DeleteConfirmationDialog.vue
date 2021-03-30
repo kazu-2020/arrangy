@@ -1,6 +1,6 @@
 <template>
   <v-dialog :value="isShow" width="650px" @click:outside="$emit('closeDialog')">
-    <v-card>
+    <v-card id="delete-confirmation">
       <v-card-title class="font-weight-bold">
         <slot name="title" />
       </v-card-title>

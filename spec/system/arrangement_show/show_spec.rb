@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe '投稿詳細機能', type: :system, js: true do
+RSpec.describe '投稿詳細', type: :system, js: true do
   let!(:self_arrangement) { create(:arrangement) }
 
   context 'ログイン前' do

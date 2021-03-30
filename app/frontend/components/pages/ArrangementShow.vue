@@ -37,7 +37,7 @@
                         <v-list-item tag="button" @click.stop="displayArrangementEditDialog">
                           編集する
                         </v-list-item>
-                        <v-list-item @click.stop="displayArrangementDeleteDialog">
+                        <v-list-item tag="button" @click.stop="displayArrangementDeleteDialog">
                           削除する
                         </v-list-item>
                       </v-list>
