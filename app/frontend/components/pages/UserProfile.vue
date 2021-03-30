@@ -4,10 +4,10 @@
       <v-col cols="12" sm="6">
         <v-row class="d-flex justify-center">
           <v-col cols="12" sm="8" class="pt-16">
-            <v-sheet id="profile-sheet" class="py-6 px-10 text-center" elevation="1">
+            <v-sheet id="myprofile" class="py-6 px-10 text-center" elevation="1">
               <h3 class="text-h6 font-weight-black mb-8">プロフィール</h3>
-              <v-avatar class="or-avatar mb-5" size="200">
-                <img :src="authUser.avatar" />
+              <v-avatar class="mb-5" size="60%" minHeight="200px" minWidth="200px">
+                <v-img :src="authUser.avatar" />
               </v-avatar>
               <div class="text-left mb-6">
                 <div>
