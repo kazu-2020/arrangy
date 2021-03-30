@@ -1,7 +1,7 @@
 <template>
   <v-dialog :value="isShow" width="650px" @click:outside="closeDialog">
     <v-sheet id="password-edit-from" class="pa-10">
-      <ValidationObserver ref="form" v-slot="{ handleSubmit }" class="pb-6" tag="div">
+      <ValidationObserver ref="form" v-slot="{ handleSubmit }" class="pb-6" tag="form">
         <PasswordField
           :password="password"
           :rules="rules.password"
@@ -13,16 +13,17 @@
           @input="$emit('update:passwordConfirmation', $event)"
         />
         <div class="d-flex justify-center">
-          <v-btn
-            class="mx-2 font-weight-bold"
-            xLarge
-            style="color: white"
-            color="#ff5252"
-            @click="handleSubmit(handleUpdatePassword)"
+          <SubmitButton
+            class="mx-2"
+            :xLarge="true"
+            :color="'#ff5252'"
+            @submit="handleSubmit(handleUpdatePassword)"
           >
-            更新する
-          </v-btn>
-          <v-btn class="mx-2 font-weight-bold" xLarge @click="closeDialog">戻る</v-btn>
+            <template #text> 更新する </template>
+          </SubmitButton>
+          <NormalButton class="m-2" :xLarge="true" @click="closeDialog">
+            <template #text>戻る</template>
+          </NormalButton>
         </div>
       </ValidationObserver>
       <p class="text-body2 text-center">
@@ -36,11 +37,15 @@
 <script>
 import PasswordField from '../formInputs/PasswordField';
 import PasswordConfirmationField from '../formInputs/PasswordConfirmationField';
+import SubmitButton from '../buttons/SubmitButton';
+import NormalButton from '../buttons/NormalButton';
 
 export default {
   components: {
     PasswordField,
     PasswordConfirmationField,
+    SubmitButton,
+    NormalButton,
   },
   props: {
     password: {

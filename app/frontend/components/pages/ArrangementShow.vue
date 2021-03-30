@@ -60,14 +60,14 @@
           :isShow="editArrangementDialogDisplayed"
           v-bind.sync="arrangementEdit"
           @uploadFile="uploadFile"
-          @closeDialog="closeEditArrangement"
           @updateArrangement="updateArrangement"
+          @closeDialog="closeEditArrangement"
         />
         <!-- 投稿削除確認用ダイアログ -->
         <DeleteConfirmationDialog
           :isShow="confirmationDialogDisplayed"
-          @closeDialog="closeDeleteConfirmationDialog"
           @deleteData="deleteArrangement"
+          @closeDialog="closeDeleteConfirmationDialog"
         >
           <template #title>投稿を削除する</template>
           <template #text>

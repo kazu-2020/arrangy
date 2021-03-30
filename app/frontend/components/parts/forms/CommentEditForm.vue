@@ -18,19 +18,12 @@
         </ValidationProvider>
         <v-card-actions class="pb-0">
           <v-spacer />
-          <v-btn
-            class="font-weight-bold"
-            style="color: white"
-            color="#ff5252"
-            depressed
-            :disabled="invalid"
-            @click="$emit('updateComment')"
-          >
-            更新する
-          </v-btn>
-          <v-btn class="font-weight-bold" depressed outlined @click="$emit('closeDialog')">
-            キャンセル
-          </v-btn>
+          <SubmitButton :color="'#ff5252'" :disabled="invalid" @submit="$emit('updateComment')">
+            <template #text>更新する</template>
+          </SubmitButton>
+          <NormalButton @click="$emit('closeDialog')">
+            <template #text>キャンセル</template>
+          </NormalButton>
         </v-card-actions>
       </ValidationObserver>
     </v-sheet>
@@ -38,7 +31,14 @@
 </template>
 
 <script>
+import SubmitButton from '../buttons/SubmitButton';
+import NormalButton from '../buttons/NormalButton';
+
 export default {
+  components: {
+    SubmitButton,
+    NormalButton,
+  },
   props: {
     id: {
       type: String,

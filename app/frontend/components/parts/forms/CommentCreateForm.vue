@@ -1,31 +1,42 @@
 <template>
-  <ValidationObserver v-slot="{ invalid }" class="pos-re mb-3" tag="form" mode="input">
-    <ValidationProvider name="コメント" :rules="rules">
+  <ValidationObserver v-slot="{ invalid }" class="mb-3" tag="form">
+    <ValidationProvider name="コメント" :rules="rules" mode="input">
       <v-textarea
         id="comment-body"
-        class="pr-5"
         label="コメント"
         autoGrow
         rows="1"
         color="black"
         :value="body"
+        @click="displayedButton = true"
         @input="$emit('update:body', $event ? $event.trim() : $event)"
       />
     </ValidationProvider>
-    <v-btn
-      class="font-weight-bold comment-btn"
-      icon
-      depressed
-      :disabled="invalid"
-      @click="$emit('createComment')"
-    >
-      <v-icon>mdi-send</v-icon>
-    </v-btn>
+    <div v-if="displayedButton" class="d-flex justify-end">
+      <SubmitButton
+        class="mx-2"
+        :color="'#ff5252'"
+        :disabled="invalid"
+        @submit="$emit('createComment')"
+      >
+        <template #text>コメントする</template>
+      </SubmitButton>
+      <NormalButton @click="displayedButton = false">
+        <template #text>キャンセル</template>
+      </NormalButton>
+    </div>
   </ValidationObserver>
 </template>
 
 <script>
+import SubmitButton from '../buttons/SubmitButton';
+import NormalButton from '../buttons/NormalButton';
+
 export default {
+  components: {
+    SubmitButton,
+    NormalButton,
+  },
   props: {
     body: {
       type: String,
@@ -36,6 +47,7 @@ export default {
   data() {
     return {
       rules: { required: true, max: 1000 },
+      displayedButton: false,
     };
   },
 };
