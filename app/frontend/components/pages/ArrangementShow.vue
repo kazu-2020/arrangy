@@ -28,22 +28,21 @@
                 <v-spacer />
                 <template v-if="authUser && authUser.id === arrangement.user.id">
                   <!-- メニューリスト -->
-                  <v-menu rounded left>
-                    <template #activator="{ on, attrs }">
-                      <v-btn id="menu-icon" icon v-bind="attrs" v-on="on">
-                        <v-icon>mdi-dots-vertical</v-icon>
-                      </v-btn>
+                  <InitializedMenu :left="true">
+                    <template #btn-text>
+                      <v-icon>mdi-dots-vertical</v-icon>
                     </template>
-
-                    <v-list id="arrangement-menu-list" dense>
-                      <v-list-item @click.stop="displayArrangementEditDialog">
-                        編集する
-                      </v-list-item>
-                      <v-list-item @click.stop="displayArrangementDeleteDialog">
-                        削除する
-                      </v-list-item>
-                    </v-list>
-                  </v-menu>
+                    <template #list>
+                      <v-list id="arrangement-menu-list" dense>
+                        <v-list-item @click.stop="displayArrangementEditDialog">
+                          編集する
+                        </v-list-item>
+                        <v-list-item @click.stop="displayArrangementDeleteDialog">
+                          削除する
+                        </v-list-item>
+                      </v-list>
+                    </template>
+                  </InitializedMenu>
                 </template>
               </v-card-subtitle>
               <v-card-text>
@@ -106,22 +105,21 @@
                   <v-spacer />
                   <!-- メニューリスト -->
                   <template v-if="authUser && authUser.id === comment.user.id">
-                    <v-menu rounded left>
-                      <template #activator="{ on, attrs }">
-                        <v-btn id="comment-menu-icon" icon v-bind="attrs" v-on="on">
-                          <v-icon>mdi-dots-vertical</v-icon>
-                        </v-btn>
+                    <InitializedMenu :left="true">
+                      <template #btn-text>
+                        <v-icon>mdi-dots-vertical</v-icon>
                       </template>
-
-                      <v-list id="comment-menu-list" dense>
-                        <v-list-item @click.stop="displayCommentEditDialog(comment)">
-                          編集する
-                        </v-list-item>
-                        <v-list-item @click.stop="displayCommentDeleteDialog(comment)">
-                          削除する
-                        </v-list-item>
-                      </v-list>
-                    </v-menu>
+                      <template #list>
+                        <v-list id="comment-menu-list" dense>
+                          <v-list-item @click.stop="displayCommentEditDialog(comment)">
+                            編集する
+                          </v-list-item>
+                          <v-list-item @click.stop="displayCommentDeleteDialog(comment)">
+                            削除する
+                          </v-list-item>
+                        </v-list>
+                      </template>
+                    </InitializedMenu>
                   </template>
                 </v-row>
                 <pre
@@ -171,6 +169,7 @@ import ArrangementEditForm from '../parts/forms/ArrangementEditForm';
 import DeleteConfirmationDialog from '../parts/dialogs/DeleteConfirmationDialog';
 import CommentCreateForm from '../parts/forms/CommentCreateForm';
 import CommentEditForm from '../parts/forms/CommentEditForm';
+import InitializedMenu from '../parts/menus/InitializedMenu';
 
 export default {
   components: {
@@ -178,6 +177,7 @@ export default {
     DeleteConfirmationDialog,
     CommentCreateForm,
     CommentEditForm,
+    InitializedMenu,
   },
   data() {
     return {
@@ -237,6 +237,7 @@ export default {
           }
         });
     },
+
     displayArrangementEditDialog() {
       this.initArrangement();
       this.handleShowEditArrangement();
@@ -246,6 +247,14 @@ export default {
       this.commentEdit = { ...comment };
       this.handleShowEditComment();
       this.editCommentActed = true;
+    },
+    displayArrangementDeleteDialog() {
+      this.confirmationDialogDisplayed = true;
+    },
+    displayCommentDeleteDialog(comment) {
+      this.deletedComment = { ...comment };
+      this.confirmationDialogDisplayed = true;
+      this.deleteConfirmationActed = true;
     },
     closeEditArrangement() {
       this.handleShowEditArrangement();
@@ -262,6 +271,7 @@ export default {
     handleShowEditComment() {
       this.editCommentDialogDisplayed = !this.editCommentDialogDisplayed;
     },
+
     initArrangement() {
       this.arrangementEdit = { ...this.arrangement, images: [...this.arrangement.images] };
       Jimp.read(this.arrangementEdit.images[0]).then((image) => {
@@ -292,24 +302,6 @@ export default {
           console.log(err);
         });
     },
-    updateComment() {
-      this.$devour
-        .update('comment', this.commentEdit)
-        .then((res) => {
-          const index = this.comments.findIndex((comment) => comment.id === res.data.id);
-          this.comments.splice(index, 1, res.data);
-          this.handleShowEditComment();
-        })
-        .catch((err) => console.log(err));
-    },
-    displayArrangementDeleteDialog() {
-      this.confirmationDialogDisplayed = true;
-    },
-    displayCommentDeleteDialog(comment) {
-      this.deletedComment = { ...comment };
-      this.confirmationDialogDisplayed = true;
-      this.deleteConfirmationActed = true;
-    },
     deleteArrangement() {
       this.$devour.destroy('arrangement', this.$route.params.id).then(() => {
         this.fetchSnackbarData({
@@ -319,6 +311,27 @@ export default {
         });
         this.$router.push({ name: 'UserProfile' });
       });
+    },
+
+    createComment() {
+      this.$devour
+        .one('arrangement', this.arrangement.id)
+        .all('comment')
+        .post(this.commentCreate)
+        .then((res) => {
+          this.comments.unshift(res.data);
+          this.commentCreate.body = '';
+        });
+    },
+    updateComment() {
+      this.$devour
+        .update('comment', this.commentEdit)
+        .then((res) => {
+          const index = this.comments.findIndex((comment) => comment.id === res.data.id);
+          this.comments.splice(index, 1, res.data);
+          this.handleShowEditComment();
+        })
+        .catch((err) => console.log(err));
     },
     deleteComment() {
       this.$devour.destroy('comment', this.deletedComment.id).then(() => {
@@ -332,16 +345,7 @@ export default {
         });
       });
     },
-    createComment() {
-      this.$devour
-        .one('arrangement', this.arrangement.id)
-        .all('comment')
-        .post(this.commentCreate)
-        .then((res) => {
-          this.comments.unshift(res.data);
-          this.commentCreate.body = '';
-        });
-    },
+
     infiniteHandler($state) {
       this.$devour
         .one('arrangement', this.$route.params.id)
