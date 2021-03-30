@@ -21,6 +21,7 @@
       >
         <v-file-input
           id="user-avatar"
+          label="プロフィール画像"
           style="display: none"
           accept="image/jpg, image/jpeg, image/png, image/gif"
           @change="handleAvatarChange"

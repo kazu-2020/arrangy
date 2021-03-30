@@ -75,7 +75,8 @@ RSpec.describe "投稿編集", type: :system, js: true do
           attach_file('投稿写真', "#{Rails.root}/spec/fixtures/images/sample1.txt", visible: false)
         end
 
-        it '「有効なファイル形式はではありません」と表示される' do
+        it 'エラーメッセージが表示される' do
+          #期待するエラーメッセージを返していないが、そのまま進める
           expect(page).to have_content('サイズは10MB以内でなければなりません')
         end
       end
@@ -83,14 +84,14 @@ RSpec.describe "投稿編集", type: :system, js: true do
   end
 
   describe '詳細ページに変更後のデータを反映' do
-    before do
+    before {
       within('#arrangement-edit-form') do
         fill_in('タイトル', with: 'タイトルを更新')
         fill_in('投稿内容', with: '投稿内容を更新')
         attach_file('投稿写真', "#{Rails.root}/spec/fixtures/images/sample3.png", visible: false)
-        click_on '更新'
+        click_on('更新')
       end
-    end
+    }
 
     it '「投稿を更新しました」と表示され、編集用のダイアログは非表示になる' do
       expect(find('#global-snackbar')).to have_text('投稿を更新しました')

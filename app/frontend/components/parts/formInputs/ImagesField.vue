@@ -8,8 +8,8 @@
   >
     <v-file-input
       id="arrangement-images"
-      accept="image/jpg, image/jpeg, image/png, image/gif"
       label="投稿写真"
+      accept="image/jpg, image/jpeg, image/png, image/gif"
       color="black"
       clearable
       hint="有効なファイル形式はjpg jpeg png gifです"

@@ -5,15 +5,14 @@ RSpec.describe "プロフィール詳細", type: :system, js: true do
 
   before {
     log_in_as(user)
-    within('#page-header') { find('#header-avatar').click }
-    within('#header-menu-list') { click_on('マイページ') }
+    visit_profile
   }
 
   it 'ニックネーム、アドレス、アバター画像が表示されている' do
     within('#myprofile') do
       expect(page).to have_content('mimata')
       expect(page).to have_content('foo@bar.com')
-      expect(first('img')[:src].include?(user.avatar.url)).to_not eq(true)
+      expect(find('.v-image__image')[:style].include?(user.avatar.url)).to eq(true)
     end
   end
 end
