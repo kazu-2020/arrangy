@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card id="register-using-address">
     <div class="text-h6 pt-8 px-8 text-center font-weight-black">
       メールアドレスを使用して<br class="br-sp" />新規登録
     </div>

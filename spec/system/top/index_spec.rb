@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe "投稿一覧機能", type: :system, js: true do
+RSpec.describe "投稿一覧", type: :system, js: true do
   describe '無限スクロール機能(条件: 投稿データが50件)' do
-    before do
+    before {
       create_list(:arrangement, 50)
       visit('/')
-    end
+    }
 
     it 'スクロール前は20件分のデータが表示されている' do
       expect(all('.arrangement-summary').count).to eq 20
@@ -31,10 +31,14 @@ RSpec.describe "投稿一覧機能", type: :system, js: true do
     before { visit('/') }
 
     it '投稿情報が表示されている' do
-      within("#arrangement-#{ arrangement.id }") do
+      within("#arrangement-#{arrangement.id}") do
         # 画像データのテストは除く
         expect(page).to have_content('testタイトル')
         expect(page).to have_content(arrangement.user.nickname)
+        result = all('img').any? do |element|
+          element[:src].include?(arrangement.user.avatar.url)
+        end
+        expect(result).to eq(true)
       end
     end
   end

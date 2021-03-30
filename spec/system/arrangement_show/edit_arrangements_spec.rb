@@ -93,16 +93,13 @@ RSpec.describe "投稿編集機能", type: :system, js: true do
     end
 
     it '「投稿を更新しました」と表示され、編集用のダイアログは非表示になる' do
-      within('#global-snackbar') do
-        expect(page).to have_content('投稿を更新しました')
-      end
+      expect(find('#global-snackbar')).to have_text('投稿を更新しました')
       sleep 0.5
       expect(find('#arrangement-edit-form', visible: false).visible?).to eq(false)
     end
 
-    fit '変更後のデータが反映されている' do
+    it '変更後のデータが反映されている' do
       within("#arrangement-#{arrangement.id}") do
-        sleep 0.5
         expect(page).to have_content('タイトルを更新')
         expect(page).to have_content('投稿内容を更新')
       end

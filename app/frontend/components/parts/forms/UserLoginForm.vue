@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card id="login-using-address">
     <div class="text-h6 pt-8 px-8 text-center font-weight-black">
       ARRANGYアカウントで<br class="br-sp" />ログイン
     </div>

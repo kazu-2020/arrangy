@@ -19,9 +19,7 @@
             <v-list id="header-menu-list" dense flat>
               <v-list-item text plain :to="{ name: 'UserProfile' }">マイページ</v-list-item>
               <v-list-item text>お気に入り一覧</v-list-item>
-              <v-list-item id="header-logout-button" text @click="logoutFunction">
-                ログアウト
-              </v-list-item>
+              <v-list-item text tag="button" @click="logoutFunction"> ログアウト </v-list-item>
             </v-list>
           </template>
         </InitializedMenu>
