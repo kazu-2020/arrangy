@@ -1,6 +1,6 @@
 <template>
   <v-dialog :value="isShow" width="650px" @click:outside="closeDialog">
-    <v-sheet id="arranement-edit-form" class="pa-10" color="#eeeeee" :rounded="true">
+    <v-sheet id="arrangement-edit-form" class="pa-10" color="#eeeeee" :rounded="true">
       <div class="text-center mb-5">
         <v-img class="mx-auto mb-5" :src="images[0]" width="70%" style="border-radius: 15px" />
         <div>
@@ -17,6 +17,7 @@
         <v-file-input
           id="arrangement-images"
           label="投稿写真"
+          accept="image/jpg, image/jpeg, image/png, image/gif"
           style="display: none"
           @change="handleFileChange"
         />
@@ -90,7 +91,7 @@ export default {
   data() {
     return {
       rules: {
-        images: { ext: ['jpg', 'jpeg', 'png', 'gif'], size: 10240 },
+        images: { size: 10240, ext: ['jpg', 'jpeg', 'png', 'gif'] },
         title: { required: true, max: 30 },
         context: { required: true, max: 1000 },
       },

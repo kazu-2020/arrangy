@@ -34,7 +34,7 @@
                     </template>
                     <template #list>
                       <v-list id="arrangement-menu-list" dense>
-                        <v-list-item @click.stop="displayArrangementEditDialog">
+                        <v-list-item tag="button" @click.stop="displayArrangementEditDialog">
                           編集する
                         </v-list-item>
                         <v-list-item @click.stop="displayArrangementDeleteDialog">
