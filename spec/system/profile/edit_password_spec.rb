@@ -16,7 +16,7 @@ RSpec.describe "パスワード編集", type: :system, js: true do
 
         it 'エラーメッセージ「<ラベル名>は必須項目です」が表示される' do
           within('#password-edit-form') do
-            expect(page).to have_content('パスワードは必須項目です!!')
+            expect(page).to have_content('パスワードは必須項目です')
             expect(page).to have_content('パスワード(確認用)は必須項目です')
           end
         end
