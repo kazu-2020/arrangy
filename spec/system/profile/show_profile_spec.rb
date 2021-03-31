@@ -5,7 +5,7 @@ RSpec.describe "プロフィール詳細", type: :system, js: true do
 
   before {
     log_in_as(user)
-    visit_profile
+    access_profile
   }
 
   it 'ニックネーム、アドレス、アバター画像が表示されている' do

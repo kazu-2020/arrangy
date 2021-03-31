@@ -8,7 +8,7 @@ RSpec.describe "自身の投稿一覧", type: :system, js: true do
 
       before {
         log_in_as(user)
-        visit_profile
+        access_profile
       }
 
       it 'スクロール前は20件分のデータが表示されている' do
@@ -34,7 +34,7 @@ RSpec.describe "自身の投稿一覧", type: :system, js: true do
 
       before {
         log_in_as(user)
-        visit_profile
+        access_profile
       }
 
       it '「現在、投稿はありません」と表示される' do
@@ -48,7 +48,7 @@ RSpec.describe "自身の投稿一覧", type: :system, js: true do
 
     before {
       log_in_as(arrangement.user)
-      visit_profile
+      access_profile
       first('.arrangement-summary').click
     }
 

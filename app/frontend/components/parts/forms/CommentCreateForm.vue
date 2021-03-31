@@ -1,5 +1,5 @@
 <template>
-  <ValidationObserver v-slot="{ invalid }" class="mb-3" tag="form">
+  <ValidationObserver id="create-comment-form" v-slot="{ invalid }" class="mb-3" tag="form">
     <ValidationProvider name="コメント" :rules="rules" mode="input">
       <v-textarea
         id="comment-body"
@@ -21,7 +21,7 @@
       >
         <template #text>コメントする</template>
       </SubmitButton>
-      <NormalButton @click="displayedButton = false">
+      <NormalButton @click="handleCancel">
         <template #text>キャンセル</template>
       </NormalButton>
     </div>
@@ -49,6 +49,12 @@ export default {
       rules: { required: true, max: 1000 },
       displayedButton: false,
     };
+  },
+  methods: {
+    handleCancel() {
+      this.displayedButton = false;
+      this.$emit('update:body', '');
+    },
   },
 };
 </script>

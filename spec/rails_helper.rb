@@ -75,5 +75,5 @@ RSpec.configure do |config|
 
   config.include FactoryBot::Syntax::Methods
   config.include UserLogin
-  config.include VisitPage
+  config.include AccessPage
 end

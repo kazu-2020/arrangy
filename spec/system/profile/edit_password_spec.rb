@@ -5,7 +5,7 @@ RSpec.describe "パスワード編集", type: :system, js: true do
 
   before {
     log_in_as(user)
-    visit_profile
+    access_profile
     within('#myprofile') { find('a', text: 'こちら').click }
   }
 
