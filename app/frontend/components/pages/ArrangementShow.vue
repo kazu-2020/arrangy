@@ -111,7 +111,7 @@
                       </template>
                       <template #list>
                         <v-list class="comment-menu-list" dense>
-                          <v-list-item @click.stop="displayCommentEditDialog(comment)">
+                          <v-list-item tag="button" @click.stop="displayCommentEditDialog(comment)">
                             編集する
                           </v-list-item>
                           <v-list-item @click.stop="displayCommentDeleteDialog(comment)">
