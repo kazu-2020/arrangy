@@ -6,7 +6,7 @@ FactoryBot.define do
     user
 
     trait :with_comment do
-      after(:build) do  |arrangement|
+      after(:build) do |arrangement|
         arrangement.comments << create(:comment)
       end
     end

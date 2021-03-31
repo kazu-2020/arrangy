@@ -92,7 +92,7 @@
               <div class="pa-3">
                 <v-row>
                   <v-avatar size="25" class="mr-3">
-                    <img :src="comment.user.avatar" />
+                    <v-img :src="comment.user.avatar" />
                   </v-avatar>
                   <div class="d-flex">
                     <p class="text-subtitle-1 font-weight-bold mr-3">
@@ -107,10 +107,10 @@
                   <template v-if="authUser && authUser.id === comment.user.id">
                     <InitializedMenu :left="true">
                       <template #btn-text>
-                        <v-icon>mdi-dots-vertical</v-icon>
+                        <v-icon class="comment-menu-icon">mdi-dots-vertical</v-icon>
                       </template>
                       <template #list>
-                        <v-list id="comment-menu-list" dense>
+                        <v-list class="comment-menu-list" dense>
                           <v-list-item @click.stop="displayCommentEditDialog(comment)">
                             編集する
                           </v-list-item>
