@@ -3,7 +3,7 @@
     <v-sheet id="profile-edit-form" class="pa-10">
       <div class="text-center mb-5">
         <v-avatar class="or-avatar mb-5" size="200">
-          <img :src="avatar" />
+          <v-img :src="avatar" />
         </v-avatar>
         <div>
           <NormalButton @click="actionInputFile">

@@ -146,6 +146,13 @@ RSpec.describe "プロフィール編集", type: :system, js: true do
     end
   end
 
+  it '編集用フォームに既存の値が入力されている' do
+    within('#profile-edit-form') do
+      expect(find('#user-nickname').value).to eq('mimata')
+      expect(find('#user-email').value).to eq('foo@bar.com')
+    end
+  end
+
   describe 'プロフィールページに変更後のデータを反映' do
     before {
       within('#profile-edit-form') do
