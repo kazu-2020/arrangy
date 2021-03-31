@@ -30,7 +30,8 @@ RSpec.describe '投稿詳細', type: :system, js: true do
     context '自分の投稿ページへアクセスした時' do
       before do
         log_in_as(self_arrangement.user)
-        visit("/arrangements/#{self_arrangement.id}")
+        find("#arrangement-#{self_arrangement.id}").click
+        # visit("/arrangements/#{self_arrangement.id}")
       end
 
       it '投稿した内容、投稿したユーザーの情報が表示されている' do

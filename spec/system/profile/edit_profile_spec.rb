@@ -184,9 +184,8 @@ RSpec.describe "プロフィール編集", type: :system, js: true do
   context '「パスワードを変更する場合はこちら」をクリックした場合' do
     before { within('#profile-edit-form') { find('a', text: 'こちら').click } }
 
-    fit 'パスワード編集用のダイアログに切り替わる' do
+    it 'パスワード編集用のダイアログに切り替わる' do
       expect(has_selector?('#password-edit-form')).to eq(true)
     end
   end
-
 end
