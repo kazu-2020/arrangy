@@ -8,11 +8,11 @@ class CommentSerializer
 
   attribute :created_at do |record|
     value = time_ago_in_words(record.created_at)
-    value == '1分未満' ? '今' : "#{ value }前"
+    value == '1分未満' ? '今' : "#{value}前"
   end
 
   attribute :edited do |record|
-    record.created_at != record.updated_at ? true : false
+    record.created_at != record.updated_at
   end
 
   belongs_to :user

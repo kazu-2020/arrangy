@@ -32,8 +32,8 @@ module Api
         include: %i[user],
         fields: {
           arrangement: %i[title context images user],
-          user: %i[nickname avatar],
-        },
+          user: %i[nickname avatar]
+        }
       }
       json_string = ArrangementSerializer.new(@arrangement, options)
       render json: json_string

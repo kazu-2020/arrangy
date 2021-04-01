@@ -4,12 +4,12 @@ module Api
     before_action :set_comment, only: %i[update destroy]
 
     def index
-      pagy, comments = pagy(Comment.where(arrangement_id: params[:arrangement_id]).order(created_at: :desc).preload(:user), items: 20)
+      pagy, comments = pagy(Comment.where(arrangement_id: params[:arrangement_id]).order(created_at: :desc).preload(:user), items: 20) # rubocop:disable Layout/LineLength
       options = {
         include: %i[user],
         fields: {
           comment: %i[body edited created_at user],
-          user: %i[nickname avatar],
+          user: %i[nickname avatar]
         },
         meta: { pagy: pagy_metadata(pagy) }
       }
