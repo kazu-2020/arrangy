@@ -79,7 +79,7 @@ module Api
     end
 
     def set_arrangement
-      @arrangement = Arrangement.find(params[:id])
+      @arrangement = Arrangement.find(Base64.decode64(params[:id]))
     end
   end
 end
