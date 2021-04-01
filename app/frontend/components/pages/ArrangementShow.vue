@@ -37,7 +37,7 @@
                         <v-list-item tag="button" @click.stop="displayArrangementEditDialog">
                           編集する
                         </v-list-item>
-                        <v-list-item tag="button" @click.stop="displayArrangementDeleteDialog">
+                        <v-list-item tag="button" @click.stop="displayDeleteArrangementDialog">
                           削除する
                         </v-list-item>
                       </v-list>
@@ -62,11 +62,11 @@
           @updateArrangement="updateArrangement"
           @closeDialog="closeEditArrangement"
         />
-        <!-- 投稿削除確認用ダイアログ -->
+        <!-- 投稿削除用ダイアログ -->
         <DeleteConfirmationDialog
-          :isShow="confirmationDialogDisplayed"
+          :isShow="deleteArrangementDialogDisplayed"
           @deleteData="deleteArrangement"
-          @closeDialog="closeDeleteConfirmationDialog"
+          @closeDialog="closeDeleteArrangementDialog"
         >
           <template #title>投稿を削除する</template>
           <template #text>
@@ -114,7 +114,10 @@
                           <v-list-item tag="button" @click.stop="displayCommentEditDialog(comment)">
                             編集する
                           </v-list-item>
-                          <v-list-item @click.stop="displayCommentDeleteDialog(comment)">
+                          <v-list-item
+                            tag="button"
+                            @click.stop="displayCommentDeleteDialog(comment)"
+                          >
                             削除する
                           </v-list-item>
                         </v-list>
@@ -143,11 +146,9 @@
               @updateComment="updateComment"
               @closeDialog="closeEditComment"
             />
-            <!-- コメント削除確認用ダイアログ -->
             <DeleteConfirmationDialog
-              v-if="deleteConfirmationActed"
-              :isShow="confirmationDialogDisplayed"
-              @closeDialog="closeDeleteConfirmationDialog"
+              :isShow="deleteCommentDialogDisplayed"
+              @closeDialog="closeDeleteComment"
               @deleteData="deleteComment"
             >
               <template #title>コメントを削除する</template>
@@ -204,10 +205,10 @@ export default {
       },
       editArrangementDialogDisplayed: false,
       editCommentDialogDisplayed: false,
-      confirmationDialogDisplayed: false,
       editArrangementActed: false,
       editCommentActed: false,
-      deleteConfirmationActed: false,
+      deleteCommentDialogDisplayed: false,
+      deleteArrangementDialogDisplayed: false,
     };
   },
   computed: {
@@ -248,13 +249,12 @@ export default {
       this.handleShowEditComment();
       this.editCommentActed = true;
     },
-    displayArrangementDeleteDialog() {
-      this.confirmationDialogDisplayed = true;
+    displayDeleteArrangementDialog() {
+      this.deleteArrangementDialogDisplayed = true;
     },
     displayCommentDeleteDialog(comment) {
       this.deletedComment = { ...comment };
-      this.confirmationDialogDisplayed = true;
-      this.deleteConfirmationActed = true;
+      this.deleteCommentDialogDisplayed = true;
     },
     closeEditArrangement() {
       this.handleShowEditArrangement();
@@ -262,8 +262,11 @@ export default {
     closeEditComment() {
       this.handleShowEditComment();
     },
-    closeDeleteConfirmationDialog() {
-      this.confirmationDialogDisplayed = false;
+    closeDeleteArrangementDialog() {
+      this.deleteArrangementDialogDisplayed = false;
+    },
+    closeDeleteComment() {
+      this.deleteCommentDialogDisplayed = false;
     },
     handleShowEditArrangement() {
       this.editArrangementDialogDisplayed = !this.editArrangementDialogDisplayed;
@@ -337,7 +340,7 @@ export default {
       this.$devour.destroy('comment', this.deletedComment.id).then(() => {
         const index = this.comments.findIndex((comment) => comment.id === this.deletedComment.id);
         this.comments.splice(index, 1);
-        this.confirmationDialogDisplayed = false;
+        this.deleteCommentDialogDisplayed = false;
         this.fetchSnackbarData({
           msg: 'コメントを削除しました',
           color: 'success',
