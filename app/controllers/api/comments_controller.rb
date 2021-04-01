@@ -4,7 +4,7 @@ module Api
     before_action :set_comment, only: %i[update destroy]
 
     def index
-      pagy, comments = pagy(Comment.where(arrangement_id: params[:arrangement_id]).order(created_at: :desc).preload(:user), items: 20) # rubocop:disable Layout/LineLength
+      pagy, comments = pagy(Comment.for_arrangement(params[:arrangement_id]).sorted_by_new.preload(:user), items: 20)
       options = {
         include: %i[user],
         fields: {
