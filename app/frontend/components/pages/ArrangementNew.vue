@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols="12" sm="7" class="pt-16 mx-auto">
-        <v-card class="pa-4" color="grey lighten-5">
+        <v-card id="arrangement-new-form" class="pa-4" color="grey lighten-5">
           <div class="text-h6 pt-8 px-8 mb-5 text-center font-weight-black">新規投稿</div>
           <ArrangementNewForm
             v-bind.sync="arrangement"

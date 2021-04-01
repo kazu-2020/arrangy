@@ -18,6 +18,9 @@ setInteractionMode('blur', () => {
 setInteractionMode('change', () => {
   return { on: ['change'] };
 });
+setInteractionMode('input', () => {
+  return { on: ['input'] };
+});
 
 Vue.component('ValidationProvider', ValidationProvider);
 Vue.component('ValidationObserver', ValidationObserver);

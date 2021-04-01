@@ -1,9 +1,9 @@
 <template>
-  <v-card>
+  <v-card id="register-using-address">
     <div class="text-h6 pt-8 px-8 text-center font-weight-black">
       メールアドレスを使用して<br class="br-sp" />新規登録
     </div>
-    <ValidationObserver v-slot="{ handleSubmit }">
+    <ValidationObserver v-slot="{ handleSubmit }" tag="form">
       <v-card-text class="px-8">
         <NicknameField
           :nickname="nickname"
@@ -23,16 +23,12 @@
         />
       </v-card-text>
       <v-card-actions class="d-flex justify-center pb-8">
-        <v-btn
-          class="font-weight-bold"
-          style="color: white"
-          color="#ff5252"
-          xLarge
-          @click="handleSubmit(handleRegisterUser)"
-        >
-          <v-icon class="mr-1">mdi-email</v-icon>
-          メールアドレスで登録
-        </v-btn>
+        <SubmitButton :xLarge="true" :color="'#ff5252'" @submit="handleSubmit(handleRegisterUser)">
+          <template #text>
+            <v-icon class="mr-1">mdi-email</v-icon>
+            メールアドレスで登録
+          </template>
+        </SubmitButton>
       </v-card-actions>
     </ValidationObserver>
   </v-card>
@@ -43,6 +39,7 @@ import NicknameField from '../formInputs/NicknameFiled';
 import EmailField from '../formInputs/EmailField';
 import PasswordField from '../formInputs/PasswordField';
 import PasswordConfirmationField from '../formInputs/PasswordConfirmationField';
+import SubmitButton from '../buttons/SubmitButton';
 
 export default {
   components: {
@@ -50,6 +47,7 @@ export default {
     EmailField,
     PasswordField,
     PasswordConfirmationField,
+    SubmitButton,
   },
   props: {
     nickname: {

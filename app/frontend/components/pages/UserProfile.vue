@@ -4,10 +4,10 @@
       <v-col cols="12" sm="6">
         <v-row class="d-flex justify-center">
           <v-col cols="12" sm="8" class="pt-16">
-            <v-sheet id="profile-sheet" class="py-6 px-10 text-center" elevation="1">
-              <h3 class="text-h6 font-weight-black mb-8">マイプロフィール</h3>
-              <v-avatar class="or-avatar mb-5" size="200">
-                <img :src="authUser.avatar" />
+            <v-sheet id="myprofile" class="py-6 px-10 text-center" elevation="1">
+              <h3 class="text-h6 font-weight-black mb-8">プロフィール</h3>
+              <v-avatar class="mb-5" size="60%" minHeight="200px" minWidth="200px">
+                <v-img :src="authUser.avatar" />
               </v-avatar>
               <div class="text-left mb-6">
                 <div>
@@ -21,10 +21,12 @@
                 </div>
                 <v-divider class="mb-6" />
               </div>
-              <v-btn class="mb-6 font-weight-bold" xLarge @click.stop="displayProfileEditDialog">
-                <v-icon class="mr-1">mdi-account-cog</v-icon>
-                編集する
-              </v-btn>
+              <NormalButton class="mb-6" :xLarge="true" @click="displayProfileEditDialog">
+                <template #text>
+                  <v-icon class="mr-1">mdi-account-cog</v-icon>
+                  編集する
+                </template>
+              </NormalButton>
               <p class="text-body2">
                 パスワードを変更する場合は
                 <a @click.stop="displayPasswordEditDialog"> こちら </a>
@@ -94,12 +96,14 @@ import Jimp from 'jimp/es';
 import ProfileEditForm from '../parts/forms/ProfileEditForm';
 import PasswordEditForm from '../parts/forms/PasswordEditForm';
 import ArrangementSummary from '../parts/cards/ArrangementSummary';
+import NormalButton from '../parts/buttons/NormalButton';
 
 export default {
   components: {
     ProfileEditForm,
     PasswordEditForm,
     ArrangementSummary,
+    NormalButton,
   },
   data() {
     return {

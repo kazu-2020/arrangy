@@ -1,5 +1,11 @@
 <template>
-  <ValidationProvider v-slot="{ errors }" name="パスワード" vid="password" :rules="rules">
+  <ValidationProvider
+    v-slot="{ errors }"
+    name="パスワード"
+    vid="password"
+    :rules="rules"
+    mode="blur"
+  >
     <v-text-field
       id="user-password"
       label="パスワード"

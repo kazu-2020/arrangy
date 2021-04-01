@@ -62,7 +62,8 @@ group :development, :test do
   # test
   gem 'factory_bot_rails'
   gem 'faker'
-  gem 'rspec-rails', '~> 4.0.2'
+  gem 'rspec-rails', '~> 4.0.2', require: true
+  gem 'rspec-retry'
   gem 'spring-commands-rspec'
 end
 

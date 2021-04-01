@@ -19,6 +19,10 @@ jsonApi.define('user', {
     jsonApi: 'hasMany',
     type: 'arrangements',
   },
+  comments: {
+    jsonApi: 'hasMany',
+    type: 'comments',
+  },
 });
 
 jsonApi.define('arrangement', {
@@ -29,6 +33,25 @@ jsonApi.define('arrangement', {
   user: {
     jsonApi: 'hasOne',
     type: 'user',
+  },
+  comments: {
+    jsonApi: 'hasMany',
+    type: 'comments',
+  },
+});
+
+jsonApi.define('comment', {
+  id: '',
+  body: '',
+  edited: '',
+  created_at: '',
+  user: {
+    jsonApi: 'hasOne',
+    type: 'user',
+  },
+  arrangement: {
+    jsonApi: 'hasOne',
+    type: 'arrangement',
   },
 });
 

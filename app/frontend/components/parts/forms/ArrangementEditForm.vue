@@ -1,6 +1,6 @@
 <template>
   <v-dialog :value="isShow" width="650px" @click:outside="closeDialog">
-    <v-sheet id="arranement-edit-form" class="pa-10" color="#eeeeee" :rounded="true">
+    <v-sheet id="arrangement-edit-form" class="pa-10" color="#eeeeee" :rounded="true">
       <div class="text-center mb-5">
         <v-img class="mx-auto mb-5" :src="images[0]" width="70%" style="border-radius: 15px" />
         <div>
@@ -17,6 +17,7 @@
         <v-file-input
           id="arrangement-images"
           label="投稿写真"
+          accept="image/jpg, image/jpeg, image/png, image/gif"
           style="display: none"
           @change="handleFileChange"
         />
@@ -24,7 +25,7 @@
           {{ errors[0] }}
         </v-alert>
       </ValidationProvider>
-      <ValidationObserver ref="form" v-slot="{ handleSubmit }">
+      <ValidationObserver ref="form" v-slot="{ handleSubmit }" tag="form">
         <TitleField :title="title" :rules="rules.title" @input="$emit('update:title', $event)" />
         <ContextField
           :context="context"
@@ -32,16 +33,17 @@
           @input="$emit('update:context', $event)"
         />
         <div class="text-center">
-          <v-btn
+          <SubmitButton
             class="mx-2"
-            xLarge
-            style="color: white"
-            color="#ff5252"
-            @click="handleSubmit(handleUpdateArrangement)"
+            :xLarge="true"
+            :color="'#ff5252'"
+            @submit="handleSubmit(handleUpdateArrangement)"
           >
-            更新
-          </v-btn>
-          <v-btn class="mx-2" xLarge @click="closeDialog">戻る</v-btn>
+            <template #text>更新</template>
+          </SubmitButton>
+          <NormalButton class="mx-2" :xLarge="true" @click="closeDialog">
+            <template #text>戻る</template>
+          </NormalButton>
         </div>
       </ValidationObserver>
     </v-sheet>
@@ -52,11 +54,15 @@
 import Jimp from 'jimp/es';
 import TitleField from '../formInputs/TitleField';
 import ContextField from '../formInputs/ContextField';
+import SubmitButton from '../buttons/SubmitButton';
+import NormalButton from '../buttons/NormalButton';
 
 export default {
   components: {
     TitleField,
     ContextField,
+    SubmitButton,
+    NormalButton,
   },
   props: {
     id: {
@@ -85,7 +91,7 @@ export default {
   data() {
     return {
       rules: {
-        images: { ext: ['jpg', 'jpeg', 'png', 'gif'], size: 10240 },
+        images: { size: 10240, ext: ['jpg', 'jpeg', 'png', 'gif'] },
         title: { required: true, max: 30 },
         context: { required: true, max: 1000 },
       },

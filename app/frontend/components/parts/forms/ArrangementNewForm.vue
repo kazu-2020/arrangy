@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-img v-show="isPreview" class="mb-5" :src="previewImage" contain height="300" />
-    <ValidationObserver v-slot="{ handleSubmit }">
+    <ValidationObserver v-slot="{ handleSubmit }" tag="form">
       <v-card-text>
         <ImagesField
           ref="avatar"
@@ -17,18 +17,16 @@
         />
       </v-card-text>
       <v-card-actions class="d-flex justify-center">
-        <v-btn
-          class="font-weight-bold"
-          style="color: white"
-          color="#ff5252"
-          xLarge
-          :loading="isLoading"
-          :disabled="isLoading"
-          @click="handleSubmit(handleCreateArrangement)"
+        <SubmitButton
+          :xLarge="true"
+          :color="'#ff5252'"
+          @submit="handleSubmit(handleCreateArrangement)"
         >
-          <v-icon class="mr-1">mdi-send</v-icon>
-          投稿する
-        </v-btn>
+          <template #text>
+            <v-icon class="mr-1">mdi-send</v-icon>
+            投稿する
+          </template>
+        </SubmitButton>
       </v-card-actions>
     </ValidationObserver>
   </div>
@@ -39,12 +37,14 @@ import Jimp from 'jimp/es';
 import TitleField from '../formInputs/TitleField';
 import ContextField from '../formInputs/ContextField';
 import ImagesField from '../formInputs/ImagesField';
+import SubmitButton from '../buttons/SubmitButton';
 
 export default {
   components: {
     TitleField,
     ContextField,
     ImagesField,
+    SubmitButton,
   },
   props: {
     title: {

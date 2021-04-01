@@ -8,4 +8,5 @@ class UserSerializer
   end
 
   has_many :arrangements
+  has_many :comments
 end

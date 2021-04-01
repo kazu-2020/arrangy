@@ -3,21 +3,25 @@
     <v-sheet id="profile-edit-form" class="pa-10">
       <div class="text-center mb-5">
         <v-avatar class="or-avatar mb-5" size="200">
-          <img :src="avatar" />
+          <v-img :src="avatar" />
         </v-avatar>
         <div>
-          <v-btn @click="actionInputFile">プロフィール画像を変更</v-btn>
+          <NormalButton @click="actionInputFile">
+            <template #text>プロフィール画像を変更</template>
+          </NormalButton>
         </div>
       </div>
       <ValidationProvider
         ref="fileForm"
         v-slot="{ errors }"
+        tag="form"
         name="プロフィール画像"
         mode="change"
         :rules="rules.avatar"
       >
         <v-file-input
           id="user-avatar"
+          label="プロフィール画像"
           style="display: none"
           accept="image/jpg, image/jpeg, image/png, image/gif"
           @change="handleAvatarChange"
@@ -26,7 +30,7 @@
           {{ errors[0] }}
         </v-alert>
       </ValidationProvider>
-      <ValidationObserver v-slot="{ handleSubmit }" class="pb-6" tag="div">
+      <ValidationObserver v-slot="{ handleSubmit }" class="pb-6" tag="form">
         <NicknameField
           :nickname="nickname"
           :rules="rules.nickname"
@@ -34,16 +38,17 @@
         />
         <EmailField :email="email" :rules="rules.email" @input="$emit('update:email', $event)" />
         <div class="d-flex justify-center">
-          <v-btn
-            class="mx-2 font-weight-bold"
-            xLarge
-            style="color: white"
-            color="#ff5252"
-            @click="handleSubmit(handleUpdateProfile)"
+          <SubmitButton
+            class="mx-2"
+            :xLarge="true"
+            :color="'#ff5252'"
+            @submit="handleSubmit(handleUpdateProfile)"
           >
-            更新する
-          </v-btn>
-          <v-btn class="mx-2 font-weight-bold" xLarge @click="closeDialog">戻る</v-btn>
+            <template #text> 更新する </template>
+          </SubmitButton>
+          <NormalButton class="mx-2" :xLarge="true" @click="closeDialog">
+            <template #text>戻る</template>
+          </NormalButton>
         </div>
       </ValidationObserver>
       <p class="text-body2 text-center">
@@ -58,11 +63,15 @@
 import Jimp from 'jimp/es';
 import NicknameField from '../formInputs/NicknameFiled';
 import EmailField from '../formInputs/EmailField';
+import SubmitButton from '../buttons/SubmitButton';
+import NormalButton from '../buttons/NormalButton';
 
 export default {
   components: {
     NicknameField,
     EmailField,
+    SubmitButton,
+    NormalButton,
   },
   props: {
     id: {

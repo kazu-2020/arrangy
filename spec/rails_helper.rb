@@ -6,6 +6,7 @@ require File.expand_path('../config/environment', __dir__)
 abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'rspec/rails'
 require 'capybara/rspec'
+require 'rspec/retry'
 # Add additional requires below this line. Rails is not loaded until this point!
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -61,6 +62,18 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+
+  # rspec-retryの設定
+  # リトライのステータスを表示する
+  config.verbose_retry = true
+  # リトライが発生した際のエラー内容を表示する
+  config.display_try_failure_messages = true
+  # feature(js: true)でのみretryオプションが呼ばれる
+  config.around :each, :js do |ex|
+    ex.run_with_retry retry: 3
+  end
+
   config.include FactoryBot::Syntax::Methods
   config.include UserLogin
+  config.include AccessPage
 end
