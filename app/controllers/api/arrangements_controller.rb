@@ -20,7 +20,10 @@ module Api
     def create
       arrangement = current_user.arrangements.build(arrangement_params)
       arrangement.save!
-      json_string = ArrangementSerializer.new(arrangement)
+      options = {
+        fields: { arrangement: %i[set_id] }
+      }
+      json_string = ArrangementSerializer.new(arrangement, options)
       render json: json_string
     end
 
@@ -80,7 +83,7 @@ module Api
     end
 
     def set_arrangement
-      @arrangement = Arrangement.find(Base64.decode64(params[:id]))
+      @arrangement = Arrangement.find(decode_id(params[:id]))
     end
   end
 end

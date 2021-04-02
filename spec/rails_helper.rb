@@ -76,4 +76,5 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.include UserLogin
   config.include AccessPage
+  config.include Api::Base64Converting
 end

@@ -7,7 +7,7 @@ RSpec.describe "コメント詳細", type: :system, js: true do
   context '投稿詳細ページへアクセスした時' do
     before {
       visit('/')
-      find("#arrangement-#{self_comment.arrangement.id}").click
+      find("#arrangement-#{encode_id(self_comment.arrangement.id)}").click
     }
 
     it '自分のコメントが表示されている' do
@@ -24,7 +24,7 @@ RSpec.describe "コメント詳細", type: :system, js: true do
     context 'ログインしていない場合' do
       before {
         visit('/')
-        find("#arrangement-#{self_comment.arrangement.id}").click
+        find("#arrangement-#{encode_id(self_comment.arrangement.id)}").click
       }
 
       it 'メニューリストは表示されない' do
@@ -37,7 +37,7 @@ RSpec.describe "コメント詳細", type: :system, js: true do
     context 'ログインしている場合' do
       before {
         log_in_as(self_comment.user)
-        find("#arrangement-#{self_comment.arrangement.id}").click
+        find("#arrangement-#{encode_id(self_comment.arrangement.id)}").click
       }
 
       it '自分のコメントにはメニューリストが表示されている' do

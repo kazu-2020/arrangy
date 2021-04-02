@@ -35,7 +35,7 @@ RSpec.describe User, type: :model do
       expect(user).to be_invalid
     end
 
-    fit 'アドレスは大文字、小文字を区別しない' do
+    it 'アドレスは大文字、小文字を区別しない' do
       user.email = created_user.email.upcase
       expect(user).to be_invalid
     end

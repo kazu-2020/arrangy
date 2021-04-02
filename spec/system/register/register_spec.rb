@@ -25,7 +25,7 @@ RSpec.describe "ユーザー登録", type: :system, js: true do
           create(:user, nickname: 'mimata', email: 'mimata@mimata.com')
           within('#register-using-address') do
             fill_in('ニックネーム', with: 'mimata')
-            fill_in('メールアドレス', with: 'mimata@mimata.com')
+            fill_in('メールアドレス', with: 'MIMATA@mimata.com')
             click_on('メールアドレスで登録')
           end
         }
@@ -33,7 +33,7 @@ RSpec.describe "ユーザー登録", type: :system, js: true do
         it 'エラーメッセージ「<value>は既に使われています」が表示される' do
           within('#register-using-address') do
             expect(page).to have_content('mimataは既に使われています')
-            expect(page).to have_content('mimata@mimata.comは既に使われています')
+            expect(page).to have_content('MIMATA@mimata.comは既に使われています')
           end
         end
       end

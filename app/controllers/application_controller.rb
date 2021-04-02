@@ -1,9 +1,10 @@
 class ApplicationController < ActionController::Base
   before_action :require_login
 
-  include Pagy::Backend
+  include Api::Base64Converting
   include Api::CreateUploadedfile
   include Api::ExceptionHandring
+  include Pagy::Backend
 
   private
 

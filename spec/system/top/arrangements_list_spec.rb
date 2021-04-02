@@ -31,7 +31,7 @@ RSpec.describe "投稿一覧", type: :system, js: true do
     before { visit('/') }
 
     it '投稿情報が表示されている' do
-      within("#arrangement-#{arrangement.id}") do
+      within("#arrangement-#{encode_id(arrangement.id)}") do
         # 画像データのテストは除く
         expect(page).to have_content('testタイトル')
         expect(page).to have_content(arrangement.user.nickname)

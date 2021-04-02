@@ -4,7 +4,10 @@ module Api
     before_action :set_comment, only: %i[update destroy]
 
     def index
-      pagy, comments = pagy(Comment.for_arrangement(params[:arrangement_id]).sorted_by_new.preload(:user), items: 20)
+      pagy, comments = pagy(
+        Comment.for_arrangement(decode_id(params[:arrangement_id])).sorted_by_new.preload(:user),
+        items: 20
+      )
       options = {
         include: %i[user],
         fields: {
@@ -53,7 +56,7 @@ module Api
 
     def comment_params
       permited_params = params.require(:comment).permit(:body)
-      action_name == 'update' ? permited_params : permited_params.merge(arrangement_id: params[:arrangement_id])
+      action_name == 'update' ? permited_params : permited_params.merge(arrangement_id: decode_id(params[:arrangement_id]))
     end
 
     def set_comment

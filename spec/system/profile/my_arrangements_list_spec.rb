@@ -53,7 +53,7 @@ RSpec.describe "自身の投稿一覧", type: :system, js: true do
     }
 
     it '投稿詳細ページへ遷移する' do
-      expect(current_path).to eq("/arrangements/#{arrangement.id}")
+      expect(current_path).to eq("/arrangements/#{encode_id(arrangement.id)}")
     end
   end
 end

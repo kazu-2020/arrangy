@@ -15,7 +15,8 @@ RSpec.describe "投稿作成", type: :system, js: true do
   context 'ログインしている場合' do
     before {
       log_in_as(user)
-      within('#page-header') { click_on('新規投稿') }
+      within('#page-header') { find('#header-avatar').click }
+      within('#header-menu-list') { click_on('新規投稿') }
     }
 
     context '適当な値を入力した場合' do
@@ -29,21 +30,25 @@ RSpec.describe "投稿作成", type: :system, js: true do
 
       it '投稿詳細ページへ遷移し、「新しいアレンジ飯を投稿しました」と表示される。' do
         expect {
-          click_on('投稿する')
+          within('#arrangement-new-form') { click_on('アレンジ飯を投稿する') }
           find('#global-snackbar', text: '新しいアレンジ飯を投稿しました')
         }.to change { Arrangement.count }.by(1)
-        expect(current_path).to eq("/arrangements/#{Arrangement.last.id}")
+        expect(current_path).to eq("/arrangements/#{encode_id(Arrangement.last.id)}")
       end
     end
 
     describe 'フロント側のバリデーション機能' do
       describe '必須項目の検証' do
         context '必須欄が未入力の場合' do
-          before { within('#arrangement-new-form') { click_on('投稿する') } }
+          before {
+            within('#arrangement-new-form') do
+              fill_in('タイトル', with: ' ')
+              fill_in('投稿内容', with: ' ')
+            end
+          }
 
           it 'エラーメッセージ「<ラベル名>は必須項目です」が表示される' do
             within('#arrangement-new-form') do
-              expect(page).to have_content('投稿写真は必須項目です')
               expect(page).to have_content('タイトルは必須項目です')
               expect(page).to have_content('投稿内容は必須項目です')
             end
@@ -57,7 +62,6 @@ RSpec.describe "投稿作成", type: :system, js: true do
             within('#arrangement-new-form') do
               fill_in('タイトル', with: 'a' * 31)
               fill_in('投稿内容', with: 'a' * 1_001)
-              click_on('投稿する')
             end
           end
 
@@ -72,28 +76,24 @@ RSpec.describe "投稿作成", type: :system, js: true do
 
       describe '投稿画像の検証' do
         context '10MBよりも大きいサイズの画像を投稿した場合' do
-          before do
-            within('#arrangement-new-form') do
-              attach_file('投稿写真', "#{Rails.root}/spec/fixtures/images/15MB.jpg", visible: false)
-              click_on('投稿する')
-            end
-          end
+          before { within('#arrangement-new-form') { attach_file('投稿写真', "#{Rails.root}/spec/fixtures/images/15MB.jpg", visible: false) } }
 
-          it '「サイズは10MB以内でなければなりません」と表示される' do
-            within('#arrangement-new-form') { expect(page).to have_content('サイズは10MB以内でなければなりません') }
+          it '画像は投稿されない' do
+            within('#arrangement-new-form') do
+              expect(has_selector?('#preview-image')).to eq(false)
+              expect(has_button?('写真を選択')).to eq(true)
+            end
           end
         end
 
         context '.txtファイルを選択した場合' do
-          before do
-            within('#arrangement-new-form') do
-              attach_file('投稿写真', "#{Rails.root}/spec/fixtures/images/sample1.txt", visible: false)
-              click_on('投稿する')
-            end
-          end
+          before { within('#arrangement-new-form') { attach_file('投稿写真', "#{Rails.root}/spec/fixtures/images/sample1.txt", visible: false) } }
 
-          it '「有効なファイル形式はではありません」と表示される' do
-            within('#arrangement-new-form') { expect(page).to have_content('有効なファイル形式はではありません') }
+          it '画像は投稿されない' do
+            within('#arrangement-new-form') do
+              expect(has_selector?('#preview-image')).to eq(false)
+              expect(has_button?('写真を選択')).to eq(true)
+            end
           end
         end
       end
