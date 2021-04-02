@@ -20,6 +20,8 @@
 class User < ApplicationRecord
   has_many :arrangements, dependent: :destroy
   has_many :comments,     dependent: :destroy
+  has_many :likes, dependent: :destroy
+  has_many :liking_arrangements, through: :likes, source: :arrangement
 
   before_save :change_email_to_lowercase
 
@@ -38,6 +40,14 @@ class User < ApplicationRecord
   validates :nickname, presence: true, uniqueness: true, length: { maximum: 30 }
   validates :email, presence: true, uniqueness: { case_sensitive: false },
                     length: { maximum: 50 }, format: { with: VALID_EMAIL_FORMAT }
+
+  def like(arrangement)
+    liking_arrangements << arrangement
+  end
+
+  def unlike(arrangement)
+    liking_arrangements.delete(arrangement)
+  end
 
   private
 

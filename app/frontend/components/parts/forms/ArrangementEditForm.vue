@@ -4,7 +4,9 @@
       <div class="text-center mb-5">
         <v-img class="mx-auto mb-5" :src="images[0]" width="70%" style="border-radius: 15px" />
         <div>
-          <v-btn @click="actionInputFile">変更</v-btn>
+          <NormalButton @click="actionInputFile">
+            <template #text>投稿写真を変更</template>
+          </NormalButton>
         </div>
       </div>
       <ValidationProvider

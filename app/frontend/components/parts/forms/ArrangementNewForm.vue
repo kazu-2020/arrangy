@@ -23,7 +23,7 @@
           @submit="handleSubmit(handleCreateArrangement)"
         >
           <template #text>
-            <v-icon class="mr-1">mdi-send</v-icon>
+            <v-icon class="mr-1">mdi-send-outline</v-icon>
             投稿する
           </template>
         </SubmitButton>

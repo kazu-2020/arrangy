@@ -1,8 +1,8 @@
 <template>
   <v-btn
     class="font-weight-bold"
-    style="color: white"
     depressed
+    outlined
     :color="color"
     :xLarge="xLarge"
     :disabled="disabled"
@@ -20,7 +20,8 @@ export default {
     },
     color: {
       type: String,
-      required: true,
+      required: false,
+      default: null,
     },
     disabled: {
       type: Boolean,

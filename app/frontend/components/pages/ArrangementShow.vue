@@ -26,6 +26,16 @@
                   {{ arrangement.user.nickname }}
                 </h4>
                 <v-spacer />
+                <!-- いいねボタン -->
+                <SubmitButton
+                  :color="arrangement.liked_authuser ? '#ff5252' : null"
+                  @submit="handleLikedArrangement"
+                >
+                  <template #text>
+                    <v-icon class="mr-1"> mdi-thumb-up-outline </v-icon>
+                    {{ arrangement.likes_count }}
+                  </template>
+                </SubmitButton>
                 <template v-if="authUser && authUser.id === arrangement.user.id">
                   <!-- メニューリスト -->
                   <InitializedMenu :left="true">
@@ -171,6 +181,7 @@ import DeleteConfirmationDialog from '../parts/dialogs/DeleteConfirmationDialog'
 import CommentCreateForm from '../parts/forms/CommentCreateForm';
 import CommentEditForm from '../parts/forms/CommentEditForm';
 import InitializedMenu from '../parts/menus/InitializedMenu';
+import SubmitButton from '../parts/buttons/SubmitButton';
 
 export default {
   components: {
@@ -179,6 +190,7 @@ export default {
     CommentCreateForm,
     CommentEditForm,
     InitializedMenu,
+    SubmitButton,
   },
   data() {
     return {
@@ -187,6 +199,8 @@ export default {
         title: '',
         context: '',
         images: [],
+        liked_authuser: '',
+        likes_count: '',
         user: {
           nickname: '',
           avatar: '',
@@ -347,6 +361,28 @@ export default {
           isShow: true,
         });
       });
+    },
+
+    handleLikedArrangement() {
+      if (this.arrangement.liked_authuser) {
+        this.$devour
+          .one('arrangement', this.arrangement.id)
+          .all('like')
+          .destroy()
+          .then(() => {
+            this.arrangement.liked_authuser = false;
+            this.arrangement.likes_count -= 1;
+          });
+      } else {
+        this.$devour
+          .one('arrangement', this.arrangement.id)
+          .all('like')
+          .post({})
+          .then(() => {
+            this.arrangement.liked_authuser = true;
+            this.arrangement.likes_count += 1;
+          });
+      }
     },
 
     infiniteHandler($state) {

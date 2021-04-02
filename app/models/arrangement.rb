@@ -15,10 +15,16 @@
 class Arrangement < ApplicationRecord
   belongs_to :user
   has_many :comments, dependent: :destroy
+  has_many :likes, dependent: :destroy
+  has_many :liked_by_users, through: :likes, source: :user
 
   mount_uploaders :images, ImageUploader
 
   validates :title, presence: true, length: { maximum: 30 }
   validates :context, presence: true, length: { maximum: 1000 }
   validates :images, presence: true
+
+  def liked_by?(user)
+    likes.pluck(:user_id).include?(user.id)
+  end
 end
