@@ -29,12 +29,15 @@ class User < ApplicationRecord
   VALID_EMAIL_FORMAT = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i.freeze
   VALID_PASSWORD_FORMAT = /\A\w+\z/i.freeze
 
-  validates :password, length: { minimum: 6 }, format: { with: VALID_PASSWORD_FORMAT }, if: :change_or_create_password
-  validates :password, confirmation: true, if: :change_or_create_password
-  validates :password_confirmation, presence: true, if: :change_or_create_password
+  with_options if: :change_or_create_password do
+    validates :password, length: { minimum: 6 }, format: { with: VALID_PASSWORD_FORMAT }
+    validates :password, confirmation: true
+    validates :password_confirmation, presence: true
+  end
 
   validates :nickname, presence: true, uniqueness: true, length: { maximum: 30 }
-  validates :email, presence: true, uniqueness: true, length: { maximum: 50 }, format: { with: VALID_EMAIL_FORMAT }
+  validates :email, presence: true, uniqueness: { case_sensitive: false },
+                    length: { maximum: 50 }, format: { with: VALID_EMAIL_FORMAT }
 
   private
 
