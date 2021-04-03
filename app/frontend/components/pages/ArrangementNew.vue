@@ -9,7 +9,6 @@
       <v-col cols="12" class="pt-16 mx-auto">
         <ArrangementNewForm
           v-bind.sync="arrangement"
-          :isLoadng="isLoading"
           @createArrangement="createArrangement"
           @uploadFile="uploadFile"
         />
@@ -33,13 +32,11 @@ export default {
         context: '',
         images: [],
       },
-      isLoading: false,
     };
   },
   methods: {
     ...mapActions('snackbars', ['fetchSnackbarData']),
     createArrangement() {
-      this.isLoading = true;
       this.$devour
         .create('arrangement', this.arrangement)
         .then((res) => {
@@ -51,7 +48,6 @@ export default {
           });
         })
         .catch((error) => {
-          this.isLoading = false;
           this.fetchSnackbarData({
             msg: '投稿に失敗しました',
             color: 'error',

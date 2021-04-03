@@ -5,18 +5,18 @@
         <v-row class="d-flex justify-center">
           <v-col cols="12" sm="8" class="pt-16">
             <v-sheet id="myprofile" class="py-6 px-10 text-center" elevation="1">
-              <h3 class="text-h6 font-weight-black mb-8">プロフィール</h3>
-              <v-avatar class="mb-5" size="60%" minHeight="200px" minWidth="200px">
+              <h6 class="text-h6 font-weight-bold mb-8">プロフィール</h6>
+              <v-avatar class="mb-5" size="60%" minHeight="200" minWidth="200">
                 <v-img :src="authUser.avatar" />
               </v-avatar>
               <div class="text-left mb-6">
                 <div>
-                  <h3 class="text-subtitle-1 font-weight-black">ニックネーム</h3>
+                  <h6 class="text-subtitle-1 font-weight-black">ニックネーム</h6>
                   <div>{{ authUser.nickname }}</div>
                 </div>
                 <v-divider class="mb-6" />
                 <div>
-                  <h3 class="text-subtitle-1 font-weight-black">メールアドレス</h3>
+                  <h6 class="text-subtitle-1 font-weight-black">メールアドレス</h6>
                   <div>{{ authUser.email }}</div>
                 </div>
                 <v-divider class="mb-6" />
@@ -57,7 +57,7 @@
       <!-- 投稿一覧 -->
       <v-col cols="12" sm="6" class="pt-16">
         <v-row>
-          <h3 class="text-h6 font-weight-black mb-8 mx-auto">投稿一覧</h3>
+          <h6 class="text-h6 font-weight-black mb-8 mx-auto">投稿一覧</h6>
         </v-row>
         <v-row>
           <template v-if="arrangements.length">
@@ -170,21 +170,6 @@ export default {
     handleShowEditProfile() {
       this.editProfileDialogDisplayed = !this.editProfileDialogDisplayed;
     },
-    infiniteHandler($state) {
-      this.$devour
-        .request(`${this.$devour.apiUrl}/arrangements/mine`, 'GET', { page: this.pagy.currentPage })
-        .then((res) => {
-          if (this.pagy.currentPage < res.meta.pagy.pages) {
-            this.pagy.currentPage += 1;
-            this.arrangements.push(...res.data);
-            $state.loaded();
-          } else {
-            this.arrangements.push(...res.data);
-            $state.complete();
-          }
-        })
-        .catch((err) => console.log(err));
-    },
     updateProfile() {
       this.updateAuthUser(this.authUserEdit).then((user) => {
         if (user) {
@@ -236,6 +221,21 @@ export default {
           this.authUserEdit.avatar = src;
         });
       });
+    },
+    infiniteHandler($state) {
+      this.$devour
+        .request(`${this.$devour.apiUrl}/arrangements/mine`, 'GET', { page: this.pagy.currentPage })
+        .then((res) => {
+          if (this.pagy.currentPage < res.meta.pagy.pages) {
+            this.pagy.currentPage += 1;
+            this.arrangements.push(...res.data);
+            $state.loaded();
+          } else {
+            this.arrangements.push(...res.data);
+            $state.complete();
+          }
+        })
+        .catch((err) => console.log(err));
     },
   },
 };

@@ -8,7 +8,6 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <template v-if="authUser">
-        <v-btn plain text xLarge :to="{ name: 'ArrangementNew' }">新規投稿</v-btn>
         <InitializedMenu :bottom="true" :offsetY="true">
           <template #btn-text>
             <v-avatar>
@@ -17,9 +16,10 @@
           </template>
           <template #list>
             <v-list id="header-menu-list" dense flat>
-              <v-list-item text plain :to="{ name: 'UserProfile' }">マイページ</v-list-item>
-              <v-list-item text>お気に入り一覧</v-list-item>
-              <v-list-item text tag="button" @click="logoutFunction"> ログアウト </v-list-item>
+              <v-list-item plain :to="{ name: 'ArrangementNew' }">新規投稿</v-list-item>
+              <v-list-item plain :to="{ name: 'UserProfile' }">マイページ</v-list-item>
+              <v-list-item plain>お気に入り一覧</v-list-item>
+              <v-list-item plain tag="button" @click="logoutFunction"> ログアウト </v-list-item>
             </v-list>
           </template>
         </InitializedMenu>
