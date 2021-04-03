@@ -1,5 +1,5 @@
 <template>
-  <ValidationProvider v-slot="{ errors }" :rules="rules" name="タイトル">
+  <ValidationProvider v-slot="{ errors }" name="タイトル" :rules="rules">
     <v-text-field
       id="arrangement-title"
       class="mb-6"
