@@ -20,7 +20,7 @@ ja:
   time:
     formats:
       defaults: '%Y年%m月%d日(%a) %H時%M分%S秒 %z'
-      short: '%m月%d日(%a) %H時%M分'
+      short: '%Y/%m/%d %H:%M'
     datetime:
     distance_in_words:
       about_x_hours:

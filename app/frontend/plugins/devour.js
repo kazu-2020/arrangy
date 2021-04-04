@@ -30,6 +30,7 @@ jsonApi.define('arrangement', {
   title: '',
   context: '',
   images: '',
+  created_at: '',
   liked_authuser: '',
   likes_count: '',
   user: {

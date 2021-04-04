@@ -17,6 +17,9 @@ class ArrangementSerializer
   attribute :likes_count do |record|
     record.likes.size
   end
+  attribute :created_at do |record|
+    I18n.l(record.created_at, format: :short)
+  end
 
   belongs_to :user
   has_many :comments

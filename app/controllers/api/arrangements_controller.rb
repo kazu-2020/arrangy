@@ -34,7 +34,7 @@ module Api
       options = {
         include: %i[user],
         fields: {
-          arrangement: %i[title context images likes_count liked_authuser user],
+          arrangement: %i[title context images likes_count liked_authuser created_at user],
           user: %i[nickname avatar]
         },
         params: { current_user: current_user }

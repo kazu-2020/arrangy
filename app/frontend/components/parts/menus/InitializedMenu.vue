@@ -1,7 +1,7 @@
 <template>
   <v-menu rounded :left="left" :bottom="bottom" :offsetY="offsetY">
     <template #activator="{ on, attrs }">
-      <v-btn icon v-bind="attrs" v-on="on">
+      <v-btn icon :outlined="outlined" v-bind="attrs" v-on="on">
         <slot name="btn-text" />
       </v-btn>
     </template>
@@ -19,6 +19,9 @@ export default {
       type: Boolean,
     },
     offsetY: {
+      type: Boolean,
+    },
+    outlined: {
       type: Boolean,
     },
   },

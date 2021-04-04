@@ -1,120 +1,130 @@
 <template>
-  <v-container fluid>
+  <v-container>
     <v-row>
-      <v-col cols="12" sm="6" class="pt-16 px-sm-16">
-        <v-row justify="center" noGutters>
-          <v-col cols="12" sm="10">
-            <v-card
-              :id="`arrangement-${arrangement.id}`"
-              class="mx-auto"
-              color="#eeeeee"
-              elevation="1"
+      <v-col class="pt-10 d-flex" cols="12">
+        <h4 class="text-h4 mb-4 font-weight-black">
+          {{ arrangement.title }}
+        </h4>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col :id="`arrangement-${arrangement.id}`" cols="12" sm="6">
+        <v-img v-for="(image, $imageIndex) in arrangement.images" :key="$imageIndex" :src="image">
+          <div v-if="authUser && authUser.id === arrangement.user.id" class="text-end">
+            <InitializedMenu :outlined="true" :left="true">
+              <template #btn-text>
+                <v-icon id="arrangement-menu-icon">mdi-dots-vertical</v-icon>
+              </template>
+              <template #list>
+                <v-list id="arrangement-menu-list" dense>
+                  <v-list-item tag="button" @click.stop="displayArrangementEditDialog">
+                    編集する
+                  </v-list-item>
+                  <v-list-item tag="button" @click.stop="displayDeleteArrangementDialog">
+                    削除する
+                  </v-list-item>
+                </v-list>
+              </template>
+            </InitializedMenu>
+          </div>
+        </v-img>
+        <v-row>
+          <v-col cols="auto">
+            {{ arrangement.created_at }}
+          </v-col>
+          <v-col> </v-col>
+        </v-row>
+      </v-col>
+      <v-col cols="12" sm="6">
+        <v-row class="mb-3">
+          <v-col cols="auto">
+            <v-avatar>
+              <v-img :src="arrangement.user.avatar" />
+            </v-avatar>
+          </v-col>
+          <v-col cols="auto">
+            <h6 class="text-subtitle-1 font-weight-black">
+              {{ arrangement.user.nickname }}
+            </h6>
+          </v-col>
+          <v-col class="text-end">
+            <!-- いいねボタン -->
+            <SubmitButton
+              :color="arrangement.liked_authuser ? '#ff5252' : null"
+              @submit="handleLikedArrangement"
             >
-              <v-img
-                v-for="(image, $imageIndex) in arrangement.images"
-                :key="$imageIndex"
-                :src="image"
-              />
-              <v-card-title class="mb-4">
-                <h4 class="text-subtitle-1 font-weight-bold">{{ arrangement.title }}</h4>
-              </v-card-title>
-              <v-card-subtitle class="d-flex">
-                <v-avatar size="25" class="mr-4">
-                  <img :src="arrangement.user.avatar" />
-                </v-avatar>
-                <h4 class="text-subtitle-1">
-                  {{ arrangement.user.nickname }}
-                </h4>
-                <v-spacer />
-                <!-- いいねボタン -->
-                <SubmitButton
-                  :color="arrangement.liked_authuser ? '#ff5252' : null"
-                  @submit="handleLikedArrangement"
-                >
-                  <template #text>
-                    <v-icon class="mr-1"> mdi-thumb-up-outline </v-icon>
-                    {{ arrangement.likes_count }}
-                  </template>
-                </SubmitButton>
-                <template v-if="authUser && authUser.id === arrangement.user.id">
-                  <!-- メニューリスト -->
-                  <InitializedMenu :left="true">
-                    <template #btn-text>
-                      <v-icon id="arrangement-menu-icon">mdi-dots-vertical</v-icon>
-                    </template>
-                    <template #list>
-                      <v-list id="arrangement-menu-list" dense>
-                        <v-list-item tag="button" @click.stop="displayArrangementEditDialog">
-                          編集する
-                        </v-list-item>
-                        <v-list-item tag="button" @click.stop="displayDeleteArrangementDialog">
-                          削除する
-                        </v-list-item>
-                      </v-list>
-                    </template>
-                  </InitializedMenu>
-                </template>
-              </v-card-subtitle>
-              <v-card-text>
-                <v-sheet class="pa-5" :rounded="true" outlined color="#FAFAFA">
-                  <pre class="text-body-1">{{ arrangement.context }}</pre>
-                </v-sheet>
-              </v-card-text>
-            </v-card>
+              <template #text>
+                <v-icon class="mr-1"> mdi-thumb-up-outline </v-icon>
+                うまいいね
+                {{ arrangement.likes_count }}
+              </template>
+            </SubmitButton>
           </v-col>
         </v-row>
-        <!-- 投稿編集用ダイアログ -->
-        <ArrangementEditForm
-          v-if="editArrangementActed"
-          :isShow="editArrangementDialogDisplayed"
-          v-bind.sync="arrangementEdit"
-          @uploadFile="uploadFile"
-          @updateArrangement="updateArrangement"
-          @closeDialog="closeEditArrangement"
-        />
-        <!-- 投稿削除用ダイアログ -->
-        <DeleteConfirmationDialog
-          :isShow="deleteArrangementDialogDisplayed"
-          @deleteData="deleteArrangement"
-          @closeDialog="closeDeleteArrangementDialog"
-        >
-          <template #title>投稿を削除する</template>
-          <template #text>
-            この投稿を本当に削除しますか？削除後は元に戻すことはできません。
-          </template>
-        </DeleteConfirmationDialog>
+        <v-sheet class="pa-5" :rounded="true" outlined color="#F5F5F5">
+          <pre class="text-body-1">{{ arrangement.context }}</pre>
+        </v-sheet>
       </v-col>
+      <!-- 投稿編集用ダイアログ -->
+      <ArrangementEditForm
+        v-if="editArrangementActed"
+        :isShow="editArrangementDialogDisplayed"
+        v-bind.sync="arrangementEdit"
+        @uploadFile="uploadFile"
+        @updateArrangement="updateArrangement"
+        @closeDialog="closeEditArrangement"
+      />
+      <!-- 投稿削除用ダイアログ -->
+      <DeleteConfirmationDialog
+        :isShow="deleteArrangementDialogDisplayed"
+        @deleteData="deleteArrangement"
+        @closeDialog="closeDeleteArrangementDialog"
+      >
+        <template #title>投稿を削除する</template>
+        <template #text>
+          この投稿を本当に削除しますか？削除後は元に戻すことはできません。
+        </template>
+      </DeleteConfirmationDialog>
+    </v-row>
 
-      <v-col cols="12" sm="6" class="pt-16 px-sm-16">
-        <!-- コメント作成フォーム -->
+    <v-row>
+      <v-col cols="12" sm="8" class="mx-auto">
+        <!-- コメント入力フォーム -->
         <template v-if="authUser">
           <CommentCreateForm v-bind.sync="commentCreate" @createComment="createComment" />
         </template>
-        <!-- コメント一覧 -->
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12" sm="8" class="mx-auto">
         <template v-if="comments.length">
-          <v-sheet>
+          <v-row class="d-flex flex-column">
             <v-col
               v-for="(comment, $index) in comments"
               :id="`comment-${comment.id}`"
               :key="$index"
               cols="12"
+              class="mb-3"
             >
-              <div class="pa-3">
-                <v-row>
-                  <v-avatar size="25" class="mr-3">
+              <v-row>
+                <v-col cols="auto">
+                  <v-avatar>
                     <v-img :src="comment.user.avatar" />
                   </v-avatar>
-                  <div class="d-flex">
-                    <p class="text-subtitle-1 font-weight-bold mr-3">
-                      {{ comment.user.nickname }}
-                    </p>
-                    <p class="text-caption font-weight-light mr-1">
-                      {{ comment.created_at }}
-                    </p>
-                  </div>
-                  <v-spacer />
+                </v-col>
+                <v-col cols="auto">
+                  <h6 class="text-subtitle-1 font-weight-black">
+                    {{ comment.user.nickname }}
+                  </h6>
+                </v-col>
+                <v-col>
+                  <p class="text-caption font-weight-light pt-1">
+                    {{ comment.created_at }}
+                  </p>
+                </v-col>
+                <v-col class="text-end">
                   <!-- メニューリスト -->
-                  <template v-if="authUser && authUser.id === comment.user.id">
+                  <div v-if="authUser && authUser.id === comment.user.id">
                     <InitializedMenu :left="true">
                       <template #btn-text>
                         <v-icon class="comment-menu-icon">mdi-dots-vertical</v-icon>
@@ -133,13 +143,19 @@
                         </v-list>
                       </template>
                     </InitializedMenu>
-                  </template>
-                </v-row>
-                <pre
-                  class="text-body-1">{{ comment.body }}<span v-if="comment.edited" class="text-caption font-weight-light">(編集済み)</span></pre>
-              </div>
-              <v-divider />
+                  </div>
+                </v-col>
+              </v-row>
+              <v-row class="d-flex justify-end">
+                <v-col cols="11" class="py-0">
+                  <v-sheet class="pa-5" :rounded="true" outlined color="#F5F5F5">
+                    <pre
+                      class="text-body-1">{{ comment.body }}<span v-if="comment.edited" class="text-caption font-weight-light">(編集済み)</span></pre>
+                  </v-sheet>
+                </v-col>
+              </v-row>
             </v-col>
+
             <infinite-loading
               v-if="pagy.isActioned"
               direction="bottom"
@@ -148,7 +164,8 @@
             >
               <div slot="no-more" />
             </infinite-loading>
-            <!-- コメント編集用ダイアログ -->
+
+            <!-- コメント編集用フォーム -->
             <CommentEditForm
               v-if="editCommentActed"
               :isShow="editCommentDialogDisplayed"
@@ -156,6 +173,7 @@
               @updateComment="updateComment"
               @closeDialog="closeEditComment"
             />
+            <!-- コメント削除用ダイアログ -->
             <DeleteConfirmationDialog
               :isShow="deleteCommentDialogDisplayed"
               @closeDialog="closeDeleteComment"
@@ -166,7 +184,7 @@
                 このコメントを本当に削除しますか？削除後は元に戻すことはできません。
               </template>
             </DeleteConfirmationDialog>
-          </v-sheet>
+          </v-row>
         </template>
       </v-col>
     </v-row>
@@ -199,6 +217,7 @@ export default {
         title: '',
         context: '',
         images: [],
+        created_at: '',
         liked_authuser: '',
         likes_count: '',
         user: {
