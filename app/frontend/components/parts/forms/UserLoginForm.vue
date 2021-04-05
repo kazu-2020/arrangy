@@ -40,13 +40,13 @@ export default {
       required: true,
     },
   },
-  data() {
-    return {
-      rules: {
+  computed: {
+    rules() {
+      return {
         email: { required: true, email: true, max: 50 },
         password: { required: true, min: 6, regex: /^[0-9a-zA-Z]+$/i },
-      },
-    };
+      };
+    },
   },
   methods: {
     handleLoginUser() {

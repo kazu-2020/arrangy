@@ -7,15 +7,12 @@ class ArrangementSerializer
     encode_id(record.id)
   end
 
-  attributes :title, :context
+  attributes :title, :context, :likes_count, :comments_count
   attribute :images do |record|
     record.images.map(&:url)
   end
   attribute :liked_authuser do |record, params|
     record.liked_by?(params[:current_user]) if params[:current_user]
-  end
-  attribute :likes_count do |record|
-    record.likes.size
   end
   attribute :created_at do |record|
     I18n.l(record.created_at, format: :short)

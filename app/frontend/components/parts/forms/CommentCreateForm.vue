@@ -40,15 +40,18 @@ export default {
   props: {
     body: {
       type: String,
-      required: false,
-      default: '',
+      required: true,
     },
   },
   data() {
     return {
-      rules: { required: true, max: 1000 },
       displayedButton: false,
     };
+  },
+  computed: {
+    rules() {
+      return { required: true, max: 1000 };
+    },
   },
   methods: {
     handleCancel() {

@@ -5,7 +5,6 @@
       class="mb-6"
       type="text"
       label="タイトル"
-      clearable
       color="black"
       counter="30"
       :errorMessages="errors"
@@ -20,8 +19,7 @@ export default {
   props: {
     title: {
       type: String,
-      requird: false,
-      default: null,
+      required: true,
     },
     rules: {
       type: Object,

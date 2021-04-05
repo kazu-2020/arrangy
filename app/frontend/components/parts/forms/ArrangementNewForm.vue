@@ -8,12 +8,7 @@
           <span class="text-caption light-weight-text">画像形式: JPEG/PNG</span>
           <span class="text-caption light-weight-text">容量: 10MB以内</span>
         </div>
-        <ValidationProvider
-          ref="fileForm"
-          name="投稿写真"
-          mode="change"
-          :rules="{ required: true, ext: ['jpeg', 'jpg', 'png'], size: 10240 }"
-        >
+        <ValidationProvider ref="fileForm" name="投稿写真" mode="change" :rules="rules.images">
           <v-file-input
             id="arrangement-images"
             label="投稿写真"
@@ -117,30 +112,31 @@ export default {
   props: {
     title: {
       type: String,
-      required: false,
-      default: null,
+      required: true,
     },
     context: {
       type: String,
-      required: false,
-      default: null,
+      required: true,
     },
     images: {
       type: Array,
-      required: false,
-      default: null,
+      required: true,
     },
   },
   data() {
     return {
-      rules: {
-        images: { required: true, ext: ['jpg', 'jpeg', 'png', 'gif'], size: 10240 },
-        title: { required: true, max: 30 },
-        context: { required: true, max: 1000 },
-      },
       previewImage: '',
       isPreview: false,
     };
+  },
+  computed: {
+    rules() {
+      return {
+        images: { required: true, ext: ['jpeg', 'jpg', 'png'], size: 10240 },
+        title: { required: true, max: 30 },
+        context: { required: true, max: 1000 },
+      };
+    },
   },
   methods: {
     handleCreateArrangement() {

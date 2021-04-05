@@ -47,35 +47,31 @@ export default {
   props: {
     nickname: {
       type: String,
-      requred: true,
-      default: '',
+      required: true,
     },
     email: {
       type: String,
-      requred: true,
-      default: '',
+      required: true,
     },
     password: {
       type: String,
-      requred: true,
-      default: '',
+      required: true,
     },
     // eslint-disable-next-line vue/prop-name-casing
     password_confirmation: {
       type: String,
-      requred: true,
-      default: '',
+      required: true,
     },
   },
-  data() {
-    return {
-      rules: {
+  computed: {
+    rules() {
+      return {
         nickname: { required: true, isUnique: 'nickname', max: 30 },
         email: { required: true, email: true, isUnique: 'email', max: 50 },
         password: { required: true, min: 6, regex: /^[0-9a-zA-Z]+$/i },
         password_confirmation: { required: true, confirmed: 'password' },
-      },
-    };
+      };
+    },
   },
   methods: {
     handleRegisterUser() {

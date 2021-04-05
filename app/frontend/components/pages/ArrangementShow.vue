@@ -67,7 +67,6 @@
       </v-col>
       <!-- 投稿編集用ダイアログ -->
       <ArrangementEditForm
-        v-if="editArrangementActed"
         :isShow="editArrangementDialogDisplayed"
         v-bind.sync="arrangementEdit"
         @uploadFile="uploadFile"
@@ -167,7 +166,6 @@
 
             <!-- コメント編集用フォーム -->
             <CommentEditForm
-              v-if="editCommentActed"
               :isShow="editCommentDialogDisplayed"
               v-bind.sync="commentEdit"
               @updateComment="updateComment"
@@ -225,12 +223,20 @@ export default {
           avatar: '',
         },
       },
+      arrangementEdit: {
+        id: '',
+        title: '',
+        context: '',
+        images: [],
+      },
       comments: [],
-      arrangementEdit: {},
       commentCreate: {
         body: '',
       },
-      commentEdit: {},
+      commentEdit: {
+        id: '',
+        body: '',
+      },
       deletedComment: {},
       pagy: {
         currentPage: 1,
@@ -238,8 +244,6 @@ export default {
       },
       editArrangementDialogDisplayed: false,
       editCommentDialogDisplayed: false,
-      editArrangementActed: false,
-      editCommentActed: false,
       deleteCommentDialogDisplayed: false,
       deleteArrangementDialogDisplayed: false,
     };
@@ -275,12 +279,10 @@ export default {
     displayArrangementEditDialog() {
       this.initArrangement();
       this.handleShowEditArrangement();
-      this.editArrangementActed = true;
     },
     displayCommentEditDialog(comment) {
       this.commentEdit = { ...comment };
       this.handleShowEditComment();
-      this.editCommentActed = true;
     },
     displayDeleteArrangementDialog() {
       this.deleteArrangementDialogDisplayed = true;

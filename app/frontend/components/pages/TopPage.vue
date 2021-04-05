@@ -3,9 +3,24 @@
     <WelcomeDialog :dialog="welcomeDialogDisplayed" @close-dialog="closeWelcomeDialog" />
     <v-row>
       <v-col v-for="(arrangement, $index) in arrangements" :key="$index" cols="12" sm="4" md="4">
-        <router-link :to="{ name: 'ArrangementShow', params: { id: arrangement.id } }">
-          <ArrangementSummary :arrangement="arrangement" :user="arrangement.user" />
-        </router-link>
+        <ArrangementSummary :arrangement="arrangement">
+          <template slot="user-information">
+            <v-card-text>
+              <v-row>
+                <v-col cols="auto">
+                  <v-avatar size="25">
+                    <v-img :src="arrangement.user.avatar" />
+                  </v-avatar>
+                </v-col>
+                <v-col cols="auto">
+                  <div class="text-subtitle-1 font-weight-black">
+                    {{ arrangement.user.nickname }}
+                  </div>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </template>
+        </ArrangementSummary>
       </v-col>
       <infinite-loading
         v-if="pagy.isActioned"

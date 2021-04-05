@@ -33,6 +33,7 @@ jsonApi.define('arrangement', {
   created_at: '',
   liked_authuser: '',
   likes_count: '',
+  comments_count: '',
   user: {
     jsonApi: 'hasOne',
     type: 'user',

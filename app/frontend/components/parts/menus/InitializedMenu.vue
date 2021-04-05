@@ -1,7 +1,7 @@
 <template>
-  <v-menu rounded :left="left" :bottom="bottom" :offsetY="offsetY">
+  <v-menu rounded :bottom="bottom" :offsetY="offsetY">
     <template #activator="{ on, attrs }">
-      <v-btn icon :outlined="outlined" v-bind="attrs" v-on="on">
+      <v-btn class="bg-white" :absolute="absolute" top right icon outlined v-bind="attrs" v-on="on">
         <slot name="btn-text" />
       </v-btn>
     </template>
@@ -12,7 +12,7 @@
 <script>
 export default {
   props: {
-    left: {
+    absolute: {
       type: Boolean,
     },
     bottom: {
@@ -27,3 +27,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.bg-white {
+  background-color: #eeeeee;
+}
+</style>

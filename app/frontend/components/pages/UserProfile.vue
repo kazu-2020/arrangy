@@ -1,22 +1,22 @@
 <template>
   <v-container fluid>
-    <v-row>
-      <v-col cols="12" sm="6">
+    <v-row class="pt-16">
+      <v-col cols="12" sm="5">
         <v-row class="d-flex justify-center">
-          <v-col cols="12" sm="8" class="pt-16">
+          <v-col cols="12" sm="8">
             <v-sheet id="myprofile" class="py-6 px-10 text-center" elevation="1">
-              <h6 class="text-h6 font-weight-bold mb-8">プロフィール</h6>
+              <div class="text-h6 font-weight-bold mb-8">プロフィール</div>
               <v-avatar class="mb-5" size="60%" minHeight="200" minWidth="200">
                 <v-img :src="authUser.avatar" />
               </v-avatar>
               <div class="text-left mb-6">
                 <div>
-                  <h6 class="text-subtitle-1 font-weight-black">ニックネーム</h6>
+                  <div class="text-subtitle-1 font-weight-black">ニックネーム</div>
                   <div>{{ authUser.nickname }}</div>
                 </div>
                 <v-divider class="mb-6" />
                 <div>
-                  <h6 class="text-subtitle-1 font-weight-black">メールアドレス</h6>
+                  <div class="text-subtitle-1 font-weight-black">メールアドレス</div>
                   <div>{{ authUser.email }}</div>
                 </div>
                 <v-divider class="mb-6" />
@@ -34,19 +34,16 @@
             </v-sheet>
             <!-- プロフィール編集フォーム -->
             <ProfileEditForm
-              v-if="editProfileActed"
               v-bind.sync="authUserEdit"
-              :isShow.sync="editProfileDialogDisplayed"
+              :isShow="editProfileDialogDisplayed"
               @updateProfile="updateProfile"
               @changeDialog="changeProfileToPassword"
               @closeDialog="closeEditProfileDialog"
             />
             <!-- パスワード編集フォーム -->
             <PasswordEditForm
-              v-if="editPasswordActed"
-              :password.sync="password"
-              :passwordConfirmation.sync="password_confirmation"
-              :isShow.sync="editPasswordDialogDisplayed"
+              v-bind.sync="passwordEdit"
+              :isShow="editPasswordDialogDisplayed"
               @updatePassword="updatePassword"
               @changeDialog="changePasswordToProfile"
               @closeDialog="closeEditPasswordDialog"
@@ -55,9 +52,9 @@
         </v-row>
       </v-col>
       <!-- 投稿一覧 -->
-      <v-col cols="12" sm="6" class="pt-16">
+      <v-col cols="12" sm="6">
         <v-row>
-          <h6 class="text-h6 font-weight-black mb-8 mx-auto">投稿一覧</h6>
+          <div class="text-h6 font-weight-black mb-8 mx-auto">投稿一覧</div>
         </v-row>
         <v-row>
           <template v-if="arrangements.length">
@@ -67,11 +64,48 @@
               cols="12"
               sm="4"
               md="4"
+              style="position: relative"
             >
-              <router-link :to="{ name: 'ArrangementShow', params: { id: arrangement.id } }">
-                <ArrangementSummary :arrangement="arrangement" :user="authUser" />
-              </router-link>
+              <ArrangementSummary :arrangement="arrangement" />
+              <InitializedMenu :outlined="true" :absolute="true" class="initialized-menu">
+                <template #btn-text>
+                  <v-icon id="arrangement-menu-icon">mdi-dots-vertical</v-icon>
+                </template>
+                <template #list>
+                  <v-list id="arrangement-menu-list" dense>
+                    <v-list-item tag="button" @click="displayArrangementEditDialog(arrangement)">
+                      編集する
+                    </v-list-item>
+                    <v-list-item
+                      tag="button"
+                      @click.stop="displayDeleteArrangementDialog(arrangement)"
+                    >
+                      削除する
+                    </v-list-item>
+                  </v-list>
+                </template>
+              </InitializedMenu>
             </v-col>
+
+            <ArrangementEditForm
+              :isShow="editArrangementDialogDisplayed"
+              v-bind.sync="arrangementEdit"
+              @uploadFile="uploadFile"
+              @updateArrangement="updateArrangement"
+              @closeDialog="closeEditArrangement"
+            />
+
+            <DeleteConfirmationDialog
+              :isShow="deleteArrangementDialogDisplayed"
+              @deleteData="deleteArrangement"
+              @closeDialog="closeDeleteArrangementDialog"
+            >
+              <template #title>投稿を削除する</template>
+              <template #text>
+                この投稿を本当に削除しますか？削除後は元に戻すことはできません。
+              </template>
+            </DeleteConfirmationDialog>
+
             <infinite-loading
               v-if="pagy.isActioned"
               direction="bottom"
@@ -81,6 +115,7 @@
               <div slot="no-more" />
             </infinite-loading>
           </template>
+
           <v-col v-else cols="12" class="text-center">
             <p>現在、投稿はありません</p>
           </v-col>
@@ -93,33 +128,53 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import Jimp from 'jimp/es';
+
+import ArrangementSummary from '../parts/cards/ArrangementSummary';
+import ArrangementEditForm from '../parts/forms/ArrangementEditForm';
+import DeleteConfirmationDialog from '../parts/dialogs/DeleteConfirmationDialog';
 import ProfileEditForm from '../parts/forms/ProfileEditForm';
 import PasswordEditForm from '../parts/forms/PasswordEditForm';
-import ArrangementSummary from '../parts/cards/ArrangementSummary';
+import InitializedMenu from '../parts/menus/InitializedMenu';
 import NormalButton from '../parts/buttons/NormalButton';
 
 export default {
   components: {
+    ArrangementEditForm,
+    ArrangementSummary,
+    DeleteConfirmationDialog,
     ProfileEditForm,
     PasswordEditForm,
-    ArrangementSummary,
     NormalButton,
+    InitializedMenu,
   },
   data() {
     return {
-      authUserProfile: {},
-      authUserEdit: {},
+      authUserEdit: {
+        id: '',
+        nickname: '',
+        email: '',
+        avatar: '',
+      },
       arrangements: [],
-      password: '',
-      password_confirmation: '',
-      editProfileActed: false,
-      editPasswordActed: false,
-      editProfileDialogDisplayed: false,
-      editPasswordDialogDisplayed: false,
+      arrangementEdit: {
+        id: '',
+        title: '',
+        context: '',
+        images: [],
+      },
+      passwordEdit: {
+        password: '',
+        password_confirmation: '',
+      },
       pagy: {
         currentPage: 1,
         isActioned: false,
       },
+      deletedArrangement: {},
+      editArrangementDialogDisplayed: false,
+      editProfileDialogDisplayed: false,
+      editPasswordDialogDisplayed: false,
+      deleteArrangementDialogDisplayed: false,
     };
   },
   computed: {
@@ -142,16 +197,14 @@ export default {
     displayProfileEditDialog() {
       this.initAuthUserEdit();
       this.handleShowEditProfile();
-      this.editProfileActed = true;
     },
     displayPasswordEditDialog() {
       this.handleShowEditPassword();
-      this.editPasswordActed = true;
     },
     closeEditPasswordDialog() {
       this.handleShowEditPassword();
-      this.password = '';
-      this.password_confirmation = '';
+      this.passwordEdit.password_confirmation = '';
+      this.passwordEdit.password = '';
     },
     closeEditProfileDialog() {
       this.handleShowEditProfile();
@@ -222,6 +275,76 @@ export default {
         });
       });
     },
+
+    displayArrangementEditDialog(arrangement) {
+      this.initArrangement(arrangement);
+      this.handleShowEditArrangement();
+    },
+    handleShowEditArrangement() {
+      this.editArrangementDialogDisplayed = !this.editArrangementDialogDisplayed;
+    },
+    closeEditArrangement() {
+      this.handleShowEditArrangement();
+    },
+    uploadFile(src) {
+      this.arrangementEdit.images.splice(0, 1, src);
+    },
+    updateArrangement() {
+      this.$devour
+        .update('arrangement', this.arrangementEdit)
+        .then((res) => {
+          const index = this.arrangements.findIndex(
+            (arrangement) => arrangement.id === res.data.id
+          );
+          this.arrangements.splice(index, 1, res.data);
+          this.closeEditArrangement();
+          this.fetchSnackbarData({
+            msg: '投稿を更新しました',
+            color: 'success',
+            isShow: true,
+          });
+        })
+        .catch((err) => {
+          this.fetchSnackbarData({
+            msg: '投稿を更新できませんでした',
+            color: 'error',
+            isShow: true,
+          });
+          console.log(err);
+        });
+    },
+
+    displayDeleteArrangementDialog(arrangement) {
+      this.deletedArrangement = { ...arrangement };
+      this.deleteArrangementDialogDisplayed = true;
+    },
+
+    closeDeleteArrangementDialog() {
+      this.deleteArrangementDialogDisplayed = false;
+    },
+
+    deleteArrangement() {
+      this.$devour.destroy('arrangement', this.deletedArrangement.id).then(() => {
+        const index = this.arrangements.findIndex(
+          (arrangement) => arrangement.id === this.deletedArrangement.id
+        );
+        this.arrangements.splice(index, 1);
+        this.closeDeleteArrangementDialog();
+        this.fetchSnackbarData({
+          msg: '投稿を削除しました',
+          color: 'success',
+          isShow: true,
+        });
+      });
+    },
+
+    initArrangement(arrangement) {
+      this.arrangementEdit = { ...arrangement, images: [...arrangement.images] };
+      Jimp.read(this.arrangementEdit.images[0]).then((image) => {
+        image.getBase64(Jimp.MIME_PNG, (err, src) => this.arrangementEdit.images.splice(0, 1, src));
+      });
+    },
+
     infiniteHandler($state) {
       this.$devour
         .request(`${this.$devour.apiUrl}/arrangements/mine`, 'GET', { page: this.pagy.currentPage })

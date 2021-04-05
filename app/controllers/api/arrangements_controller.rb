@@ -8,7 +8,7 @@ module Api
       options = {
         include: %i[user],
         fields: {
-          arrangement: %i[title images user],
+          arrangement: %i[title images created_at likes_count comments_count user],
           user: %i[nickname avatar]
         },
         meta: { pagy: pagy_metadata(pagy) }
@@ -62,11 +62,11 @@ module Api
     end
 
     def mine
-      pagy, arrangements = pagy(current_user.arrangements, item: 20)
+      pagy, arrangements = pagy(current_user.arrangements.sorted_by_new, item: 20)
       options = {
         include: %i[user],
         fields: {
-          arrangement: %i[title images user],
+          arrangement: %i[title images context created_at likes_count comments_count user],
           user: %i[nickname avatar]
         },
         meta: { pagy: pagy_metadata(pagy) }

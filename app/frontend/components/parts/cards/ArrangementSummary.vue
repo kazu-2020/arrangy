@@ -1,33 +1,36 @@
 <template>
-  <v-sheet
+  <v-card
     :id="`arrangement-${arrangement.id}`"
-    class="arrangement-summary"
     height="100%"
     color="#eeeeee"
+    :to="{ name: 'ArrangementShow', params: { id: arrangement.id } }"
+    elevation="0"
   >
-    <v-img v-for="(image, $imageIndex) in arrangement.images" :key="$imageIndex" :src="image" />
-    <v-card-title class="mb-4">
-      <h4 class="text-subtitle-1 font-weight-bold">{{ arrangement.title }}</h4>
+    <v-img v-for="(image, $imageIndex) in arrangement.images" :key="$imageIndex" :src="image">
+    </v-img>
+    <v-card-title class="font-weight-bold">
+      {{ arrangement.title }}
     </v-card-title>
-    <v-card-subtitle class="d-flex">
-      <v-avatar size="25" class="mr-4">
-        <img :src="user.avatar" />
-      </v-avatar>
-      <h4 class="text-subtitle-1">
-        {{ user.nickname }}
-      </h4>
+    <v-card-subtitle class="d-flex text-caption">
+      {{ arrangement.created_at }}
+      <v-spacer />
+      <div class="mr-1">
+        <v-icon small>mdi-thumb-up-outline</v-icon>
+        {{ arrangement.likes_count }}
+      </div>
+      <div>
+        <v-icon small>mdi-comment-outline</v-icon>
+        {{ arrangement.comments_count }}
+      </div>
     </v-card-subtitle>
-  </v-sheet>
+    <slot name="user-information" />
+  </v-card>
 </template>
 
 <script>
 export default {
   props: {
     arrangement: {
-      type: Object,
-      required: true,
-    },
-    user: {
       type: Object,
       required: true,
     },

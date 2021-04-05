@@ -9,6 +9,10 @@
           <NormalButton @click="actionInputFile">
             <template #text>プロフィール画像を変更</template>
           </NormalButton>
+          <div>
+            <div class="text-caption light-weight-text">画像形式: JPEG/PNG</div>
+            <div class="text-caption light-weight-text">容量: 10MB以内</div>
+          </div>
         </div>
       </div>
       <ValidationProvider
@@ -23,7 +27,7 @@
           id="user-avatar"
           label="プロフィール画像"
           style="display: none"
-          accept="image/jpg, image/jpeg, image/png, image/gif"
+          accept="image/jpg, image/jpeg, image/png"
           @change="handleAvatarChange"
         />
         <v-alert :value="fileErrorDisplayed" type="error" dense outlined :icon="false">
@@ -96,13 +100,17 @@ export default {
   },
   data() {
     return {
-      rules: {
+      fileErrorDisplayed: false,
+    };
+  },
+  computed: {
+    rules() {
+      return {
         nickname: { required: true, isUnique: ['nickname', this.id], max: 30 },
         email: { required: true, email: true, isUnique: ['email', this.id], max: 50 },
         avatar: { size: 10000, ext: ['jpg', 'jpeg', 'png', 'gif'] },
-      },
-      fileErrorDisplayed: false,
-    };
+      };
+    },
   },
   methods: {
     actionInputFile() {
