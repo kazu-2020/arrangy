@@ -6,7 +6,7 @@ Rails.application.routes.draw do
       get 'mine', on: :collection
     end
     resource :profile, only: :update do
-      patch 'password', on: :member
+      patch 'password', on: :collection
     end
     resource :session, only: %i[create destroy]
     resources :users, only: :create do

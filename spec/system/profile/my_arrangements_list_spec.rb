@@ -12,6 +12,7 @@ RSpec.describe "自身の投稿一覧", type: :system, js: true do
       }
 
       it 'スクロール前は20件分のデータが表示されている' do
+        expect(has_selector?('.arrangement-summary')).to eq(true)
         expect(all('.arrangement-summary').count).to eq(20)
       end
 
@@ -23,7 +24,7 @@ RSpec.describe "自身の投稿一覧", type: :system, js: true do
           end
         end
 
-        it '50件分のデータが表示されている' do
+        fit '50件分のデータが表示されている' do
           expect(all('.arrangement-summary').count).to eq(50)
         end
       end

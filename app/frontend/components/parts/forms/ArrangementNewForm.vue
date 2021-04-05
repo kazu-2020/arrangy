@@ -2,11 +2,11 @@
   <ValidationObserver id="arrangement-new-form" v-slot="{ passed }" tag="form">
     <v-row class="mb-10">
       <v-col cols="12" sm="4">
-        <h6 class="text-h6 font-weight-bold">写真を選択する</h6>
-        <p class="text-caption" style="color: #ff5252">※必須</p>
+        <div class="text-h6 font-weight-bold">写真を選択する</div>
+        <div class="text-caption" style="color: #ff5252">※必須</div>
         <div class="d-flex flex-column">
-          <span class="text-caption light-weight-text">画像形式: JPEG/PNG</span>
-          <span class="text-caption light-weight-text">容量: 10MB以内</span>
+          <div class="text-caption light-weight-text">画像形式: JPEG/PNG</div>
+          <div class="text-caption light-weight-text">容量: 10MB以内</div>
         </div>
         <ValidationProvider ref="fileForm" name="投稿写真" mode="change" :rules="rules.images">
           <v-file-input
@@ -41,7 +41,7 @@
             </v-btn>
           </template>
           <template v-else>
-            <NormalButton :xLarge="true" @click="fileUpload">
+            <NormalButton :xLarge="true" :loading="fileUploading" @click="fileUpload">
               <template #text class="text-button">
                 <v-icon class="mr-1">mdi-camera</v-icon>
                 写真を選択
@@ -54,10 +54,10 @@
 
     <v-row class="mb-10">
       <v-col cols="12" sm="4">
-        <h6 class="text-h6 font-weight-bold">タイトルを追加する</h6>
-        <p class="text-caption" style="color: #ff5252">※必須</p>
+        <div class="text-h6 font-weight-bold">タイトルを追加する</div>
+        <div class="text-caption" style="color: #ff5252">※必須</div>
         <div class="d-flex flex-column">
-          <span class="text-caption light-weight-text">文字数: 30字以内</span>
+          <div class="text-caption light-weight-text">文字数: 30字以内</div>
         </div>
       </v-col>
       <v-col>
@@ -67,10 +67,10 @@
 
     <v-row class="mb-10">
       <v-col cols="12" sm="4">
-        <h6 class="text-h6 font-weight-bold">コメントを追加する</h6>
-        <p class="text-caption" style="color: #ff5252">※必須</p>
+        <div class="text-h6 font-weight-bold">コメントを追加する</div>
+        <div class="text-caption" style="color: #ff5252">※必須</div>
         <div class="d-flex flex-column">
-          <span class="text-caption light-weight-text">文字数: 1000字以内</span>
+          <div class="text-caption light-weight-text">文字数: 1000字以内</div>
         </div>
       </v-col>
       <v-col>
@@ -87,6 +87,7 @@
         :xLarge="true"
         :color="'#ff5252'"
         :disabled="!passed"
+        :loading="loading"
         @submit="handleCreateArrangement"
       >
         <template #text> アレンジ飯を投稿する </template>
@@ -122,17 +123,21 @@ export default {
       type: Array,
       required: true,
     },
+    loading: {
+      type: Boolean,
+    },
   },
   data() {
     return {
       previewImage: '',
       isPreview: false,
+      fileUploading: false,
     };
   },
   computed: {
     rules() {
       return {
-        images: { required: true, ext: ['jpeg', 'jpg', 'png'], size: 10240 },
+        images: { required: true, ext: ['jpeg', 'jpg', 'png'], size: 10000 },
         title: { required: true, max: 30 },
         context: { required: true, max: 1000 },
       };
@@ -154,6 +159,7 @@ export default {
     async handleFileChange(value) {
       const result = await this.$refs.fileForm.validate(value);
       if (result.valid) {
+        this.fileUploading = true;
         const imageURL = URL.createObjectURL(value);
         Jimp.read(imageURL)
           .then((image) => {
@@ -161,6 +167,7 @@ export default {
               this.$emit('uploadFile', src);
               this.previewImage = src;
               this.isPreview = true;
+              this.fileUploading = false;
             });
             URL.revokeObjectURL(imageURL);
           })

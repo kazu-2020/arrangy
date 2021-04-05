@@ -1,19 +1,16 @@
 <template>
-  <div>
-    <v-snackbar
-      id="global-snackbar"
-      v-model="isVisiable"
-      top
-      right
-      absolute
-      timeout="3000"
-      :color="snackbarData.color"
-      transition="scale-transition"
-    >
-      <v-icon>{{ snackbarIcon }}</v-icon>
-      {{ snackbarData.msg }}
-    </v-snackbar>
-  </div>
+  <v-snackbar
+    id="global-snackbar"
+    v-model="isVisiable"
+    timeout="3000"
+    top
+    right
+    :color="snackbarData.color"
+    transition="scale-transition"
+  >
+    <v-icon>{{ snackbarIcon }}</v-icon>
+    {{ snackbarData.msg }}
+  </v-snackbar>
 </template>
 
 <script>
@@ -45,3 +42,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+#global-snackbar {
+  top: 60px;
+}
+</style>

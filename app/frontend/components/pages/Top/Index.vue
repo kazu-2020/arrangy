@@ -36,8 +36,8 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import WelcomeDialog from '../parts/dialogs/WelcomeDialog.vue';
-import ArrangementSummary from '../parts/cards/ArrangementSummary';
+import WelcomeDialog from '../../parts/dialogs/WelcomeDialog.vue';
+import ArrangementSummary from '../../parts/cards/ArrangementSummary';
 
 export default {
   components: {

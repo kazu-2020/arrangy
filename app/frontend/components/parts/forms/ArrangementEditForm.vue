@@ -101,7 +101,7 @@ export default {
   computed: {
     rules() {
       return {
-        images: { required: true, size: 10240, ext: ['jpg', 'jpeg', 'png'] },
+        images: { required: true, size: 10000, ext: ['jpg', 'jpeg', 'png'] },
         title: { required: true, max: 30 },
         context: { required: true, max: 1000 },
       };

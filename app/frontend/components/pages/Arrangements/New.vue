@@ -9,6 +9,7 @@
       <v-col cols="12" class="pt-16 mx-auto">
         <ArrangementNewForm
           v-bind.sync="arrangement"
+          :loading="arrangementCreating"
           @createArrangement="createArrangement"
           @uploadFile="uploadFile"
         />
@@ -19,7 +20,7 @@
 
 <script>
 import { mapActions } from 'vuex';
-import ArrangementNewForm from '../parts/forms/ArrangementNewForm';
+import ArrangementNewForm from '../../parts/forms/ArrangementNewForm';
 
 export default {
   components: {
@@ -32,15 +33,18 @@ export default {
         context: '',
         images: [],
       },
+      arrangementCreating: false,
     };
   },
   methods: {
     ...mapActions('snackbars', ['fetchSnackbarData']),
     createArrangement() {
+      this.arrangementCreating = true;
       this.$devour
         .create('arrangement', this.arrangement)
         .then((res) => {
           this.$router.push({ name: 'ArrangementShow', params: { id: res.data.id } });
+          this.arrangementCreating = false;
           this.fetchSnackbarData({
             msg: '新しいアレンジ飯を投稿しました',
             color: 'success',
@@ -48,6 +52,7 @@ export default {
           });
         })
         .catch((error) => {
+          this.arrangementCreating = false;
           this.fetchSnackbarData({
             msg: '投稿に失敗しました',
             color: 'error',

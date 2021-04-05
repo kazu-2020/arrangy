@@ -10,38 +10,49 @@ const router = new VueRouter({
     {
       path: '/',
       name: 'TopPage',
-      component: () => import('../components/pages/TopPage'),
+      component: () => import('../components/pages/Top/Index'),
     },
     {
       path: '/register',
       name: 'UserRegister',
-      component: () => import('../components/pages/UserRegister'),
+      component: () => import('../components/pages/Register/Index'),
     },
     {
       path: '/login',
       name: 'UserLogin',
-      component: () => import('../components/pages/UserLogin'),
+      component: () => import('../components/pages/Login/Index'),
     },
     {
       path: '/profile',
-      name: 'UserProfile',
-      component: () => import('../components/pages/UserProfile'),
+      component: () => import('../components/pages/Profile/Index'),
       meta: { requireAuth: true },
+      children: [
+        {
+          path: '/',
+          name: 'UserProfile',
+          component: () => import('../components/pages/Profile/Mine'),
+        },
+        {
+          path: 'favorites',
+          name: 'Favorites',
+          component: () => import('../components/pages/Profile/Favorites'),
+        },
+      ],
     },
     {
       path: '/arrangements',
-      component: () => import('../components/pages/Arrangements'),
+      component: () => import('../components/pages/Arrangements/Index'),
       children: [
         {
           path: 'new',
           name: 'ArrangementNew',
-          component: () => import('../components/pages/ArrangementNew'),
+          component: () => import('../components/pages/Arrangements/New'),
           meta: { requireAuth: true },
         },
         {
           path: ':id',
           name: 'ArrangementShow',
-          component: () => import('../components/pages/ArrangementShow.vue'),
+          component: () => import('../components/pages/Arrangements/Show.vue'),
           meta: { requireAuth: true },
         },
       ],

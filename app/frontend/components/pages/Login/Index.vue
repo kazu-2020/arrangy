@@ -22,8 +22,8 @@
 
 <script>
 import { mapActions } from 'vuex';
-import UserLoginForm from '../parts/forms/UserLoginForm';
-import RegistrationAndLoginBase from '../parts/base/RegistrationAndLoginBase';
+import UserLoginForm from '../../parts/forms/UserLoginForm';
+import RegistrationAndLoginBase from '../../parts/base/RegistrationAndLoginBase';
 
 export default {
   components: {

@@ -3,10 +3,10 @@
     <v-sheet id="profile-edit-form" class="pa-10">
       <div class="text-center mb-5">
         <v-avatar class="or-avatar mb-5" size="200">
-          <v-img :src="avatar" />
+          <v-img :src="avatar"> </v-img>
         </v-avatar>
         <div>
-          <NormalButton @click="actionInputFile">
+          <NormalButton :loading="fileLoading" @click="actionInputFile">
             <template #text>プロフィール画像を変更</template>
           </NormalButton>
           <div>
@@ -46,6 +46,7 @@
             class="mx-2"
             :xLarge="true"
             :color="'#ff5252'"
+            :loading="loading"
             @submit="handleSubmit(handleUpdateProfile)"
           >
             <template #text> 更新する </template>
@@ -97,10 +98,14 @@ export default {
     isShow: {
       type: Boolean,
     },
+    loading: {
+      type: Boolean,
+    },
   },
   data() {
     return {
       fileErrorDisplayed: false,
+      fileLoading: false,
     };
   },
   computed: {
@@ -117,6 +122,7 @@ export default {
       document.querySelector('#user-avatar').click();
     },
     async handleAvatarChange(value) {
+      this.fileLoading = true;
       const result = await this.$refs.fileForm.validate(value);
       if (result.valid) {
         this.hideErrorMessage();
@@ -125,14 +131,17 @@ export default {
           .then((image) => {
             image.cover(300, 300).getBase64(Jimp.MIME_PNG, (err, src) => {
               this.$emit('update:avatar', src);
+              this.fileLoading = false;
             });
             URL.revokeObjectURL(imageURL);
           })
           .catch((error) => {
             alert('アップロードに失敗しました');
+            this.fileLoading = false;
             console.log(error);
           });
       } else {
+        this.fileLoading = false;
         this.fileErrorDisplayed = true;
       }
     },

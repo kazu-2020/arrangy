@@ -1,6 +1,7 @@
 <template>
   <v-card
     :id="`arrangement-${arrangement.id}`"
+    class="arrangement-summary"
     height="100%"
     color="#eeeeee"
     :to="{ name: 'ArrangementShow', params: { id: arrangement.id } }"

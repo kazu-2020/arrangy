@@ -192,12 +192,12 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import Jimp from 'jimp/es';
-import ArrangementEditForm from '../parts/forms/ArrangementEditForm';
-import DeleteConfirmationDialog from '../parts/dialogs/DeleteConfirmationDialog';
-import CommentCreateForm from '../parts/forms/CommentCreateForm';
-import CommentEditForm from '../parts/forms/CommentEditForm';
-import InitializedMenu from '../parts/menus/InitializedMenu';
-import SubmitButton from '../parts/buttons/SubmitButton';
+import ArrangementEditForm from '../../parts/forms/ArrangementEditForm';
+import DeleteConfirmationDialog from '../../parts/dialogs/DeleteConfirmationDialog';
+import CommentCreateForm from '../../parts/forms/CommentCreateForm';
+import CommentEditForm from '../../parts/forms/CommentEditForm';
+import InitializedMenu from '../../parts/menus/InitializedMenu';
+import SubmitButton from '../../parts/buttons/SubmitButton';
 
 export default {
   components: {
