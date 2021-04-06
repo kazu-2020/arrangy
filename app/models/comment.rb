@@ -14,7 +14,7 @@
 
 class Comment < ApplicationRecord
   belongs_to :user
-  belongs_to :arrangement
+  belongs_to :arrangement, counter_cache: true
 
   validates :body, presence: true, length: { maximum: 1_000 }
 

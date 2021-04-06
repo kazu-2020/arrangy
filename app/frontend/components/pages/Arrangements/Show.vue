@@ -148,8 +148,11 @@
               <v-row class="d-flex justify-end">
                 <v-col cols="11" class="py-0">
                   <v-sheet class="pa-5" :rounded="true" outlined color="#F5F5F5">
-                    <pre
-                      class="text-body-1">{{ comment.body }}<span v-if="comment.edited" class="text-caption font-weight-light">(編集済み)</span></pre>
+                    <pre class="text-body-1">{{ comment.body }}</pre>
+                    <v-card-actions v-if="comment.edited">
+                      <v-spacer />
+                      <div class="text-caption font-weight-light">(編集済み)</div>
+                    </v-card-actions>
                   </v-sheet>
                 </v-col>
               </v-row>

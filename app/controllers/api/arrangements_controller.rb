@@ -45,9 +45,10 @@ module Api
       options = {
         include: %i[user],
         fields: {
-          arrangement: %i[title context images user],
+          arrangement: %i[title context likes_count liked_authuser created_at images user],
           user: %i[nickname avatar]
-        }
+        },
+        params: { current_user: current_user }
       }
       render_serializer(@arrangement, options)
     end

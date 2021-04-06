@@ -9,7 +9,10 @@
               <v-row>
                 <v-col cols="auto">
                   <v-avatar size="25">
-                    <v-img :src="arrangement.user.avatar" />
+                    <v-img
+                      :id="`arrangement-avatar${arrangement.id}`"
+                      :src="arrangement.user.avatar"
+                    />
                   </v-avatar>
                 </v-col>
                 <v-col cols="auto">
@@ -29,6 +32,7 @@
         @infinite="infiniteHandler"
       >
         <div slot="no-more" />
+        <div slot="no-results" />
       </infinite-loading>
     </v-row>
   </v-container>

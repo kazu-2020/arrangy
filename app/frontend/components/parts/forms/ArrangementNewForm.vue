@@ -98,6 +98,7 @@
 
 <script>
 import Jimp from 'jimp/es';
+import JimpJPEG from 'jpeg-js';
 import TitleField from '../formInputs/TitleField';
 import ContextField from '../formInputs/ContextField';
 import SubmitButton from '../buttons/SubmitButton';
@@ -161,6 +162,11 @@ export default {
       if (result.valid) {
         this.fileUploading = true;
         const imageURL = URL.createObjectURL(value);
+        Jimp.decoders['image/jpeg'] = (data) => {
+          return JimpJPEG.decode(data, {
+            maxMemoryUsageInMB: 1024,
+          });
+        };
         Jimp.read(imageURL)
           .then((image) => {
             image.cover(300, 300).getBase64(Jimp.MIME_PNG, (err, src) => {

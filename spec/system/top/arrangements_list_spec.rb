@@ -26,19 +26,23 @@ RSpec.describe "投稿一覧", type: :system, js: true do
   end
 
   describe '投稿表示機能' do
-    let!(:arrangement) { create(:arrangement, title: 'testタイトル') }
+    describe 'タイトル、投稿日時表示' do
+      let!(:arrangement) { create(:arrangement, title: 'testタイトル') }
 
-    before { visit('/') }
+      before { visit('/') }
 
-    it '投稿情報が表示されている' do
-      within("#arrangement-#{encode_id(arrangement.id)}") do
-        # 画像データのテストは除く
-        expect(page).to have_content('testタイトル')
-        expect(page).to have_content(arrangement.user.nickname)
-        result = all('.v-image__image').any? do |element|
-          element[:style].include?(arrangement.user.avatar.url)
+      it '表示されている' do
+        within("#arrangement-#{encode_id(arrangement.id)}") do
+          # 画像データのテストは除く
+          expect(page).to have_content('testタイトル')
+          expect(page).to have_content(arrangement.user.nickname)
+          within("#arrangement-avatar#{encode_id(arrangement.id)}") do
+            result = all('.v-image__image').any? do |element|
+              element[:style].include?(arrangement.user.avatar.url)
+            end
+            expect(result).to eq(true)
+          end
         end
-        expect(result).to eq(true)
       end
     end
   end
