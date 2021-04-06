@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     resources :arrangements, only: %i[index create show update destroy] do
       resources :comments, only: %i[index create update destroy], shallow: true
       resource :likes, only: %i[create destroy]
+      get 'favorites', on: :collection
       get 'mine', on: :collection
     end
     resource :profile, only: :update do

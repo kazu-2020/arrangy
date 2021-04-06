@@ -1,6 +1,14 @@
 <template>
   <div>
-    <v-app-bar id="page-header" fixed height="60" elevation="1" class="px-10" color="#FAFAFA">
+    <v-app-bar
+      v-if="isCreated"
+      id="page-header"
+      fixed
+      height="60"
+      elevation="1"
+      class="px-10"
+      color="#FAFAFA"
+    >
       <v-toolbar-title>
         <router-link class="router-link text-h4" style="color: #ff5252" :to="{ name: 'TopPage' }">
           ARRANGY
@@ -18,7 +26,7 @@
             <v-list id="header-menu-list" dense flat>
               <v-list-item plain :to="{ name: 'ArrangementNew' }">新規投稿</v-list-item>
               <v-list-item plain :to="{ name: 'UserProfile' }">マイページ</v-list-item>
-              <v-list-item plain>お気に入り一覧</v-list-item>
+              <v-list-item plain :to="{ name: 'Favorites' }">お気に入り一覧</v-list-item>
               <v-list-item plain tag="button" @click="logoutFunction"> ログアウト </v-list-item>
             </v-list>
           </template>
@@ -42,8 +50,18 @@ export default {
   components: {
     InitializedMenu,
   },
+  data() {
+    return {
+      isCreated: false,
+    };
+  },
   computed: {
     ...mapGetters('users', ['authUser']),
+  },
+  watch: {
+    authUser() {
+      this.isCreated = true;
+    },
   },
   methods: {
     ...mapActions('users', ['logoutUser']),

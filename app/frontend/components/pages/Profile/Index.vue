@@ -38,7 +38,8 @@
       <!-- 投稿一覧 -->
       <v-col cols="12" sm="6">
         <v-row>
-          <div class="text-h6 font-weight-black mb-8 mx-auto">投稿一覧</div>
+          <v-btn class="mr-2" outlined plain :to="{ name: 'UserProfile' }">投稿一覧</v-btn>
+          <v-btn class="ml-s" outlined plain :to="{ name: 'Favorites' }">お気に入り一覧</v-btn>
         </v-row>
         <router-view />
       </v-col>

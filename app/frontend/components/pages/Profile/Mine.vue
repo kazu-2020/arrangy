@@ -1,5 +1,5 @@
 <template>
-  <v-row>
+  <v-row v-if="isCreated">
     <template v-if="arrangements.length">
       <v-col
         v-for="(arrangement, $index) in arrangements"
@@ -26,19 +26,20 @@
           </template>
         </InitializedMenu>
       </v-col>
+
       <infinite-loading
         v-if="pagy.isActioned"
         direction="bottom"
         spinner="circles"
-        @infinite="infiniteHandler"
+        @infinite="infinitieHandler"
       >
         <div slot="no-more" />
         <div slot="no-results" />
       </infinite-loading>
     </template>
-    <v-col v-else cols="12" class="text-center">
-      <p>現在、投稿はありません</p>
-    </v-col>
+    <template v-else>
+      <div class="mx-auto">現在、投稿はありません</div>
+    </template>
     <!-- 投稿編集フォーム -->
     <ArrangementEditForm
       :isShow="editArrangementDialogDisplayed"
@@ -87,14 +88,15 @@ export default {
       arrangementDelete: {},
       pagy: {
         currentPage: 1,
-        isActioned: true,
+        isActioned: false,
       },
+      isCreated: false,
       deleteArrangementDialogDisplayed: false,
       editArrangementDialogDisplayed: false,
     };
   },
   created() {
-    this.infiniteHandler();
+    this.fetchArrangements();
   },
   methods: {
     ...mapActions('snackbars', ['fetchSnackbarData']),
@@ -124,7 +126,20 @@ export default {
         image.getBase64(Jimp.MIME_PNG, (err, src) => this.arrangementEdit.images.splice(0, 1, src));
       });
     },
-    infiniteHandler($state) {
+    fetchArrangements() {
+      this.$devour
+        .request(`${this.$devour.apiUrl}/arrangements/mine`, 'GET', { page: this.pagy.currentPage })
+        .then((res) => {
+          this.arrangements.push(...res.data);
+          this.isCreated = true;
+          this.pagy.currentPage += 1;
+          if (res.meta.pagy.pages !== 1) {
+            this.pagy.isActioned = true;
+          }
+        })
+        .catch((err) => console.log(err));
+    },
+    infinitieHandler($state) {
       this.$devour
         .request(`${this.$devour.apiUrl}/arrangements/mine`, 'GET', { page: this.pagy.currentPage })
         .then((res) => {

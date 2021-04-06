@@ -13,8 +13,7 @@ module Api
         },
         meta: { pagy: pagy_metadata(pagy) }
       }
-      json_string = ArrangementSerializer.new(arrangements, options)
-      render json: json_string
+      render_serializer(arrangements, options)
     end
 
     def create
@@ -23,8 +22,7 @@ module Api
       options = {
         fields: { arrangement: %i[set_id] }
       }
-      json_string = ArrangementSerializer.new(arrangement, options)
-      render json: json_string
+      render_serializer(arrangement, options)
     end
 
     def show
@@ -39,8 +37,7 @@ module Api
         },
         params: { current_user: current_user }
       }
-      json_string = ArrangementSerializer.new(@arrangement, options)
-      render json: json_string
+      render_serializer(@arrangement, options)
     end
 
     def update
@@ -52,8 +49,7 @@ module Api
           user: %i[nickname avatar]
         }
       }
-      json_string = ArrangementSerializer.new(@arrangement, options)
-      render json: json_string
+      render_serializer(@arrangement, options)
     end
 
     def destroy
@@ -62,17 +58,27 @@ module Api
     end
 
     def mine
-      pagy, arrangements = pagy(current_user.arrangements.sorted_by_new, item: 20)
+      pagy, arrangements = pagy(current_user.arrangements.sorted_by_new, items: 20)
+      options = {
+        fields: {
+          arrangement: %i[title images context created_at likes_count comments_count],
+        },
+        meta: { pagy: pagy_metadata(pagy) }
+      }
+      render_serializer(arrangements, options)
+    end
+
+    def favorites
+      pagy, arrangements = pagy(current_user.liking_arrangements.preload(:user), items: 20)
       options = {
         include: %i[user],
         fields: {
-          arrangement: %i[title images context created_at likes_count comments_count user],
+          arrangement: %i[title images created_at likes_count comments_count user],
           user: %i[nickname avatar]
         },
         meta: { pagy: pagy_metadata(pagy) }
       }
-      json_string = ArrangementSerializer.new(arrangements, options)
-      render json: json_string
+      render_serializer(arrangements, options)
     end
 
     private
@@ -84,6 +90,11 @@ module Api
 
     def set_arrangement
       @arrangement = Arrangement.find(decode_id(params[:id]))
+    end
+
+    def render_serializer(arrangement, option)
+      json_string = ArrangementSerializer.new(arrangement, option)
+      render json: json_string
     end
   end
 end
