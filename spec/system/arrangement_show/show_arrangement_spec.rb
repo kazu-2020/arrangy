@@ -12,8 +12,8 @@ RSpec.describe '投稿詳細', type: :system, js: true do
           expect(page).to have_content(self_arrangement.title)
           expect(page).to have_content(self_arrangement.context)
           expect(page).to have_content(self_arrangement.user.nickname)
-          result = all('img').any? do |element|
-            element[:src].include?(self_arrangement.user.avatar.url)
+          result = all('.v-image__image').any? do |element|
+            element[:style].include?(self_arrangement.user.avatar.url)
           end
           expect(result).to eq(true)
         end
@@ -38,8 +38,8 @@ RSpec.describe '投稿詳細', type: :system, js: true do
           expect(page).to have_content(self_arrangement.title)
           expect(page).to have_content(self_arrangement.context)
           expect(page).to have_content(self_arrangement.user.nickname)
-          result = all('img').any? do |element|
-            element[:src].include?(self_arrangement.user.avatar.url)
+          result = all('.v-image__image').any? do |element|
+            element[:style].include?(self_arrangement.user.avatar.url)
           end
           expect(result).to eq(true)
         end

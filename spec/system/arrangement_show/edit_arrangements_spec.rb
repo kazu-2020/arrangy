@@ -89,7 +89,7 @@ RSpec.describe "投稿編集", type: :system, js: true do
         fill_in('タイトル', with: 'タイトルを更新')
         fill_in('投稿内容', with: '投稿内容を更新')
         attach_file('投稿写真', "#{Rails.root}/spec/fixtures/images/sample3.png", visible: false)
-        click_on('更新')
+        click_on('変更する')
       end
     }
 

@@ -28,7 +28,7 @@ RSpec.describe "投稿削除", type: :system, js: true do
           find('#global-snackbar', text: '投稿を削除しました')
           sleep 0.5
         }.to change {Arrangement.count}.by(-1)
-        expect(current_path).to eq('/profile')
+        expect(current_path).to eq('/profile/')
       end
     end
   end

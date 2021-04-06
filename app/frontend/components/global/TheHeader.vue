@@ -1,14 +1,6 @@
 <template>
   <div>
-    <v-app-bar
-      v-if="isCreated"
-      id="page-header"
-      fixed
-      height="60"
-      elevation="1"
-      class="px-10"
-      color="#FAFAFA"
-    >
+    <v-app-bar id="page-header" fixed height="60" elevation="1" class="px-10" color="#FAFAFA">
       <v-toolbar-title>
         <router-link class="router-link text-h4" style="color: #ff5252" :to="{ name: 'TopPage' }">
           ARRANGY
@@ -50,18 +42,8 @@ export default {
   components: {
     InitializedMenu,
   },
-  data() {
-    return {
-      isCreated: false,
-    };
-  },
   computed: {
     ...mapGetters('users', ['authUser']),
-  },
-  watch: {
-    authUser() {
-      this.isCreated = true;
-    },
   },
   methods: {
     ...mapActions('users', ['logoutUser']),

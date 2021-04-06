@@ -130,6 +130,7 @@ RSpec.describe "ユーザー登録", type: :system, js: true do
         expect(page).to have_link '投稿ページへ', href: '/arrangements/new'
         click_on '投稿ページへ'
       end
+      expect(page).to have_content('アレンジ飯を投稿する')
       expect(current_path).to eq '/arrangements/new'
     end
     it '新規登録後に「あとで」ボタンが表示され、クリックするとダイアログが閉じる' do

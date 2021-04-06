@@ -55,8 +55,8 @@ module Api
     private
 
     def comment_params
-      permited_params = params.require(:comment).permit(:body)
-      action_name == 'update' ? permited_params : permited_params.merge(arrangement_id: decode_id(params[:arrangement_id]))
+      permited = params.require(:comment).permit(:body)
+      action_name == 'update' ? permited : permited.merge(arrangement_id: decode_id(params[:arrangement_id]))
     end
 
     def set_comment

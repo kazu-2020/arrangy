@@ -35,8 +35,8 @@ RSpec.describe "投稿一覧", type: :system, js: true do
         # 画像データのテストは除く
         expect(page).to have_content('testタイトル')
         expect(page).to have_content(arrangement.user.nickname)
-        result = all('img').any? do |element|
-          element[:src].include?(arrangement.user.avatar.url)
+        result = all('.v-image__image').any? do |element|
+          element[:style].include?(arrangement.user.avatar.url)
         end
         expect(result).to eq(true)
       end

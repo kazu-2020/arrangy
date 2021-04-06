@@ -24,7 +24,7 @@ RSpec.describe "自身の投稿一覧", type: :system, js: true do
           end
         end
 
-        fit '50件分のデータが表示されている' do
+        it '50件分のデータが表示されている' do
           expect(all('.arrangement-summary').count).to eq(50)
         end
       end

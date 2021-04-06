@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container :id="`arrangement-${arrangement.id}`">
     <v-row>
       <v-col class="pt-10 d-flex" cols="12">
         <h4 class="text-h4 mb-4 font-weight-black">
@@ -8,7 +8,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col :id="`arrangement-${arrangement.id}`" cols="12" sm="6">
+      <v-col cols="12" sm="6">
         <v-img v-for="(image, $imageIndex) in arrangement.images" :key="$imageIndex" :src="image">
           <div v-if="authUser && authUser.id === arrangement.user.id" class="text-end">
             <InitializedMenu :outlined="true" :left="true">

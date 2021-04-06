@@ -3,8 +3,7 @@
     id="global-snackbar"
     v-model="isVisiable"
     timeout="3000"
-    top
-    right
+    left
     :color="snackbarData.color"
     transition="scale-transition"
   >
@@ -42,9 +41,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-#global-snackbar {
-  top: 60px;
-}
-</style>
