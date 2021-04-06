@@ -4,7 +4,7 @@ module Api
     before_action :set_arrangement, only: %i[show update destroy]
 
     def index
-      pagy, arrangements = pagy(Arrangement.preload(:user), items: 20)
+      pagy, arrangements = pagy(Arrangement.order(likes_count: :desc).preload(:user), items: 20)
       options = {
         include: %i[user],
         fields: {
