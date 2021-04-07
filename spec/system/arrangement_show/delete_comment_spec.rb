@@ -23,9 +23,10 @@ RSpec.describe "コメント削除", type: :system, js: true do
     context '確認用ダイアログの「削除する」をクリックした場合' do
       before { within('#delete-confirmation') { click_on '削除する' } }
 
-      it '「コメントを削除しました」と表示され、コメントが削除される' do
+      fit '「コメントを削除しました」と表示され、コメントが削除される' do
         expect {
           find('#global-snackbar', text: 'コメントを削除しました')
+          sleep 0.5
         }.to change { Comment.count}.by(-1)
         expect(has_selector?("comment-#{comment.id}")).to eq(false)
       end
