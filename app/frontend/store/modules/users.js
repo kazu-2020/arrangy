@@ -27,7 +27,7 @@ const actions = {
   },
   async loginUser({ commit }, user) {
     try {
-      const userResponse = await devour.request(`${devour.apiUrl}/session`, 'POST', {}, user);
+      const userResponse = await devour.request(`${devour.apiUrl}/auth_user`, 'POST', {}, user);
       commit('setAuthUser', userResponse.data);
       return userResponse.data;
     } catch (err) {
@@ -37,7 +37,7 @@ const actions = {
   },
   async logoutUser({ commit }) {
     try {
-      const res = await devour.request(`${devour.apiUrl}/session`, 'DELETE');
+      const res = await devour.request(`${devour.apiUrl}/auth_user`, 'DELETE');
       commit('setAuthUser', null);
       return res;
     } catch (err) {
@@ -48,7 +48,7 @@ const actions = {
   async updateAuthUser({ commit }, user) {
     try {
       const userResponse = await devour.request(
-        `${devour.apiUrl}/profile`,
+        `${devour.apiUrl}/auth_user`,
         'PATCH',
         {},
         { user: user }
@@ -62,7 +62,7 @@ const actions = {
   },
   async fetchAuthUser({ commit, state }) {
     if (state.authUser) return state.authUser;
-    const userResponse = await devour.find('user', 'me');
+    const userResponse = await devour.request(`${devour.apiUrl}/auth_user`, 'GET');
     if (!userResponse.data) return null;
     commit('setAuthUser', userResponse.data);
     return userResponse.data;

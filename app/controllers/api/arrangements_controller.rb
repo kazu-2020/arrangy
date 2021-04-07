@@ -58,30 +58,6 @@ module Api
       head :no_content
     end
 
-    def mine
-      pagy, arrangements = pagy(current_user.arrangements.sorted_by_new, items: 20)
-      options = {
-        fields: {
-          arrangement: %i[title images context created_at likes_count comments_count]
-        },
-        meta: { pagy: pagy_metadata(pagy) }
-      }
-      render_serializer(arrangements, options)
-    end
-
-    def favorites
-      pagy, arrangements = pagy(current_user.liking_arrangements.preload(:user), items: 20)
-      options = {
-        include: %i[user],
-        fields: {
-          arrangement: %i[title images created_at likes_count comments_count user],
-          user: %i[nickname avatar]
-        },
-        meta: { pagy: pagy_metadata(pagy) }
-      }
-      render_serializer(arrangements, options)
-    end
-
     private
 
     def arrangement_params
@@ -93,8 +69,8 @@ module Api
       @arrangement = Arrangement.find(decode_id(params[:id]))
     end
 
-    def render_serializer(arrangement, option)
-      json_string = ArrangementSerializer.new(arrangement, option)
+    def render_serializer(arrangement, options = {})
+      json_string = ArrangementSerializer.new(arrangement, options)
       render json: json_string
     end
   end

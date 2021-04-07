@@ -8,12 +8,8 @@ module Api
       user = User.new(user_params)
       user.save!
       auto_login(user)
-      json_string = UserSerializer.new(user).serializable_hash
-      render json: json_string
-    end
-
-    def me
-      json_string = UserSerializer.new(current_user).serializable_hash
+      options = { fields: { user: %i[nickname email avatar] } }
+      json_string = UserSerializer.new(user, options)
       render json: json_string
     end
 

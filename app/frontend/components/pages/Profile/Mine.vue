@@ -128,7 +128,9 @@ export default {
     },
     fetchArrangements() {
       this.$devour
-        .request(`${this.$devour.apiUrl}/arrangements/mine`, 'GET', { page: this.pagy.currentPage })
+        .request(`${this.$devour.apiUrl}/arrangements/postings`, 'GET', {
+          page: this.pagy.currentPage,
+        })
         .then((res) => {
           this.arrangements.push(...res.data);
           this.isCreated = true;
@@ -141,7 +143,9 @@ export default {
     },
     infinitieHandler($state) {
       this.$devour
-        .request(`${this.$devour.apiUrl}/arrangements/mine`, 'GET', { page: this.pagy.currentPage })
+        .request(`${this.$devour.apiUrl}/arrangements/postings`, 'GET', {
+          page: this.pagy.currentPage,
+        })
         .then((res) => {
           if (this.pagy.currentPage < res.meta.pagy.pages) {
             this.pagy.currentPage += 1;

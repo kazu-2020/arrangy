@@ -152,7 +152,7 @@ export default {
     updatePassword() {
       this.$devour
         .request(
-          `${this.$devour.apiUrl}/profile/password`,
+          `${this.$devour.apiUrl}/auth_user/password`,
           'PATCH',
           {},
           { password: this.password, password_confirmation: this.password_confirmation }

@@ -26,15 +26,16 @@ RSpec.describe "投稿一覧", type: :system, js: true do
   end
 
   describe '投稿表示機能' do
-    describe 'タイトル、投稿日時表示' do
+    describe 'タイトル、投稿日時、ユーザー情報表示' do
       let!(:arrangement) { create(:arrangement, title: 'testタイトル') }
 
       before { visit('/') }
 
       it '表示されている' do
         within("#arrangement-#{encode_id(arrangement.id)}") do
-          # 画像データのテストは除く
+          # 投稿画像のテストは除く
           expect(page).to have_content('testタイトル')
+          expect(page).to have_content(I18n.l(arrangement.created_at, format: :short))
           expect(page).to have_content(arrangement.user.nickname)
           within("#arrangement-avatar#{encode_id(arrangement.id)}") do
             result = all('.v-image__image').any? do |element|
@@ -42,6 +43,30 @@ RSpec.describe "投稿一覧", type: :system, js: true do
             end
             expect(result).to eq(true)
           end
+        end
+      end
+    end
+
+    describe 'コメント数表示' do
+      let!(:arrangement) { create(:arrangement, :with_comments, count: 10) }
+
+      before { visit('/') }
+
+      it '表示されている' do
+        within("#arrangement-#{encode_id(arrangement.id)}") do
+          expect(page).to have_content(10)
+        end
+      end
+    end
+
+    describe 'いいね数表示' do
+      let!(:arrangement) { create(:arrangement, :with_likes, count: 10) }
+
+      before { visit('/') }
+
+      it '表示されている' do
+        within("#arrangement-#{encode_id(arrangement.id)}") do
+          expect(page).to have_content(10)
         end
       end
     end

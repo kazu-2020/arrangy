@@ -4,7 +4,7 @@ module Api
 
     def create
       current_user.like(@arrangement)
-      head :ok
+      head :no_content
     end
 
     def destroy
