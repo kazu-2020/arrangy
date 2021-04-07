@@ -23,6 +23,6 @@ class ImageUploader < CarrierWave::Uploader::Base
 
   # 拡張子のホワイトリスト
   def extension_allowlist
-    %w[jpg jpeg png gif]
+    %w[jpg jpeg png]
   end
 end
