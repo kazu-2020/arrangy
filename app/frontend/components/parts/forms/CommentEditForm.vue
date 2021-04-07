@@ -10,7 +10,6 @@
             rows="1"
             hideDetails="auto"
             outlined
-            clearable
             color="black"
             :value="body"
             @input="$emit('update:body', $event ? $event.trim() : $event)"
@@ -46,17 +45,16 @@ export default {
     },
     body: {
       type: String,
-      required: false,
-      default: null,
+      required: true,
     },
     isShow: {
       type: Boolean,
     },
   },
-  data() {
-    return {
-      rules: { required: true, max: 1000 },
-    };
+  computed: {
+    rules() {
+      return { required: true, max: 1000 };
+    },
   },
 };
 </script>

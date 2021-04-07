@@ -29,7 +29,11 @@ jsonApi.define('arrangement', {
   id: '',
   title: '',
   context: '',
-  images: [],
+  images: '',
+  created_at: '',
+  liked_authuser: '',
+  likes_count: '',
+  comments_count: '',
   user: {
     jsonApi: 'hasOne',
     type: 'user',
@@ -45,6 +49,20 @@ jsonApi.define('comment', {
   body: '',
   edited: '',
   created_at: '',
+  user: {
+    jsonApi: 'hasOne',
+    type: 'user',
+  },
+  arrangement: {
+    jsonApi: 'hasOne',
+    type: 'arrangement',
+  },
+});
+
+jsonApi.define('like', {
+  id: '',
+  arrangement_id: '',
+  user_id: '',
   user: {
     jsonApi: 'hasOne',
     type: 'user',

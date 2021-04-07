@@ -5,7 +5,7 @@ RSpec.describe "コメント編集", type: :system, js: true do
 
   before {
     log_in_as(comment.user)
-    find("#arrangement-#{comment.arrangement.id}").click
+    find("#arrangement-#{encode_id(comment.arrangement.id)}").click
     within("#comment-#{comment.id}") { find('.comment-menu-icon').click }
     within('.comment-menu-list') { click_on('編集する') }
   }

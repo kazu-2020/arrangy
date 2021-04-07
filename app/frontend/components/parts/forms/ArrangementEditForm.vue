@@ -2,9 +2,15 @@
   <v-dialog :value="isShow" width="650px" @click:outside="closeDialog">
     <v-sheet id="arrangement-edit-form" class="pa-10" color="#eeeeee" :rounded="true">
       <div class="text-center mb-5">
-        <v-img class="mx-auto mb-5" :src="images[0]" width="70%" style="border-radius: 15px" />
+        <v-img class="mx-auto mb-5" :src="images ? images[0] : ''" width="70%" />
         <div>
-          <v-btn @click="actionInputFile">変更</v-btn>
+          <NormalButton @click="actionInputFile">
+            <template #text>投稿写真を変更する</template>
+          </NormalButton>
+          <div>
+            <div class="text-caption light-weight-text">画像形式: JPEG/PNG</div>
+            <div class="text-caption light-weight-text">容量: 10MB以内</div>
+          </div>
         </div>
       </div>
       <ValidationProvider
@@ -25,7 +31,8 @@
           {{ errors[0] }}
         </v-alert>
       </ValidationProvider>
-      <ValidationObserver ref="form" v-slot="{ handleSubmit }" tag="form">
+
+      <ValidationObserver ref="form" v-slot="{ invalid }" tag="form">
         <TitleField :title="title" :rules="rules.title" @input="$emit('update:title', $event)" />
         <ContextField
           :context="context"
@@ -37,9 +44,10 @@
             class="mx-2"
             :xLarge="true"
             :color="'#ff5252'"
-            @submit="handleSubmit(handleUpdateArrangement)"
+            :disabled="invalid"
+            @submit="handleUpdateArrangement"
           >
-            <template #text>更新</template>
+            <template #text>変更する</template>
           </SubmitButton>
           <NormalButton class="mx-2" :xLarge="true" @click="closeDialog">
             <template #text>戻る</template>
@@ -71,18 +79,15 @@ export default {
     },
     title: {
       type: String,
-      required: false,
-      default: null,
+      required: true,
     },
     context: {
       type: String,
-      required: false,
-      default: null,
+      required: true,
     },
     images: {
       type: Array,
-      required: false,
-      default: null,
+      required: true,
     },
     isShow: {
       type: Boolean,
@@ -90,13 +95,17 @@ export default {
   },
   data() {
     return {
-      rules: {
-        images: { size: 10240, ext: ['jpg', 'jpeg', 'png', 'gif'] },
-        title: { required: true, max: 30 },
-        context: { required: true, max: 1000 },
-      },
       fileErrorDisplayed: false,
     };
+  },
+  computed: {
+    rules() {
+      return {
+        images: { required: true, size: 10000, ext: ['jpg', 'jpeg', 'png'] },
+        title: { required: true, max: 30 },
+        context: { required: true, max: 1000 },
+      };
+    },
   },
   methods: {
     actionInputFile() {

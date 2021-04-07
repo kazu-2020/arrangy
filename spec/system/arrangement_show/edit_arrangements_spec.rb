@@ -5,8 +5,8 @@ RSpec.describe "投稿編集", type: :system, js: true do
 
   before do
     log_in_as(arrangement.user)
-    find("#arrangement-#{arrangement.id}").click
-    within("#arrangement-#{arrangement.id}") { find('#arrangement-menu-icon').click }
+    find("#arrangement-#{encode_id(arrangement.id)}").click
+    within("#arrangement-#{encode_id(arrangement.id)}") { find('#arrangement-menu-icon').click }
     within('#arrangement-menu-list') { click_on('編集する') }
   end
 
@@ -89,7 +89,7 @@ RSpec.describe "投稿編集", type: :system, js: true do
         fill_in('タイトル', with: 'タイトルを更新')
         fill_in('投稿内容', with: '投稿内容を更新')
         attach_file('投稿写真', "#{Rails.root}/spec/fixtures/images/sample3.png", visible: false)
-        click_on('更新')
+        click_on('変更する')
       end
     }
 
@@ -100,7 +100,7 @@ RSpec.describe "投稿編集", type: :system, js: true do
     end
 
     it '変更後のデータが反映されている' do
-      within("#arrangement-#{arrangement.id}") do
+      within("#arrangement-#{encode_id(arrangement.id)}") do
         expect(page).to have_content('タイトルを更新')
         expect(page).to have_content('投稿内容を更新')
       end

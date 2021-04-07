@@ -6,7 +6,7 @@ RSpec.describe "コメント作成", type: :system, js: true do
   context 'ログインしている場合' do
     before {
       log_in_as(arrangement.user)
-      find("#arrangement-#{arrangement.id}").click
+      find("#arrangement-#{encode_id(arrangement.id)}").click
     }
 
     it 'コメント投稿フォームは表示されている' do
@@ -112,7 +112,7 @@ RSpec.describe "コメント作成", type: :system, js: true do
   context 'ログインしていない場合' do
     before {
       visit('/')
-      find("#arrangement-#{arrangement.id}").click
+      find("#arrangement-#{encode_id(arrangement.id)}").click
     }
 
     it 'コメント投稿フォームは非表示になっている' do

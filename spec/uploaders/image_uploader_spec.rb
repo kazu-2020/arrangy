@@ -6,8 +6,9 @@ describe 'ImageUploader' do
     let(:arrangement) { build(:arrangement) }
 
     describe '拡張子のホワイトリストの検証' do
-      context 'jpg, jpeg, png, gifの場合' do
-        extensions = %w[jpg jpeg png gif]
+      context 'jpg, jpeg, pngの場合' do
+        extensions = %w[jpg jpeg png]
+
         it 'ファイルは有効です' do
           extensions.each do |extension|
             File.open("#{Rails.root}/spec/fixtures/images/sample1.#{extension}") do |file|
@@ -18,12 +19,16 @@ describe 'ImageUploader' do
         end
       end
 
-      context 'txtの場合' do
+      context 'txt, gifの場合' do
+        extensions = %w[gif txt]
+
         it 'ファイルは無効です' do
-          File.open("#{Rails.root}/spec/fixtures/images/sample1.txt") do |file|
-            arrangement.images = [file]
+          extensions.each do |extension|
+            File.open("#{Rails.root}/spec/fixtures/images/sample1.#{extension}") do |file|
+              arrangement.images = [file]
+            end
+            expect(arrangement).to be_invalid
           end
-          expect(arrangement).to be_invalid
         end
       end
     end

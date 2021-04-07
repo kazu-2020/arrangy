@@ -25,13 +25,18 @@ RSpec.describe User, type: :model do
   end
 
   describe '一意性の検証' do
-    let(:created_user) { create(:user) }
+    let(:created_user) { create(:user, email: 'foo@bar.com') }
     it 'ニックネームは既に値が使用されている場合、無効です' do
       user.nickname = created_user.nickname
       expect(user).to be_invalid
     end
     it 'アドレスは既に値が使用されている場合、無効です' do
       user.email = created_user.email
+      expect(user).to be_invalid
+    end
+
+    it 'アドレスは大文字、小文字を区別しない' do
+      user.email = created_user.email.upcase
       expect(user).to be_invalid
     end
   end

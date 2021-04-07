@@ -1,14 +1,18 @@
 <template>
   <v-btn
     class="font-weight-bold"
-    style="color: white"
     depressed
+    outlined
     :color="color"
-    :xLarge="xLarge"
     :disabled="disabled"
+    :loading="loading"
+    :xLarge="xLarge"
     @click="$emit('submit')"
   >
     <slot name="text" />
+    <template #loader>
+      <v-progress-circular color="#eeeeee" indeterminate />
+    </template>
   </v-btn>
 </template>
 
@@ -20,9 +24,13 @@ export default {
     },
     color: {
       type: String,
-      required: true,
+      required: false,
+      default: null,
     },
     disabled: {
+      type: Boolean,
+    },
+    loading: {
       type: Boolean,
     },
   },

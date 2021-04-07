@@ -4,7 +4,10 @@ module Api
     before_action :set_comment, only: %i[update destroy]
 
     def index
-      pagy, comments = pagy(Comment.where(arrangement_id: params[:arrangement_id]).order(created_at: :desc).preload(:user), items: 20) # rubocop:disable Layout/LineLength
+      pagy, comments = pagy(
+        Comment.for_arrangement(decode_id(params[:arrangement_id])).sorted_by_new.preload(:user),
+        items: 20
+      )
       options = {
         include: %i[user],
         fields: {
@@ -52,8 +55,8 @@ module Api
     private
 
     def comment_params
-      permited_params = params.require(:comment).permit(:body)
-      action_name == 'update' ? permited_params : permited_params.merge(arrangement_id: params[:arrangement_id])
+      permited = params.require(:comment).permit(:body)
+      action_name == 'update' ? permited : permited.merge(arrangement_id: decode_id(params[:arrangement_id]))
     end
 
     def set_comment

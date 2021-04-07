@@ -6,8 +6,9 @@ describe 'AvatarUploader' do
     let(:user) { build(:user) }
 
     describe '拡張子のホワイトリストの検証' do
-      context 'jpg, jpeg, png, gifの場合' do
-        extensions = %w[jpg jpeg png gif]
+      context 'jpg, jpeg, pngの場合' do
+        extensions = %w[jpg jpeg png]
+
         it 'ファイルは有効です' do
           extensions.each do |extension|
             File.open("#{Rails.root}/spec/fixtures/images/sample1.#{extension}") do |file|
@@ -18,12 +19,15 @@ describe 'AvatarUploader' do
         end
       end
 
-      context 'txtの場合' do
+      context 'gif, txtの場合' do
+        extensions = %w[gif txt]
         it 'ファイルは無効です' do
-          File.open("#{Rails.root}/spec/fixtures/images/sample1.txt") do |file|
-            user.avatar = file
+          extensions.each do |extension|
+            File.open("#{Rails.root}/spec/fixtures/images/sample1.#{extension}") do |file|
+              user.avatar = file
+            end
+            expect(user).to be_invalid
           end
-          expect(user).to be_invalid
         end
       end
     end

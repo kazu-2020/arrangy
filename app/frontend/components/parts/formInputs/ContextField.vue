@@ -5,7 +5,6 @@
       label="投稿内容"
       outlined
       autoGrow
-      clearable
       color="black"
       counter="1000"
       :errorMessages="errors"

@@ -3,12 +3,16 @@
     <v-sheet id="profile-edit-form" class="pa-10">
       <div class="text-center mb-5">
         <v-avatar class="or-avatar mb-5" size="200">
-          <v-img :src="avatar" />
+          <v-img :src="avatar"> </v-img>
         </v-avatar>
         <div>
-          <NormalButton @click="actionInputFile">
+          <NormalButton :loading="fileLoading" @click="actionInputFile">
             <template #text>プロフィール画像を変更</template>
           </NormalButton>
+          <div>
+            <div class="text-caption light-weight-text">画像形式: JPEG/PNG</div>
+            <div class="text-caption light-weight-text">容量: 10MB以内</div>
+          </div>
         </div>
       </div>
       <ValidationProvider
@@ -23,7 +27,7 @@
           id="user-avatar"
           label="プロフィール画像"
           style="display: none"
-          accept="image/jpg, image/jpeg, image/png, image/gif"
+          accept="image/jpg, image/jpeg, image/png"
           @change="handleAvatarChange"
         />
         <v-alert :value="fileErrorDisplayed" type="error" dense outlined :icon="false">
@@ -42,6 +46,7 @@
             class="mx-2"
             :xLarge="true"
             :color="'#ff5252'"
+            :loading="loading"
             @submit="handleSubmit(handleUpdateProfile)"
           >
             <template #text> 更新する </template>
@@ -93,22 +98,31 @@ export default {
     isShow: {
       type: Boolean,
     },
+    loading: {
+      type: Boolean,
+    },
   },
   data() {
     return {
-      rules: {
+      fileErrorDisplayed: false,
+      fileLoading: false,
+    };
+  },
+  computed: {
+    rules() {
+      return {
         nickname: { required: true, isUnique: ['nickname', this.id], max: 30 },
         email: { required: true, email: true, isUnique: ['email', this.id], max: 50 },
         avatar: { size: 10000, ext: ['jpg', 'jpeg', 'png', 'gif'] },
-      },
-      fileErrorDisplayed: false,
-    };
+      };
+    },
   },
   methods: {
     actionInputFile() {
       document.querySelector('#user-avatar').click();
     },
     async handleAvatarChange(value) {
+      this.fileLoading = true;
       const result = await this.$refs.fileForm.validate(value);
       if (result.valid) {
         this.hideErrorMessage();
@@ -117,14 +131,17 @@ export default {
           .then((image) => {
             image.cover(300, 300).getBase64(Jimp.MIME_PNG, (err, src) => {
               this.$emit('update:avatar', src);
+              this.fileLoading = false;
             });
             URL.revokeObjectURL(imageURL);
           })
           .catch((error) => {
             alert('アップロードに失敗しました');
+            this.fileLoading = false;
             console.log(error);
           });
       } else {
+        this.fileLoading = false;
         this.fileErrorDisplayed = true;
       }
     },

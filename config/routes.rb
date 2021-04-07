@@ -1,17 +1,20 @@
 Rails.application.routes.draw do
   namespace :api, format: 'json' do
-    resources :users, only: %i[create] do
-      get 'me', on: :collection
+    namespace :arrangements do
+      resources :favorites, only: :index
+      resources :postings, only: :index
     end
-    resource :profile, only: %i[update] do
-      patch 'password', on: :member
-    end
-    resource :session, only: %i[create destroy]
     resources :arrangements, only: %i[index create show update destroy] do
       resources :comments, only: %i[index create update destroy], shallow: true
-      get 'mine', on: :collection
+      resource :likes, only: %i[create destroy]
     end
-    get 'validations/unique', to: 'validations#unique'
+    resource :auth_user, only: %i[create show update destroy] do
+      resource :password, only: :update, module: 'auth_user'
+    end
+    resources :users, only: :create
+    namespace 'validation' do
+      resource :uniqueness, only: :show, controller: 'uniqueness'
+    end
   end
 
   get '*path', to: 'static_pages#top'

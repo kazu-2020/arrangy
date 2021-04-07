@@ -1,16 +1,18 @@
 <template>
   <v-container>
+    <v-row class="pt-5">
+      <v-col>
+        <h6 class="text-h6 font-weight-bold">アレンジ飯を投稿する</h6>
+      </v-col>
+    </v-row>
     <v-row>
-      <v-col cols="12" sm="7" class="pt-16 mx-auto">
-        <v-card id="arrangement-new-form" class="pa-4" color="grey lighten-5">
-          <div class="text-h6 pt-8 px-8 mb-5 text-center font-weight-black">新規投稿</div>
-          <ArrangementNewForm
-            v-bind.sync="arrangement"
-            :isLoadng="isLoading"
-            @createArrangement="createArrangement"
-            @uploadFile="uploadFile"
-          />
-        </v-card>
+      <v-col cols="12" class="pt-16 mx-auto">
+        <ArrangementNewForm
+          v-bind.sync="arrangement"
+          :loading="arrangementCreating"
+          @createArrangement="createArrangement"
+          @uploadFile="uploadFile"
+        />
       </v-col>
     </v-row>
   </v-container>
@@ -18,7 +20,7 @@
 
 <script>
 import { mapActions } from 'vuex';
-import ArrangementNewForm from '../parts/forms/ArrangementNewForm';
+import ArrangementNewForm from '../../parts/forms/ArrangementNewForm';
 
 export default {
   components: {
@@ -31,17 +33,18 @@ export default {
         context: '',
         images: [],
       },
-      isLoading: false,
+      arrangementCreating: false,
     };
   },
   methods: {
     ...mapActions('snackbars', ['fetchSnackbarData']),
     createArrangement() {
-      this.isLoading = true;
+      this.arrangementCreating = true;
       this.$devour
         .create('arrangement', this.arrangement)
         .then((res) => {
           this.$router.push({ name: 'ArrangementShow', params: { id: res.data.id } });
+          this.arrangementCreating = false;
           this.fetchSnackbarData({
             msg: '新しいアレンジ飯を投稿しました',
             color: 'success',
@@ -49,7 +52,7 @@ export default {
           });
         })
         .catch((error) => {
-          this.isLoading = false;
+          this.arrangementCreating = false;
           this.fetchSnackbarData({
             msg: '投稿に失敗しました',
             color: 'error',

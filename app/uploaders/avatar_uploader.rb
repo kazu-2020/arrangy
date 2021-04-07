@@ -24,6 +24,6 @@ class AvatarUploader < CarrierWave::Uploader::Base
   process convert: 'png'
 
   def extension_allowlist
-    %w[jpg jpeg png gif]
+    %w[jpg jpeg png]
   end
 end

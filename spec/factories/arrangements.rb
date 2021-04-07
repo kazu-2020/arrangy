@@ -10,5 +10,25 @@ FactoryBot.define do
         arrangement.comments << create(:comment)
       end
     end
+
+    trait :with_comments do
+      transient do
+        count { 5 }
+      end
+
+      after(:build) do |arrangement, evaluator|
+        arrangement.comments << create_list(:comment, evaluator.count)
+      end
+    end
+
+    trait :with_likes do
+      transient do
+        count { 5 }
+      end
+
+      after(:build) do |arrangement, evaluator|
+        arrangement.liked_by_users << create_list(:user, evaluator.count)
+      end
+    end
   end
 end

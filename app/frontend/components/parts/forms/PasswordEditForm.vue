@@ -8,9 +8,9 @@
           @input="$emit('update:password', $event)"
         />
         <PasswordConfirmationField
-          :password="passwordConfirmation"
+          :password="password_confirmation"
           :rules="rules.confirmation"
-          @input="$emit('update:passwordConfirmation', $event)"
+          @input="$emit('update:password_confirmation', $event)"
         />
         <div class="d-flex justify-center">
           <SubmitButton
@@ -52,7 +52,8 @@ export default {
       type: String,
       required: true,
     },
-    passwordConfirmation: {
+    // eslint-disable-next-line vue/prop-name-casing
+    password_confirmation: {
       type: String,
       required: true,
     },
@@ -60,13 +61,13 @@ export default {
       type: Boolean,
     },
   },
-  data() {
-    return {
-      rules: {
+  computed: {
+    rules() {
+      return {
         password: { required: true, min: 6, regex: /^[0-9a-zA-Z]+$/i },
         confirmation: { required: true, confirmed: 'password' },
-      },
-    };
+      };
+    },
   },
   methods: {
     handleUpdatePassword() {

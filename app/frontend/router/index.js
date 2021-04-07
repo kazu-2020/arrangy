@@ -2,14 +2,6 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import store from '../store/index';
 
-import TopPage from '../components/pages/TopPage.vue';
-import Arrangements from '../components/pages/Arrangements.vue';
-import ArrangementNew from '../components/pages/ArrangementNew.vue';
-import ArrangementShow from '../components/pages/ArrangementShow.vue';
-import UserProfile from '../components/pages/UserProfile.vue';
-import UserRegister from '../components/pages/UserRegister.vue';
-import UserLogin from '../components/pages/UserLogin.vue';
-
 Vue.use(VueRouter);
 
 const router = new VueRouter({
@@ -18,38 +10,49 @@ const router = new VueRouter({
     {
       path: '/',
       name: 'TopPage',
-      component: TopPage,
+      component: () => import('../components/pages/Top/Index'),
     },
     {
       path: '/register',
       name: 'UserRegister',
-      component: UserRegister,
+      component: () => import('../components/pages/Register/Index'),
     },
     {
       path: '/login',
       name: 'UserLogin',
-      component: UserLogin,
+      component: () => import('../components/pages/Login/Index'),
     },
     {
       path: '/profile',
-      name: 'UserProfile',
-      component: UserProfile,
+      component: () => import('../components/pages/Profile/Index'),
       meta: { requireAuth: true },
+      children: [
+        {
+          path: '/',
+          name: 'UserProfile',
+          component: () => import('../components/pages/Profile/Mine'),
+        },
+        {
+          path: 'favorites',
+          name: 'Favorites',
+          component: () => import('../components/pages/Profile/Favorites'),
+        },
+      ],
     },
     {
       path: '/arrangements',
-      component: Arrangements,
+      component: () => import('../components/pages/Arrangements/Index'),
       children: [
         {
           path: 'new',
           name: 'ArrangementNew',
-          component: ArrangementNew,
+          component: () => import('../components/pages/Arrangements/New'),
           meta: { requireAuth: true },
         },
         {
           path: ':id',
           name: 'ArrangementShow',
-          component: ArrangementShow,
+          component: () => import('../components/pages/Arrangements/Show.vue'),
           meta: { requireAuth: true },
         },
       ],
