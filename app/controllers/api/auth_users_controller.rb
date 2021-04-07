@@ -34,8 +34,8 @@ module Api
     end
 
     def render_serializer(user, options = {})
-        json_string = UserSerializer.new(user, options)
-        render json: json_string
+      json_string = UserSerializer.new(user, options)
+      render json: json_string
     end
   end
 end
