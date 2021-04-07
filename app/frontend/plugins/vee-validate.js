@@ -45,7 +45,7 @@ extend('size', {
 extend('isUnique', {
   params: ['column', 'user_id'],
   async validate(value, { column, user_id }) {
-    const res = await devour.request(`${devour.apiUrl}/validations/unique`, 'GET', {
+    const res = await devour.request(`${devour.apiUrl}/validation/uniqueness`, 'GET', {
       [column]: value,
       id: user_id,
     });

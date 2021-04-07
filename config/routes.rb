@@ -12,8 +12,9 @@ Rails.application.routes.draw do
       resource :password, only: :update, module: 'auth_user'
     end
     resources :users, only: :create
-    # 保留
-    get 'validations/unique', to: 'validations#unique'
+    namespace 'validation' do
+      resource :uniqueness, only: :show, controller: 'uniqueness'
+    end
   end
 
   get '*path', to: 'static_pages#top'
