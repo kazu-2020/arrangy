@@ -51,6 +51,7 @@
             <!-- いいねボタン -->
             <SubmitButton
               :color="arrangement.liked_authuser ? '#ff5252' : null"
+              :disabled="authUser ? false : true"
               @submit="handleLikedArrangement"
             >
               <template #text>
