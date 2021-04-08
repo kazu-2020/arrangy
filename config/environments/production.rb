@@ -58,7 +58,6 @@ Rails.application.configure do
     expire_after: 1.hour,
     key: "_#{Rails.application.class.module_parent_name.downcase}session",
     threadsafe: true,
-    signed: true,
     secure: true,
     httponly: true
   }
