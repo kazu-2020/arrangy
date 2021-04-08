@@ -75,12 +75,12 @@ test:
 #
 # You can use this database configuration with:
 #
-production:
-  # url: <%= ENV['DATABASE_URL'] %>
-  url: postgres://ywffuzzlpczwys:7de7ca1788f52d31d652887a43a586d54d7e4a7972b948bc120de6e9a17ca2b9@ec2-34-225-103-117.compute-1.amazonaws.com:5432/dd0odc8s3jbpr9
-#
 # production:
-#   <<: *default
-#   database: arrangy_production
-#   username: arrangy
-#   password: <%= ENV['ARRANGY_DATABASE_PASSWORD'] %>
+#   # url: <%= ENV['DATABASE_URL'] %>
+#   url: postgres://ywffuzzlpczwys:7de7ca1788f52d31d652887a43a586d54d7e4a7972b948bc120de6e9a17ca2b9@ec2-34-225-103-117.compute-1.amazonaws.com:5432/dd0odc8s3jbpr9
+#
+production:
+  <<: *default
+  database: arrangy_production
+  username: arrangy
+  password: <%= ENV['ARRANGY_DATABASE_PASSWORD'] %>
