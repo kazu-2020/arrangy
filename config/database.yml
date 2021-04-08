@@ -77,8 +77,3 @@ test:
 #
 production:
   url: <%= ENV['DATABASE_URL'] %>
-# production:
-#   <<: *default
-#   database: arrangy_production
-#   username: arrangy
-#   password: <%= ENV['ARRANGY_DATABASE_PASSWORD'] %>

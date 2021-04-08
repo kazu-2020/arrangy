@@ -17,4 +17,6 @@ class CommentSerializer
 
   belongs_to :user
   belongs_to :arrangement
+
+  cache_options store: Rails.cache, namespace: 'jsonapi-serializer', expires_in: 1.hour
 end

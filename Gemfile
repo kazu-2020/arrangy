@@ -7,6 +7,8 @@ ruby '2.7.2'
 gem 'rails', '~> 6.0.3', '>= 6.0.3.4'
 # database
 gem 'pg', '>= 0.18', '< 2.0'
+gem 'redis'
+gem 'redis-rails'
 
 # seed for database
 gem 'seed-fu'
