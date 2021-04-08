@@ -30,6 +30,7 @@ gem 'jsonapi-serializer'
 
 # image uploader
 gem 'carrierwave', '~> 2.0'
+gem 'fog-aws'
 
 # pagination
 gem 'pagy', '~> 3.5'
