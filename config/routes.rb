@@ -15,6 +15,10 @@ Rails.application.routes.draw do
     namespace 'validation' do
       resource :uniqueness, only: :show, controller: 'uniqueness'
     end
+
+    post "oauth/callback", to: "oauths#callback"
+    get "oauth/callback",  to: "oauths#callback"
+    get "oauth/:provider", to: "oauths#oauth", as: :auth_at_provider
   end
 
   get '*path', to: 'static_pages#top'

@@ -3,10 +3,12 @@ import { csrfToken } from 'rails-ujs';
 
 const jsonApi = new JsonApi({
   apiUrl: '/api',
+  fll: 'bar',
 });
 
 jsonApi.headers['X-CSRF-TOKEN'] = csrfToken();
 jsonApi.headers['CONTENT-TYPE'] = 'application/json';
+jsonApi.axios.defaults.withCredentials = true;
 
 jsonApi.define('user', {
   id: '',

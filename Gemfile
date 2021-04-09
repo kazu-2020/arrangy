@@ -5,6 +5,7 @@ ruby '2.7.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.3', '>= 6.0.3.4'
+
 # database
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'redis'
@@ -17,8 +18,6 @@ gem 'seed-fu'
 gem 'puma', '~> 4.1'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
 gem 'webpacker', '~> 4.0'
-# Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 4.0'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
