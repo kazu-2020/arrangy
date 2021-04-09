@@ -8,7 +8,6 @@ const jsonApi = new JsonApi({
 
 jsonApi.headers['X-CSRF-TOKEN'] = csrfToken();
 jsonApi.headers['CONTENT-TYPE'] = 'application/json';
-jsonApi.axios.defaults.withCredentials = true;
 
 jsonApi.define('user', {
   id: '',
