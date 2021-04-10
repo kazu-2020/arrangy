@@ -50,7 +50,7 @@
           <v-col class="text-end">
             <!-- いいねボタン -->
             <SubmitButton
-              :color="arrangement.liked_authuser ? '#ff5252' : null"
+              :color="arrangement.liked_authuser ? '#cc3918' : null"
               :disabled="authUser ? false : true"
               @submit="handleLikedArrangement"
             >

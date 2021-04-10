@@ -17,7 +17,7 @@
         </ValidationProvider>
         <v-card-actions class="pb-0">
           <v-spacer />
-          <SubmitButton :color="'#ff5252'" :disabled="invalid" @submit="$emit('updateComment')">
+          <SubmitButton :color="'#cc3918'" :disabled="invalid" @submit="$emit('updateComment')">
             <template #text>更新する</template>
           </SubmitButton>
           <NormalButton @click="$emit('closeDialog')">

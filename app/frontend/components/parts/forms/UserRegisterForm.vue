@@ -19,7 +19,7 @@
       />
     </v-card-text>
     <v-card-actions class="d-flex justify-center pb-8">
-      <SubmitButton :xLarge="true" :color="'#ff5252'" @submit="handleSubmit(handleRegisterUser)">
+      <SubmitButton :xLarge="true" :color="'#cc3918'" @submit="handleSubmit(handleRegisterUser)">
         <template #text>
           <v-icon class="mr-1">mdi-email-outline</v-icon>
           メールアドレスで登録

@@ -15,7 +15,7 @@
     <div v-if="displayedButton" class="d-flex justify-end">
       <SubmitButton
         class="mx-2"
-        :color="'#ff5252'"
+        :color="'#cc3918'"
         :disabled="invalid"
         @submit="$emit('createComment')"
       >
