@@ -17,8 +17,13 @@
         :rules="rules.password_confirmation"
         @input="$emit('update:password_confirmation', $event)"
       />
+      <div class="text-body-2">
+        Arrangyの利用を開始した場合、
+        <a @click.stop="termsDialogDisplayed = true">利用規約</a>
+        に同意したことになります。
+      </div>
     </v-card-text>
-    <v-card-actions class="d-flex justify-center pb-8">
+    <v-card-actions class="d-flex justify-center flex-column pb-8">
       <SubmitButton :xLarge="true" :color="'#cc3918'" @submit="handleSubmit(handleRegisterUser)">
         <template #text>
           <v-icon class="mr-1">mdi-email-outline</v-icon>
@@ -26,23 +31,39 @@
         </template>
       </SubmitButton>
     </v-card-actions>
+
+    <!-- 利用規約ダイアログ -->
+    <v-dialog v-model="termsDialogDisplayed" maxWidth="1100">
+      <v-sheet>
+        <TermsBody />
+        <v-card-actions class="d-flex justify-center">
+          <NormalButton :xLarge="true" @click="termsDialogDisplayed = false">
+            <template #text>戻る</template>
+          </NormalButton>
+        </v-card-actions>
+      </v-sheet>
+    </v-dialog>
   </ValidationObserver>
 </template>
 
 <script>
-import NicknameField from '../formInputs/NicknameFiled';
 import EmailField from '../formInputs/EmailField';
-import PasswordField from '../formInputs/PasswordField';
+import NicknameField from '../formInputs/NicknameFiled';
+import NormalButton from '../buttons/NormalButton';
 import PasswordConfirmationField from '../formInputs/PasswordConfirmationField';
+import PasswordField from '../formInputs/PasswordField';
 import SubmitButton from '../buttons/SubmitButton';
+import TermsBody from '../base/TermsBody';
 
 export default {
   components: {
-    NicknameField,
     EmailField,
-    PasswordField,
+    NicknameField,
+    NormalButton,
     PasswordConfirmationField,
+    PasswordField,
     SubmitButton,
+    TermsBody,
   },
   props: {
     nickname: {
@@ -62,6 +83,11 @@ export default {
       type: String,
       required: true,
     },
+  },
+  data() {
+    return {
+      termsDialogDisplayed: false,
+    };
   },
   computed: {
     rules() {
