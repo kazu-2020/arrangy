@@ -1,41 +1,64 @@
 <template>
-  <v-container>
-    <WelcomeDialog :dialog="welcomeDialogDisplayed" @close-dialog="closeWelcomeDialog" />
-    <v-row>
-      <v-col v-for="(arrangement, $index) in arrangements" :key="$index" cols="12" sm="4" md="4">
-        <ArrangementSummary :arrangement="arrangement">
-          <template slot="user-information">
-            <v-card-text>
-              <v-row>
-                <v-col cols="auto">
-                  <v-avatar size="25">
-                    <v-img
-                      :id="`arrangement-avatar${arrangement.id}`"
-                      :src="arrangement.user.avatar"
-                    />
-                  </v-avatar>
-                </v-col>
-                <v-col cols="auto">
-                  <div class="text-subtitle-1 font-weight-black">
-                    {{ arrangement.user.nickname }}
-                  </div>
-                </v-col>
-              </v-row>
-            </v-card-text>
-          </template>
-        </ArrangementSummary>
-      </v-col>
-      <infinite-loading
-        v-if="pagy.isActioned"
-        direction="bottom"
-        spinner="circles"
-        @infinite="infiniteHandler"
-      >
-        <div slot="no-more" />
-        <div slot="no-results" />
-      </infinite-loading>
-    </v-row>
-  </v-container>
+  <div>
+    <v-container fluid class="pt-0 px-0">
+      <v-row noGutters class="d-flex justify-center" style="background-color: #cc3918">
+        <v-col cols="auto">
+          <v-img src="/images/toppage-logo.png"> </v-img>
+        </v-col>
+        <v-col cols="auto">
+          <v-card-text
+            class="text-subtitle-1 font-weight-bold pt-10 text-md-center px-3"
+            style="color: white"
+          >
+            コンビニ商品や外食店の料理を使用した<br class="br-sp" />アレンジ飯を共有するサービスです
+          </v-card-text>
+          <v-card-actions class="d-flex justify-center">
+            <v-btn xLarge rounded outlined class="btn" :to="{ name: 'ArrangementNew' }">
+              <div class="font-weight-bold">早速、投稿してみる</div>
+            </v-btn>
+          </v-card-actions>
+        </v-col>
+      </v-row>
+    </v-container>
+    <v-container>
+      <v-row>
+        <v-col v-for="(arrangement, $index) in arrangements" :key="$index" cols="12" sm="4" md="4">
+          <ArrangementSummary :arrangement="arrangement">
+            <template slot="user-information">
+              <v-card-text>
+                <v-row>
+                  <v-col cols="auto">
+                    <v-avatar size="25">
+                      <v-img
+                        :id="`arrangement-avatar${arrangement.id}`"
+                        :src="arrangement.user.avatar"
+                      />
+                    </v-avatar>
+                  </v-col>
+                  <v-col cols="auto">
+                    <div class="text-subtitle-1 font-weight-black">
+                      {{ arrangement.user.nickname }}
+                    </div>
+                  </v-col>
+                </v-row>
+              </v-card-text>
+            </template>
+          </ArrangementSummary>
+        </v-col>
+        <infinite-loading
+          v-if="pagy.isActioned"
+          direction="bottom"
+          spinner="circles"
+          @infinite="infiniteHandler"
+        >
+          <div slot="no-more" />
+          <div slot="no-results" />
+        </infinite-loading>
+      </v-row>
+      <!-- 新規投稿者案内用ダイアログ -->
+      <WelcomeDialog :dialog="welcomeDialogDisplayed" @close-dialog="closeWelcomeDialog" />
+    </v-container>
+  </div>
 </template>
 
 <script>
@@ -112,3 +135,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.btn {
+  border: 2.5px solid;
+  color: white;
+}
+</style>

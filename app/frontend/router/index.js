@@ -52,10 +52,15 @@ const router = new VueRouter({
         {
           path: ':id',
           name: 'ArrangementShow',
-          component: () => import('../components/pages/Arrangements/Show.vue'),
+          component: () => import('../components/pages/Arrangements/Show'),
           meta: { requireAuth: true },
         },
       ],
+    },
+    {
+      path: '/terms',
+      name: 'TermsPage',
+      component: () => import('../components/pages/TermsPage'),
     },
   ],
 });

@@ -7,15 +7,15 @@
       から。
     </template>
 
-    <template slot="main2-title"> 他サービスのアカウントで<br class="br-sp" />ログイン</template>
+    <template slot="main2-title"> ARRANGYアカウントで<br class="br-sp" />ログイン </template>
     <template slot="main2-context">
-      <v-btn class="mb-12" xlarge>twitterアカウントでログイン</v-btn>
-      <v-btn class="mb-12" xlarge>googleアカウントでログイン</v-btn>
+      <UserLoginForm v-bind.sync="user" @loginUser="loginFunction" />
     </template>
 
-    <template slot="main3-title"> ARRANGYアカウントで<br class="br-sp" />ログイン </template>
+    <template slot="main3-title"> 他サービスのアカウントで<br class="br-sp" />ログイン</template>
     <template slot="main3-context">
-      <UserLoginForm v-bind.sync="user" @loginUser="loginFunction" />
+      <v-btn class="mb-12" xlarge>twitterアカウントでログイン</v-btn>
+      <v-btn class="mb-12" xlarge>googleアカウントでログイン</v-btn>
     </template>
   </RegistrationAndLoginBase>
 </template>

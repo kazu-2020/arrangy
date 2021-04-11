@@ -1,9 +1,9 @@
 <template>
   <div>
-    <v-app-bar id="page-header" fixed height="60" elevation="1" class="px-10" color="#FAFAFA">
-      <v-toolbar-title>
-        <router-link class="router-link text-h4" style="color: #ff5252" :to="{ name: 'TopPage' }">
-          ARRANGY
+    <v-app-bar id="page-header" fixed height="60" elevation="1" class="px-md-10" color="#FAFAFA">
+      <v-toolbar-title class="logo">
+        <router-link :to="{ name: 'TopPage' }">
+          <v-img src="/images/header-logo.png" />
         </router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
@@ -69,3 +69,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.logo {
+  cursor: pointer;
+}
+</style>

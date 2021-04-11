@@ -1,6 +1,6 @@
 <template>
   <v-btn
-    class="font-weight-bold"
+    class="font-weight-bold btn"
     depressed
     outlined
     :color="color"
@@ -36,3 +36,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.btn {
+  border: 2.5px solid;
+}
+</style>

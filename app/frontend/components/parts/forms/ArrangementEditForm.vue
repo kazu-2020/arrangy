@@ -43,7 +43,7 @@
           <SubmitButton
             class="mx-2"
             :xLarge="true"
-            :color="'#ff5252'"
+            :color="'#cc3918'"
             :disabled="invalid"
             @submit="handleUpdateArrangement"
           >

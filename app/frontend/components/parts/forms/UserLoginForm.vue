@@ -7,28 +7,49 @@
         :rules="rules.password"
         @input="$emit('update:password', $event)"
       />
+      <div class="text-body-2">
+        Arrangyの利用を継続した場合、
+        <a @click.stop="termsDialogDisplayed = true">利用規約</a>
+        に同意したことになります。
+      </div>
     </v-card-text>
     <v-card-actions class="d-flex justify-center pb-8">
-      <SubmitButton :xLarge="true" :color="'#ff5252'" @submit="handleSubmit(handleLoginUser)">
+      <SubmitButton :xLarge="true" :color="'#cc3918'" @submit="handleSubmit(handleLoginUser)">
         <template #text>
           <v-icon class="mr-1">mdi-email-outline</v-icon>
           メールアドレスでログイン
         </template>
       </SubmitButton>
     </v-card-actions>
+
+    <!-- 利用規約ダイアログ -->
+    <v-dialog v-model="termsDialogDisplayed" maxWidth="1100">
+      <v-sheet>
+        <TermsBody />
+        <v-card-actions class="d-flex justify-center">
+          <NormalButton :xLarge="true" @click="termsDialogDisplayed = false">
+            <template #text>戻る</template>
+          </NormalButton>
+        </v-card-actions>
+      </v-sheet>
+    </v-dialog>
   </ValidationObserver>
 </template>
 
 <script>
 import EmailField from '../formInputs/EmailField';
+import NormalButton from '../buttons/NormalButton';
 import PasswordField from '../formInputs/PasswordField';
 import SubmitButton from '../buttons/SubmitButton';
+import TermsBody from '../base/TermsBody';
 
 export default {
   components: {
     EmailField,
+    NormalButton,
     PasswordField,
     SubmitButton,
+    TermsBody,
   },
   props: {
     email: {
@@ -39,6 +60,11 @@ export default {
       type: String,
       required: true,
     },
+  },
+  data() {
+    return {
+      termsDialogDisplayed: false,
+    };
   },
   computed: {
     rules() {
