@@ -15,7 +15,7 @@
     <template slot="main3-title"> 他サービスのアカウントで<br class="br-sp" />登録 </template>
     <template slot="main3-context">
       <v-btn class="mb-12" xLarge>Twitterアカウントで登録</v-btn>
-      <v-btn class="mb-12" xLarge>Googleアカウントで登録</v-btn>
+      <v-btn class="mb-12" xLarge href="/api/oauth/google">Googleアカウントで登録</v-btn>
     </template>
   </RegistrationAndLoginBase>
 </template>
