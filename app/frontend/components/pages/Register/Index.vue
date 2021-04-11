@@ -7,15 +7,23 @@
       から。
     </template>
 
+    <template slot="main2-title"> メールアドレスを使用して新規登録</template>
     <template slot="main2-context">
       <UserRegisterForm v-bind.sync="user" @registerUser="registerFunction" />
     </template>
-    <template slot="main2-title"> メールアドレスを使用して<br class="br-sp" />新規登録</template>
 
-    <template slot="main3-title"> 他サービスのアカウントで<br class="br-sp" />登録 </template>
+    <template slot="main3-title"> 他サービスのアカウントで登録 </template>
     <template slot="main3-context">
-      <v-btn class="mb-12" xLarge>Twitterアカウントで登録</v-btn>
-      <v-btn class="mb-12" xLarge href="/api/oauth/google">Googleアカウントで登録</v-btn>
+      <v-btn
+        class="mb-12 font-weight-bold text-capitalize"
+        href="/api/oauth/google"
+        xLarge
+        color="#dd4b39"
+        style="color: white"
+      >
+        <v-icon class="mr-2">mdi-google-plus</v-icon>
+        Googleアカウントで登録
+      </v-btn>
     </template>
   </RegistrationAndLoginBase>
 </template>

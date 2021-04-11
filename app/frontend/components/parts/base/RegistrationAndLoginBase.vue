@@ -27,7 +27,7 @@
 
       <v-col cols="12" sm="5" md="5" lg="5" xl="5">
         <v-card height="100%">
-          <div class="text-h6 pt-8 px-8 text-center font-weight-black">
+          <div class="text-h6 pt-8 px-8 mb-4 text-center font-weight-black">
             <slot name="main3-title" />
           </div>
           <v-card-actions class="d-flex flex-column">

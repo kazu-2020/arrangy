@@ -39,6 +39,9 @@ gem 'pagy', '~> 3.5'
 # I18n
 gem 'rails-i18n', '~> 6.0.0'
 
+# Settings Management
+gem 'config'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 

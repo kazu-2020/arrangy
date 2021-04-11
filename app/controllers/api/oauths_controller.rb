@@ -2,9 +2,7 @@ class Api::OauthsController < ApplicationController
   skip_before_action :require_login
 
   def oauth
-    # binding.pry
-    # login_at(params[:provider])
-    login_at(:google)
+    login_at(params[:provider])
   end
 
   def callback

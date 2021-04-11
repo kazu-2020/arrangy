@@ -1,0 +1,2 @@
+google:
+  callback_url: https://arrangy.herokuapp.com/oauth/callback?provider=google

@@ -14,8 +14,16 @@
 
     <template slot="main3-title"> 他サービスのアカウントで<br class="br-sp" />ログイン</template>
     <template slot="main3-context">
-      <v-btn class="mb-12" xlarge>twitterアカウントでログイン</v-btn>
-      <v-btn class="mb-12" xlarge>googleアカウントでログイン</v-btn>
+      <v-btn
+        class="mb-12 font-weight-bold text-capitalize"
+        href="/api/oauth/google"
+        xLarge
+        color="#dd4b39"
+        style="color: white"
+      >
+        <v-icon class="mr-2">mdi-google-plus</v-icon>
+        Googleアカウントで登録
+      </v-btn>
     </template>
   </RegistrationAndLoginBase>
 </template>
