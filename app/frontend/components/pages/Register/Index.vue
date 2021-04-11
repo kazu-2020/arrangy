@@ -7,16 +7,16 @@
       から。
     </template>
 
-    <template slot="main2-title"> 他サービスのアカウントで<br class="br-sp" />登録 </template>
     <template slot="main2-context">
-      <v-btn class="mb-12" xLarge>Twitterアカウントで登録</v-btn>
-      <v-btn class="mb-12" xLarge @click="handleRegisterGoogle">Googleアカウントで登録</v-btn>
-    </template>
-
-    <template slot="main3-context">
       <UserRegisterForm v-bind.sync="user" @registerUser="registerFunction" />
     </template>
-    <template slot="main3-title"> メールアドレスを使用して<br class="br-sp" />新規登録</template>
+    <template slot="main2-title"> メールアドレスを使用して<br class="br-sp" />新規登録</template>
+
+    <template slot="main3-title"> 他サービスのアカウントで<br class="br-sp" />登録 </template>
+    <template slot="main3-context">
+      <v-btn class="mb-12" xLarge>Twitterアカウントで登録</v-btn>
+      <v-btn class="mb-12" xLarge>Googleアカウントで登録</v-btn>
+    </template>
   </RegistrationAndLoginBase>
 </template>
 

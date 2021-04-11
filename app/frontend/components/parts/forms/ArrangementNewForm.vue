@@ -3,7 +3,7 @@
     <v-row class="mb-10">
       <v-col cols="12" sm="4">
         <div class="text-h6 font-weight-bold">写真を選択する</div>
-        <div class="text-caption" style="color: #ff5252">※必須</div>
+        <div class="text-caption" style="color: #cc3918">※必須</div>
         <div class="d-flex flex-column">
           <div class="text-caption light-weight-text">画像形式: JPEG/PNG</div>
           <div class="text-caption light-weight-text">容量: 10MB以内</div>
@@ -55,7 +55,7 @@
     <v-row class="mb-10">
       <v-col cols="12" sm="4">
         <div class="text-h6 font-weight-bold">タイトルを追加する</div>
-        <div class="text-caption" style="color: #ff5252">※必須</div>
+        <div class="text-caption" style="color: #cc3918">※必須</div>
         <div class="d-flex flex-column">
           <div class="text-caption light-weight-text">文字数: 30字以内</div>
         </div>
@@ -68,7 +68,7 @@
     <v-row class="mb-10">
       <v-col cols="12" sm="4">
         <div class="text-h6 font-weight-bold">コメントを追加する</div>
-        <div class="text-caption" style="color: #ff5252">※必須</div>
+        <div class="text-caption" style="color: #cc3918">※必須</div>
         <div class="d-flex flex-column">
           <div class="text-caption light-weight-text">文字数: 1000字以内</div>
         </div>
@@ -85,7 +85,7 @@
     <v-card-actions class="d-flex justify-center">
       <SubmitButton
         :xLarge="true"
-        :color="'#ff5252'"
+        :color="'#cc3918'"
         :disabled="!passed"
         :loading="loading"
         @submit="handleCreateArrangement"

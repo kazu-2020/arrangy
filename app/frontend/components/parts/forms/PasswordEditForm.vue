@@ -16,7 +16,7 @@
           <SubmitButton
             class="mx-2"
             :xLarge="true"
-            :color="'#ff5252'"
+            :color="'#cc3918'"
             @submit="handleSubmit(handleUpdatePassword)"
           >
             <template #text> 更新する </template>

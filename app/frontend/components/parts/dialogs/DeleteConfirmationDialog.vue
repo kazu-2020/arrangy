@@ -9,7 +9,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer />
-        <SubmitButton :color="'#ff5252'" @submit="$emit('deleteData')">
+        <SubmitButton :color="'#cc3918'" @submit="$emit('deleteData')">
           <template #text>削除する</template>
         </SubmitButton>
         <NormalButton @click="$emit('closeDialog')">
