@@ -252,6 +252,44 @@ export default {
       deleteArrangementDialogDisplayed: false,
     };
   },
+  head: {
+    title() {
+      return {
+        inner: this.arrangement.title,
+        separator: '|',
+        complement: 'Arrangy(アレンジー)',
+      };
+    },
+    meta() {
+      return [
+        {
+          name: 'description',
+          content: this.arrangement.context,
+          id: 'description',
+        },
+        {
+          property: 'og:url',
+          content: `https://arrangy.jp/arrangements/${this.arrangement.id}`,
+          id: 'og-url',
+        },
+        {
+          property: 'og:title',
+          content: `${this.arrangement.user.nickname}さんのアレンジ飯です | Arrangy(アレンジー)`,
+          id: 'og-title',
+        },
+        {
+          property: 'og:description',
+          content: this.arrangement.context,
+          id: 'og-description',
+        },
+        {
+          property: 'og:image',
+          content: this.arrangement.images[0],
+          id: 'og-image',
+        },
+      ];
+    },
+  },
   computed: {
     ...mapGetters('users', ['authUser']),
   },
@@ -259,12 +297,15 @@ export default {
     this.fetchArrangement();
     this.fetchComment();
   },
+  updated() {
+    this.$emit('updateHead');
+  },
   methods: {
     ...mapActions('snackbars', ['fetchSnackbarData']),
     fetchArrangement() {
-      this.$devour
-        .find('arrangement', this.$route.params.id)
-        .then((res) => (this.arrangement = res.data));
+      this.$devour.find('arrangement', this.$route.params.id).then((res) => {
+        this.arrangement = res.data;
+      });
     },
     fetchComment() {
       this.$devour
