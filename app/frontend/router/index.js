@@ -62,6 +62,10 @@ const router = new VueRouter({
       name: 'TermsPage',
       component: () => import('../components/pages/TermsPage'),
     },
+    {
+      path: '*',
+      component: () => import('../components/pages/error/404Page.vue'),
+    },
   ],
 });
 
