@@ -100,8 +100,8 @@ RSpec.describe "投稿編集", type: :system, js: true do
     end
 
     it '変更後のデータが反映されている' do
+      sleep 2
       within("#arrangement-#{encode_id(arrangement.id)}") do
-        sleep 1
         expect(page).to have_content('タイトルを更新')
         expect(page).to have_content('投稿内容を更新')
       end
