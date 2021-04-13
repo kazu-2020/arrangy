@@ -97,10 +97,6 @@ RSpec.describe "投稿編集", type: :system, js: true do
       expect(find('#global-snackbar')).to have_text('投稿を更新しました')
       sleep 1
       expect(find('#arrangement-edit-form', visible: false).visible?).to eq(false)
-    end
-
-    it '変更後のデータが反映されている' do
-      sleep 2
       within("#arrangement-#{encode_id(arrangement.id)}") do
         expect(page).to have_content('タイトルを更新')
         expect(page).to have_content('投稿内容を更新')
