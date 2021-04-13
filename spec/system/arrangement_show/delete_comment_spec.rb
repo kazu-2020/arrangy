@@ -26,7 +26,7 @@ RSpec.describe "コメント削除", type: :system, js: true do
       it '「コメントを削除しました」と表示され、コメントが削除される' do
         expect {
           find('#global-snackbar', text: 'コメントを削除しました')
-          sleep 1
+          sleep 2
         }.to change { Comment.count}.by(-1)
         expect(has_selector?("comment-#{comment.id}")).to eq(false)
       end

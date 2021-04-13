@@ -26,7 +26,7 @@ RSpec.describe "投稿削除", type: :system, js: true do
       it '「投稿を削除しました」と表示され、プロフィールページへ遷移する' do
         expect {
           find('#global-snackbar', text: '投稿を削除しました')
-          sleep 2
+          sleep 2.5
         }.to change {Arrangement.count}.by(-1)
         expect(current_path).to eq('/profile/')
       end
