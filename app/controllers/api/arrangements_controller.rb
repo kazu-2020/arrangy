@@ -66,8 +66,8 @@ module Api
     end
 
     def set_arrangement
-      @arrangement = begin
-        Arrangement.find(decode_id(params[:id]))
+      begin
+        @arrangement = Arrangement.find(decode_id(params[:id]))
       rescue
         raise ActiveRecord::RecordNotFound
       end

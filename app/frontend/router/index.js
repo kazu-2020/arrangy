@@ -72,13 +72,14 @@ const router = new VueRouter({
         {
           path: 'new',
           name: 'ArrangementNew',
-          meta: { requireAuth: true },
           component: () => import('../components/pages/Arrangements/New'),
+          meta: { requireAuth: true },
         },
         {
           path: ':id',
           name: 'ArrangementShow',
           component: () => import('../components/pages/Arrangements/Show'),
+          meta: { requireAuth: true },
         },
       ],
     },

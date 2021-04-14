@@ -1,8 +1,8 @@
 <template>
   <v-app>
     <v-main class="base-color">
-      <NotFound v-if="responseStatus === 404" key="not-found" />
-      <ServerError v-else-if="responseStatus === 500" key="server-error" />
+      <NotFound v-if="responseStatus === 404" />
+      <ServerError v-else-if="responseStatus === 500" />
       <template v-else>
         <router-view name="header" />
         <router-view name="snackbar" />
