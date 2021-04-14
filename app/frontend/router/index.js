@@ -45,17 +45,18 @@ const router = new VueRouter({
         snackbar: () => import('../components/global/TheSnackbar.vue'),
         footer: () => import('../components/global/TheFooter'),
       },
-      meta: { requireAuth: true },
       children: [
         {
           path: '/',
           name: 'UserProfile',
           component: () => import('../components/pages/Profile/Mine'),
+          meta: { requireAuth: true },
         },
         {
           path: 'favorites',
           name: 'Favorites',
           component: () => import('../components/pages/Profile/Favorites'),
+          meta: { requireAuth: true },
         },
       ],
     },
