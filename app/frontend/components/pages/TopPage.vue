@@ -145,31 +145,25 @@ export default {
       this.welcomeDialogDisplayed = !this.welcomeDialogDisplayed;
     },
     fetchArrangements() {
-      this.$devour
-        .findAll('arrangement', { page: this.pagy.currentPage })
-        .then((res) => {
-          this.arrangements.push(...res.data);
-          this.pagy.currentPage += 1;
-          if (res.meta.pagy.pages !== 1) {
-            this.pagy.isActioned = true;
-          }
-        })
-        .catch((err) => console.log(err));
+      this.$devour.findAll('arrangement', { page: this.pagy.currentPage }).then((res) => {
+        this.arrangements.push(...res.data);
+        this.pagy.currentPage += 1;
+        if (res.meta.pagy.pages !== 1) {
+          this.pagy.isActioned = true;
+        }
+      });
     },
     infiniteHandler($state) {
-      this.$devour
-        .findAll('arrangement', { page: this.pagy.currentPage })
-        .then((res) => {
-          if (this.pagy.currentPage < res.meta.pagy.pages) {
-            this.pagy.currentPage += 1;
-            this.arrangements.push(...res.data);
-            $state.loaded();
-          } else {
-            this.arrangements.push(...res.data);
-            $state.complete();
-          }
-        })
-        .catch((err) => console.log(err));
+      this.$devour.findAll('arrangement', { page: this.pagy.currentPage }).then((res) => {
+        if (this.pagy.currentPage < res.meta.pagy.pages) {
+          this.pagy.currentPage += 1;
+          this.arrangements.push(...res.data);
+          $state.loaded();
+        } else {
+          this.arrangements.push(...res.data);
+          $state.complete();
+        }
+      });
     },
   },
 };
