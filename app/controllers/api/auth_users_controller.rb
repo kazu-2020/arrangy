@@ -22,7 +22,9 @@ module Api
     end
 
     def destroy
-      logout
+      # sorceryのlogoutメソッドはreset_sessionが実行される為、使用しない
+      session[:user_id] = nil
+      current_user = nil
       head :no_content
     end
 
