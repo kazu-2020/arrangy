@@ -17,5 +17,4 @@ class CommentSerializer
 
   belongs_to :user
   belongs_to :arrangement
-
 end

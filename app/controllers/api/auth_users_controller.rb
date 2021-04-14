@@ -22,9 +22,10 @@ module Api
     end
 
     def destroy
-      # sorceryのlogoutメソッドはreset_sessionが実行される為、使用しない
+      # sorceryのlogoutメソッドはreset_sessionが実行される為、使用しない。
+      # session[:_csrf_token]がnilになる為。
       session[:user_id] = nil
-      current_user = nil
+      current_user = nil # rubocop:disable Lint/UselessAssignment
       head :no_content
     end
 

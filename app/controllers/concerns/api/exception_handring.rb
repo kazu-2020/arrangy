@@ -26,11 +26,10 @@ module Api
       render_error(:bad_request, 'Bad Request', exception&.message, *messages)
     end
 
-
     def render_error(status, message, *detail)
       error_response = {
         message: message,
-        detail: detail.compact,
+        detail: detail.compact
       }
       render json: error_response, status: status
     end
