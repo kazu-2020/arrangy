@@ -1,4 +1,5 @@
 import JsonApi from 'devour-client';
+import store from '../store/index';
 import { csrfToken } from 'rails-ujs';
 
 const jsonApi = new JsonApi({
@@ -75,6 +76,7 @@ jsonApi.define('like', {
 });
 
 const requestMiddleware = {
+  name: 'payload-formating',
   req: (payload) => {
     if (['POST', 'PATCH'].includes(payload.req.method)) {
       // devourのcreate,updateメソッドを使う場合
@@ -91,6 +93,15 @@ const requestMiddleware = {
   },
 };
 
+let errorMiddleware = {
+  name: 'error-handling',
+  error: (payload) => {
+    console.log(payload.response.data);
+    store.dispatch('status/fetchResponseStatus', payload.response.status);
+  },
+};
+
 jsonApi.insertMiddlewareBefore('axios-request', requestMiddleware);
+jsonApi.replaceMiddleware('errors', errorMiddleware);
 
 export default jsonApi;

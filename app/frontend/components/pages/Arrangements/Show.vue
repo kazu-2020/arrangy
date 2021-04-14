@@ -295,7 +295,6 @@ export default {
   },
   created() {
     this.fetchArrangement();
-    this.fetchComment();
   },
   updated() {
     this.$emit('updateHead');
@@ -305,6 +304,7 @@ export default {
     fetchArrangement() {
       this.$devour.find('arrangement', this.$route.params.id).then((res) => {
         this.arrangement = res.data;
+        this.fetchComment();
       });
     },
     fetchComment() {

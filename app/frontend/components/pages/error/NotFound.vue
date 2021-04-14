@@ -21,13 +21,14 @@
     </v-row>
     <v-row>
       <v-col class="text-center">
-        <v-btn outlined :to="{ name: 'TopPage' }">トップページへ戻る</v-btn>
+        <v-btn outlined @click="comeBack">前のページへ戻る</v-btn>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 export default {
   computed: {
     problems() {
@@ -36,6 +37,12 @@ export default {
         { num: '2.', content: 'ページのURLが削除された可能性があります。' },
         { num: '3.', content: 'URLが間違っている可能性があります。' },
       ];
+    },
+  },
+  methods: {
+    ...mapActions('status', ['fetchResponseStatus']),
+    comeBack() {
+      this.$router.go(-1);
     },
   },
 };

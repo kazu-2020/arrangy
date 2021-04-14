@@ -64,7 +64,8 @@ const router = new VueRouter({
     },
     {
       path: '*',
-      component: () => import('../components/pages/error/404Page.vue'),
+      name: '404Page',
+      component: () => import('../components/pages/error/NotFound.vue'),
     },
   ],
 });
