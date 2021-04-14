@@ -10,21 +10,41 @@ const router = new VueRouter({
     {
       path: '/',
       name: 'TopPage',
-      component: () => import('../components/pages/Top/Index'),
+      components: {
+        default: () => import('../components/pages/TopPage'),
+        header: () => import('../components/global/TheHeader'),
+        snackbar: () => import('../components/global/TheSnackbar.vue'),
+        footer: () => import('../components/global/TheFooter'),
+      },
     },
     {
       path: '/register',
       name: 'UserRegister',
-      component: () => import('../components/pages/Register/Index'),
+      components: {
+        default: () => import('../components/pages/RegisterPage'),
+        header: () => import('../components/global/TheHeader'),
+        snackbar: () => import('../components/global/TheSnackbar.vue'),
+        footer: () => import('../components/global/TheFooter'),
+      },
     },
     {
       path: '/login',
       name: 'UserLogin',
-      component: () => import('../components/pages/Login/Index'),
+      components: {
+        default: () => import('../components/pages/LoginPage'),
+        header: () => import('../components/global/TheHeader'),
+        snackbar: () => import('../components/global/TheSnackbar.vue'),
+        footer: () => import('../components/global/TheFooter'),
+      },
     },
     {
       path: '/profile',
-      component: () => import('../components/pages/Profile/Index'),
+      components: {
+        default: () => import('../components/pages/Profile/RootPage'),
+        header: () => import('../components/global/TheHeader'),
+        snackbar: () => import('../components/global/TheSnackbar.vue'),
+        footer: () => import('../components/global/TheFooter'),
+      },
       meta: { requireAuth: true },
       children: [
         {
@@ -41,26 +61,34 @@ const router = new VueRouter({
     },
     {
       path: '/arrangements',
-      component: () => import('../components/pages/Arrangements/Index'),
+      components: {
+        default: () => import('../components/pages/Arrangements/RootPage'),
+        header: () => import('../components/global/TheHeader'),
+        snackbar: () => import('../components/global/TheSnackbar.vue'),
+        footer: () => import('../components/global/TheFooter'),
+      },
       children: [
         {
           path: 'new',
           name: 'ArrangementNew',
-          component: () => import('../components/pages/Arrangements/New'),
           meta: { requireAuth: true },
+          component: () => import('../components/pages/Arrangements/New'),
         },
         {
           path: ':id',
           name: 'ArrangementShow',
           component: () => import('../components/pages/Arrangements/Show'),
-          meta: { requireAuth: true },
         },
       ],
     },
     {
       path: '/terms',
       name: 'TermsPage',
-      component: () => import('../components/pages/TermsPage'),
+      components: {
+        default: () => import('../components/pages/TermsPage'),
+        header: () => import('../components/global/TheHeader'),
+        footer: () => import('../components/global/TheFooter'),
+      },
     },
     {
       path: '*',

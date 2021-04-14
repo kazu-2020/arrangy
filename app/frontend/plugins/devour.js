@@ -93,7 +93,13 @@ const requestMiddleware = {
   },
 };
 
-let errorMiddleware = {
+jsonApi.axios.interceptors.response.use(function (res) {
+  document.querySelector('meta[name="csrf-token"]').content = res.headers['x-csrf-token'];
+  store.dispatch('status/fetchResponseStatus', res.status);
+  return res;
+});
+
+const errorMiddleware = {
   name: 'error-handling',
   error: (payload) => {
     console.log(payload.response.data);

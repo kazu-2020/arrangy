@@ -21,7 +21,7 @@
     </v-row>
     <v-row>
       <v-col class="text-center">
-        <v-btn outlined @click="comeBack">前のページへ戻る</v-btn>
+        <v-btn outlined @click="comeBack">ページへ戻る</v-btn>
       </v-col>
     </v-row>
   </v-container>
@@ -29,6 +29,7 @@
 
 <script>
 import { mapActions } from 'vuex';
+
 export default {
   computed: {
     problems() {

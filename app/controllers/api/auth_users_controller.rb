@@ -4,7 +4,7 @@ module Api
 
     def create
       user = login(params[:email], params[:password])
-      raise ActiveRecord::RecordNotFound unless user
+      return render_400 unless user
 
       options = { fields: { user: %i[nickname email avatar] } }
       render_serializer(current_user, options)

@@ -31,7 +31,7 @@ const actions = {
       commit('setAuthUser', userResponse.data);
       return userResponse.data;
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       return null;
     }
   },

@@ -1,32 +1,27 @@
 <template>
   <v-app>
-    <TheHeader />
-    <v-main class="py-15 base-color">
-      <TheSnackbar />
-      <template v-if="responseStatus === 404">
-        <NotFound />
-      </template>
+    <v-main class="base-color">
+      <NotFound v-if="responseStatus === 404" key="not-found" />
+      <ServerError v-else-if="responseStatus === 500" key="server-error" />
       <template v-else>
-        <router-view />
+        <router-view name="header" />
+        <router-view name="snackbar" />
+        <router-view class="py-15" />
+        <router-view name="footer" />
       </template>
     </v-main>
-    <TheFooter />
   </v-app>
 </template>
 
 <script>
-import TheHeader from './components/global/TheHeader.vue';
-import TheFooter from './components/global/TheFooter.vue';
-import TheSnackbar from './components/global/TheSnackbar.vue';
 import NotFound from './components/pages/error/NotFound';
+import ServerError from './components/pages/error/ServerError';
 import { mapGetters } from 'vuex';
 
 export default {
   components: {
-    TheHeader,
-    TheFooter,
-    TheSnackbar,
     NotFound,
+    ServerError,
   },
   head: {
     title() {
