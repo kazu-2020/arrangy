@@ -94,8 +94,10 @@ const requestMiddleware = {
 };
 
 jsonApi.axios.interceptors.response.use(function (res) {
-  document.querySelector('meta[name="csrf-token"]').content = res.headers['x-csrf-token'];
-  store.dispatch('status/fetchResponseStatus', res.status);
+  if (document.querySelector('meta[name="csrf-token"]')) {
+    document.querySelector('meta[name="csrf-token"]').content = res.headers['x-csrf-token'];
+    store.dispatch('status/fetchResponseStatus', res.status);
+  }
   return res;
 });
 
