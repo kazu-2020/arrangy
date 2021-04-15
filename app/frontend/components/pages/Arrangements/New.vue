@@ -90,14 +90,13 @@ export default {
             isShow: true,
           });
         })
-        .catch((error) => {
+        .catch(() => {
           this.arrangementCreating = false;
           this.fetchSnackbarData({
             msg: '投稿に失敗しました',
             color: 'error',
             isShow: true,
           });
-          console.log(error);
         });
     },
     uploadFile(src) {

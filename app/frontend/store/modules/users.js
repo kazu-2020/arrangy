@@ -21,7 +21,6 @@ const actions = {
       commit('setAuthUser', userResponse.data);
       return userResponse.data;
     } catch (err) {
-      console.log(err);
       return null;
     }
   },
@@ -31,7 +30,6 @@ const actions = {
       commit('setAuthUser', userResponse.data);
       return userResponse.data;
     } catch (err) {
-      console.log(err);
       return null;
     }
   },
@@ -41,7 +39,6 @@ const actions = {
       commit('setAuthUser', null);
       return res;
     } catch (err) {
-      console.log(err);
       return null;
     }
   },
@@ -56,7 +53,6 @@ const actions = {
       commit('setAuthUser', userResponse.data);
       return userResponse.data;
     } catch (err) {
-      console.log(err);
       return null;
     }
   },

@@ -4,7 +4,7 @@ module Api
 
     def create
       user = login(params[:email], params[:password])
-      raise ActiveRecord::RecordNotFound unless user
+      return render_400 unless user
 
       options = { fields: { user: %i[nickname email avatar] } }
       render_serializer(current_user, options)
@@ -22,7 +22,10 @@ module Api
     end
 
     def destroy
-      logout
+      # sorceryのlogoutメソッドはreset_sessionが実行される為、使用しない。
+      # session[:_csrf_token]がnilになる為。
+      session[:user_id] = nil
+      current_user = nil # rubocop:disable Lint/UselessAssignment
       head :no_content
     end
 

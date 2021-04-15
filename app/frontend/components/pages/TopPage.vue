@@ -13,7 +13,14 @@
             コンビニ商品や外食店の料理を使用した<br class="br-sp" />アレンジ飯を共有するサービスです
           </v-card-text>
           <v-card-actions class="d-flex justify-center">
-            <v-btn xLarge rounded outlined class="btn" :to="{ name: 'ArrangementNew' }">
+            <v-btn
+              xLarge
+              rounded
+              outlined
+              class="btn"
+              style="color: white"
+              :to="{ name: 'ArrangementNew' }"
+            >
               <div class="font-weight-bold">早速、投稿してみる</div>
             </v-btn>
           </v-card-actions>
@@ -63,8 +70,8 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import WelcomeDialog from '../../parts/dialogs/WelcomeDialog.vue';
-import ArrangementSummary from '../../parts/cards/ArrangementSummary';
+import WelcomeDialog from '../parts/dialogs/WelcomeDialog';
+import ArrangementSummary from '../parts/cards/ArrangementSummary';
 
 export default {
   components: {
@@ -145,29 +152,25 @@ export default {
       this.welcomeDialogDisplayed = !this.welcomeDialogDisplayed;
     },
     fetchArrangements() {
-      this.$devour
-        .findAll('arrangement', { page: this.pagy.currentPage })
-        .then((res) => {
-          this.arrangements.push(...res.data);
-          this.pagy.currentPage += 1;
+      this.$devour.findAll('arrangement', { page: this.pagy.currentPage }).then((res) => {
+        this.arrangements.push(...res.data);
+        this.pagy.currentPage += 1;
+        if (res.meta.pagy.pages !== 1) {
           this.pagy.isActioned = true;
-        })
-        .catch((err) => console.log(err));
+        }
+      });
     },
     infiniteHandler($state) {
-      this.$devour
-        .findAll('arrangement', { page: this.pagy.currentPage })
-        .then((res) => {
-          if (this.pagy.currentPage < res.meta.pagy.pages) {
-            this.pagy.currentPage += 1;
-            this.arrangements.push(...res.data);
-            $state.loaded();
-          } else {
-            this.arrangements.push(...res.data);
-            $state.complete();
-          }
-        })
-        .catch((err) => console.log(err));
+      this.$devour.findAll('arrangement', { page: this.pagy.currentPage }).then((res) => {
+        if (this.pagy.currentPage < res.meta.pagy.pages) {
+          this.pagy.currentPage += 1;
+          this.arrangements.push(...res.data);
+          $state.loaded();
+        } else {
+          this.arrangements.push(...res.data);
+          $state.complete();
+        }
+      });
     },
   },
 };
@@ -176,6 +179,5 @@ export default {
 <style scoped>
 .btn {
   border: 2.5px solid;
-  color: white;
 }
 </style>

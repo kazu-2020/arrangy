@@ -295,7 +295,6 @@ export default {
   },
   created() {
     this.fetchArrangement();
-    this.fetchComment();
   },
   updated() {
     this.$emit('updateHead');
@@ -305,6 +304,7 @@ export default {
     fetchArrangement() {
       this.$devour.find('arrangement', this.$route.params.id).then((res) => {
         this.arrangement = res.data;
+        this.fetchComment();
       });
     },
     fetchComment() {
@@ -376,13 +376,12 @@ export default {
             isShow: true,
           });
         })
-        .catch((err) => {
+        .catch(() => {
           this.fetchSnackbarData({
             msg: '投稿を更新できませんでした',
             color: 'error',
             isShow: true,
           });
-          console.log(err);
         });
     },
     deleteArrangement() {
@@ -407,14 +406,11 @@ export default {
         });
     },
     updateComment() {
-      this.$devour
-        .update('comment', this.commentEdit)
-        .then((res) => {
-          const index = this.comments.findIndex((comment) => comment.id === res.data.id);
-          this.comments.splice(index, 1, res.data);
-          this.handleShowEditComment();
-        })
-        .catch((err) => console.log(err));
+      this.$devour.update('comment', this.commentEdit).then((res) => {
+        const index = this.comments.findIndex((comment) => comment.id === res.data.id);
+        this.comments.splice(index, 1, res.data);
+        this.handleShowEditComment();
+      });
     },
     deleteComment() {
       this.$devour.destroy('comment', this.deletedComment.id).then(() => {
@@ -465,8 +461,7 @@ export default {
             this.comments.push(...res.data);
             $state.complete();
           }
-        })
-        .catch((err) => console.log(err));
+        });
     },
   },
 };

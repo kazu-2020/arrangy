@@ -56,7 +56,9 @@ export default {
             color: 'success',
             isShow: true,
           });
-          this.$router.go();
+          if (this.$router.currentRoute.meta.requireAuth) {
+            this.$router.push({ name: 'UserLogin' });
+          }
         } else {
           this.fetchSnackbarData({
             msg: 'ログアウトに失敗しました',

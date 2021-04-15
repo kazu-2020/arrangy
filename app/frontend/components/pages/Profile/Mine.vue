@@ -138,8 +138,7 @@ export default {
           if (res.meta.pagy.pages !== 1) {
             this.pagy.isActioned = true;
           }
-        })
-        .catch((err) => console.log(err));
+        });
     },
     infinitieHandler($state) {
       this.$devour
@@ -155,8 +154,7 @@ export default {
             this.arrangements.push(...res.data);
             $state.complete();
           }
-        })
-        .catch((err) => console.log(err));
+        });
     },
     updateArrangement() {
       this.$devour
@@ -173,13 +171,12 @@ export default {
             isShow: true,
           });
         })
-        .catch((err) => {
+        .catch(() => {
           this.fetchSnackbarData({
             msg: '投稿を更新できませんでした',
             color: 'error',
             isShow: true,
           });
-          console.log(err);
         });
     },
     deleteArrangement() {

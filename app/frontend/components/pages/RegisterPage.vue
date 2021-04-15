@@ -1,18 +1,18 @@
 <template>
   <RegistrationAndLoginBase>
-    <template slot="main1-title"> ログイン </template>
+    <template slot="main1-title">新規登録</template>
     <template slot="main1-context">
-      新規登録が済んでいない方は
-      <router-link class="router-link" :to="{ name: 'UserRegister' }"> こちら </router-link>
+      既にアカウントをお持ちの方は
+      <router-link class="router-link" :to="{ name: 'UserLogin' }"> こちら </router-link>
       から。
     </template>
 
-    <template slot="main2-title"> ARRANGYアカウントで<br class="br-sp" />ログイン </template>
+    <template slot="main2-title"> メールアドレスを使用して新規登録</template>
     <template slot="main2-context">
-      <UserLoginForm v-bind.sync="user" @loginUser="loginFunction" />
+      <UserRegisterForm v-bind.sync="user" @registerUser="registerFunction" />
     </template>
 
-    <template slot="main3-title"> 他サービスのアカウントで<br class="br-sp" />ログイン</template>
+    <template slot="main3-title"> 他サービスのアカウントで登録 </template>
     <template slot="main3-context">
       <v-btn
         class="mb-12 font-weight-bold text-capitalize"
@@ -30,26 +30,28 @@
 
 <script>
 import { mapActions } from 'vuex';
-import UserLoginForm from '../../parts/forms/UserLoginForm';
-import RegistrationAndLoginBase from '../../parts/base/RegistrationAndLoginBase';
+import RegistrationAndLoginBase from '../parts/base/RegistrationAndLoginBase';
+import UserRegisterForm from '../parts/forms/UserRegisterForm';
 
 export default {
   components: {
     RegistrationAndLoginBase,
-    UserLoginForm,
+    UserRegisterForm,
   },
   data() {
     return {
       user: {
+        nickname: '',
         email: '',
         password: '',
+        password_confirmation: '',
       },
     };
   },
   head: {
     title() {
       return {
-        inner: 'ログイン',
+        inner: '新規登録',
         separator: '|',
         complement: 'Arrangy(アレンジー)',
       };
@@ -86,25 +88,23 @@ export default {
     },
   },
   methods: {
-    ...mapActions('users', ['loginUser']),
+    ...mapActions('users', ['registerUser']),
     ...mapActions('snackbars', ['fetchSnackbarData']),
-    loginFunction() {
-      this.loginUser(this.user).then((user) => {
+    registerFunction() {
+      this.registerUser(this.user).then((user) => {
         if (user) {
           this.$router.push({ name: 'TopPage' });
-          this.fetchSnackbarData({
-            msg: 'ログインしました',
-            color: 'success',
-            isShow: true,
-          });
         } else {
           this.fetchSnackbarData({
-            msg: 'ログインに失敗しました',
+            msg: '新規登録に失敗しました',
             color: 'error',
             isShow: true,
           });
         }
       });
+    },
+    handleRegisterGoogle() {
+      this.$devour.request(`${this.$devour.apiUrl}/oauth/google`, 'GET');
     },
   },
 };

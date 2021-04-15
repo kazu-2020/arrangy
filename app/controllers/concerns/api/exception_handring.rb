@@ -18,6 +18,10 @@ module Api
       render_error(:not_found, 'Record Not Found', exception&.message, *messages)
     end
 
+    def render_401(exception = nil, messages = nil)
+      render_error(:unauthorized, 'Unauthorized', exception&.message, *messages)
+    end
+
     def render_400(exception = nil, messages = nil)
       render_error(:bad_request, 'Bad Request', exception&.message, *messages)
     end

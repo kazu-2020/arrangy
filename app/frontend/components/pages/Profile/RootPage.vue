@@ -205,13 +205,12 @@ export default {
           });
           this.closeEditPasswordDialog();
         })
-        .catch((err) => {
+        .catch(() => {
           this.fetchSnackbarData({
             msg: 'パスワードの更新に失敗しました',
             color: 'error',
             isShow: true,
           });
-          console.log(err);
         });
     },
     initAuthUserEdit() {

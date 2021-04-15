@@ -10,38 +10,64 @@ const router = new VueRouter({
     {
       path: '/',
       name: 'TopPage',
-      component: () => import('../components/pages/Top/Index'),
+      components: {
+        default: () => import('../components/pages/TopPage'),
+        header: () => import('../components/global/TheHeader'),
+        snackbar: () => import('../components/global/TheSnackbar.vue'),
+        footer: () => import('../components/global/TheFooter'),
+      },
     },
     {
       path: '/register',
       name: 'UserRegister',
-      component: () => import('../components/pages/Register/Index'),
+      components: {
+        default: () => import('../components/pages/RegisterPage'),
+        header: () => import('../components/global/TheHeader'),
+        snackbar: () => import('../components/global/TheSnackbar.vue'),
+        footer: () => import('../components/global/TheFooter'),
+      },
     },
     {
       path: '/login',
       name: 'UserLogin',
-      component: () => import('../components/pages/Login/Index'),
+      components: {
+        default: () => import('../components/pages/LoginPage'),
+        header: () => import('../components/global/TheHeader'),
+        snackbar: () => import('../components/global/TheSnackbar.vue'),
+        footer: () => import('../components/global/TheFooter'),
+      },
     },
     {
       path: '/profile',
-      component: () => import('../components/pages/Profile/Index'),
-      meta: { requireAuth: true },
+      components: {
+        default: () => import('../components/pages/Profile/RootPage'),
+        header: () => import('../components/global/TheHeader'),
+        snackbar: () => import('../components/global/TheSnackbar.vue'),
+        footer: () => import('../components/global/TheFooter'),
+      },
       children: [
         {
           path: '/',
           name: 'UserProfile',
           component: () => import('../components/pages/Profile/Mine'),
+          meta: { requireAuth: true },
         },
         {
           path: 'favorites',
           name: 'Favorites',
           component: () => import('../components/pages/Profile/Favorites'),
+          meta: { requireAuth: true },
         },
       ],
     },
     {
       path: '/arrangements',
-      component: () => import('../components/pages/Arrangements/Index'),
+      components: {
+        default: () => import('../components/pages/Arrangements/RootPage'),
+        header: () => import('../components/global/TheHeader'),
+        snackbar: () => import('../components/global/TheSnackbar.vue'),
+        footer: () => import('../components/global/TheFooter'),
+      },
       children: [
         {
           path: 'new',
@@ -60,7 +86,16 @@ const router = new VueRouter({
     {
       path: '/terms',
       name: 'TermsPage',
-      component: () => import('../components/pages/TermsPage'),
+      components: {
+        default: () => import('../components/pages/TermsPage'),
+        header: () => import('../components/global/TheHeader'),
+        footer: () => import('../components/global/TheFooter'),
+      },
+    },
+    {
+      path: '*',
+      name: '404Page',
+      component: () => import('../components/pages/error/NotFound.vue'),
     },
   ],
 });
