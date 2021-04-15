@@ -13,7 +13,14 @@
             コンビニ商品や外食店の料理を使用した<br class="br-sp" />アレンジ飯を共有するサービスです
           </v-card-text>
           <v-card-actions class="d-flex justify-center">
-            <v-btn xLarge rounded outlined class="btn" :to="{ name: 'ArrangementNew' }">
+            <v-btn
+              xLarge
+              rounded
+              outlined
+              class="btn"
+              style="color: white"
+              :to="{ name: 'ArrangementNew' }"
+            >
               <div class="font-weight-bold">早速、投稿してみる</div>
             </v-btn>
           </v-card-actions>
@@ -172,6 +179,5 @@ export default {
 <style scoped>
 .btn {
   border: 2.5px solid;
-  color: white;
 }
 </style>
