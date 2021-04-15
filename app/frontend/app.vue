@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <router-view v-show="responseState.state === 'success'" name="header" />
+    <router-view v-if="responseState.state !== 'error'" name="header" />
     <v-main class="base-color">
       <NotFound v-if="responseState.status === 404" />
       <ServerError v-else-if="responseState.status === 500" />
@@ -9,7 +9,7 @@
         <router-view class="py-15" />
       </template>
     </v-main>
-    <router-view v-show="responseState.state === 'success'" name="footer" />
+    <router-view v-if="responseState.state !== 'error'" name="footer" />
   </v-app>
 </template>
 
