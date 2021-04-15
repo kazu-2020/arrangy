@@ -41,8 +41,9 @@ export default {
     },
   },
   methods: {
-    ...mapActions('status', ['fetchResponseStatus']),
+    ...mapActions('responseState', ['fetchResponseState']),
     comeBack() {
+      this.fetchResponseState({ status: '', state: '' });
       this.$router.go(-1);
     },
   },
