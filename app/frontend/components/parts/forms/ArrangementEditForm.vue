@@ -200,7 +200,6 @@ export default {
       }
     },
     imageTrimming() {
-      this.isPreview = true;
       const trimmedImage = this.$refs.cropper
         .getCroppedCanvas({
           width: 300,

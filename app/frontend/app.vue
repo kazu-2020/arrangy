@@ -52,10 +52,6 @@ export default {
   text-decoration: none;
 }
 
-.or-avatar {
-  border: solid;
-}
-
 .base-color {
   background-color: #eeeeee;
 }
