@@ -23,34 +23,6 @@ export default {
     NotFound,
     ServerError,
   },
-  head: {
-    title() {
-      return {
-        inner: 'Arrangy(アレンジー)',
-        separator: '|',
-        complement: 'コンビニ商品や外食店の料理を使用したアレンジ飯の共有サービス',
-      };
-    },
-    meta() {
-      return [
-        {
-          name: 'viewport',
-          content: 'width=device-width, initial-scale=1',
-        },
-        {
-          name: 'twitter:card',
-          content: 'summary',
-        },
-        {
-          name: 'twitter:site',
-          content: '@Arrangy1',
-        },
-      ];
-    },
-    link() {
-      return [{ rel: 'shortcut icon', type: 'image/x-icon', href: '/images/favicon.ico' }];
-    },
-  },
   computed: {
     ...mapGetters('responseState', ['responseState']),
   },
