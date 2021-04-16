@@ -11,7 +11,7 @@
   >
     <slot name="text" />
     <template #loader>
-      <v-progress-circular color="#eeeeee" indeterminate />
+      <VueLoading type="barsCylon" color=" #4CAF50" />
     </template>
   </v-btn>
 </template>
