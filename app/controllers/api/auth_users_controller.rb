@@ -6,18 +6,18 @@ module Api
       user = login(params[:email], params[:password])
       return render_400 unless user
 
-      options = { fields: { user: %i[nickname email avatar] } }
+      options = { fields: { user: %i[nickname email avatar likes_count arrangements_count] } }
       render_serializer(current_user, options)
     end
 
     def show
-      options = { fields: { user: %i[nickname email avatar] } }
+      options = { fields: { user: %i[nickname email avatar likes_count arrangements_count] } }
       render_serializer(current_user, options)
     end
 
     def update
       current_user.update!(user_params)
-      options = { fields: { user: %i[nickname email avatar] } }
+      options = { fields: { user: %i[nickname email avatar likes_count arrangements_count] } }
       render_serializer(current_user, options)
     end
 

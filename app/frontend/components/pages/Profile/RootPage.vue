@@ -1,46 +1,57 @@
 <template>
   <v-container fluid>
-    <v-row class="pt-16">
+    <v-row class="pt-5 pt-md-16">
       <v-col cols="12" sm="5">
         <v-row class="d-flex justify-center">
-          <v-col cols="12" sm="8">
-            <v-sheet id="myprofile" class="py-6 px-10 text-center" elevation="1">
-              <div class="text-h6 font-weight-bold mb-8">プロフィール</div>
-              <v-avatar class="mb-5" size="60%" minHeight="200" minWidth="200">
+          <v-col id="myprofile" cols="12" sm="8" class="text-center">
+            <div>
+              <v-avatar tile size="150" color="mb-3">
                 <v-img :src="authUser.avatar" />
               </v-avatar>
-              <div class="text-left mb-6">
-                <div>
-                  <div class="text-subtitle-1 font-weight-black">ニックネーム</div>
-                  <div>{{ authUser.nickname }}</div>
-                </div>
-                <v-divider class="mb-6" />
-                <div>
-                  <div class="text-subtitle-1 font-weight-black">メールアドレス</div>
-                  <div>{{ authUser.email }}</div>
-                </div>
-                <v-divider class="mb-6" />
-              </div>
-              <NormalButton class="mb-6" :xLarge="true" @click="displayProfileEditDialog">
-                <template #text>
-                  <v-icon class="mr-1">mdi-account-cog</v-icon>
-                  編集する
-                </template>
-              </NormalButton>
-              <p class="text-body2">
-                パスワードを変更する場合は
-                <a @click.stop="displayPasswordEditDialog"> こちら </a>
-              </p>
-            </v-sheet>
+              <div class="text-h6 font-weight-medium">{{ authUser.nickname }}</div>
+              <div class="text-subtitle-1">{{ authUser.email }}</div>
+            </div>
+            <v-simple-table class="mb-5" style="background-color: #eeeeee">
+              <template #default>
+                <thead>
+                  <tr>
+                    <th class="text-left"></th>
+                    <th class="text-left"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>投稿数</td>
+                    <td>{{ authUser.arrangements_count }}</td>
+                  </tr>
+                  <tr>
+                    <td>うまいいね数</td>
+                    <td>{{ authUser.likes_count }}</td>
+                  </tr>
+                </tbody>
+              </template>
+            </v-simple-table>
+
+            <NormalButton class="mb-6" :xLarge="true" @click="displayProfileEditDialog">
+              <template #text>
+                <v-icon class="mr-1">mdi-account-cog</v-icon>
+                編集する
+              </template>
+            </NormalButton>
+            <p class="text-body2">
+              パスワードを変更する場合は
+              <a @click.stop="displayPasswordEditDialog"> こちら </a>
+            </p>
           </v-col>
         </v-row>
       </v-col>
-      <!-- 投稿一覧 -->
+
       <v-col cols="12" sm="6">
         <v-row>
           <v-btn class="mr-2" outlined plain :to="{ name: 'UserProfile' }">投稿一覧</v-btn>
           <v-btn class="ml-s" outlined plain :to="{ name: 'Favorites' }">お気に入り一覧</v-btn>
         </v-row>
+        <!-- 投稿一覧 お気に入り一覧-->
         <router-view />
       </v-col>
     </v-row>
@@ -124,7 +135,7 @@ export default {
         },
         {
           property: 'og:image',
-          content: '/images/og-image.png',
+          content: 'https://arrangy.jp/images/og-image.png',
         },
       ];
     },

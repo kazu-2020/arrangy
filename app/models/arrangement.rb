@@ -15,7 +15,7 @@
 #   index_arrangements_on_user_id
 
 class Arrangement < ApplicationRecord
-  belongs_to :user
+  belongs_to :user, counter_cache: true
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
   has_many :liked_by_users, through: :likes, source: :user

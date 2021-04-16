@@ -27,5 +27,14 @@ RSpec.describe "プロフィール詳細", type: :system, js: true do
         expect(find('.v-image__image')[:style].include?(user.avatar.url)).to eq(true)
       end
     end
+
+    it '投稿数、うまいいね数が表示されている' do
+      within('#myprofile') do
+        expect(page).to have_content('投稿数')
+        expect(page).to have_content(user.likes_count)
+        expect(page).to have_content('投稿数')
+        expect(page).to have_content(user.arrangements_count)
+      end
+    end
   end
 end

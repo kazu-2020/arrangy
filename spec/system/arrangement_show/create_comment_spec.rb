@@ -27,6 +27,7 @@ RSpec.describe "コメント作成", type: :system, js: true do
 
       it '「コメントする」、「キャンセル」ボタンが表示される' do
         within('#create-comment-form') do
+          sleep 0.5
           expect(has_button?('コメントする', disabled: true)).to eq(true)
           expect(has_button?('キャンセル')).to eq(true)
         end

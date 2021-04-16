@@ -12,7 +12,7 @@
 #   index_likes_on_user_id
 
 class Like < ApplicationRecord
-  belongs_to :user
+  belongs_to :user, counter_cache: true
   belongs_to :arrangement, counter_cache: true
 
   validates :arrangement_id, uniqueness: { scope: :user_id }

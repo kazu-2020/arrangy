@@ -4,7 +4,7 @@
       <div class="text-center mb-5">
         <v-img class="mx-auto mb-5" :src="images ? images[0] : ''" width="70%" />
         <div>
-          <NormalButton @click="actionInputFile">
+          <NormalButton :loading="fileUploading" @click="fileUpload">
             <template #text>投稿写真を変更する</template>
           </NormalButton>
           <div>
@@ -32,6 +32,21 @@
         </v-alert>
       </ValidationProvider>
 
+      <!-- トリミング用ダイアログ -->
+      <v-dialog v-model="trimmingDialogDisplayed" maxWidth="650" :eager="true" persistent>
+        <v-sheet id="trimming-dialog" class="pa-5 pa-md-10 mx-auto" color="#eeeeee">
+          <VueCropper ref="cropper" :aspectRatio="1 / 1" :src="imgSrc" :viewMode="2" class="mb-5" />
+          <v-card-actions class="d-flex justify-center">
+            <SubmitButton class="mx-2" :color="'#cc3918'" :xLarge="true" @submit="imageTrimming">
+              <template #text> トリミングする </template>
+            </SubmitButton>
+            <NormalButton class="mx-2" :xLarge="true" @click="closeTrimmingDialog">
+              <template #text>キャンセル</template>
+            </NormalButton>
+          </v-card-actions>
+        </v-sheet>
+      </v-dialog>
+
       <ValidationObserver ref="form" v-slot="{ invalid }" tag="form">
         <TitleField :title="title" :rules="rules.title" @input="$emit('update:title', $event)" />
         <ContextField
@@ -45,6 +60,7 @@
             :xLarge="true"
             :color="'#cc3918'"
             :disabled="invalid"
+            :loading="loading"
             @submit="handleUpdateArrangement"
           >
             <template #text>変更する</template>
@@ -60,6 +76,7 @@
 
 <script>
 import Jimp from 'jimp/es';
+import JimpJPEG from 'jpeg-js';
 import TitleField from '../formInputs/TitleField';
 import ContextField from '../formInputs/ContextField';
 import SubmitButton from '../buttons/SubmitButton';
@@ -92,10 +109,16 @@ export default {
     isShow: {
       type: Boolean,
     },
+    loading: {
+      type: Boolean,
+    },
   },
   data() {
     return {
       fileErrorDisplayed: false,
+      fileUploading: false,
+      trimmingDialogDisplayed: false,
+      imgSrc: '',
     };
   },
   computed: {
@@ -108,28 +131,8 @@ export default {
     },
   },
   methods: {
-    actionInputFile() {
+    fileUpload() {
       document.querySelector('#arrangement-images').click();
-    },
-    async handleFileChange(value) {
-      const result = await this.$refs.fileForm.validate(value);
-      if (result.valid) {
-        this.hideErrorMessage();
-        const imageURL = URL.createObjectURL(value);
-        Jimp.read(imageURL)
-          .then((image) => {
-            image.cover(300, 300).getBase64(Jimp.MIME_PNG, (err, src) => {
-              this.$emit('uploadFile', src);
-            });
-            URL.revokeObjectURL(imageURL);
-          })
-          .catch((error) => {
-            alert('アップロードに失敗しました');
-            console.log(error);
-          });
-      } else {
-        this.fileErrorDisplayed = true;
-      }
     },
     handleUpdateArrangement() {
       this.hideErrorMessage();
@@ -143,6 +146,70 @@ export default {
       // バリデーション失敗後だと、エラーメッセージが残ってしまう為
       this.$refs.fileForm.reset();
       this.fileErrorDisplayed = false;
+    },
+    closeTrimmingDialog() {
+      this.trimmingDialogDisplayed = false;
+      this.$refs.fileForm.validate('');
+    },
+    async handleFileChange(value) {
+      const result = await this.$refs.fileForm.validate(value);
+      if (result.valid) {
+        this.hideErrorMessage();
+        this.fileUploading = true;
+
+        const img = new Image();
+        const imageURL = URL.createObjectURL(value);
+        img.src = imageURL;
+
+        let width = 0;
+        let height = 0;
+
+        img.onload = () => {
+          width = img.width;
+          height = img.height;
+        };
+
+        Jimp.decoders['image/jpeg'] = (data) => {
+          return JimpJPEG.decode(data, {
+            maxMemoryUsageInMB: 1024,
+          });
+        };
+
+        const jimpImage = await Jimp.read(imageURL).catch((err) => {
+          alert('サイズが大き過ぎます。他の写真を投稿してください。');
+          console.log(err);
+        });
+        if (!jimpImage) return;
+
+        if (width > height) {
+          jimpImage.resize(500, Jimp.AUTO);
+        } else {
+          jimpImage.resize(Jimp.AUTO, 500);
+        }
+
+        jimpImage.getBase64(Jimp.MIME_PNG, (err, src) => {
+          this.imgSrc = src;
+          this.fileUploading = false;
+          this.trimmingDialogDisplayed = true;
+          this.$refs.cropper.replace(src);
+        });
+        URL.revokeObjectURL(imageURL);
+      } else {
+        console.log(result);
+        this.fileErrorDisplayed = true;
+      }
+    },
+    imageTrimming() {
+      const trimmedImage = this.$refs.cropper
+        .getCroppedCanvas({
+          width: 300,
+          height: 300,
+          fillColor: '#eeeeee',
+          imageSmoothingQuality: 'medium',
+        })
+        .toDataURL();
+      this.$emit('uploadFile', trimmedImage);
+      this.trimmingDialogDisplayed = false;
     },
   },
 };

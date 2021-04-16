@@ -56,7 +56,10 @@ export default {
             color: 'success',
             isShow: true,
           });
-          if (this.$router.currentRoute.meta.requireAuth) {
+          if (
+            this.$router.currentRoute.name !== 'ArrangementShow' &&
+            this.$router.currentRoute.meta.requireAuth
+          ) {
             this.$router.push({ name: 'UserLogin' });
           }
         } else {

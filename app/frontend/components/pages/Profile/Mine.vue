@@ -44,6 +44,7 @@
     <ArrangementEditForm
       :isShow="editArrangementDialogDisplayed"
       v-bind.sync="arrangementEdit"
+      :loading="arrangementEditing"
       @uploadFile="uploadFile"
       @updateArrangement="updateArrangement"
       @closeDialog="closeEditArrangement"
@@ -91,6 +92,7 @@ export default {
         isActioned: false,
       },
       isCreated: false,
+      arrangementEditing: false,
       deleteArrangementDialogDisplayed: false,
       editArrangementDialogDisplayed: false,
     };
@@ -157,6 +159,7 @@ export default {
         });
     },
     updateArrangement() {
+      this.arrangementEditing = true;
       this.$devour
         .update('arrangement', this.arrangementEdit)
         .then((res) => {
@@ -178,6 +181,7 @@ export default {
             isShow: true,
           });
         });
+      this.arrangementEditing = false;
     },
     deleteArrangement() {
       this.$devour.destroy('arrangement', this.arrangementDelete.id).then(() => {

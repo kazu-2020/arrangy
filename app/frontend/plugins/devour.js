@@ -17,6 +17,8 @@ jsonApi.define('user', {
   avatar: '',
   password: '',
   password_confirmation: '',
+  arrangements_count: '',
+  likes_count: '',
   arrangements: {
     jsonApi: 'hasMany',
     type: 'arrangements',
