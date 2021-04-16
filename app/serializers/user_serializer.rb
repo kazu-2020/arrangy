@@ -1,7 +1,7 @@
 class UserSerializer
   include JSONAPI::Serializer
   set_type :user
-  attributes :nickname, :email
+  attributes :nickname, :email, :likes_count, :arrangements_count
 
   attribute :avatar do |object|
     object.avatar.url

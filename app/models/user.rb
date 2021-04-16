@@ -7,6 +7,8 @@
 # avatar                           string
 # crypted_password"                string
 # salt                             string
+# arrangements_count               bigint       default 0
+# likes_count                      bigint       default 0
 # reset_password_token             string
 # reset_password_token_eqpires_at  string
 # reset_password_email_sent_at     datetime
