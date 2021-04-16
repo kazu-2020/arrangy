@@ -19,13 +19,37 @@ RSpec.describe "投稿作成", type: :system, js: true do
       within('#header-menu-list') { click_on('新規投稿') }
     }
 
+    describe 'トリミング画面の検証' do
+      before {
+        within('#arrangement-new-form') {
+          attach_file('投稿写真', "#{Rails.root}/spec/fixtures/images/sample2.png", visible: false)
+        }
+      }
+
+      it '写真を選択すると、トリミング画面が表示される' do
+        expect(has_selector?('#trimming-dialog')).to eq(true)
+      end
+      it '「キャンセル」ボタンを押すとトリミング画面は閉じる' do
+        find('#trimming-dialog') { click_on('キャンセル') }
+        sleep 0.5
+        expect(find('#trimming-dialog', visible: false).visible?).to eq(false)
+      end
+      it '「トリミング」ボタンを押すとプレビュー画像が表示される' do
+        find('#trimming-dialog') { click_on('トリミングする') }
+        sleep 0.5
+        expect(find('#trimming-dialog', visible: false).visible?).to eq(false)
+        expect(has_selector?('#preview-image')).to eq(true)
+      end
+    end
+
     context '適当な値を入力した場合' do
       before {
         within('#arrangement-new-form') do
-          attach_file('投稿写真', "#{Rails.root}/spec/fixtures/images/sample2.png", visible: false)
           fill_in('タイトル', with: 'a' * 30)
           fill_in('投稿内容', with: 'a' * 1_000)
+          attach_file('投稿写真', "#{Rails.root}/spec/fixtures/images/sample2.png", visible: false)
         end
+        find('#trimming-dialog') { click_on('トリミングする') }
       }
 
       it '投稿詳細ページへ遷移し、「新しいアレンジ飯を投稿しました」と表示される。' do
@@ -82,6 +106,7 @@ RSpec.describe "投稿作成", type: :system, js: true do
             within('#arrangement-new-form') do
               expect(has_selector?('#preview-image')).to eq(false)
               expect(has_button?('写真を選択')).to eq(true)
+              expect(page).to have_content('サイズは10MB以内でなければなりません')
             end
           end
         end
