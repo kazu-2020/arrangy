@@ -83,7 +83,6 @@ export default {
         .create('arrangement', this.arrangement)
         .then((res) => {
           this.$router.push({ name: 'ArrangementShow', params: { id: res.data.id } });
-          this.arrangementCreating = false;
           this.fetchSnackbarData({
             msg: '新しいアレンジ飯を投稿しました',
             color: 'success',
@@ -91,13 +90,13 @@ export default {
           });
         })
         .catch(() => {
-          this.arrangementCreating = false;
           this.fetchSnackbarData({
             msg: '投稿に失敗しました',
             color: 'error',
             isShow: true,
           });
         });
+      this.arrangementCreating = false;
     },
     uploadFile(src) {
       this.arrangement.images.splice(0, 1, src);

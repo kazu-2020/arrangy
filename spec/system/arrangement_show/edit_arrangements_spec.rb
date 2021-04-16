@@ -89,8 +89,9 @@ RSpec.describe "投稿編集", type: :system, js: true do
         fill_in('タイトル', with: 'タイトルを更新')
         fill_in('投稿内容', with: '投稿内容を更新')
         attach_file('投稿写真', "#{Rails.root}/spec/fixtures/images/sample3.png", visible: false)
-        click_on('変更する')
       end
+      find('#trimming-dialog') { click_on('トリミングする') }
+      click_on('変更する')
     }
 
     it '「投稿を更新しました」と表示され、編集用のダイアログは非表示になる' do
@@ -101,6 +102,28 @@ RSpec.describe "投稿編集", type: :system, js: true do
         expect(page).to have_content('タイトルを更新')
         expect(page).to have_content('投稿内容を更新')
       end
+    end
+  end
+
+  describe 'トリミング画面の検証' do
+    before {
+      within('#arrangement-edit-form') {
+        attach_file('投稿写真', "#{Rails.root}/spec/fixtures/images/sample2.png", visible: false)
+      }
+    }
+
+    it '写真を選択すると、トリミング画面が表示される' do
+      expect(has_selector?('#trimming-dialog')).to eq(true)
+    end
+    it '「キャンセル」ボタンを押すとトリミング画面は閉じる' do
+      find('#trimming-dialog') { click_on('キャンセル') }
+      sleep 0.5
+      expect(find('#trimming-dialog', visible: false).visible?).to eq(false)
+    end
+    it '「トリミング」ボタンを押すとトリミングされる' do
+      find('#trimming-dialog') { click_on('トリミングする') }
+      sleep 0.5
+      expect(find('#trimming-dialog', visible: false).visible?).to eq(false)
     end
   end
 end
