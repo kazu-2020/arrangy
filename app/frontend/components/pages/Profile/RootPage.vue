@@ -124,7 +124,7 @@ export default {
         },
         {
           property: 'og:image',
-          content: '/images/og-image.png',
+          content: 'https://arrangy.jp/images/og-image.png',
         },
       ];
     },

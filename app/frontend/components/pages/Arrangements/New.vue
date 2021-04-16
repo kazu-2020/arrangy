@@ -1,12 +1,12 @@
 <template>
   <v-container>
-    <v-row class="pt-5">
+    <v-row class="pt-10 mb-5">
       <v-col>
-        <h6 class="text-h6 font-weight-bold">アレンジ飯を投稿する</h6>
+        <h6 class="text-h5 font-weight-bold">アレンジ飯を投稿する</h6>
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="12" class="pt-16 mx-auto">
+      <v-col cols="12" class="mx-auto">
         <ArrangementNewForm
           v-bind.sync="arrangement"
           :loading="arrangementCreating"
@@ -65,7 +65,7 @@ export default {
         },
         {
           property: 'og:image',
-          content: '/images/og-image.png',
+          content: 'https://arrangy.jp/images/og-image.png',
         },
       ];
     },
