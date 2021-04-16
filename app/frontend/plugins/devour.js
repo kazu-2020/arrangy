@@ -96,7 +96,7 @@ const requestMiddleware = {
 jsonApi.axios.interceptors.response.use(function (res) {
   if (document.querySelector('meta[name="csrf-token"]')) {
     document.querySelector('meta[name="csrf-token"]').content = res.headers['x-csrf-token'];
-    store.dispatch('status/fetchResponseStatus', res.status);
+    store.dispatch('responseState/fetchResponseState', { status: res.status, state: 'success' });
   }
   return res;
 });
@@ -105,7 +105,10 @@ const errorMiddleware = {
   name: 'error-handling',
   error: (payload) => {
     console.log(payload.response.data);
-    store.dispatch('status/fetchResponseStatus', payload.response.status);
+    store.dispatch('responseState/fetchResponseState', {
+      status: payload.response.status,
+      state: 'error',
+    });
   },
 };
 

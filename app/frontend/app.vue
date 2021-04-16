@@ -1,15 +1,15 @@
 <template>
   <v-app>
+    <router-view v-if="responseState.state !== 'error'" name="header" />
     <v-main class="base-color">
-      <NotFound v-if="responseStatus === 404" />
-      <ServerError v-else-if="responseStatus === 500" />
+      <NotFound v-if="responseState.status === 404" />
+      <ServerError v-else-if="responseState.status === 500" />
       <template v-else>
-        <router-view name="header" />
         <router-view name="snackbar" />
         <router-view class="py-15" />
-        <router-view name="footer" />
       </template>
     </v-main>
+    <router-view v-if="responseState.state !== 'error'" name="footer" />
   </v-app>
 </template>
 
@@ -52,7 +52,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters('status', ['responseStatus']),
+    ...mapGetters('responseState', ['responseState']),
   },
 };
 </script>

@@ -93,6 +93,15 @@ const router = new VueRouter({
       },
     },
     {
+      path: '/about',
+      name: 'ServiceDescription',
+      components: {
+        default: () => import('../components/pages/ServiceDescription'),
+        header: () => import('../components/global/TheHeader'),
+        footer: () => import('../components/global/TheFooter'),
+      },
+    },
+    {
       path: '*',
       name: '404Page',
       component: () => import('../components/pages/error/NotFound.vue'),
