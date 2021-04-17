@@ -63,19 +63,23 @@ export default {
         {
           property: 'og:url',
           content: 'https://arrangy.jp',
+          id: 'og-url',
         },
         {
           property: 'og:title',
           content:
             'Arrangy(アレンジー) | コンビニ商品や外食店の料理を使用したアレンジ飯の共有サービス',
+          id: 'og-title',
         },
         {
           property: 'og:description',
           content: this.siteDescription,
+          id: 'og-description',
         },
         {
           property: 'og:image',
           content: 'https://arrangy.jp/images/og-image.png',
+          id: 'og-image',
         },
       ];
     },
