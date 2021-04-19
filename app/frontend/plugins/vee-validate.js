@@ -8,7 +8,17 @@ import {
   setInteractionMode,
 } from 'vee-validate';
 import ja from 'vee-validate/dist/locale/ja.json';
-import { required, email, min, max, regex, confirmed, ext, size } from 'vee-validate/dist/rules';
+import {
+  required,
+  email,
+  min,
+  max,
+  regex,
+  confirmed,
+  ext,
+  size,
+  oneOf,
+} from 'vee-validate/dist/rules';
 
 localize('ja', ja);
 
@@ -34,6 +44,7 @@ extend('min', min);
 extend('max', max);
 extend('regex', regex);
 extend('confirmed', confirmed);
+extend('oneOf', oneOf);
 extend('ext', {
   ...ext,
   message: '有効なファイル形式はではありません',

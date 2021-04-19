@@ -187,6 +187,14 @@ GEM
     jsonapi-serializer (2.1.0)
       activesupport (>= 4.2)
     jwt (2.2.2)
+    launchy (2.5.0)
+      addressable (~> 2.7)
+    letter_opener (1.7.0)
+      launchy (~> 2.2)
+    letter_opener_web (1.4.0)
+      actionmailer (>= 3.2)
+      letter_opener (~> 1.0)
+      railties (>= 3.2)
     listen (3.4.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -362,6 +370,7 @@ GEM
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
     sexp_processor (4.15.2)
+    slack-notifier (2.3.2)
     sorcery (0.16.0)
       bcrypt (~> 3.1)
       oauth (~> 0.4, >= 0.4.4)
@@ -426,6 +435,7 @@ DEPENDENCIES
   fog-aws
   jbuilder (~> 2.7)
   jsonapi-serializer
+  letter_opener_web (~> 1.0)
   listen (~> 3.2)
   pagy (~> 3.5)
   pg (>= 0.18, < 2.0)
@@ -445,6 +455,7 @@ DEPENDENCIES
   rubocop-rails
   rubocop-rspec
   seed-fu
+  slack-notifier
   sorcery
   spring
   spring-commands-rspec

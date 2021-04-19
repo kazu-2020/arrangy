@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     resource :auth_user, only: %i[create show update destroy] do
       resource :password, only: :update, module: 'auth_user'
     end
+    resource :contacts, only: :create
     resources :users, only: :create
     namespace 'validation' do
       resource :uniqueness, only: :show, controller: 'uniqueness'
@@ -20,6 +21,9 @@ Rails.application.routes.draw do
     get "oauth/callback",  to: "oauths#callback"
     get "oauth/:provider", to: "oauths#oauth", as: :auth_at_provider
   end
+
+
+  mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
 
   get '*path', to: 'static_pages#top'
   root 'static_pages#top'
