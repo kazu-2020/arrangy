@@ -102,11 +102,24 @@ const router = new VueRouter({
       },
     },
     {
+      path: '/contact',
+      name: 'ContactPage',
+      components: {
+        default: () => import('../components/pages/ContactPage'),
+        header: () => import('../components/global/TheHeader'),
+        snackbar: () => import('../components/global/TheSnackbar.vue'),
+        footer: () => import('../components/global/TheFooter'),
+      },
+    },
+    {
       path: '*',
       name: '404Page',
       component: () => import('../components/pages/error/NotFound.vue'),
     },
   ],
+  scrollBehavior() {
+    return { x: 0, y: 0 };
+  },
 });
 
 router.beforeEach((to, from, next) => {
