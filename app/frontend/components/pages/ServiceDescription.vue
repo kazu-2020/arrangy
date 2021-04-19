@@ -17,8 +17,11 @@
         </v-col>
       </v-row>
 
-      <v-row class="d-flex justify-center" style="background-color: #fafafa">
-        <v-col cols="auto" class="py-10">
+      <v-row class="d-flex justify-center flex-row-reverse" style="background-color: #fafafa">
+        <v-col cols="auto" class="py-md-10">
+          <v-img src="/images/photo.png" />
+        </v-col>
+        <v-col cols="auto" class="py-md-10">
           <v-card-title class="mb-5 text-h6 text-md-h5 font-weight-bold">
             あなたのアレンジ飯を投稿しよう
           </v-card-title>
@@ -28,16 +31,13 @@
             別のアレンジを教えてもらえるかも!?
           </v-card-text>
         </v-col>
-        <v-col cols="auto" class="py-10">
-          <v-img src="/images/photo.png" />
-        </v-col>
       </v-row>
 
       <v-row class="d-flex justify-center">
-        <v-col cols="auto" class="py-10">
+        <v-col cols="auto" class="py-md-10">
           <v-img src="/images/like.png" />
         </v-col>
-        <v-col cols="auto" class="py-10">
+        <v-col cols="auto" class="py-md-10">
           <v-card-title class="mb-3 text-h6 text-md-h5 font-weight-bold">
             ｢うまいいね」ボタンを押そう
           </v-card-title>
@@ -48,8 +48,11 @@
         </v-col>
       </v-row>
 
-      <v-row class="d-flex justify-center" style="background-color: #fafafa">
-        <v-col cols="auto" class="py-10">
+      <v-row class="d-flex justify-center flex-row-reverse" style="background-color: #fafafa">
+        <v-col cols="auto" class="py-md-10">
+          <v-img src="/images/request.png" />
+        </v-col>
+        <v-col cols="auto" class="py-md-10">
           <v-card-title class="mb-3 text-h6 text-md-h5 font-weight-bold">
             あなたの声をお聞かせてください
           </v-card-title>
@@ -57,9 +60,11 @@
             Arrangyは出来て間もないサービスです。<br />
             その為、｢こんな機能が欲しい」などの<br class="br-sp" />フィードバックは大歓迎です!!
           </v-card-text>
-        </v-col>
-        <v-col cols="auto" class="py-10">
-          <v-img src="/images/request.png" />
+          <v-card-actions class="d-flex justify-center">
+            <v-btn xLarge outlined class="btn" color="#cc3918" :to="{ name: 'ArrangementNew' }">
+              <div class="font-weight-bold">お問い合わせページへ</div>
+            </v-btn>
+          </v-card-actions>
         </v-col>
       </v-row>
     </v-container>
