@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_16_212420) do
+ActiveRecord::Schema.define(version: 2021_04_20_042528) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(version: 2021_04_16_212420) do
     t.datetime "reset_password_email_sent_at"
     t.bigint "likes_count", default: 0
     t.bigint "arrangements_count", default: 0
+    t.integer "role", default: 0
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["nickname"], name: "index_users_on_nickname", unique: true
   end
