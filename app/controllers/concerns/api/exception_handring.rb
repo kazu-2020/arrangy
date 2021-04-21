@@ -11,6 +11,7 @@ module Api
     private
 
     def render_500(exception = nil, messages = nil)
+      send_sentry(exception) if exception
       render_error(:internal_server_error, 'Internal Server Error', exception&.message, *messages)
     end
 
@@ -32,6 +33,11 @@ module Api
         detail: detail.compact
       }
       render json: error_response, status: status
+    end
+
+    def send_sentry(exception)
+      Sentry.set_user(id: current_user&.id, username: current_user&.nickname, email: current_user&.email)
+      Sentry.capture_exception(exception)
     end
   end
 end

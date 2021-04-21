@@ -67,8 +67,8 @@ module Api
 
     def set_arrangement
       @arrangement = Arrangement.find(decode_id(params[:id]))
-    rescue StandardError
-      raise ActiveRecord::RecordNotFound
+    rescue => exception
+      render_404(exception)
     end
 
     def render_serializer(arrangement, options = {})
