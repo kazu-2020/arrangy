@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  root 'static_pages#top'
+
   namespace :api, format: 'json' do
     namespace :arrangements do
       resources :favorites, only: :index
@@ -20,11 +22,16 @@ Rails.application.routes.draw do
     post "oauth/callback", to: "oauths#callback"
     get "oauth/callback",  to: "oauths#callback"
     get "oauth/:provider", to: "oauths#oauth", as: :auth_at_provider
+
+    namespace :admin do
+      resource :auth_user, only: %i[create show destroy]
+      resources :arrangements, only: %i[index]
+      resources :users, only: :index
+    end
   end
 
 
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
 
   get '*path', to: 'static_pages#top'
-  root 'static_pages#top'
 end

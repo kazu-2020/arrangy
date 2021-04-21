@@ -15,10 +15,12 @@ jsonApi.define('user', {
   nickname: '',
   email: '',
   avatar: '',
+  role: '',
   password: '',
   password_confirmation: '',
   arrangements_count: '',
   likes_count: '',
+  created_at: '',
   arrangements: {
     jsonApi: 'hasMany',
     type: 'arrangements',

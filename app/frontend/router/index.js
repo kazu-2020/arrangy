@@ -112,6 +112,34 @@ const router = new VueRouter({
       },
     },
     {
+      path: '/admin/login',
+      name: 'AdminLogin',
+      components: {
+        default: () => import('../components/pages/admin/AdminLogin'),
+        snackbar: () => import('../components/global/TheSnackbar.vue'),
+      },
+    },
+    {
+      path: '/admin/users',
+      name: 'AdminUsers',
+      components: {
+        default: () => import('../components/pages/admin/AdminUsers'),
+        header: () => import('../components/global/admin/AdminHeader'),
+        snackbar: () => import('../components/global/TheSnackbar.vue'),
+      },
+      meta: { requireAdmin: true },
+    },
+    {
+      path: '/admin/arrangements',
+      name: 'AdminArrangements',
+      components: {
+        default: () => import('../components/pages/admin/AdminArrangements'),
+        header: () => import('../components/global/admin/AdminHeader'),
+        snackbar: () => import('../components/global/TheSnackbar.vue'),
+      },
+      meta: { requireAdmin: true },
+    },
+    {
       path: '*',
       name: '404Page',
       component: () => import('../components/pages/error/NotFound.vue'),
@@ -129,6 +157,20 @@ router.beforeEach((to, from, next) => {
         next();
       } else {
         next({ name: 'UserLogin' });
+      }
+    });
+  } else {
+    next();
+  }
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.requireAdmin)) {
+    store.dispatch('adminUsers/fetchAdminUser').then((adminUser) => {
+      if (adminUser && adminUser.role === 'admin') {
+        next();
+      } else {
+        next({ name: 'AdminLogin' });
       }
     });
   } else {
