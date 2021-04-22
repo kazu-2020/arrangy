@@ -92,6 +92,7 @@ export default {
             color: 'success',
             isShow: true,
           });
+          this.arrangementCreating = false;
         })
         .catch(() => {
           this.fetchSnackbarData({
@@ -99,8 +100,8 @@ export default {
             color: 'error',
             isShow: true,
           });
+          this.arrangementCreating = false;
         });
-      this.arrangementCreating = false;
     },
     uploadFile(src) {
       this.arrangement.images.splice(0, 1, src);
