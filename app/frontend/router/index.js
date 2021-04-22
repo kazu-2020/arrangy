@@ -152,6 +152,10 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.requireAuth)) {
+    const authUser = store.getters['users/authUser'];
+
+    if (authUser) return next();
+
     store.dispatch('users/fetchAuthUser').then((authUser) => {
       if (to.name === 'ArrangementShow' || authUser) {
         next();

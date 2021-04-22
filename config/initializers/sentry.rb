@@ -7,7 +7,7 @@ Sentry.init do |config|
 
   config.excluded_exceptions += %w[ActiveRecord::RecordNotFound]
 
-  config.environment = 'production'
+  config.enabled_environments = %w[production]
 
   # To activate performance monitoring, set one of these options.
   # We recommend adjusting the value in production:

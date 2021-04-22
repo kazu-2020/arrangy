@@ -303,6 +303,8 @@ export default {
   },
   methods: {
     ...mapActions('snackbars', ['fetchSnackbarData']),
+    ...mapActions('users', ['fetchAuthUser']),
+
     fetchArrangement() {
       this.$devour.find('arrangement', this.$route.params.id).then((res) => {
         this.arrangement = res.data;
@@ -395,6 +397,7 @@ export default {
           color: 'success',
           isShow: true,
         });
+        this.fetchAuthUser();
         this.$router.push({ name: 'UserProfile' });
       });
     },
@@ -438,6 +441,7 @@ export default {
           .then(() => {
             this.arrangement.liked_authuser = false;
             this.arrangement.likes_count -= 1;
+            this.fetchAuthUser();
           });
       } else {
         this.$devour
@@ -447,6 +451,7 @@ export default {
           .then(() => {
             this.arrangement.liked_authuser = true;
             this.arrangement.likes_count += 1;
+            this.fetchAuthUser();
           });
       }
     },
