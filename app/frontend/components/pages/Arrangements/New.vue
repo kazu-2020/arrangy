@@ -81,6 +81,7 @@ export default {
   },
   methods: {
     ...mapActions('snackbars', ['fetchSnackbarData']),
+    ...mapActions('users', ['fetchAuthUser']),
     createArrangement() {
       this.arrangementCreating = true;
       this.$devour
@@ -92,6 +93,7 @@ export default {
             color: 'success',
             isShow: true,
           });
+          this.fetchAuthUser();
           this.arrangementCreating = false;
         })
         .catch(() => {

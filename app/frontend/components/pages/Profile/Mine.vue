@@ -102,6 +102,7 @@ export default {
   },
   methods: {
     ...mapActions('snackbars', ['fetchSnackbarData']),
+    ...mapActions('users', ['fetchAuthUser']),
 
     displayArrangementEditDialog(arrangement) {
       this.initArrangement(arrangement);
@@ -195,6 +196,7 @@ export default {
           color: 'success',
           isShow: true,
         });
+        this.fetchAuthUser();
       });
     },
   },

@@ -56,8 +56,7 @@ const actions = {
       return null;
     }
   },
-  async fetchAuthUser({ commit, state }) {
-    if (state.authUser) return state.authUser;
+  async fetchAuthUser({ commit }) {
     const userResponse = await devour.request(`${devour.apiUrl}/auth_user`, 'GET');
     if (!userResponse.data) return null;
     commit('setAuthUser', userResponse.data);
