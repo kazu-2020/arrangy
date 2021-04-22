@@ -61,7 +61,7 @@
             その為、｢こんな機能が欲しい」などの<br class="br-sp" />フィードバックは大歓迎です!!
           </v-card-text>
           <v-card-actions class="d-flex justify-center">
-            <v-btn xLarge outlined class="btn" color="#cc3918" :to="{ name: 'ArrangementNew' }">
+            <v-btn xLarge outlined class="btn" color="#cc3918" :to="{ name: 'ContactPage' }">
               <div class="font-weight-bold">お問い合わせページへ</div>
             </v-btn>
           </v-card-actions>
