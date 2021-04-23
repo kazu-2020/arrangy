@@ -4,11 +4,12 @@ module Api
     before_action :set_arrangement, only: %i[show update destroy]
 
     def index
-      pagy, arrangements = pagy(Arrangement.order(likes_count: :desc).preload(:user), items: 20)
+      pagy, arrangements = pagy(Arrangement.order(likes_count: :desc).preload(:user, :parameter), items: 20)
       options = {
-        include: %i[user],
+        include: %i[user parameter],
         fields: {
-          arrangement: %i[title images created_at likes_count comments_count user],
+          arrangement: %i[title images created_at likes_count comments_count user parameter],
+          parameter: %i[taste spiciness sweetness satisfaction],
           user: %i[nickname avatar]
         },
         meta: { pagy: pagy_metadata(pagy) }

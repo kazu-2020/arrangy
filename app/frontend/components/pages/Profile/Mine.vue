@@ -48,7 +48,11 @@
       @uploadFile="uploadFile"
       @updateArrangement="updateArrangement"
       @closeDialog="closeEditArrangement"
-    />
+    >
+      <template #parameterForm>
+        <ParameterNewForm v-bind.sync="parameterEdit" />
+      </template>
+    </ArrangementEditForm>
     <!-- 投稿削除確認ダイアログ -->
     <DeleteConfirmationDialog
       :isShow="deleteArrangementDialogDisplayed"
@@ -69,6 +73,7 @@ import ArrangementEditForm from '../../parts/forms/ArrangementEditForm';
 import ArrangementSummary from '../../parts/cards/ArrangementSummary';
 import DeleteConfirmationDialog from '../../parts/dialogs/DeleteConfirmationDialog';
 import InitializedMenu from '../../parts/menus/InitializedMenu';
+import ParameterNewForm from '../../parts/forms/ParameterNewForm';
 
 export default {
   components: {
@@ -76,6 +81,7 @@ export default {
     ArrangementSummary,
     DeleteConfirmationDialog,
     InitializedMenu,
+    ParameterNewForm,
   },
   data() {
     return {
@@ -85,6 +91,12 @@ export default {
         title: '',
         context: '',
         images: [],
+      },
+      parameterEdit: {
+        taste: '',
+        spiciness: '',
+        sweetness: '',
+        satisfaction: '',
       },
       arrangementDelete: {},
       pagy: {
@@ -125,6 +137,7 @@ export default {
     },
     initArrangement(arrangement) {
       this.arrangementEdit = { ...arrangement, images: [...arrangement.images] };
+      this.parameterEdit = { ...arrangement.parameter };
       Jimp.read(this.arrangementEdit.images[0]).then((image) => {
         image.getBase64(Jimp.MIME_PNG, (err, src) => this.arrangementEdit.images.splice(0, 1, src));
       });
@@ -162,7 +175,12 @@ export default {
     updateArrangement() {
       this.arrangementEditing = true;
       this.$devour
-        .update('arrangement', this.arrangementEdit)
+        .request(
+          `${this.$devour.apiUrl}/arrangements/${this.arrangementEdit.id}`,
+          'PATCH',
+          {},
+          { arrangement: this.arrangementEdit, parameter: this.parameterEdit }
+        )
         .then((res) => {
           const index = this.arrangements.findIndex(
             (arrangement) => arrangement.id === res.data.id

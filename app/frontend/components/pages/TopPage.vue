@@ -50,6 +50,9 @@
                 </v-row>
               </v-card-text>
             </template>
+            <template slot="arrangement-parameter">
+              <RadarChart :chartData="arrangement.parameter" />
+            </template>
           </ArrangementSummary>
         </v-col>
         <infinite-loading
@@ -70,13 +73,16 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import WelcomeDialog from '../parts/dialogs/WelcomeDialog';
+
 import ArrangementSummary from '../parts/cards/ArrangementSummary';
+import RadarChart from '../parts/charts/RadarChart';
+import WelcomeDialog from '../parts/dialogs/WelcomeDialog';
 
 export default {
   components: {
-    WelcomeDialog,
     ArrangementSummary,
+    RadarChart,
+    WelcomeDialog,
   },
   beforeRouteEnter(to, from, next) {
     if (from.name === 'UserRegister')

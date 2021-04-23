@@ -13,7 +13,7 @@ export default {
     chart() {
       return {
         data: {
-          labels: ['美味さ', '甘さ', '食べ応え', '辛さ'],
+          labels: ['美味しさ', '甘さ', '食べ応え', '辛さ'],
           datasets: [
             {
               label: '',
