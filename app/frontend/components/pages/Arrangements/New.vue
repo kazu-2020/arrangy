@@ -9,10 +9,15 @@
       <v-col cols="12" class="mx-auto">
         <ArrangementNewForm
           v-bind.sync="arrangement"
+          :parameter="parameter"
           :loading="arrangementCreating"
           @createArrangement="createArrangement"
           @uploadFile="uploadFile"
-        />
+        >
+          <template #parameterForm>
+            <ParameterNewForm v-bind.sync="parameter" />
+          </template>
+        </ArrangementNewForm>
       </v-col>
     </v-row>
   </v-container>
@@ -21,10 +26,12 @@
 <script>
 import { mapActions } from 'vuex';
 import ArrangementNewForm from '../../parts/forms/ArrangementNewForm';
+import ParameterNewForm from '../../parts/forms/ParameterNewForm';
 
 export default {
   components: {
     ArrangementNewForm,
+    ParameterNewForm,
   },
   data() {
     return {
@@ -33,6 +40,13 @@ export default {
         context: '',
         images: [],
       },
+      parameter: {
+        taste: 0,
+        spiciness: 0,
+        sweetness: 0,
+        satisfaction: 0,
+      },
+
       arrangementCreating: false,
     };
   },
@@ -85,7 +99,12 @@ export default {
     createArrangement() {
       this.arrangementCreating = true;
       this.$devour
-        .create('arrangement', this.arrangement)
+        .request(
+          `${this.$devour.apiUrl}/arrangements`,
+          'POST',
+          {},
+          { arrangement: this.arrangement, parameter: this.parameter }
+        )
         .then((res) => {
           this.$router.push({ name: 'ArrangementShow', params: { id: res.data.id } });
           this.fetchSnackbarData({

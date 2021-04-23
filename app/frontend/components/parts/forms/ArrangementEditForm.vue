@@ -54,6 +54,7 @@
           :rules="rules.context"
           @input="$emit('update:context', $event)"
         />
+        <slot name="parameterForm" />
         <div class="text-center">
           <SubmitButton
             class="mx-2"

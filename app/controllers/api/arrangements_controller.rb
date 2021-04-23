@@ -17,12 +17,14 @@ module Api
     end
 
     def create
-      arrangement = current_user.arrangements.build(arrangement_params)
-      arrangement.save!
+      arrangement_form = ArrangementForm.new(arrangement: current_user.arrangements.build,
+                                             arrangement_params: arrangement_params,
+                                             parameter_params: parameter_params)
+      arrangement_form.save!
       options = {
         fields: { arrangement: %i[set_id] }
       }
-      render_serializer(arrangement, options)
+      render_serializer(arrangement_form.arrangement, options)
     end
 
     def show
@@ -30,9 +32,10 @@ module Api
       # {}だとフロントで使用しているdevourが期待する値を返してくれない。
       # 参考 => https://github.com/Netflix/fast_jsonapi/issues/304
       options = {
-        include: %i[user],
+        include: %i[user parameter],
         fields: {
-          arrangement: %i[title context images likes_count liked_authuser created_at user],
+          arrangement: %i[title context images likes_count liked_authuser created_at user parameter],
+          parameter: %i[taste spiciness sweetness satisfaction],
           user: %i[nickname avatar]
         },
         params: { current_user: current_user }
@@ -41,16 +44,20 @@ module Api
     end
 
     def update
-      @arrangement.update!(arrangement_params)
+      arrangement_form = ArrangementForm.new(arrangement: set_arrangement,
+                                             arrangement_params: arrangement_params,
+                                             parameter_params: parameter_params)
+      arrangement_form.save!
       options = {
-        include: %i[user],
+        include: %i[user parameter],
         fields: {
-          arrangement: %i[title context likes_count liked_authuser created_at images user],
+          arrangement: %i[title context likes_count liked_authuser created_at images user parameter],
+          parameter: %i[taste spiciness sweetness satisfaction],
           user: %i[nickname avatar]
         },
         params: { current_user: current_user }
       }
-      render_serializer(@arrangement, options)
+      render_serializer(arrangement_form.arrangement, options)
     end
 
     def destroy
@@ -63,6 +70,10 @@ module Api
     def arrangement_params
       params[:arrangement][:images].map! { |image| create_uploadedfile(image) }
       params.require(:arrangement).permit(:title, :context, images: [])
+    end
+
+    def parameter_params
+      params.require(:parameter).permit(:taste, :spiciness, :sweetness, :satisfaction)
     end
 
     def set_arrangement

@@ -48,6 +48,10 @@ jsonApi.define('arrangement', {
     jsonApi: 'hasMany',
     type: 'comments',
   },
+  parameter: {
+    jsonApi: 'hasOne',
+    type: 'parameter',
+  },
 });
 
 jsonApi.define('comment', {
@@ -73,6 +77,19 @@ jsonApi.define('like', {
     jsonApi: 'hasOne',
     type: 'user',
   },
+  arrangement: {
+    jsonApi: 'hasOne',
+    type: 'arrangement',
+  },
+});
+
+jsonApi.define('parameter', {
+  id: '',
+  arrangement_id: '',
+  taste: '',
+  spiciness: '',
+  sweetness: '',
+  satisfaction: '',
   arrangement: {
     jsonApi: 'hasOne',
     type: 'arrangement',
