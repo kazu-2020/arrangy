@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "投稿編集", type: :system, js: true do
-  let!(:arrangement) { create(:arrangement) }
+  let!(:arrangement) { create(:arrangement, :with_parameter) }
 
   before do
     log_in_as(arrangement.user)

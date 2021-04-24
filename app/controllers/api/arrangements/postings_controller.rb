@@ -7,7 +7,7 @@ module Api
           include: %i[parameter],
           fields: {
             arrangement: %i[title images context created_at likes_count comments_count parameter],
-            parameter: %i[taste spiciness sweetness satisfaction],
+            parameter: %i[taste spiciness sweetness satisfaction]
           },
           meta: { pagy: pagy_metadata(pagy) }
         }
