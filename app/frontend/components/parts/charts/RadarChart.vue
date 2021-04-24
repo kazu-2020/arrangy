@@ -13,7 +13,7 @@ export default {
     chart() {
       return {
         data: {
-          labels: ['美味しさ', '甘さ', '食べ応え', '辛さ'],
+          labels: ['美味しさ', '辛さ', '甘さ', '食べ応え'],
           datasets: [
             {
               label: '',
@@ -25,9 +25,9 @@ export default {
               pointHoverBorderColor: 'rgba(255,99,132,1)',
               data: [
                 this.chartData.taste,
+                this.chartData.spiciness,
                 this.chartData.sweetness,
                 this.chartData.satisfaction,
-                this.chartData.spiciness,
               ],
             },
           ],
