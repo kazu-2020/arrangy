@@ -62,9 +62,11 @@
             </SubmitButton>
           </v-col>
         </v-row>
-        <v-sheet class="pa-5" :rounded="true" outlined color="#F5F5F5">
+        <v-sheet class="pa-5 mb-5" :rounded="true" outlined color="#F5F5F5">
           <pre class="text-body-1">{{ arrangement.context }}</pre>
         </v-sheet>
+        <!-- レーダチャート -->
+        <RadarChart :chartData="arrangement.parameter" />
       </v-col>
       <!-- 投稿編集用ダイアログ -->
       <ArrangementEditForm
@@ -74,7 +76,11 @@
         @uploadFile="uploadFile"
         @updateArrangement="updateArrangement"
         @closeDialog="closeEditArrangement"
-      />
+      >
+        <template #parameterForm>
+          <ParameterNewForm v-bind.sync="parameterEdit" />
+        </template>
+      </ArrangementEditForm>
       <!-- 投稿削除用ダイアログ -->
       <DeleteConfirmationDialog
         :isShow="deleteArrangementDialogDisplayed"
@@ -197,20 +203,25 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import Jimp from 'jimp/es';
+
 import ArrangementEditForm from '../../parts/forms/ArrangementEditForm';
-import DeleteConfirmationDialog from '../../parts/dialogs/DeleteConfirmationDialog';
 import CommentCreateForm from '../../parts/forms/CommentCreateForm';
 import CommentEditForm from '../../parts/forms/CommentEditForm';
+import DeleteConfirmationDialog from '../../parts/dialogs/DeleteConfirmationDialog';
 import InitializedMenu from '../../parts/menus/InitializedMenu';
+import ParameterNewForm from '../../parts/forms/ParameterNewForm';
+import RadarChart from '../../parts/charts/RadarChart';
 import SubmitButton from '../../parts/buttons/SubmitButton';
 
 export default {
   components: {
     ArrangementEditForm,
-    DeleteConfirmationDialog,
     CommentCreateForm,
     CommentEditForm,
+    DeleteConfirmationDialog,
     InitializedMenu,
+    ParameterNewForm,
+    RadarChart,
     SubmitButton,
   },
   data() {
@@ -227,12 +238,24 @@ export default {
           nickname: '',
           avatar: '',
         },
+        parameter: {
+          taste: '',
+          spiciness: '',
+          sweetness: '',
+          satisfaction: '',
+        },
       },
       arrangementEdit: {
         id: '',
         title: '',
         context: '',
         images: [],
+      },
+      parameterEdit: {
+        taste: '',
+        spiciness: '',
+        sweetness: '',
+        satisfaction: '',
       },
       comments: [],
       commentCreate: {
@@ -361,6 +384,7 @@ export default {
 
     initArrangement() {
       this.arrangementEdit = { ...this.arrangement, images: [...this.arrangement.images] };
+      this.parameterEdit = { ...this.arrangement.parameter };
       Jimp.read(this.arrangementEdit.images[0]).then((image) => {
         image.getBase64(Jimp.MIME_PNG, (err, src) => this.arrangementEdit.images.splice(0, 1, src));
       });
@@ -371,7 +395,12 @@ export default {
     updateArrangement() {
       this.arrangementEditing = true;
       this.$devour
-        .update('arrangement', this.arrangementEdit)
+        .request(
+          `${this.$devour.apiUrl}/arrangements/${this.arrangementEdit.id}`,
+          'PATCH',
+          {},
+          { arrangement: this.arrangementEdit, parameter: this.parameterEdit }
+        )
         .then((res) => {
           this.arrangement = res.data;
           this.closeEditArrangement();

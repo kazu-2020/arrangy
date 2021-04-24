@@ -101,6 +101,19 @@
       </v-col>
     </v-row>
 
+    <v-row class="mb-10">
+      <v-col cols="12" sm="4">
+        <div class="text-h6 font-weight-bold">パラメーターを設定する</div>
+        <div class="text-caption">※任意</div>
+        <div class="d-flex flex-column">
+          <div class="text-caption light-weight-text">各項目: 1~5で設定できます</div>
+        </div>
+      </v-col>
+      <v-col>
+        <slot name="parameterForm" />
+      </v-col>
+    </v-row>
+
     <v-card-actions class="d-flex justify-center">
       <SubmitButton
         :xLarge="true"
@@ -145,6 +158,10 @@ export default {
     },
     loading: {
       type: Boolean,
+    },
+    parameter: {
+      type: Object,
+      required: true,
     },
   },
   data() {

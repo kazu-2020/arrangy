@@ -7,8 +7,7 @@
     :to="{ name: 'ArrangementShow', params: { id: arrangement.id } }"
     elevation="0"
   >
-    <v-img v-for="(image, $imageIndex) in arrangement.images" :key="$imageIndex" :src="image">
-    </v-img>
+    <v-img v-for="(image, $imageIndex) in arrangement.images" :key="$imageIndex" :src="image" />
     <v-card-title class="font-weight-bold">
       {{ arrangement.title }}
     </v-card-title>
@@ -25,6 +24,7 @@
       </div>
     </v-card-subtitle>
     <slot name="user-information" />
+    <slot name="arrangement-parameter" />
   </v-card>
 </template>
 
