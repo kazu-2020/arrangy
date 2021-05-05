@@ -1,6 +1,8 @@
 class OauthForm
   include ActiveModel::Model
   include ActiveModel::Attributes
+  include Nickname
+  include Email
 
   attr_reader :user
 
@@ -9,10 +11,6 @@ class OauthForm
   attribute :uid,      :integer
   attribute :provider, :string
 
-  VALID_EMAIL_FORMAT = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i.freeze
-
-  validates :nickname, length: { maximum: 10 }
-  validates :email, length: { maximum: 50 }, format: { with: VALID_EMAIL_FORMAT }
   validate  :validate_model
 
   def initialize(user: User.new, oauth_params: {})
@@ -29,6 +27,7 @@ class OauthForm
       @user.save!
       @authentication.save!(user_id: @user.id)
     end
+    true
   end
 
   private

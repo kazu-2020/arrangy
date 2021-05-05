@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Arrangement, type: :model do
+RSpec.describe ContactForm, type: :model do
   let(:contact_form) { build(:contact_form) }
 
   describe 'テストデータの検証' do
