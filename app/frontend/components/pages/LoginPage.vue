@@ -16,7 +16,7 @@
     <template slot="main3-context">
       <v-btn
         class="mb-12 font-weight-bold text-capitalize"
-        href="/api/oauth/google"
+        href="/api/oauths/google"
         xLarge
         color="#dd4b39"
         style="color: white"

@@ -15,13 +15,14 @@ Rails.application.routes.draw do
     end
     resource :contacts, only: :create
     resources :users, only: :create
-    namespace 'validation' do
+    namespace  :validation do
       resource :uniqueness, only: :show, controller: 'uniqueness'
     end
-
-    post "oauth/callback", to: "oauths#callback"
-    get "oauth/callback",  to: "oauths#callback"
-    get "oauth/:provider", to: "oauths#oauth", as: :auth_at_provider
+    resources :oauths, only: :show, param: :provider
+    namespace :oauth do
+      resource :callback, only: :show
+      resource :reregister, only: :create
+    end
 
     namespace :admin do
       resource :auth_user, only: %i[create show destroy]

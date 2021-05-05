@@ -28,6 +28,16 @@ const router = new VueRouter({
       },
     },
     {
+      path: '/reregister',
+      name: 'UserREregister',
+      components: {
+        default: () => import('../components/pages/ReregisterPage'),
+        header: () => import('../components/global/TheHeader'),
+        snackbar: () => import('../components/global/TheSnackbar.vue'),
+        footer: () => import('../components/global/TheFooter'),
+      },
+    },
+    {
       path: '/login',
       name: 'UserLogin',
       components: {

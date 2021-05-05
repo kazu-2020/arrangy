@@ -16,7 +16,7 @@
     <template slot="main3-context">
       <v-btn
         class="mb-12 font-weight-bold text-capitalize"
-        href="/api/oauth/google"
+        href="/api/oauths/google"
         xLarge
         color="#dd4b39"
         style="color: white"
@@ -97,7 +97,7 @@ export default {
     registerFunction() {
       this.registerUser(this.user).then((user) => {
         if (user) {
-          this.$router.push({ name: 'TopPage' });
+          this.$router.push({ name: 'TopPage', query: { registration: true } });
         } else {
           this.fetchSnackbarData({
             msg: '新規登録に失敗しました',
