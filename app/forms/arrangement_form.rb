@@ -24,7 +24,7 @@ class ArrangementForm
     validates :satisfaction
   end
 
-  def initialize(arrangement: {}, arrangement_params: {}, parameter_params: {})
+  def initialize(arrangement: Arrangement.new, arrangement_params: {}, parameter_params: {})
     @arrangement = arrangement
     @arrangement.assign_attributes(arrangement_params)
     @parameter_params = parameter_params
