@@ -22,7 +22,6 @@ class ProfileForm
     @user.save!
   end
 
-
   private
 
   def validate_model
