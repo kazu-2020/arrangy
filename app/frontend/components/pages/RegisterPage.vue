@@ -24,6 +24,16 @@
         <v-icon class="mr-2">mdi-google-plus</v-icon>
         Googleアカウントで登録
       </v-btn>
+      <v-btn
+        class="mb-12 font-weight-bold text-capitalize"
+        href="/api/oauths/twitter"
+        xLarge
+        color="#1DA1F2"
+        style="color: white"
+      >
+        <v-icon class="mr-2">mdi-twitter</v-icon>
+        Twitterアカウントで登録
+      </v-btn>
     </template>
   </RegistrationAndLoginBase>
 </template>

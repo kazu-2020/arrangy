@@ -25,7 +25,7 @@ class OauthForm
 
     ActiveRecord::Base.transaction do
       @user.save!
-      @authentication.save!(user_id: @user.id)
+      @authentication.save!
     end
     true
   end

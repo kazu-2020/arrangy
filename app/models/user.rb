@@ -31,7 +31,6 @@ class User < ApplicationRecord
 
   authenticates_with_sorcery!
 
-  accepts_nested_attributes_for :authentications
   mount_uploader :avatar, AvatarUploader
 
   enum role: { general: 0, admin: 1 }

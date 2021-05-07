@@ -4,7 +4,7 @@ module Api
       skip_before_action :require_login
 
       def create
-        oauth_form = OauthForm.new(user: User.new(user_params), oauth_params: session[:oauth_params])
+        oauth_form = OauthForm.new(user: user, oauth_params: session[:oauth_params])
         raise ActiveRecord::RecordInvalid unless oauth_form.valid?
 
         oauth_form.save
@@ -16,6 +16,10 @@ module Api
       end
 
       private
+
+      def user
+        @_user ||= User.new(user_params)
+      end
 
       def user_params
         params.require(:reregister).permit(:nickname, :email)

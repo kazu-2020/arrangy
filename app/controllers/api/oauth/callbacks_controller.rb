@@ -6,8 +6,7 @@ module Api
       def show # rubocop:disable Metrics/AbcSize
         return redirect_to root_path if login_from(params[:provider])
 
-        oauth_form = OauthForm.new(user: build_from(params[:provider]), oauth_params: oauth_params)
-
+        oauth_form = OauthForm.new(user: user, oauth_params: oauth_params)
         if oauth_form.save
           auto_login(oauth_form.user)
           redirect_to root_path(registration: true)
@@ -19,12 +18,17 @@ module Api
 
       private
 
+      def user
+        @_user ||= build_from(params[:provider])
+      end
+
       def oauth_params
+        # @user_hash内にユーザー情報が代入されている
         @user_hash.slice(:uid).merge(provider: params[:provider])
       end
 
       def reregister_url
-        "/reregister?nickname=#{@user_hash[:user_info]['name']}&email=#{@user_hash[:user_info]['email']}"
+        "/reregister?nickname=#{user.nickname}&email=#{user.email}"
       end
     end
   end

@@ -35,3 +35,7 @@ Naming/VariableNumber:
 # https://www.rubydoc.info/gems/rubocop/RuboCop/Cop/Metrics/MethodLength
 Metrics/MethodLength:
   CountAsOne: ['array', 'heredoc', 'hash']
+
+# https://www.rubydoc.info/gems/rubocop/RuboCop/Cop/Naming/MemoizedInstanceVariableName
+Naming/MemoizedInstanceVariableName:
+  EnforcedStyleForLeadingUnderscores: optional
