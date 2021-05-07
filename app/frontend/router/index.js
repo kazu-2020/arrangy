@@ -103,6 +103,15 @@ const router = new VueRouter({
       },
     },
     {
+      path: '/policy',
+      name: 'PrivacyPolicy',
+      components: {
+        default: () => import('../components/pages/PrivacyPolicy'),
+        header: () => import('../components/global/TheHeader'),
+        footer: () => import('../components/global/TheFooter'),
+      },
+    },
+    {
       path: '/about',
       name: 'ServiceDescription',
       components: {

@@ -10,6 +10,7 @@
       <div class="text-body-2">
         Arrangyの利用を継続した場合、
         <a @click.stop="termsDialogDisplayed = true">利用規約</a>
+        <a @click.stop="privacyPolicyDialogDisplayed = true">プライバシーポリシー</a>
         に同意したことになります。
       </div>
     </v-card-text>
@@ -33,6 +34,18 @@
         </v-card-actions>
       </v-sheet>
     </v-dialog>
+
+    <!-- プライバシーポリシーダイアログ -->
+    <v-dialog v-model="privacyPolicyDialogDisplayed" maxWidth="1100">
+      <v-sheet>
+        <PrivacyPolicyBody />
+        <v-card-actions class="d-flex justify-center">
+          <NormalButton :xLarge="true" @click="privacyPolicyDialogDisplayed = false">
+            <template #text>戻る</template>
+          </NormalButton>
+        </v-card-actions>
+      </v-sheet>
+    </v-dialog>
   </ValidationObserver>
 </template>
 
@@ -40,6 +53,7 @@
 import EmailField from '../formInputs/EmailField';
 import NormalButton from '../buttons/NormalButton';
 import PasswordField from '../formInputs/PasswordField';
+import PrivacyPolicyBody from '../base/PrivacyPolicyBody';
 import SubmitButton from '../buttons/SubmitButton';
 import TermsBody from '../base/TermsBody';
 
@@ -48,6 +62,7 @@ export default {
     EmailField,
     NormalButton,
     PasswordField,
+    PrivacyPolicyBody,
     SubmitButton,
     TermsBody,
   },
@@ -64,6 +79,7 @@ export default {
   data() {
     return {
       termsDialogDisplayed: false,
+      privacyPolicyDialogDisplayed: false,
     };
   },
   computed: {
