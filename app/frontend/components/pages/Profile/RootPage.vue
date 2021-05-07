@@ -206,12 +206,7 @@ export default {
     },
     updatePassword() {
       this.$devour
-        .request(
-          `${this.$devour.apiUrl}/auth_user/password`,
-          'PATCH',
-          {},
-          { password: this.password, password_confirmation: this.password_confirmation }
-        )
+        .request(`${this.$devour.apiUrl}/auth_user/password`, 'PATCH', {}, this.passwordEdit)
         .then(() => {
           this.fetchSnackbarData({
             msg: 'パスワードを更新しました',

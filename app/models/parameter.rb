@@ -13,8 +13,7 @@
 class Parameter < ApplicationRecord
   belongs_to :arrangement
 
-  with_options presence: true,
-               numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 5 } do
+  with_options presence: true do
     validates :taste
     validates :spiciness
     validates :sweetness

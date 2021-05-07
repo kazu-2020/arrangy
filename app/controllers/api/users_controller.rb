@@ -5,11 +5,11 @@ module Api
     skip_before_action :require_login
 
     def create
-      user = User.new(user_params)
-      user.save!
-      auto_login(user)
+      signup_form = SignupForm.new(user_params)
+      signup_form.save!
+      auto_login(signup_form.user)
       options = { fields: { user: %i[nickname email avatar] } }
-      json_string = UserSerializer.new(user, options)
+      json_string = UserSerializer.new(signup_form.user, options)
       render json: json_string
     end
 

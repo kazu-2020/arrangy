@@ -24,6 +24,20 @@ const actions = {
       return null;
     }
   },
+  async reregisterUser({ commit }, user) {
+    try {
+      const userResponse = await devour.request(
+        `${devour.apiUrl}/oauth/reregister`,
+        'POST',
+        {},
+        user
+      );
+      commit('setAuthUser', userResponse.data);
+      return userResponse.data;
+    } catch (err) {
+      return null;
+    }
+  },
   async loginUser({ commit }, user) {
     try {
       const userResponse = await devour.request(`${devour.apiUrl}/auth_user`, 'POST', {}, user);

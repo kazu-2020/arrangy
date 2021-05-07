@@ -84,17 +84,6 @@ export default {
     RadarChart,
     WelcomeDialog,
   },
-  beforeRouteEnter(to, from, next) {
-    if (from.name === 'UserRegister')
-      next((self) => {
-        self.fetchAuthUser().then((authUser) => {
-          if (authUser) {
-            self.handleShowWelcomeDialog();
-          }
-        });
-      });
-    else next();
-  },
   data() {
     return {
       arrangements: [],
@@ -150,6 +139,9 @@ export default {
     },
   },
   created() {
+    if (location.search.includes('registration=true')) {
+      this.handleShowWelcomeDialog();
+    }
     this.fetchAuthUser();
     this.fetchArrangements();
   },

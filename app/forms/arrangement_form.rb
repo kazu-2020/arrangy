@@ -7,27 +7,27 @@ class ArrangementForm
   attribute :title, :string
   attribute :context, :string
   attribute :images
-  attribute :taste, :integer
-  attribute :spiciness, :integer
-  attribute :sweetness, :integer
-  attribute :satisfaction, :integer
+  attribute :taste, :integer, default: 3
+  attribute :spiciness, :integer, default: 3
+  attribute :sweetness, :integer, default: 3
+  attribute :satisfaction, :integer, default: 3
 
-  validates :title, presence: true, length: { maximum: 30 }
-  validates :context, presence: true, length: { maximum: 1000 }
-  validates :images, presence: true
+  validates :title, length: { maximum: 30 }
+  validates :context, length: { maximum: 1000 }
+  validate  :validate_model
 
-  with_options presence: true,
-               numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 5 } do
+  with_options numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 5 } do
     validates :taste
     validates :spiciness
     validates :sweetness
     validates :satisfaction
   end
 
-  def initialize(arrangement: {}, arrangement_params: {}, parameter_params: {})
+  def initialize(arrangement: Arrangement.new, arrangement_params: {}, parameter_params: {})
     @arrangement = arrangement
     @arrangement.assign_attributes(arrangement_params)
-    @parameter_params = parameter_params
+    @parameter = arrangement.new_record? ? arrangement.build_parameter : arrangement.parameter
+    @parameter.assign_attributes(parameter_params)
     super(arrangement_params.merge(parameter_params))
   end
 
@@ -36,7 +36,20 @@ class ArrangementForm
 
     ActiveRecord::Base.transaction do
       @arrangement.save!
-      @arrangement.create_parameter!(@parameter_params)
+      @parameter.save!
+    end
+  end
+
+  private
+
+  def validate_model
+    promote_errors(@arrangement.errors) unless @arrangement.valid?
+    promote_errors(@parameter.errors) unless @parameter.valid?
+  end
+
+  def promote_errors(model_errors)
+    model_errors.each do |attribute, message|
+      errors.add(attribute, message)
     end
   end
 end

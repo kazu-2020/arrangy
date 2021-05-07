@@ -23,9 +23,11 @@ class Arrangement < ApplicationRecord
 
   mount_uploaders :images, ImageUploader
 
-  validates :title, presence: true, length: { maximum: 30 }
-  validates :context, presence: true, length: { maximum: 1000 }
-  validates :images, presence: true
+  with_options presence: true do
+    validates :title
+    validates :context
+    validates :images
+  end
 
   scope :sorted_by_new, -> { order(created_at: :desc) }
 

@@ -28,6 +28,16 @@ const router = new VueRouter({
       },
     },
     {
+      path: '/reregister',
+      name: 'UserREregister',
+      components: {
+        default: () => import('../components/pages/ReregisterPage'),
+        header: () => import('../components/global/TheHeader'),
+        snackbar: () => import('../components/global/TheSnackbar.vue'),
+        footer: () => import('../components/global/TheFooter'),
+      },
+    },
+    {
       path: '/login',
       name: 'UserLogin',
       components: {
@@ -88,6 +98,15 @@ const router = new VueRouter({
       name: 'TermsPage',
       components: {
         default: () => import('../components/pages/TermsPage'),
+        header: () => import('../components/global/TheHeader'),
+        footer: () => import('../components/global/TheFooter'),
+      },
+    },
+    {
+      path: '/policy',
+      name: 'PrivacyPolicy',
+      components: {
+        default: () => import('../components/pages/PrivacyPolicy'),
         header: () => import('../components/global/TheHeader'),
         footer: () => import('../components/global/TheFooter'),
       },
