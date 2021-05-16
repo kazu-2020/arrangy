@@ -29,7 +29,7 @@ const router = new VueRouter({
     },
     {
       path: '/reregister',
-      name: 'UserREregister',
+      name: 'UserReregister',
       components: {
         default: () => import('../components/pages/ReregisterPage'),
         header: () => import('../components/global/TheHeader'),
@@ -47,6 +47,28 @@ const router = new VueRouter({
         footer: () => import('../components/global/TheFooter'),
       },
     },
+    {
+      path: '/reset_password',
+      components: {
+        default: () => import('../components/pages/ResetPassword/RootPage'),
+        header: () => import('../components/global/TheHeader'),
+        snackbar: () => import('../components/global/TheSnackbar.vue'),
+        footer: () => import('../components/global/TheFooter'),
+      },
+      children: [
+        {
+          path: '/',
+          name: 'ResetPassword',
+          component: () => import('../components/pages/ResetPassword/ResetPassword'),
+        },
+        {
+          path: 'edit',
+          name: 'UpdatePassword',
+          component: () => import('../components/pages/ResetPassword/UpdatePassword'),
+        },
+      ],
+    },
+
     {
       path: '/profile',
       components: {

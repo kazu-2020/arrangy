@@ -19,8 +19,11 @@
       />
       <div class="text-body-2">
         Arrangyの利用を開始した場合、
-        <a @click.stop="termsDialogDisplayed = true">利用規約</a>，
-        <a @click.stop="privacyPolicyDialogDisplayed = true">プライバシーポリシー</a>
+        <a style="color: #cc3918" @click.stop="termsDialogDisplayed = true">利用規約</a>
+        及び
+        <a style="color: #cc3918" @click.stop="privacyPolicyDialogDisplayed = true">
+          プライバシーポリシー
+        </a>
         に同意したことになります。
       </div>
     </v-card-text>

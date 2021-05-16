@@ -9,12 +9,15 @@
       />
       <div class="text-body-2">
         Arrangyの利用を継続した場合、
-        <a @click.stop="termsDialogDisplayed = true">利用規約</a>
-        <a @click.stop="privacyPolicyDialogDisplayed = true">プライバシーポリシー</a>
+        <a style="color: #cc3918" @click.stop="termsDialogDisplayed = true"> 利用規約 </a>
+        及び
+        <a style="color: #cc3918" @click.stop="privacyPolicyDialogDisplayed = true">
+          プライバシーポリシー
+        </a>
         に同意したことになります。
       </div>
     </v-card-text>
-    <v-card-actions class="d-flex justify-center pb-8">
+    <v-card-actions class="d-flex justify-center">
       <SubmitButton :xLarge="true" :color="'#cc3918'" @submit="handleSubmit(handleLoginUser)">
         <template #text>
           <v-icon class="mr-1">mdi-email-outline</v-icon>
@@ -22,6 +25,12 @@
         </template>
       </SubmitButton>
     </v-card-actions>
+
+    <div class="d-flex justify-center">
+      <v-btn text rounded :to="{ name: 'ResetPassword' }" color="#cc3918" class="mb-5">
+        パスワードをお忘れの方はこちら
+      </v-btn>
+    </div>
 
     <!-- 利用規約ダイアログ -->
     <v-dialog v-model="termsDialogDisplayed" maxWidth="1100">

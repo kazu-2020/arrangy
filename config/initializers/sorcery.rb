@@ -4,7 +4,7 @@
 # Available submodules are: :user_activation, :http_basic_auth, :remember_me,
 # :reset_password, :session_timeout, :brute_force_protection, :activity_logging,
 # :magic_login, :external
-Rails.application.config.sorcery.submodules = [:reset_password, :external]
+Rails.application.config.sorcery.submodules = %i[reset_password external]
 
 # Here you can configure each submodule's features.
 Rails.application.config.sorcery.configure do |config|
@@ -369,7 +369,7 @@ Rails.application.config.sorcery.configure do |config|
     user.reset_password_mailer_disabled = false
 
     # How many seconds before the reset request expires. nil for never expires.
-    user.reset_password_expiration_period = nil
+    user.reset_password_expiration_period = 1.hour
 
     # Hammering protection: how long in seconds to wait before allowing another email to be sent.
     # Default: `5 * 60`

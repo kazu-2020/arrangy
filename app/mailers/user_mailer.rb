@@ -1,12 +1,7 @@
 class UserMailer < ApplicationMailer
-  # Subject can be set in your I18n file at config/locales/en.yml
-  # with the following lookup:
-  #
-  #   en.user_mailer.reset_password_email.subject
-  #
-  def reset_password_email
-    @greeting = 'Hi'
-
-    mail to: 'to@example.org'
+  def reset_password_email(user)
+    @nickname = user&.nickname
+    @url = "/reset_password/edit?token=#{user&.reset_password_token}"
+    mail(to: user&.email, subject: 'パスワード再設定の案内')
   end
 end

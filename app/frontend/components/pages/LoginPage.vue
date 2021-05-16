@@ -7,7 +7,7 @@
       から。
     </template>
 
-    <template slot="main2-title"> ARRANGYアカウントで<br class="br-sp" />ログイン </template>
+    <template slot="main2-title"> Arrangyアカウントで<br class="br-sp" />ログイン </template>
     <template slot="main2-context">
       <UserLoginForm v-bind.sync="user" @loginUser="loginFunction" />
     </template>

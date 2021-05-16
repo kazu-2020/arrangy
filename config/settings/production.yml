@@ -1,3 +1,4 @@
+host: arrangy.jp
 google:
   callback_url: https://arrangy.jp/api/oauth/callback?provider=google
 twitter:
