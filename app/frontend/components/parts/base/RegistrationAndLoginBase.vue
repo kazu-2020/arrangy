@@ -11,7 +11,7 @@
       </v-col>
     </v-row>
 
-    <v-row>
+    <v-row class="pb-5">
       <v-col cols="12" sm="5" md="5" lg="5" xl="5">
         <v-card>
           <div class="text-h6 pt-8 px-8 text-center font-weight-black">
