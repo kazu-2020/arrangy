@@ -7,12 +7,10 @@ RSpec.describe UserMailer, type: :mailer do
 
     before { user.generate_reset_password_token! }
 
-    it "ヘッダー、ボディ情報が正しいこと" do
+    it "ヘッダー情報が正しいこと" do
       expect(mail.subject).to eq('パスワード再設定の案内')
       expect(mail.to).to eq([user.email])
-      expect(mail.from).to eq(["from@example.com"])
-      url = "/reset_password/edit?token=#{user.reset_password_token}"
-      expect(mail.body.include?(url)).to eq(true)
+      expect(mail.from).to eq(['no_replay@arrangy.com'])
     end
   end
 end
