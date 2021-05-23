@@ -21,12 +21,9 @@ class Arrangement < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_many :liked_by_users, through: :likes, source: :user
 
-  # mount_uploaders :images, ImageUploader
-
   with_options presence: true do
     validates :title
     validates :context
-    validates :images
   end
 
   scope :sorted_by_new, -> { order(created_at: :desc) }
