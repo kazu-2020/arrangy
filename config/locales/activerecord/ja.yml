@@ -1,22 +1,24 @@
 ja:
   activerecord:
     models:
-      user: ユーザー
       arrangement: 投稿
       comment: コメント
+      parameter: パラメーター
+      photo: 投稿写真
+      user: ユーザー
     attributes:
-      user:
-        nickname: ニックネーム
-        email: メールアドレス
-        password: パスワード
-        password_confirmation: パスワード(確認用)
-        avatar: アバター
       arrangement:
         title: タイトル
         context: 投稿内容
         images: 投稿写真
       comment:
         body: 内容
+      user:
+        avatar_url: アバター
+        email: メールアドレス
+        nickname: ニックネーム
+        password: パスワード
+        password_confirmation: パスワード(確認用)
   time:
     formats:
       defaults: '%Y年%m月%d日(%a) %H時%M分%S秒 %z'
