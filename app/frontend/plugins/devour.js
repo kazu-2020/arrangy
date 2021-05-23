@@ -14,7 +14,7 @@ jsonApi.define('user', {
   id: '',
   nickname: '',
   email: '',
-  avatar: '',
+  avatar_url: '',
   role: '',
   password: '',
   password_confirmation: '',
@@ -115,10 +115,19 @@ const requestMiddleware = {
 };
 
 jsonApi.axios.interceptors.response.use(function (res) {
-  if (document.querySelector('meta[name="csrf-token"]')) {
+  if (res.headers['x-csrf-token']) {
     document.querySelector('meta[name="csrf-token"]').content = res.headers['x-csrf-token'];
-    store.dispatch('responseState/fetchResponseState', { status: res.status, state: 'success' });
   }
+  // s3へアップロードした際のurlを取得
+  if (res.headers['content-type'] === 'application/xml') {
+    res.data.match(/<Location>(.+)<\/Location>/);
+    if (RegExp.$1) {
+      res.data = { meta: { url: RegExp.$1 } };
+    } else {
+      return res;
+    }
+  }
+  store.dispatch('responseState/fetchResponseState', { status: res.status, state: 'success' });
   return res;
 });
 

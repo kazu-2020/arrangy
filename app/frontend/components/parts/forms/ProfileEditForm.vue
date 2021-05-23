@@ -3,7 +3,7 @@
     <v-sheet id="profile-edit-form" class="pa-5 pa-md--10">
       <div class="text-center mb-5">
         <v-avatar class="mb-5" tile size="200">
-          <v-img :src="avatar"> </v-img>
+          <v-img :src="avatar_url" />
         </v-avatar>
         <div>
           <NormalButton :loading="fileUploading" @click="fileUpload">
@@ -40,7 +40,7 @@
         <v-sheet id="trimming-dialog" class="pa-5 pa-md-10 mx-auto" color="#eeeeee">
           <VueCropper ref="cropper" :aspectRatio="1 / 1" :src="imgSrc" :viewMode="2" class="mb-5" />
           <v-card-actions class="d-flex justify-center">
-            <SubmitButton class="mx-2" :color="'#cc3918'" :xLarge="true" @submit="imageTrimming">
+            <SubmitButton class="mx-2" :color="'#cc3918'" :xLarge="true" @submit="uploadToS3">
               <template #text> トリミングする </template>
             </SubmitButton>
             <NormalButton class="mx-2" :xLarge="true" @click="closeTrimmingDialog">
@@ -108,7 +108,8 @@ export default {
       type: String,
       required: true,
     },
-    avatar: {
+    // eslint-disable-next-line vue/prop-name-casing
+    avatar_url: {
       type: String,
       required: true,
     },
@@ -125,6 +126,7 @@ export default {
       fileUploading: false,
       trimmingDialogDisplayed: false,
       imgSrc: '',
+      uploadFileName: '',
     };
   },
   computed: {
@@ -161,65 +163,73 @@ export default {
       this.$refs.fileForm.reset();
       this.fileErrorDisplayed = false;
     },
-    async handleFileChange(value) {
-      const result = await this.$refs.fileForm.validate(value);
+    async handleFileChange(file) {
+      const result = await this.$refs.fileForm.validate(file);
       if (result.valid) {
         this.hideErrorMessage();
         this.fileUploading = true;
+        this.uploadFileName = file.name.substring(0, file.name.lastIndexOf('.'));
 
-        const img = new Image();
-        const imageURL = URL.createObjectURL(value);
-        img.src = imageURL;
-
-        let width = 0;
-        let height = 0;
-
-        img.onload = () => {
-          width = img.width;
-          height = img.height;
-        };
-
+        // jpegを読み込む際、メモリ不足で読む込みに失敗するのを防ぐ為
         Jimp.decoders['image/jpeg'] = (data) => {
           return JimpJPEG.decode(data, {
             maxMemoryUsageInMB: 1024,
           });
         };
 
-        const jimpImage = await Jimp.read(imageURL).catch((err) => {
-          alert('サイズが大き過ぎます。他の写真を投稿してください。');
-          console.log(err);
-        });
-        if (!jimpImage) return;
-
-        if (width > height) {
-          jimpImage.resize(500, Jimp.AUTO);
-        } else {
-          jimpImage.resize(Jimp.AUTO, 500);
-        }
-
-        jimpImage.getBase64(Jimp.MIME_PNG, (err, src) => {
-          this.imgSrc = src;
-          this.fileUploading = false;
-          this.trimmingDialogDisplayed = true;
-          this.$refs.cropper.replace(src);
-        });
+        const imageURL = URL.createObjectURL(file);
+        Jimp.read(imageURL)
+          .then((jimp) => {
+            if (jimp.bitmap.width > jimp.bitmap.height) {
+              return jimp.resize(500, Jimp.AUTO);
+            } else {
+              return jimp.resize(Jimp.AUTO, 500);
+            }
+          })
+          .then((jimp) => {
+            jimp.getBase64(Jimp.MIME_PNG, (err, src) => {
+              this.fileUploading = false;
+              this.trimmingDialogDisplayed = true;
+              this.$refs.cropper.replace(src);
+            });
+          })
+          .catch((err) => {
+            alert('サイズが大き過ぎます。他の写真を投稿してください。');
+            console.log(err);
+          });
         URL.revokeObjectURL(imageURL);
       } else {
-        console.log(result);
         this.fileErrorDisplayed = true;
       }
     },
-    imageTrimming() {
-      const trimmedImage = this.$refs.cropper
-        .getCroppedCanvas({
-          width: 300,
-          height: 300,
-          fillColor: '#eeeeee',
-          imageSmoothingQuality: 'medium',
-        })
-        .toDataURL();
-      this.$emit('update:avatar', trimmedImage);
+    async uploadToS3() {
+      const res = await this.$devour.request(`${this.$devour.apiUrl}/presigned_post/new`, 'GET');
+      const formData = await this.createFormData(res.meta.fields);
+
+      this.$devour.request(res.meta.url, 'POST', {}, formData).then((res) => {
+        this.$emit('update:avatar_url', res.meta.url);
+      });
       this.trimmingDialogDisplayed = false;
+    },
+    createFormData(fields) {
+      return new Promise((resolve) => {
+        this.$refs.cropper
+          .getCroppedCanvas({
+            width: 300,
+            height: 300,
+            imageSmoothingQuality: 'medium',
+          })
+          .toBlob((blob) => {
+            const formData = new FormData();
+            for (const key in fields) {
+              formData.append(key, fields[key]);
+            }
+            // Blobが最後に読み込まれるようにする。
+            // https://stackoverflow.com/questions/15234496/upload-directly-to-amazon-s3-using-ajax-returning-error-bucket-post-must-contai
+            formData.append('file', blob, this.uploadFileName);
+            resolve(formData);
+          });
+      });
     },
   },
 };

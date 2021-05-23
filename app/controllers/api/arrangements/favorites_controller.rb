@@ -7,7 +7,7 @@ module Api
           include: %i[user],
           fields: {
             arrangement: %i[title images created_at likes_count comments_count user],
-            user: %i[nickname avatar]
+            user: %i[nickname avatar_url]
           },
           meta: { pagy: pagy_metadata(pagy) }
         }

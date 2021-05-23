@@ -62,7 +62,7 @@ const actions = {
         `${devour.apiUrl}/auth_user`,
         'PATCH',
         {},
-        { user: user }
+        { auth_user: user }
       );
       commit('setAuthUser', userResponse.data);
       return userResponse.data;

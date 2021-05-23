@@ -7,12 +7,12 @@ module Api
         user = login(params[:email], params[:password])
         return render_400 unless user&.admin?
 
-        options = { fields: { user: %i[nickname email avatar role] } }
+        options = { fields: { user: %i[nickname email avatar_url role] } }
         render_serializer(user, options)
       end
 
       def show
-        options = { fields: { user: %i[nickname email avatar role] } }
+        options = { fields: { user: %i[nickname email avatar_url role] } }
         render_serializer(current_user, options)
       end
 

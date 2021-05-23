@@ -6,8 +6,9 @@ class ProfileForm
 
   attribute :nickname, :string
   attribute :email, :string
-  attribute :avatar
+  attribute :avatar_url, :string
 
+  validates :avatar_url, presence: true
   validate :validate_model
 
   def initialize(user: User.new, params: {})

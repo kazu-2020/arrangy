@@ -4,3 +4,5 @@ google:
   callback_url: https://arrangy.jp/api/oauth/callback?provider=google
 twitter:
   callback_url: https://arrangy.jp/api/oauth/callback?provider=twitter
+aws:
+  bucket: arrangy

@@ -8,9 +8,9 @@ module Api
       options = {
         include: %i[user parameter],
         fields: {
-          arrangement: %i[title images created_at likes_count comments_count user parameter],
+          arrangement: %i[title created_at likes_count comments_count user parameter],
           parameter: %i[taste spiciness sweetness satisfaction],
-          user: %i[nickname avatar]
+          user: %i[nickname avatar_url]
         },
         meta: { pagy: pagy_metadata(pagy) }
       }
@@ -35,9 +35,9 @@ module Api
       options = {
         include: %i[user parameter],
         fields: {
-          arrangement: %i[title context images likes_count liked_authuser created_at user parameter],
+          arrangement: %i[title context likes_count liked_authuser created_at user parameter],
           parameter: %i[taste spiciness sweetness satisfaction],
-          user: %i[nickname avatar]
+          user: %i[nickname avatar_url]
         },
         params: { current_user: current_user }
       }
@@ -54,7 +54,7 @@ module Api
         fields: {
           arrangement: %i[title context likes_count liked_authuser created_at images user parameter],
           parameter: %i[taste spiciness sweetness satisfaction],
-          user: %i[nickname avatar]
+          user: %i[nickname avatar_url]
         },
         params: { current_user: current_user }
       }

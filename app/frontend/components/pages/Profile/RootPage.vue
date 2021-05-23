@@ -6,7 +6,7 @@
           <v-col id="myprofile" cols="12" sm="8" class="text-center">
             <div>
               <v-avatar tile size="150" color="mb-3">
-                <v-img :src="authUser.avatar" />
+                <v-img :src="authUser.avatar_url" />
               </v-avatar>
               <div class="text-h6 font-weight-medium">{{ authUser.nickname }}</div>
               <div class="text-subtitle-1">{{ authUser.email }}</div>
@@ -77,7 +77,6 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import Jimp from 'jimp/es';
 
 import NormalButton from '../../parts/buttons/NormalButton';
 import PasswordEditForm from '../../parts/forms/PasswordEditForm';
@@ -95,7 +94,7 @@ export default {
         id: '',
         nickname: '',
         email: '',
-        avatar: '',
+        avatar_url: '',
       },
       passwordEdit: {
         password: '',
@@ -158,7 +157,7 @@ export default {
     ...mapActions('snackbars', ['fetchSnackbarData']),
 
     displayProfileEditDialog() {
-      this.initAuthUserEdit();
+      this.authUserEdit = { ...this.authUser };
       this.editProfileDialogDisplayed = true;
     },
     closeEditProfileDialog() {
@@ -222,15 +221,6 @@ export default {
             isShow: true,
           });
         });
-    },
-    initAuthUserEdit() {
-      this.authUserEdit = { ...this.authUser };
-      // base64でencodeしてないとサーバー側でdecodeする際にerror
-      Jimp.read(this.authUserEdit.avatar).then((image) => {
-        image.getBase64(Jimp.MIME_PNG, (err, src) => {
-          this.authUserEdit.avatar = src;
-        });
-      });
     },
   },
 };

@@ -31,8 +31,6 @@ class User < ApplicationRecord
 
   authenticates_with_sorcery!
 
-  mount_uploader :avatar, AvatarUploader
-
   enum role: { general: 0, admin: 1 }
 
   attr_accessor :password, :password_confirmation

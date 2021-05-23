@@ -38,7 +38,7 @@
                     <v-avatar size="25">
                       <v-img
                         :id="`arrangement-avatar${arrangement.id}`"
-                        :src="arrangement.user.avatar"
+                        :src="arrangement.user.avatar_url"
                       />
                     </v-avatar>
                   </v-col>

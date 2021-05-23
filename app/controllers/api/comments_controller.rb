@@ -12,7 +12,7 @@ module Api
         include: %i[user],
         fields: {
           comment: %i[body edited created_at user],
-          user: %i[nickname avatar]
+          user: %i[nickname avatar_url]
         },
         meta: { pagy: pagy_metadata(pagy) }
       }
@@ -27,7 +27,7 @@ module Api
         include: %i[user],
         fields: {
           comment: %i[body edited created_at user],
-          user: %i[nickname avatar]
+          user: %i[nickname avatar_url]
         }
       }
       json_string = CommentSerializer.new(comment, options)
@@ -40,7 +40,7 @@ module Api
         include: %i[user],
         fields: {
           comment: %i[body edited created_at user],
-          user: %i[nickname avatar]
+          user: %i[nickname avatar_url]
         }
       }
       json_string = CommentSerializer.new(@comment, options)

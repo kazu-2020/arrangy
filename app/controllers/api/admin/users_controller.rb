@@ -5,7 +5,7 @@ module Api
         pagy, users = pagy(User.all, items: 20)
         options = {
           fields: {
-            user: %i[nickname email avatar role created_at]
+            user: %i[nickname email avatar_url role created_at]
           },
           meta: { pagy: pagy_metadata(pagy) }
         }
