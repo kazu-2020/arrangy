@@ -2,8 +2,11 @@ require 'rails_helper'
 
 RSpec.describe ProfileForm, type: :model do
   let(:params) {
-    { nickname: 'mimata',
+    {
+      nickname: 'mimata',
       email: 'mimata@mimata.com',
+      avatar_url: '/images/development/sample_for_photo.png'
+
     }
   }
   let(:profile) { ProfileForm.new(params: params) }
@@ -11,6 +14,15 @@ RSpec.describe ProfileForm, type: :model do
   describe 'テストデータの検証' do
     it 'テストデータは有効です' do
       expect(profile).to be_valid
+    end
+  end
+
+  describe 'presenceの検証' do
+    context 'プロフィール画像が未設定の場合' do
+      it '登録に失敗する' do
+        params[:avatar_url] = ''
+        expect(profile).to be_invalid
+      end
     end
   end
 

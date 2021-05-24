@@ -5,7 +5,6 @@ RSpec.describe ContactForm, type: :model do
     {
       title: 'テスト投稿タイトル',
       context: 'テスト投稿内容',
-      images: [Rack::Test::UploadedFile.new("#{Rails.root}/spec/fixtures/images/sample1.jpg")]
     }
   }
   let(:parameter_params) {
@@ -16,10 +15,12 @@ RSpec.describe ContactForm, type: :model do
       satisfaction: 3
     }
   }
+  let(:photo_params) { { url: '/images/development/sample_for_photo.png' } }
   let(:arrangement) { create(:user).arrangements.build  }
   let(:arrangement_form) {
     ArrangementForm.new(arrangement: arrangement,
                         arrangement_params: arrangement_params,
+                        photo_params: photo_params,
                         parameter_params: parameter_params
                        )
   }
