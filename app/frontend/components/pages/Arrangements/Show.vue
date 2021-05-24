@@ -73,14 +73,9 @@
         :isShow="editArrangementDialogDisplayed"
         v-bind.sync="arrangementEdit"
         :loading="arrangementEditing"
-        @uploadFile="uploadFile"
         @updateArrangement="updateArrangement"
         @closeDialog="closeEditArrangement"
-      >
-        <template #parameterForm>
-          <ParameterNewForm v-bind.sync="parameterEdit" />
-        </template>
-      </ArrangementEditForm>
+      />
       <!-- 投稿削除用ダイアログ -->
       <DeleteConfirmationDialog
         :isShow="deleteArrangementDialogDisplayed"
@@ -202,14 +197,12 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import Jimp from 'jimp/es';
 
 import ArrangementEditForm from '../../parts/forms/ArrangementEditForm';
 import CommentCreateForm from '../../parts/forms/CommentCreateForm';
 import CommentEditForm from '../../parts/forms/CommentEditForm';
 import DeleteConfirmationDialog from '../../parts/dialogs/DeleteConfirmationDialog';
 import InitializedMenu from '../../parts/menus/InitializedMenu';
-import ParameterNewForm from '../../parts/forms/ParameterNewForm';
 import RadarChart from '../../parts/charts/RadarChart';
 import SubmitButton from '../../parts/buttons/SubmitButton';
 
@@ -220,7 +213,6 @@ export default {
     CommentEditForm,
     DeleteConfirmationDialog,
     InitializedMenu,
-    ParameterNewForm,
     RadarChart,
     SubmitButton,
   },
@@ -238,10 +230,10 @@ export default {
           avatar: '',
         },
         parameter: {
-          taste: '',
-          spiciness: '',
-          sweetness: '',
-          satisfaction: '',
+          taste: 0,
+          spiciness: 0,
+          sweetness: 0,
+          satisfaction: 0,
         },
         photo: {
           url: '',
@@ -251,13 +243,11 @@ export default {
         id: '',
         title: '',
         context: '',
-        images: [],
-      },
-      parameterEdit: {
-        taste: '',
-        spiciness: '',
-        sweetness: '',
-        satisfaction: '',
+        photoURL: '',
+        taste: 0,
+        spiciness: 0,
+        sweetness: 0,
+        satisfaction: 0,
       },
       comments: [],
       commentCreate: {
@@ -319,6 +309,25 @@ export default {
   },
   computed: {
     ...mapGetters('users', ['authUser']),
+    arrangementParams() {
+      return {
+        title: this.arrangementEdit.title,
+        context: this.arrangementEdit.context,
+      };
+    },
+    photoParams() {
+      return {
+        url: this.arrangementEdit.photoURL,
+      };
+    },
+    paramterParams() {
+      return {
+        taste: this.arrangementEdit.taste,
+        spiciness: this.arrangementEdit.spiciness,
+        sweetness: this.arrangementEdit.sweetness,
+        satisfaction: this.arrangementEdit.satisfaction,
+      };
+    },
   },
   created() {
     this.fetchArrangement();
@@ -351,7 +360,15 @@ export default {
     },
 
     displayArrangementEditDialog() {
-      this.initArrangement();
+      this.arrangementEdit.id = this.arrangementInformation.id;
+      this.arrangementEdit.title = this.arrangementInformation.title;
+      this.arrangementEdit.context = this.arrangementInformation.context;
+      this.arrangementEdit.photoURL = this.arrangementInformation.photo.url;
+      this.arrangementEdit.taste = this.arrangementInformation.parameter.taste;
+      this.arrangementEdit.spiciness = this.arrangementInformation.parameter.spiciness;
+      this.arrangementEdit.sweetness = this.arrangementInformation.parameter.sweetness;
+      this.arrangementEdit.satisfaction = this.arrangementInformation.parameter.satisfaction;
+
       this.handleShowEditArrangement();
     },
     displayCommentEditDialog(comment) {
@@ -383,17 +400,6 @@ export default {
     handleShowEditComment() {
       this.editCommentDialogDisplayed = !this.editCommentDialogDisplayed;
     },
-
-    initArrangement() {
-      this.arrangementEdit = { ...this.arrangement, images: [...this.arrangement.images] };
-      this.parameterEdit = { ...this.arrangement.parameter };
-      Jimp.read(this.arrangementEdit.images[0]).then((image) => {
-        image.getBase64(Jimp.MIME_PNG, (err, src) => this.arrangementEdit.images.splice(0, 1, src));
-      });
-    },
-    uploadFile(src) {
-      this.arrangementEdit.images.splice(0, 1, src);
-    },
     updateArrangement() {
       this.arrangementEditing = true;
       this.$devour
@@ -401,7 +407,11 @@ export default {
           `${this.$devour.apiUrl}/arrangements/${this.arrangementEdit.id}`,
           'PATCH',
           {},
-          { arrangement: this.arrangementEdit, parameter: this.parameterEdit }
+          {
+            arrangement: this.arrangementParams,
+            photo: this.photoParamst,
+            parameter: this.paramterParams,
+          }
         )
         .then((res) => {
           this.arrangement = res.data;

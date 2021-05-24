@@ -53,10 +53,11 @@ module Api
                                              parameter_params: parameter_params)
       arrangement_form.save!
       options = {
-        include: %i[user parameter],
+        include: %i[user parameter photo],
         fields: {
-          arrangement: %i[title context likes_count liked_authuser created_at images user parameter],
+          arrangement: %i[title context likes_count liked_authuser created_at user parameter photo],
           parameter: %i[taste spiciness sweetness satisfaction],
+          photo: %i[url],
           user: %i[nickname avatar_url]
         },
         params: { current_user: current_user }

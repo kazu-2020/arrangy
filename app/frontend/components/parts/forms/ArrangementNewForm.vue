@@ -59,7 +59,7 @@
     <!-- トリミング用ダイアログ -->
     <v-dialog v-model="trimmingDialogDisplayed" maxWidth="650" :eager="true" persistent>
       <v-sheet id="trimming-dialog" class="pa-5 pa-md-10 mx-auto" color="#eeeeee">
-        <VueCropper ref="cropper" :aspectRatio="1 / 1" :src="imgSrc" :viewMode="2" class="mb-5" />
+        <VueCropper ref="cropper" :aspectRatio="1 / 1" :viewMode="2" class="mb-5" />
         <v-card-actions class="d-flex justify-center">
           <SubmitButton class="mx-2" :color="'#cc3918'" :xLarge="true" @submit="uploadToS3">
             <template #text> トリミングする </template>
@@ -203,7 +203,6 @@ export default {
   data() {
     return {
       fileError: '',
-      imgSrc: '',
       uploadFileName: '',
       previewDisplayed: false,
       fileUploading: false,

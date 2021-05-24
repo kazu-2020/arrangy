@@ -12,7 +12,7 @@ class ArrangementForm
   attribute :sweetness, :integer, default: 3
   attribute :satisfaction, :integer, default: 3
 
-  validate  :validte_model
+  validate  :validate_model
   validates :title, length: { maximum: 30 }
   validates :context, length: { maximum: 1000 }
   with_options numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 5 } do

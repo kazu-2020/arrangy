@@ -12,7 +12,6 @@
           :parameter="parameter"
           :loading="arrangementCreating"
           @createArrangement="createArrangement"
-          @uploadFile="uploadFile"
         />
       </v-col>
     </v-row>
@@ -133,9 +132,6 @@ export default {
           });
           this.arrangementCreating = false;
         });
-    },
-    uploadFile(src) {
-      this.arrangement.images.splice(0, 1, src);
     },
   },
 };
