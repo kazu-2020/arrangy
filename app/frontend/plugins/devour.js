@@ -35,7 +35,6 @@ jsonApi.define('arrangement', {
   id: '',
   title: '',
   context: '',
-  images: '',
   created_at: '',
   liked_authuser: '',
   likes_count: '',
@@ -51,6 +50,10 @@ jsonApi.define('arrangement', {
   parameter: {
     jsonApi: 'hasOne',
     type: 'parameter',
+  },
+  photo: {
+    jsonApi: 'hasOne',
+    type: 'photo',
   },
 });
 
@@ -90,6 +93,15 @@ jsonApi.define('parameter', {
   spiciness: '',
   sweetness: '',
   satisfaction: '',
+  arrangement: {
+    jsonApi: 'hasOne',
+    type: 'arrangement',
+  },
+});
+
+jsonApi.define('photo', {
+  id: '',
+  url: '',
   arrangement: {
     jsonApi: 'hasOne',
     type: 'arrangement',

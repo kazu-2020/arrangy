@@ -11,10 +11,10 @@
 
         <ValidationProvider ref="fileForm" name="投稿写真" mode="change" :rules="rules.images">
           <v-file-input
-            id="arrangement-images"
+            id="arrangement-photo"
             label="投稿写真"
-            accept="image/jpeg, image/jpg, image/png"
             style="display: none"
+            accept="image/jpeg, image/jpg, image/png"
             @change="handleFileChange"
           />
         </ValidationProvider>
@@ -27,8 +27,8 @@
           style="position: relative; border: 2px dashed"
           color="#eeeeee"
         >
-          <template v-if="previewImage">
-            <v-img id="preview-image" :src="previewImage" maxHeight="300" maxWidth="300" />
+          <template v-if="previewDisplayed">
+            <v-img id="preview-image" :src="photoURL" maxHeight="300" maxWidth="300" />
             <v-btn
               id="cancel-button"
               fab
@@ -61,7 +61,7 @@
       <v-sheet id="trimming-dialog" class="pa-5 pa-md-10 mx-auto" color="#eeeeee">
         <VueCropper ref="cropper" :aspectRatio="1 / 1" :src="imgSrc" :viewMode="2" class="mb-5" />
         <v-card-actions class="d-flex justify-center">
-          <SubmitButton class="mx-2" :color="'#cc3918'" :xLarge="true" @submit="imageTrimming">
+          <SubmitButton class="mx-2" :color="'#cc3918'" :xLarge="true" @submit="uploadToS3">
             <template #text> トリミングする </template>
           </SubmitButton>
           <NormalButton class="mx-2" :xLarge="true" @click="closeTrimmingDialog">
@@ -110,7 +110,28 @@
         </div>
       </v-col>
       <v-col>
-        <slot name="parameterForm" />
+        <div>
+          <ParameterField :value="taste" @input="$emit('update:taste', $event)">
+            <template #label>
+              <div class="mr-4">美味さ</div>
+            </template>
+          </ParameterField>
+          <ParameterField :value="spiciness" @input="$emit('update:spiciness', $event)">
+            <template #label>
+              <div class="mr-8">辛さ</div>
+            </template>
+          </ParameterField>
+          <ParameterField :value="sweetness" @input="$emit('update:sweetness', $event)">
+            <template #label>
+              <div class="mr-8">甘さ</div>
+            </template>
+          </ParameterField>
+          <ParameterField :value="satisfaction" @input="$emit('update:satisfaction', $event)">
+            <template #label>
+              <div>食べ応え</div>
+            </template>
+          </ParameterField>
+        </div>
       </v-col>
     </v-row>
 
@@ -131,17 +152,20 @@
 <script>
 import Jimp from 'jimp/es';
 import JimpJPEG from 'jpeg-js';
-import TitleField from '../formInputs/TitleField';
+
 import ContextField from '../formInputs/ContextField';
-import SubmitButton from '../buttons/SubmitButton';
 import NormalButton from '../buttons/NormalButton';
+import ParameterField from '../formInputs/ParameterField';
+import SubmitButton from '../buttons/SubmitButton';
+import TitleField from '../formInputs/TitleField';
 
 export default {
   components: {
-    TitleField,
     ContextField,
-    SubmitButton,
     NormalButton,
+    ParameterField,
+    TitleField,
+    SubmitButton,
   },
   props: {
     title: {
@@ -152,26 +176,38 @@ export default {
       type: String,
       required: true,
     },
-    images: {
-      type: Array,
+    photoURL: {
+      type: String,
+      required: true,
+    },
+    taste: {
+      type: Number,
+      required: true,
+    },
+    spiciness: {
+      type: Number,
+      required: true,
+    },
+    sweetness: {
+      type: Number,
+      required: true,
+    },
+    satisfaction: {
+      type: Number,
       required: true,
     },
     loading: {
       type: Boolean,
     },
-    parameter: {
-      type: Object,
-      required: true,
-    },
   },
   data() {
     return {
-      previewImage: '',
-      isPreview: false,
-      fileUploading: false,
-      imgSrc: '',
-      trimmingDialogDisplayed: false,
       fileError: '',
+      imgSrc: '',
+      uploadFileName: '',
+      previewDisplayed: false,
+      fileUploading: false,
+      trimmingDialogDisplayed: false,
     };
   },
   computed: {
@@ -182,41 +218,32 @@ export default {
         context: { required: true, max: 1000 },
       };
     },
+    tickLabels() {
+      return ['0', '1', '2', '3', '4', '5'];
+    },
   },
   methods: {
     handleCreateArrangement() {
       this.$emit('createArrangement');
     },
     fileUpload() {
-      document.querySelector('#arrangement-images').click();
+      document.querySelector('#arrangement-photo').click();
     },
     deleteFile() {
       this.$refs.fileForm.validate('');
       this.$emit('uploadFile', '');
-      this.previewImage = '';
-      this.isPreview = false;
+      this.previewDisplayed = false;
     },
     closeTrimmingDialog() {
       this.trimmingDialogDisplayed = false;
       this.$refs.fileForm.validate('');
     },
-    async handleFileChange(value) {
-      const result = await this.$refs.fileForm.validate(value);
+    async handleFileChange(file) {
+      const result = await this.$refs.fileForm.validate(file);
       if (result.valid) {
         this.fileUploading = true;
         this.fileError = '';
-
-        const img = new Image();
-        const imageURL = URL.createObjectURL(value);
-        img.src = imageURL;
-
-        let width = 0;
-        let height = 0;
-
-        img.onload = () => {
-          width = img.width;
-          height = img.height;
-        };
+        this.uploadFileName = file.name.substring(0, file.name.lastIndexOf('.'));
 
         Jimp.decoders['image/jpeg'] = (data) => {
           return JimpJPEG.decode(data, {
@@ -224,43 +251,58 @@ export default {
           });
         };
 
-        const jimpImage = await Jimp.read(imageURL).catch((err) => {
-          alert('サイズが大き過ぎます。他の写真を投稿してください。');
-          console.log(err);
-        });
-        if (!jimpImage) return;
-
-        if (width > height) {
-          jimpImage.resize(500, Jimp.AUTO);
-        } else {
-          jimpImage.resize(Jimp.AUTO, 500);
-        }
-
-        jimpImage.getBase64(Jimp.MIME_PNG, (err, src) => {
-          this.imgSrc = src;
-          this.fileUploading = false;
-          this.trimmingDialogDisplayed = true;
-          this.$refs.cropper.replace(src);
-        });
+        const imageURL = URL.createObjectURL(file);
+        Jimp.read(imageURL)
+          .then((jimp) => {
+            if (jimp.bitmap.width > jimp.bitmap.height) {
+              return jimp.resize(500, Jimp.AUTO);
+            } else {
+              return jimp.resize(Jimp.AUTO, 500);
+            }
+          })
+          .then((jimp) => {
+            jimp.getBase64(Jimp.MIME_PNG, (err, src) => {
+              this.fileUploading = false;
+              this.trimmingDialogDisplayed = true;
+              this.$refs.cropper.replace(src);
+            });
+          })
+          .catch((err) => {
+            alert('サイズが大き過ぎます。他の写真を投稿してください。');
+            console.log(err);
+          });
         URL.revokeObjectURL(imageURL);
       } else {
-        console.log(result);
         this.fileError = result.errors[0];
       }
     },
-    imageTrimming() {
-      this.isPreview = true;
-      const trimmedImage = this.$refs.cropper
-        .getCroppedCanvas({
-          width: 300,
-          height: 300,
-          fillColor: '#eeeeee',
-          imageSmoothingQuality: 'medium',
-        })
-        .toDataURL();
-      this.previewImage = trimmedImage;
-      this.$emit('uploadFile', trimmedImage);
-      this.trimmingDialogDisplayed = false;
+    async uploadToS3() {
+      const res = await this.$devour.request(`${this.$devour.apiUrl}/presigned_post/new`, 'GET');
+      const formData = await this.createFormData(res.meta.fields);
+
+      this.$devour.request(res.meta.url, 'POST', {}, formData).then((res) => {
+        this.$emit('update:photoURL', res.meta.url);
+        this.trimmingDialogDisplayed = false;
+        this.previewDisplayed = true;
+      });
+    },
+    createFormData(fields) {
+      return new Promise((resolve) => {
+        this.$refs.cropper
+          .getCroppedCanvas({
+            width: 300,
+            height: 300,
+            imageSmoothingQuality: 'medium',
+          })
+          .toBlob((blob) => {
+            const formData = new FormData();
+            for (const key in fields) {
+              formData.append(key, fields[key]);
+            }
+            formData.append('file', blob, this.uploadFileName);
+            resolve(formData);
+          });
+      });
     },
   },
 };

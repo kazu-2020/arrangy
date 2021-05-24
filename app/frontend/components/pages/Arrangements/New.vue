@@ -8,16 +8,12 @@
     <v-row>
       <v-col cols="12" class="mx-auto">
         <ArrangementNewForm
-          v-bind.sync="arrangement"
+          v-bind.sync="arrangementForm"
           :parameter="parameter"
           :loading="arrangementCreating"
           @createArrangement="createArrangement"
           @uploadFile="uploadFile"
-        >
-          <template #parameterForm>
-            <ParameterNewForm v-bind.sync="parameter" />
-          </template>
-        </ArrangementNewForm>
+        />
       </v-col>
     </v-row>
   </v-container>
@@ -26,27 +22,22 @@
 <script>
 import { mapActions } from 'vuex';
 import ArrangementNewForm from '../../parts/forms/ArrangementNewForm';
-import ParameterNewForm from '../../parts/forms/ParameterNewForm';
 
 export default {
   components: {
     ArrangementNewForm,
-    ParameterNewForm,
   },
   data() {
     return {
-      arrangement: {
+      arrangementForm: {
         title: '',
         context: '',
-        images: [],
-      },
-      parameter: {
+        photoURL: '',
         taste: 0,
         spiciness: 0,
         sweetness: 0,
         satisfaction: 0,
       },
-
       arrangementCreating: false,
     };
   },
@@ -92,6 +83,25 @@ export default {
     siteDescription() {
       return 'Arrangy(アレンジー)はアレンジ飯の共有サービスです。コンビニ商品や外食店の料理を使用したアレンジ飯を「知りたい」「共有したい」という方達は、是非覗いてみてください!!';
     },
+    arrangement() {
+      return {
+        title: this.arrangementForm.title,
+        context: this.arrangementForm.context,
+      };
+    },
+    photo() {
+      return {
+        url: this.arrangementForm.photoURL,
+      };
+    },
+    parameter() {
+      return {
+        taste: this.arrangementForm.taste,
+        spiciness: this.arrangementForm.spiciness,
+        sweetness: this.arrangementForm.sweetness,
+        satisfaction: this.arrangementForm.satisfaction,
+      };
+    },
   },
   methods: {
     ...mapActions('snackbars', ['fetchSnackbarData']),
@@ -103,7 +113,7 @@ export default {
           `${this.$devour.apiUrl}/arrangements`,
           'POST',
           {},
-          { arrangement: this.arrangement, parameter: this.parameter }
+          { arrangement: this.arrangement, photo: this.photo, parameter: this.parameter }
         )
         .then((res) => {
           this.$router.push({ name: 'ArrangementShow', params: { id: res.data.id } });

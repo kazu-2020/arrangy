@@ -21,4 +21,5 @@ class ArrangementSerializer
   belongs_to :user
   has_many :comments
   has_one :parameter
+  has_one :photo
 end
