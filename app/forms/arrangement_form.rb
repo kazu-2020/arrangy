@@ -22,14 +22,20 @@ class ArrangementForm
     validates :satisfaction
   end
 
-  def initialize(arrangement: Arrangement.new, arrangement_params: {}, photo_params: {}, parameter_params: {})
+  def initialize(arrangement: Arrangement.new,
+                 arrangement_params: {},
+                 after_arrangement_photo_params: {},
+                 parameter_params: {})
     @arrangement = arrangement
     @arrangement.assign_attributes(arrangement_params)
-    @photo = arrangement.new_record? ? arrangement.build_photo : arrangement.photo
-    @parameter = arrangement.new_record? ? arrangement.build_parameter : arrangement.parameter
-    @photo.assign_attributes(photo_params)
+    @after_arrangement_photo, @parameter = if arrangement.new_record?
+                                             [arrangement.build_after_arrangement_photo, arrangement.build_parameter]
+                                           else
+                                             [arrangement.after_arrangement_photo, arrangement.parameter]
+                                           end
+    @after_arrangement_photo.assign_attributes(after_arrangement_photo_params)
     @parameter.assign_attributes(parameter_params)
-    super(arrangement_params.merge(photo_params).merge(parameter_params))
+    super(arrangement_params.merge(after_arrangement_photo_params).merge(parameter_params))
   end
 
   def save!
@@ -37,7 +43,7 @@ class ArrangementForm
 
     ActiveRecord::Base.transaction do
       @arrangement.save!
-      @photo.save!
+      @after_arrangement_photo.save!
       @parameter.save!
     end
   end
@@ -46,7 +52,7 @@ class ArrangementForm
 
   def validate_model
     promote_errors(@arrangement.errors) unless @arrangement.valid?
-    promote_errors(@photo.errors) unless @photo.valid?
+    promote_errors(@after_arrangement_photo.errors) unless @after_arrangement_photo.valid?
     promote_errors(@parameter.errors) unless @parameter.valid?
   end
 

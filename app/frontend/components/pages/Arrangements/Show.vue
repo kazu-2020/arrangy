@@ -9,7 +9,7 @@
     </v-row>
     <v-row>
       <v-col cols="12" sm="6">
-        <v-img :src="arrangementInformation.photo.url">
+        <v-img :src="arrangementInformation.after_arrangement_photo.url">
           <div v-if="authUser && authUser.id === arrangementInformation.user.id" class="text-end">
             <InitializedMenu :outlined="true" :left="true">
               <template #btn-text>
@@ -235,7 +235,7 @@ export default {
           sweetness: 0,
           satisfaction: 0,
         },
-        photo: {
+        after_arrangement_photo: {
           url: '',
         },
       },
@@ -243,7 +243,7 @@ export default {
         id: '',
         title: '',
         context: '',
-        photoURL: '',
+        afterArrangementPhotoURL: '',
         taste: 0,
         spiciness: 0,
         sweetness: 0,
@@ -301,7 +301,7 @@ export default {
         },
         {
           property: 'og:image',
-          content: this.arrangementInformation.photo.url,
+          content: this.arrangementInformation.after_arrangement_photo.url,
           id: 'og-image',
         },
       ];
@@ -315,9 +315,9 @@ export default {
         context: this.arrangementEdit.context,
       };
     },
-    photoParams() {
+    afterArrangementPhotoParams() {
       return {
-        url: this.arrangementEdit.photoURL,
+        url: this.arrangementEdit.afterArrangementPhotoURL,
       };
     },
     paramterParams() {
@@ -363,7 +363,7 @@ export default {
       this.arrangementEdit.id = this.arrangementInformation.id;
       this.arrangementEdit.title = this.arrangementInformation.title;
       this.arrangementEdit.context = this.arrangementInformation.context;
-      this.arrangementEdit.photoURL = this.arrangementInformation.photo.url;
+      this.arrangementEdit.afterArrangementPhotoURL = this.arrangementInformation.after_arrangement_photo.url;
       this.arrangementEdit.taste = this.arrangementInformation.parameter.taste;
       this.arrangementEdit.spiciness = this.arrangementInformation.parameter.spiciness;
       this.arrangementEdit.sweetness = this.arrangementInformation.parameter.sweetness;
@@ -409,12 +409,12 @@ export default {
           {},
           {
             arrangement: this.arrangementParams,
-            photo: this.photoParamst,
+            after_arrangement_photo: this.afterArrangementPhotoParams,
             parameter: this.paramterParams,
           }
         )
         .then((res) => {
-          this.arrangement = res.data;
+          this.arrangementInformation = res.data;
           this.closeEditArrangement();
           this.fetchSnackbarData({
             msg: '投稿を更新しました',
@@ -445,7 +445,7 @@ export default {
 
     createComment() {
       this.$devour
-        .one('arrangement', this.arrangement.id)
+        .one('arrangement', this.arrangementInformation.id)
         .all('comment')
         .post(this.commentCreate)
         .then((res) => {

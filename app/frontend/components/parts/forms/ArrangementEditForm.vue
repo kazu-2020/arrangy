@@ -2,7 +2,7 @@
   <v-dialog :value="isShow" width="650px" @click:outside="closeDialog">
     <v-sheet id="arrangement-edit-form" class="pa-10" color="#eeeeee" :rounded="true">
       <div class="text-center mb-5">
-        <v-img class="mx-auto mb-5" :src="photoURL" width="70%" />
+        <v-img class="mx-auto mb-5" :src="afterArrangementPhotoURL" width="70%" />
         <div>
           <NormalButton :loading="fileUploading" @click="fileUpload">
             <template #text>投稿写真を変更する</template>
@@ -127,7 +127,7 @@ export default {
       type: String,
       required: true,
     },
-    photoURL: {
+    afterArrangementPhotoURL: {
       type: String,
       required: true,
     },
@@ -236,7 +236,7 @@ export default {
       const formData = await this.createFormData(res.meta.fields);
 
       this.$devour.request(res.meta.url, 'POST', {}, formData).then((res) => {
-        this.$emit('update:photoURL', res.meta.url);
+        this.$emit('update:afterArrangementPhotoURL', res.meta.url);
         this.trimmingDialogDisplayed = false;
       });
     },

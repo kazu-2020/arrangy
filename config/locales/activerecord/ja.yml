@@ -4,7 +4,7 @@ ja:
       arrangement: 投稿
       comment: コメント
       parameter: パラメーター
-      photo: 投稿写真
+      after_arrangement_photo: アレンジ後の写真
       user: ユーザー
     attributes:
       arrangement:

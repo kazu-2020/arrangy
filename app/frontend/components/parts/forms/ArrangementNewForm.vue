@@ -28,7 +28,12 @@
           color="#eeeeee"
         >
           <template v-if="previewDisplayed">
-            <v-img id="preview-image" :src="photoURL" maxHeight="300" maxWidth="300" />
+            <v-img
+              id="preview-image"
+              :src="afterArrangementPhotoURL"
+              maxHeight="300"
+              maxWidth="300"
+            />
             <v-btn
               id="cancel-button"
               fab
@@ -176,7 +181,7 @@ export default {
       type: String,
       required: true,
     },
-    photoURL: {
+    afterArrangementPhotoURL: {
       type: String,
       required: true,
     },
@@ -280,7 +285,7 @@ export default {
       const formData = await this.createFormData(res.meta.fields);
 
       this.$devour.request(res.meta.url, 'POST', {}, formData).then((res) => {
-        this.$emit('update:photoURL', res.meta.url);
+        this.$emit('update:afterArrangementPhotoURL', res.meta.url);
         this.trimmingDialogDisplayed = false;
         this.previewDisplayed = true;
       });

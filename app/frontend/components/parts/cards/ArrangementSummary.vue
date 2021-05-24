@@ -7,7 +7,7 @@
     :to="{ name: 'ArrangementShow', params: { id: arrangement.id } }"
     elevation="0"
   >
-    <v-img :src="arrangement.photo.url" />
+    <v-img :src="arrangement.after_arrangement_photo.url" />
     <v-card-title class="font-weight-bold">
       {{ arrangement.title }}
     </v-card-title>

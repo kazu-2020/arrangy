@@ -31,7 +31,7 @@ export default {
       arrangementForm: {
         title: '',
         context: '',
-        photoURL: '',
+        afterArrangementPhotoURL: '',
         taste: 0,
         spiciness: 0,
         sweetness: 0,
@@ -88,9 +88,9 @@ export default {
         context: this.arrangementForm.context,
       };
     },
-    photo() {
+    afterArrangementPhoto() {
       return {
-        url: this.arrangementForm.photoURL,
+        url: this.arrangementForm.afterArrangementPhotoURL,
       };
     },
     parameter() {
@@ -112,7 +112,11 @@ export default {
           `${this.$devour.apiUrl}/arrangements`,
           'POST',
           {},
-          { arrangement: this.arrangement, photo: this.photo, parameter: this.parameter }
+          {
+            arrangement: this.arrangement,
+            after_arrangement_photo: this.afterArrangementPhoto,
+            parameter: this.parameter,
+          }
         )
         .then((res) => {
           this.$router.push({ name: 'ArrangementShow', params: { id: res.data.id } });

@@ -51,9 +51,9 @@ jsonApi.define('arrangement', {
     jsonApi: 'hasOne',
     type: 'parameter',
   },
-  photo: {
+  after_arrangement_photo: {
     jsonApi: 'hasOne',
-    type: 'photo',
+    type: 'after_arrangement_photo',
   },
 });
 
@@ -99,7 +99,7 @@ jsonApi.define('parameter', {
   },
 });
 
-jsonApi.define('photo', {
+jsonApi.define('after_arrangement_photo', {
   id: '',
   url: '',
   arrangement: {
@@ -127,7 +127,7 @@ const requestMiddleware = {
 };
 
 jsonApi.axios.interceptors.response.use(function (res) {
-  if (res.headers['x-csrf-token']) {
+  if (document.querySelector('meta[name="csrf-token"]')) {
     document.querySelector('meta[name="csrf-token"]').content = res.headers['x-csrf-token'];
   }
   // s3へアップロードした際のurlを取得
