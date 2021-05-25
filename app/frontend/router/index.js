@@ -14,7 +14,6 @@ const router = new VueRouter({
         default: () => import('../components/pages/TopPage'),
         header: () => import('../components/global/TheHeader'),
         snackbar: () => import('../components/global/TheSnackbar.vue'),
-        footer: () => import('../components/global/TheFooter'),
       },
     },
     {
@@ -24,7 +23,6 @@ const router = new VueRouter({
         default: () => import('../components/pages/RegisterPage'),
         header: () => import('../components/global/TheHeader'),
         snackbar: () => import('../components/global/TheSnackbar.vue'),
-        footer: () => import('../components/global/TheFooter'),
       },
     },
     {
@@ -34,7 +32,6 @@ const router = new VueRouter({
         default: () => import('../components/pages/ReregisterPage'),
         header: () => import('../components/global/TheHeader'),
         snackbar: () => import('../components/global/TheSnackbar.vue'),
-        footer: () => import('../components/global/TheFooter'),
       },
     },
     {
@@ -44,7 +41,6 @@ const router = new VueRouter({
         default: () => import('../components/pages/LoginPage'),
         header: () => import('../components/global/TheHeader'),
         snackbar: () => import('../components/global/TheSnackbar.vue'),
-        footer: () => import('../components/global/TheFooter'),
       },
     },
     {
@@ -53,7 +49,6 @@ const router = new VueRouter({
         default: () => import('../components/pages/ResetPassword/RootPage'),
         header: () => import('../components/global/TheHeader'),
         snackbar: () => import('../components/global/TheSnackbar.vue'),
-        footer: () => import('../components/global/TheFooter'),
       },
       children: [
         {
@@ -75,7 +70,6 @@ const router = new VueRouter({
         default: () => import('../components/pages/Profile/RootPage'),
         header: () => import('../components/global/TheHeader'),
         snackbar: () => import('../components/global/TheSnackbar.vue'),
-        footer: () => import('../components/global/TheFooter'),
       },
       children: [
         {
@@ -98,7 +92,6 @@ const router = new VueRouter({
         default: () => import('../components/pages/Arrangements/RootPage'),
         header: () => import('../components/global/TheHeader'),
         snackbar: () => import('../components/global/TheSnackbar.vue'),
-        footer: () => import('../components/global/TheFooter'),
       },
       children: [
         {
@@ -121,7 +114,6 @@ const router = new VueRouter({
       components: {
         default: () => import('../components/pages/TermsPage'),
         header: () => import('../components/global/TheHeader'),
-        footer: () => import('../components/global/TheFooter'),
       },
     },
     {
@@ -130,7 +122,6 @@ const router = new VueRouter({
       components: {
         default: () => import('../components/pages/PrivacyPolicy'),
         header: () => import('../components/global/TheHeader'),
-        footer: () => import('../components/global/TheFooter'),
       },
     },
     {
@@ -139,7 +130,6 @@ const router = new VueRouter({
       components: {
         default: () => import('../components/pages/ServiceDescription'),
         header: () => import('../components/global/TheHeader'),
-        footer: () => import('../components/global/TheFooter'),
       },
     },
     {
@@ -149,7 +139,6 @@ const router = new VueRouter({
         default: () => import('../components/pages/ContactPage'),
         header: () => import('../components/global/TheHeader'),
         snackbar: () => import('../components/global/TheSnackbar.vue'),
-        footer: () => import('../components/global/TheFooter'),
       },
     },
     {
