@@ -40,7 +40,7 @@
             </NormalButton>
             <p class="text-body2">
               パスワードを変更する場合は
-              <a @click.stop="displayPasswordEditDialog"> こちら </a>
+              <a style="color: #cc3918" @click.stop="displayPasswordEditDialog"> こちら </a>
             </p>
           </v-col>
         </v-row>
