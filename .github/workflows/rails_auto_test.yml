@@ -56,6 +56,10 @@ jobs:
         run: gem install bundler
       - name: bundle install
         run: bundle install --path vendor/bundle --jobs 4 --retry 3
+      - name: foo
+        run: |
+          printenv PAGER
+          printenv RAILS_MASTER_KEY
       - name: Setup Database
         run: |
           cp config/database.yml.github-actions config/database.yml
