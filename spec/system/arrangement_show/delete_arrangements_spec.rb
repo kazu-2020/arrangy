@@ -27,6 +27,7 @@ RSpec.describe "投稿削除", type: :system, js: true do
         expect {
           find('#global-snackbar', text: '投稿を削除しました')
           expect(page).to_not have_content(arrangement.title)
+          sleep 1
         }.to change {Arrangement.count}.by(-1)
         expect(current_path).to eq('/profile/')
       end
