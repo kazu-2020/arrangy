@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe "コメント詳細", type: :system, js: true do
-  let!(:self_comment) { create(:comment, :set_user, body: 'これはテストです', nickname: 'mimata') }
+  let(:arrangement) { build(:arrangement, :with_after_arrangement_photo, :with_parameter) }
+  let!(:self_comment) { create(:comment, :set_user, body: 'これはテストです', nickname: 'mimata', arrangement: arrangement) }
   let!(:nonself_comment) { create(:comment, arrangement: self_comment.arrangement) }
 
   context '投稿詳細ページへアクセスした時' do
@@ -15,7 +16,6 @@ RSpec.describe "コメント詳細", type: :system, js: true do
         expect(page).to have_content('これはテストです')
         expect(page).to have_content('mimata')
         expect(page).to have_content('今')
-        # expect(find('.v-image__image')[:style].include?(self_comment.user.avatar.url)).to eq(true)
       end
     end
   end

@@ -1,11 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe ContactForm, type: :model do
+RSpec.describe ArrangementForm, type: :model do
   let(:arrangement_params) {
     {
       title: 'テスト投稿タイトル',
       context: 'テスト投稿内容',
-      images: [Rack::Test::UploadedFile.new("#{Rails.root}/spec/fixtures/images/sample1.jpg")]
     }
   }
   let(:parameter_params) {
@@ -16,10 +15,12 @@ RSpec.describe ContactForm, type: :model do
       satisfaction: 3
     }
   }
+  let(:after_arrangement_photo_params) { { url: '/images/development/sample_for_photo.png' } }
   let(:arrangement) { create(:user).arrangements.build  }
   let(:arrangement_form) {
     ArrangementForm.new(arrangement: arrangement,
                         arrangement_params: arrangement_params,
+                        after_arrangement_photo_params: after_arrangement_photo_params,
                         parameter_params: parameter_params
                        )
   }

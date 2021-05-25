@@ -2,13 +2,20 @@ FactoryBot.define do
   factory :arrangement do
     title { "テスト投稿" }
     context { "これはテスト投稿です" }
-    images { [Rack::Test::UploadedFile.new("#{Rails.root}/spec/fixtures/images/sample1.jpg")] }
     user
 
     trait :with_parameter do
       after(:build) do |arrangement|
         arrangement.parameter = create(:parameter)
       end
+    end
+
+    trait :with_after_arrangement_photo do
+      after(:build) do |arrangement|
+        arrangement.after_arrangement_photo = create(:after_arrangement_photo)
+      end
+
+
     end
 
     trait :with_comment do

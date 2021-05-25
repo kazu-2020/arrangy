@@ -11,7 +11,7 @@ FactoryBot.define do
       end
 
       after(:build) do |user, evaluator|
-        user.arrangements << create_list(:arrangement, evaluator.count)
+        user.arrangements << create_list(:arrangement, evaluator.count, :with_after_arrangement_photo, :with_parameter)
       end
     end
   end

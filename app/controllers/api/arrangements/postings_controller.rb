@@ -4,10 +4,11 @@ module Api
       def index
         pagy, arrangements = pagy(current_user.arrangements.sorted_by_new.preload(:parameter), items: 20)
         options = {
-          include: %i[parameter],
+          include: %i[parameter after_arrangement_photo],
           fields: {
-            arrangement: %i[title images context created_at likes_count comments_count parameter],
-            parameter: %i[taste spiciness sweetness satisfaction]
+            arrangement: %i[title context created_at likes_count comments_count parameter after_arrangement_photo],
+            parameter: %i[taste spiciness sweetness satisfaction],
+            after_arrangement_photo: %i[url]
           },
           meta: { pagy: pagy_metadata(pagy) }
         }

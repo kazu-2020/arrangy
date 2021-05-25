@@ -10,7 +10,7 @@ module Api
         oauth_form.save
         session[:oauth_params] = nil
         auto_login(oauth_form.user)
-        options = { fields: { user: %i[nickname email avatar] } }
+        options = { fields: { user: %i[nickname email avatar_url] } }
         json_string = UserSerializer.new(oauth_form.user, options)
         render json: json_string
       end

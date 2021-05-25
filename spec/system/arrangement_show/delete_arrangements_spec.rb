@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "投稿削除", type: :system, js: true do
-  let!(:arrangement) { create(:arrangement) }
+  let!(:arrangement) { create(:arrangement, :with_after_arrangement_photo, :with_parameter) }
 
   before {
     log_in_as(arrangement.user)
@@ -24,11 +24,10 @@ RSpec.describe "投稿削除", type: :system, js: true do
       before { within('#delete-confirmation') { click_on '削除する' } }
 
       it '「投稿を削除しました」と表示され、プロフィールページへ遷移する' do
-        # expect {
-        #   find('#global-snackbar', text: '投稿を削除しました')
-        #   sleep 2.5
-        # }.to change {Arrangement.count}.by(-1)
-        sleep 1
+        expect {
+          find('#global-snackbar', text: '投稿を削除しました')
+          expect(page).to_not have_content(arrangement.title)
+        }.to change {Arrangement.count}.by(-1)
         expect(current_path).to eq('/profile/')
       end
     end

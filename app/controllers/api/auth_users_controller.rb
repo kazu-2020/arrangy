@@ -6,19 +6,19 @@ module Api
       user = login(params[:email], params[:password])
       return render_400 unless user
 
-      options = { fields: { user: %i[nickname email avatar likes_count arrangements_count] } }
+      options = { fields: { user: %i[nickname email avatar_url likes_count arrangements_count] } }
       render_serializer(current_user, options)
     end
 
     def show
-      options = { fields: { user: %i[nickname email avatar likes_count arrangements_count] } }
+      options = { fields: { user: %i[nickname email avatar_url likes_count arrangements_count] } }
       render_serializer(current_user, options)
     end
 
     def update
       profile_form = ProfileForm.new(user: current_user, params: user_params)
       profile_form.save!
-      options = { fields: { user: %i[nickname email avatar likes_count arrangements_count] } }
+      options = { fields: { user: %i[nickname email avatar_url likes_count arrangements_count] } }
       render_serializer(current_user, options)
     end
 
@@ -33,8 +33,7 @@ module Api
     private
 
     def user_params
-      params[:user][:avatar] = create_uploadedfile(params[:user][:avatar])
-      params.require(:user).permit(:nickname, :email, :avatar)
+      params.require(:auth_user).permit(:nickname, :email, :avatar_url)
     end
 
     def render_serializer(user, options = {})

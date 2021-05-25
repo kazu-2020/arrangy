@@ -1,16 +1,16 @@
 <template>
-  <v-container :id="`arrangement-${arrangement.id}`">
+  <v-container :id="`arrangement-${arrangementInformation.id}`">
     <v-row>
       <v-col class="pt-10 d-flex" cols="12">
         <h4 class="text-h4 mb-4 font-weight-black">
-          {{ arrangement.title }}
+          {{ arrangementInformation.title }}
         </h4>
       </v-col>
     </v-row>
     <v-row>
       <v-col cols="12" sm="6">
-        <v-img v-for="(image, $imageIndex) in arrangement.images" :key="$imageIndex" :src="image">
-          <div v-if="authUser && authUser.id === arrangement.user.id" class="text-end">
+        <v-img :src="arrangementInformation.after_arrangement_photo.url">
+          <div v-if="authUser && authUser.id === arrangementInformation.user.id" class="text-end">
             <InitializedMenu :outlined="true" :left="true">
               <template #btn-text>
                 <v-icon id="arrangement-menu-icon">mdi-dots-vertical</v-icon>
@@ -30,7 +30,7 @@
         </v-img>
         <v-row>
           <v-col cols="auto">
-            {{ arrangement.created_at }}
+            {{ arrangementInformation.created_at }}
           </v-col>
           <v-col> </v-col>
         </v-row>
@@ -39,48 +39,43 @@
         <v-row class="mb-3">
           <v-col cols="auto">
             <v-avatar>
-              <v-img :src="arrangement.user.avatar" />
+              <v-img :src="arrangementInformation.user.avatar" />
             </v-avatar>
           </v-col>
           <v-col cols="auto">
             <h6 class="text-subtitle-1 font-weight-black">
-              {{ arrangement.user.nickname }}
+              {{ arrangementInformation.user.nickname }}
             </h6>
           </v-col>
           <v-col class="text-end">
             <!-- いいねボタン -->
             <SubmitButton
-              :color="arrangement.liked_authuser ? '#cc3918' : null"
+              :color="arrangementInformation.liked_authuser ? '#cc3918' : null"
               :disabled="authUser ? false : true"
               @submit="handleLikedArrangement"
             >
               <template #text>
                 <v-icon class="mr-1"> mdi-thumb-up-outline </v-icon>
                 うまいいね
-                {{ arrangement.likes_count }}
+                {{ arrangementInformation.likes_count }}
               </template>
             </SubmitButton>
           </v-col>
         </v-row>
         <v-sheet class="pa-5 mb-5" :rounded="true" outlined color="#F5F5F5">
-          <pre class="text-body-1">{{ arrangement.context }}</pre>
+          <pre class="text-body-1">{{ arrangementInformation.context }}</pre>
         </v-sheet>
         <!-- レーダチャート -->
-        <RadarChart :chartData="arrangement.parameter" />
+        <RadarChart :chartData="arrangementInformation.parameter" />
       </v-col>
       <!-- 投稿編集用ダイアログ -->
       <ArrangementEditForm
         :isShow="editArrangementDialogDisplayed"
         v-bind.sync="arrangementEdit"
         :loading="arrangementEditing"
-        @uploadFile="uploadFile"
         @updateArrangement="updateArrangement"
         @closeDialog="closeEditArrangement"
-      >
-        <template #parameterForm>
-          <ParameterNewForm v-bind.sync="parameterEdit" />
-        </template>
-      </ArrangementEditForm>
+      />
       <!-- 投稿削除用ダイアログ -->
       <DeleteConfirmationDialog
         :isShow="deleteArrangementDialogDisplayed"
@@ -202,14 +197,12 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import Jimp from 'jimp/es';
 
 import ArrangementEditForm from '../../parts/forms/ArrangementEditForm';
 import CommentCreateForm from '../../parts/forms/CommentCreateForm';
 import CommentEditForm from '../../parts/forms/CommentEditForm';
 import DeleteConfirmationDialog from '../../parts/dialogs/DeleteConfirmationDialog';
 import InitializedMenu from '../../parts/menus/InitializedMenu';
-import ParameterNewForm from '../../parts/forms/ParameterNewForm';
 import RadarChart from '../../parts/charts/RadarChart';
 import SubmitButton from '../../parts/buttons/SubmitButton';
 
@@ -220,17 +213,15 @@ export default {
     CommentEditForm,
     DeleteConfirmationDialog,
     InitializedMenu,
-    ParameterNewForm,
     RadarChart,
     SubmitButton,
   },
   data() {
     return {
-      arrangement: {
+      arrangementInformation: {
         id: '',
         title: '',
         context: '',
-        images: [],
         created_at: '',
         liked_authuser: '',
         likes_count: '',
@@ -239,23 +230,24 @@ export default {
           avatar: '',
         },
         parameter: {
-          taste: '',
-          spiciness: '',
-          sweetness: '',
-          satisfaction: '',
+          taste: 0,
+          spiciness: 0,
+          sweetness: 0,
+          satisfaction: 0,
+        },
+        after_arrangement_photo: {
+          url: '',
         },
       },
       arrangementEdit: {
         id: '',
         title: '',
         context: '',
-        images: [],
-      },
-      parameterEdit: {
-        taste: '',
-        spiciness: '',
-        sweetness: '',
-        satisfaction: '',
+        afterArrangementPhotoURL: '',
+        taste: 0,
+        spiciness: 0,
+        sweetness: 0,
+        satisfaction: 0,
       },
       comments: [],
       commentCreate: {
@@ -280,7 +272,7 @@ export default {
   head: {
     title() {
       return {
-        inner: this.arrangement.title,
+        inner: this.arrangementInformation.title,
         separator: '|',
         complement: 'Arrangy(アレンジー)',
       };
@@ -289,27 +281,27 @@ export default {
       return [
         {
           name: 'description',
-          content: this.arrangement.context,
+          content: this.arrangementInformation.context,
           id: 'description',
         },
         {
           property: 'og:url',
-          content: `https://arrangy.jp/arrangements/${this.arrangement.id}`,
+          content: `https://arrangy.jp/arrangements/${this.arrangementInformation.id}`,
           id: 'og-url',
         },
         {
           property: 'og:title',
-          content: `${this.arrangement.user.nickname}さんのアレンジ飯です | Arrangy(アレンジー)`,
+          content: `${this.arrangementInformation.user.nickname}さんのアレンジ飯です | Arrangy(アレンジー)`,
           id: 'og-title',
         },
         {
           property: 'og:description',
-          content: this.arrangement.context,
+          content: this.arrangementInformation.context,
           id: 'og-description',
         },
         {
           property: 'og:image',
-          content: this.arrangement.images[0],
+          content: this.arrangementInformation.after_arrangement_photo.url,
           id: 'og-image',
         },
       ];
@@ -317,6 +309,25 @@ export default {
   },
   computed: {
     ...mapGetters('users', ['authUser']),
+    arrangementParams() {
+      return {
+        title: this.arrangementEdit.title,
+        context: this.arrangementEdit.context,
+      };
+    },
+    afterArrangementPhotoParams() {
+      return {
+        url: this.arrangementEdit.afterArrangementPhotoURL,
+      };
+    },
+    paramterParams() {
+      return {
+        taste: this.arrangementEdit.taste,
+        spiciness: this.arrangementEdit.spiciness,
+        sweetness: this.arrangementEdit.sweetness,
+        satisfaction: this.arrangementEdit.satisfaction,
+      };
+    },
   },
   created() {
     this.fetchArrangement();
@@ -330,7 +341,7 @@ export default {
 
     fetchArrangement() {
       this.$devour.find('arrangement', this.$route.params.id).then((res) => {
-        this.arrangement = res.data;
+        this.arrangementInformation = res.data;
         this.fetchComment();
       });
     },
@@ -349,7 +360,15 @@ export default {
     },
 
     displayArrangementEditDialog() {
-      this.initArrangement();
+      this.arrangementEdit.id = this.arrangementInformation.id;
+      this.arrangementEdit.title = this.arrangementInformation.title;
+      this.arrangementEdit.context = this.arrangementInformation.context;
+      this.arrangementEdit.afterArrangementPhotoURL = this.arrangementInformation.after_arrangement_photo.url;
+      this.arrangementEdit.taste = this.arrangementInformation.parameter.taste;
+      this.arrangementEdit.spiciness = this.arrangementInformation.parameter.spiciness;
+      this.arrangementEdit.sweetness = this.arrangementInformation.parameter.sweetness;
+      this.arrangementEdit.satisfaction = this.arrangementInformation.parameter.satisfaction;
+
       this.handleShowEditArrangement();
     },
     displayCommentEditDialog(comment) {
@@ -381,17 +400,6 @@ export default {
     handleShowEditComment() {
       this.editCommentDialogDisplayed = !this.editCommentDialogDisplayed;
     },
-
-    initArrangement() {
-      this.arrangementEdit = { ...this.arrangement, images: [...this.arrangement.images] };
-      this.parameterEdit = { ...this.arrangement.parameter };
-      Jimp.read(this.arrangementEdit.images[0]).then((image) => {
-        image.getBase64(Jimp.MIME_PNG, (err, src) => this.arrangementEdit.images.splice(0, 1, src));
-      });
-    },
-    uploadFile(src) {
-      this.arrangementEdit.images.splice(0, 1, src);
-    },
     updateArrangement() {
       this.arrangementEditing = true;
       this.$devour
@@ -399,10 +407,14 @@ export default {
           `${this.$devour.apiUrl}/arrangements/${this.arrangementEdit.id}`,
           'PATCH',
           {},
-          { arrangement: this.arrangementEdit, parameter: this.parameterEdit }
+          {
+            arrangement: this.arrangementParams,
+            after_arrangement_photo: this.afterArrangementPhotoParams,
+            parameter: this.paramterParams,
+          }
         )
         .then((res) => {
-          this.arrangement = res.data;
+          this.arrangementInformation = res.data;
           this.closeEditArrangement();
           this.fetchSnackbarData({
             msg: '投稿を更新しました',
@@ -433,7 +445,7 @@ export default {
 
     createComment() {
       this.$devour
-        .one('arrangement', this.arrangement.id)
+        .one('arrangement', this.arrangementInformation.id)
         .all('comment')
         .post(this.commentCreate)
         .then((res) => {
@@ -462,24 +474,24 @@ export default {
     },
 
     handleLikedArrangement() {
-      if (this.arrangement.liked_authuser) {
+      if (this.arrangementInformation.liked_authuser) {
         this.$devour
-          .one('arrangement', this.arrangement.id)
+          .one('arrangement', this.arrangementInformation.id)
           .all('like')
           .destroy()
           .then(() => {
-            this.arrangement.liked_authuser = false;
-            this.arrangement.likes_count -= 1;
+            this.arrangementInformation.liked_authuser = false;
+            this.arrangementInformation.likes_count -= 1;
             this.fetchAuthUser();
           });
       } else {
         this.$devour
-          .one('arrangement', this.arrangement.id)
+          .one('arrangement', this.arrangementInformation.id)
           .all('like')
           .post({})
           .then(() => {
-            this.arrangement.liked_authuser = true;
-            this.arrangement.likes_count += 1;
+            this.arrangementInformation.liked_authuser = true;
+            this.arrangementInformation.likes_count += 1;
             this.fetchAuthUser();
           });
       }

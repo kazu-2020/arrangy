@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_22_214037) do
+ActiveRecord::Schema.define(version: 2021_05_24_151618) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "after_arrangement_photos", force: :cascade do |t|
+    t.string "url", null: false
+    t.bigint "arrangement_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["arrangement_id"], name: "index_after_arrangement_photos_on_arrangement_id"
+  end
 
   create_table "arrangements", force: :cascade do |t|
     t.string "title", null: false
@@ -21,7 +29,6 @@ ActiveRecord::Schema.define(version: 2021_04_22_214037) do
     t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.json "images", null: false
     t.bigint "likes_count", default: 0
     t.bigint "comments_count", default: 0
     t.index ["user_id"], name: "index_arrangements_on_user_id"
@@ -72,7 +79,7 @@ ActiveRecord::Schema.define(version: 2021_04_22_214037) do
     t.string "salt"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "avatar"
+    t.string "avatar_url", default: "/images/default_avatar.png"
     t.string "reset_password_token"
     t.datetime "reset_password_token_expires_at"
     t.datetime "reset_password_email_sent_at"
@@ -83,6 +90,7 @@ ActiveRecord::Schema.define(version: 2021_04_22_214037) do
     t.index ["nickname"], name: "index_users_on_nickname", unique: true
   end
 
+  add_foreign_key "after_arrangement_photos", "arrangements"
   add_foreign_key "arrangements", "users"
   add_foreign_key "comments", "arrangements"
   add_foreign_key "comments", "users"

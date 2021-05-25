@@ -5,7 +5,6 @@
 # user_id            bigint               foreign key
 # title              string               not null
 # context            text                 not null
-# images             json                 not null
 # likes_count        bigint               default 0
 # comments_count     bigint               default 0
 # created_at         datetime             not null
@@ -16,17 +15,15 @@
 
 class Arrangement < ApplicationRecord
   belongs_to :user, counter_cache: true
-  has_one :parameter, dependent: :destroy
+  has_one  :parameter, dependent: :destroy
+  has_one  :after_arrangement_photo, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
   has_many :liked_by_users, through: :likes, source: :user
 
-  mount_uploaders :images, ImageUploader
-
   with_options presence: true do
     validates :title
     validates :context
-    validates :images
   end
 
   scope :sorted_by_new, -> { order(created_at: :desc) }

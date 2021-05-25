@@ -24,6 +24,7 @@ Rails.application.routes.draw do
       resource :callback, only: :show
       resource :reregister, only: :create
     end
+    resource :presigned_post, only: :new
 
     namespace :admin do
       resource :auth_user, only: %i[create show destroy]

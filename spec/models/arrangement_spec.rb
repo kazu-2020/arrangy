@@ -18,10 +18,6 @@ RSpec.describe Arrangement, type: :model do
       arrangement.context = ''
       expect(arrangement).to be_invalid
     end
-    it '投稿画像が未設定の場合、無効です' do
-      arrangement.images = []
-      expect(arrangement).to be_invalid
-    end
   end
 
 end

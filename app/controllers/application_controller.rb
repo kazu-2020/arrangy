@@ -3,7 +3,6 @@ class ApplicationController < ActionController::Base
   after_action :set_csrf_token
 
   include Api::Base64Converting
-  include Api::CreateUploadedfile
   include Api::ExceptionHandring
   include Pagy::Backend
 

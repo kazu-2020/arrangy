@@ -11,7 +11,7 @@
         <InitializedMenu :bottom="true" :offsetY="true">
           <template #btn-text>
             <v-avatar>
-              <img id="header-avatar" :src="authUser.avatar" />
+              <img id="header-avatar" :src="authUser.avatar_url" />
             </v-avatar>
           </template>
           <template #list>

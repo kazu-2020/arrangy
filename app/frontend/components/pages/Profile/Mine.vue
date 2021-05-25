@@ -45,14 +45,9 @@
       :isShow="editArrangementDialogDisplayed"
       v-bind.sync="arrangementEdit"
       :loading="arrangementEditing"
-      @uploadFile="uploadFile"
       @updateArrangement="updateArrangement"
       @closeDialog="closeEditArrangement"
-    >
-      <template #parameterForm>
-        <ParameterNewForm v-bind.sync="parameterEdit" />
-      </template>
-    </ArrangementEditForm>
+    />
     <!-- 投稿削除確認ダイアログ -->
     <DeleteConfirmationDialog
       :isShow="deleteArrangementDialogDisplayed"
@@ -67,13 +62,11 @@
 
 <script>
 import { mapActions } from 'vuex';
-import Jimp from 'jimp/es';
 
 import ArrangementEditForm from '../../parts/forms/ArrangementEditForm';
 import ArrangementSummary from '../../parts/cards/ArrangementSummary';
 import DeleteConfirmationDialog from '../../parts/dialogs/DeleteConfirmationDialog';
 import InitializedMenu from '../../parts/menus/InitializedMenu';
-import ParameterNewForm from '../../parts/forms/ParameterNewForm';
 
 export default {
   components: {
@@ -81,7 +74,6 @@ export default {
     ArrangementSummary,
     DeleteConfirmationDialog,
     InitializedMenu,
-    ParameterNewForm,
   },
   data() {
     return {
@@ -90,13 +82,11 @@ export default {
         id: '',
         title: '',
         context: '',
-        images: [],
-      },
-      parameterEdit: {
-        taste: '',
-        spiciness: '',
-        sweetness: '',
-        satisfaction: '',
+        afterArrangementPhotoURL: '',
+        taste: 0,
+        spiciness: 0,
+        sweetness: 0,
+        satisfaction: 0,
       },
       arrangementDelete: {},
       pagy: {
@@ -109,6 +99,27 @@ export default {
       editArrangementDialogDisplayed: false,
     };
   },
+  computed: {
+    arrangementParams() {
+      return {
+        title: this.arrangementEdit.title,
+        context: this.arrangementEdit.context,
+      };
+    },
+    afterArrangementPhotoParams() {
+      return {
+        url: this.arrangementEdit.afterArrangementPhotoURL,
+      };
+    },
+    paramterParams() {
+      return {
+        taste: this.arrangementEdit.taste,
+        spiciness: this.arrangementEdit.spiciness,
+        sweetness: this.arrangementEdit.sweetness,
+        satisfaction: this.arrangementEdit.satisfaction,
+      };
+    },
+  },
   created() {
     this.fetchArrangements();
   },
@@ -117,7 +128,15 @@ export default {
     ...mapActions('users', ['fetchAuthUser']),
 
     displayArrangementEditDialog(arrangement) {
-      this.initArrangement(arrangement);
+      this.arrangementEdit.id = arrangement.id;
+      this.arrangementEdit.title = arrangement.title;
+      this.arrangementEdit.context = arrangement.context;
+      this.arrangementEdit.afterArrangementPhotoURL = arrangement.after_arrangement_photo.url;
+      this.arrangementEdit.taste = arrangement.parameter.taste;
+      this.arrangementEdit.spiciness = arrangement.parameter.spiciness;
+      this.arrangementEdit.sweetness = arrangement.parameter.sweetness;
+      this.arrangementEdit.satisfaction = arrangement.parameter.satisfaction;
+
       this.editArrangementDialogDisplayed = true;
     },
     closeEditArrangement() {
@@ -130,17 +149,6 @@ export default {
     },
     closeDeleteArrangementDialog() {
       this.deleteArrangementDialogDisplayed = false;
-    },
-
-    uploadFile(src) {
-      this.arrangementEdit.images.splice(0, 1, src);
-    },
-    initArrangement(arrangement) {
-      this.arrangementEdit = { ...arrangement, images: [...arrangement.images] };
-      this.parameterEdit = { ...arrangement.parameter };
-      Jimp.read(this.arrangementEdit.images[0]).then((image) => {
-        image.getBase64(Jimp.MIME_PNG, (err, src) => this.arrangementEdit.images.splice(0, 1, src));
-      });
     },
     fetchArrangements() {
       this.$devour
@@ -179,7 +187,11 @@ export default {
           `${this.$devour.apiUrl}/arrangements/${this.arrangementEdit.id}`,
           'PATCH',
           {},
-          { arrangement: this.arrangementEdit, parameter: this.parameterEdit }
+          {
+            arrangement: this.arrangementParams,
+            after_arrangement_photo: this.afterArrangementPhotoParams,
+            parameter: this.paramterParams,
+          }
         )
         .then((res) => {
           const index = this.arrangements.findIndex(

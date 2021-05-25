@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe "コメント削除", type: :system, js: true do
-  let!(:comment) { create(:comment) }
+  let(:arrangement) { build(:arrangement, :with_after_arrangement_photo, :with_parameter)}
+  let!(:comment) { create(:comment, arrangement: arrangement) }
 
   before {
     log_in_as(comment.user)
@@ -21,26 +22,32 @@ RSpec.describe "コメント削除", type: :system, js: true do
     end
 
     context '確認用ダイアログの「削除する」をクリックした場合' do
-      before { within('#delete-confirmation') { click_on '削除する' } }
+      before {
+        within('#delete-confirmation') do
+          click_on '削除する'
+        end
+      }
 
       it '「コメントを削除しました」と表示され、コメントが削除される' do
-        # expect {
-        #   find('#global-snackbar', text: 'コメントを削除しました')
-        #   sleep 2
-        # }.to change { Comment.count}.by(-1)
+        expect {
+          find('#global-snackbar', text: 'コメントを削除しました')
+          expect(page).to_not have_content(comment.body)
+          sleep 1
+        }.to change { Comment.count}.by(-1)
         expect(has_selector?("comment-#{comment.id}")).to eq(false)
       end
 
-      # fit '確認用ダイアログは非表示になる' do
-      #   expect(find('#delete-confirmation', visible: false).visible?).to eq(false)
-      # end
     end
 
     context '確認用ダイアログの「キャンセル」をクリックした場合' do
-      before { within('#delete-confirmation') { click_on 'キャンセル' } }
+      before {
+        within('#delete-confirmation') do
+          click_on 'キャンセル'
+          sleep 1
+        end
+      }
 
       it '確認用ダイアログは非表示になる' do
-        sleep 0.5
         expect(find('#delete-confirmation', visible: false).visible?).to eq(false)
       end
     end

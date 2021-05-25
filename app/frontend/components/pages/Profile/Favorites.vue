@@ -8,7 +8,7 @@
               <v-row>
                 <v-col cols="auto">
                   <v-avatar size="25">
-                    <v-img :src="arrangement.user.avatar" />
+                    <v-img :src="arrangement.user.avatar_url" />
                   </v-avatar>
                 </v-col>
                 <v-col cols="auto">

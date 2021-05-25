@@ -30,8 +30,7 @@ gem 'jbuilder', '~> 2.7'
 gem 'jsonapi-serializer'
 
 # image uploader
-gem 'carrierwave', '~> 2.0'
-gem 'fog-aws'
+gem 'aws-sdk-s3', '~> 1'
 
 # pagination
 gem 'pagy', '~> 3.5'

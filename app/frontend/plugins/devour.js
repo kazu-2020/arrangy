@@ -14,7 +14,7 @@ jsonApi.define('user', {
   id: '',
   nickname: '',
   email: '',
-  avatar: '',
+  avatar_url: '',
   role: '',
   password: '',
   password_confirmation: '',
@@ -35,7 +35,6 @@ jsonApi.define('arrangement', {
   id: '',
   title: '',
   context: '',
-  images: '',
   created_at: '',
   liked_authuser: '',
   likes_count: '',
@@ -51,6 +50,10 @@ jsonApi.define('arrangement', {
   parameter: {
     jsonApi: 'hasOne',
     type: 'parameter',
+  },
+  after_arrangement_photo: {
+    jsonApi: 'hasOne',
+    type: 'after_arrangement_photo',
   },
 });
 
@@ -96,6 +99,15 @@ jsonApi.define('parameter', {
   },
 });
 
+jsonApi.define('after_arrangement_photo', {
+  id: '',
+  url: '',
+  arrangement: {
+    jsonApi: 'hasOne',
+    type: 'arrangement',
+  },
+});
+
 const requestMiddleware = {
   name: 'payload-formating',
   req: (payload) => {
@@ -117,8 +129,17 @@ const requestMiddleware = {
 jsonApi.axios.interceptors.response.use(function (res) {
   if (document.querySelector('meta[name="csrf-token"]')) {
     document.querySelector('meta[name="csrf-token"]').content = res.headers['x-csrf-token'];
-    store.dispatch('responseState/fetchResponseState', { status: res.status, state: 'success' });
   }
+  // s3へアップロードした際のurlを取得
+  if (res.headers['content-type'] === 'application/xml') {
+    res.data.match(/<Location>(.+)<\/Location>/);
+    if (RegExp.$1) {
+      res.data = { meta: { url: RegExp.$1 } };
+    } else {
+      return res;
+    }
+  }
+  store.dispatch('responseState/fetchResponseState', { status: res.status, state: 'success' });
   return res;
 });
 
