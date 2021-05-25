@@ -1,11 +1,11 @@
 <template>
   <v-container>
-    <v-row class="pt-10 mb-5">
+    <v-row class="pt-10 mb-md-3">
       <v-col>
         <h6 class="text-h5 font-weight-bold">アレンジ飯を投稿する</h6>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row class="pb-10">
       <v-col cols="12" class="mx-auto">
         <ArrangementNewForm
           v-bind.sync="arrangementForm"

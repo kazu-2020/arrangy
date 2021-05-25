@@ -1,7 +1,11 @@
 <template>
   <div>
     <v-app-bar id="page-header" class="px-md-10" app flat clippedRight color="#FAFAFA">
-      <v-app-bar-nav-icon class="hidden-lg-and-up" @click="drawer = true"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon
+        id="navigation-icon"
+        class="hidden-lg-and-up"
+        @click="drawer = true"
+      ></v-app-bar-nav-icon>
       <v-toolbar-title style="cursor: pointer">
         <router-link :to="{ name: 'TopPage' }">
           <v-img class="hidden-sm-and-down" src="/images/header-logo.png" />
@@ -18,7 +22,6 @@
           </template>
           <template #list>
             <v-list id="header-menu-list" dense flat>
-              <v-list-item plain :to="{ name: 'ArrangementNew' }">新規投稿</v-list-item>
               <v-list-item plain :to="{ name: 'UserProfile' }">マイページ</v-list-item>
               <v-list-item plain :to="{ name: 'Favorites' }">お気に入り一覧</v-list-item>
               <v-list-item plain tag="button" @click="logoutFunction"> ログアウト </v-list-item>
@@ -36,8 +39,14 @@
 
     <!-- drower -->
     <v-navigation-drawer v-model="drawer" app clipped right color="#FAFAFA">
-      <v-list nav dense height="100%" class="d-flex flex-column justify-space-between">
-        <v-list-item-group v-model="group">
+      <v-list
+        id="navigation-menu"
+        class="d-flex flex-column justify-space-between"
+        nav
+        dense
+        height="100%"
+      >
+        <v-list-item-group>
           <v-list-item :to="{ name: 'TopPage' }" exact>
             <v-list-item-icon>
               <v-icon>mdi-home</v-icon>
