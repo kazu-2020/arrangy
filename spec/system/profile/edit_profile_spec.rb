@@ -77,11 +77,6 @@ RSpec.describe "プロフィール編集", type: :system, js: true do
       sleep 1
       expect(find('#trimming-dialog', visible: false).visible?).to eq(false)
     end
-    it '「トリミング」ボタンを押すとプレビュー画像が表示される' do
-      find('#trimming-dialog') { click_on('トリミングする') }
-      sleep 1
-      expect(find('#trimming-dialog', visible: false).visible?).to eq(false)
-    end
   end
 
   describe 'フロント側のバリデーション機能' do

@@ -91,6 +91,7 @@ RSpec.describe "投稿編集", type: :system, js: true do
         attach_file('投稿写真', "#{Rails.root}/spec/fixtures/images/sample.png", visible: false)
       end
       find('#trimming-dialog') { click_on('トリミングする') }
+      sleep 1
       click_on('変更する')
     }
 
@@ -117,11 +118,6 @@ RSpec.describe "投稿編集", type: :system, js: true do
     end
     it '「キャンセル」ボタンを押すとトリミング画面は閉じる' do
       find('#trimming-dialog') { click_on('キャンセル') }
-      sleep 1
-      expect(find('#trimming-dialog', visible: false).visible?).to eq(false)
-    end
-    it '「トリミング」ボタンを押すとトリミングされる' do
-      find('#trimming-dialog') { click_on('トリミングする') }
       sleep 1
       expect(find('#trimming-dialog', visible: false).visible?).to eq(false)
     end

@@ -53,12 +53,6 @@ RSpec.describe "投稿作成", type: :system, js: true do
         sleep 0.5
         expect(find('#trimming-dialog', visible: false).visible?).to eq(false)
       end
-      it '「トリミング」ボタンを押すとプレビュー画像が表示される' do
-        find('#trimming-dialog') { click_on('トリミングする') }
-        sleep 2
-        expect(find('#trimming-dialog', visible: false).visible?).to eq(false)
-        expect(has_selector?('#preview-image')).to eq(true)
-      end
     end
 
 
