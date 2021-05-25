@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe "コメント編集", type: :system, js: true do
-  let!(:comment) { create(:comment) }
+  let(:arrangement) { build(:arrangement, :with_after_arrangement_photo, :with_parameter)}
+  let!(:comment) { create(:comment, arrangement: arrangement) }
 
   before {
     log_in_as(comment.user)
@@ -45,6 +46,7 @@ RSpec.describe "コメント編集", type: :system, js: true do
       within('#comment-edit-form') do
         fill_in('コメント', with: 'コメントを更新')
         click_on('更新する')
+        sleep 1
       end
     }
 
@@ -56,16 +58,19 @@ RSpec.describe "コメント編集", type: :system, js: true do
     end
 
     it '編集用のダイアログは非表示になる' do
-      sleep 0.5
       expect(find('#comment-edit-form', visible: false).visible?).to eq(false)
     end
   end
 
   context '「キャンセル」をクリックした場合' do
-    before { within('#comment-edit-form') { click_on('キャンセル') } }
+    before {
+      within('#comment-edit-form') do
+        click_on('キャンセル')
+        sleep 1
+      end
+    }
 
     it '編集用のダイアログは非表示になる' do
-      sleep 0.5
       expect(find('#comment-edit-form', visible: false).visible?).to eq(false)
     end
   end

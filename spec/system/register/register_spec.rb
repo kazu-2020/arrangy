@@ -138,8 +138,8 @@ RSpec.describe "ユーザー登録", type: :system, js: true do
       within '#welcome-dialog' do
         expect(page).to have_button 'あとで'
         click_on 'あとで'
+        sleep 1
       end
-      sleep 0.5
       expect(find('#welcome-dialog', visible: false).visible?).to eq false
     end
   end

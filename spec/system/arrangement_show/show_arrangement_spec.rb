@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe '投稿詳細', type: :system, js: true do
-  let!(:self_arrangement) { create(:arrangement) }
+  let!(:self_arrangement) { create(:arrangement, :with_after_arrangement_photo, :with_parameter) }
 
   context 'ログイン前' do
     context '自分が投稿したページへアクセスした時' do
@@ -12,10 +12,6 @@ RSpec.describe '投稿詳細', type: :system, js: true do
           expect(page).to have_content(self_arrangement.title)
           expect(page).to have_content(self_arrangement.context)
           expect(page).to have_content(self_arrangement.user.nickname)
-          result = all('.v-image__image').any? do |element|
-            element[:style].include?(self_arrangement.user.avatar.url)
-          end
-          expect(result).to eq(true)
         end
       end
       it 'メニューリストは非表示になっている' do
@@ -38,10 +34,6 @@ RSpec.describe '投稿詳細', type: :system, js: true do
           expect(page).to have_content(self_arrangement.title)
           expect(page).to have_content(self_arrangement.context)
           expect(page).to have_content(self_arrangement.user.nickname)
-          result = all('.v-image__image').any? do |element|
-            element[:style].include?(self_arrangement.user.avatar.url)
-          end
-          expect(result).to eq(true)
         end
       end
       it 'メニューリストが表示されている' do
@@ -52,7 +44,7 @@ RSpec.describe '投稿詳細', type: :system, js: true do
     end
 
     context '他人の投稿ページへアクセスした時' do
-      let!(:unself_arrangement) { create(:arrangement) }
+      let!(:unself_arrangement) { create(:arrangement, :with_after_arrangement_photo, :with_parameter) }
 
       before { visit("/arrangements/#{encode_id(unself_arrangement.id)}")}
 

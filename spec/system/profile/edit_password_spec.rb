@@ -93,10 +93,14 @@ RSpec.describe "パスワード編集", type: :system, js: true do
   end
 
   context '「戻る」をクリックした場合' do
-    before { within('#password-edit-form') { click_on('戻る')} }
+    before {
+      within('#password-edit-form') do
+        click_on('戻る')
+        sleep 1
+      end
+    }
 
     it '編集用のダイアログは非表示になる' do
-      sleep 0.5
       expect(find('#password-edit-form', visible: false).visible?).to eq(false)
     end
   end

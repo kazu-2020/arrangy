@@ -21,33 +21,35 @@ RSpec.describe "プロフィール編集", type: :system, js: true do
       within('#profile-edit-form') do
         fill_in('ニックネーム', with: 'kazu')
         fill_in('メールアドレス', with: 'kazu@kazu.com')
-        attach_file('プロフィール画像', "#{Rails.root}/spec/fixtures/images/sample3.png", visible: false)
+        attach_file('プロフィール画像', "#{Rails.root}/spec/fixtures/images/sample.png", visible: false)
       end
       find('#trimming-dialog') { click_on('トリミングする') }
       click_on('更新する')
+      sleep 1
     }
 
     it '「プロフィールを更新しました」と表示され、編集用のダイアログは非表示になる' do
       expect(find('#global-snackbar')).to have_text('プロフィールを更新しました')
-      sleep 0.5
       expect(find('#profile-edit-form', visible: false).visible?).to eq(false)
     end
 
     it '変更後のデータが反映されている' do
       within('#myprofile') do
-        expect(page).to_not have_content('kazu')
+        expect(page).to have_content('kazu')
         expect(page).to have_content('kazu@kazu.com')
-        user.reload
-        expect(find('.v-image__image')[:style].include?(user.avatar.url)).to eq(true)
       end
     end
   end
 
   context '「戻る」をクリックした場合' do
-    before { within('#profile-edit-form') { click_on('戻る')} }
+    before {
+      within('#profile-edit-form') do
+        click_on('戻る')
+        sleep 1
+      end
+    }
 
     it '編集用のダイアログは非表示になる' do
-      sleep 0.5
       expect(find('#profile-edit-form', visible: false).visible?).to eq(false)
     end
   end
@@ -62,9 +64,9 @@ RSpec.describe "プロフィール編集", type: :system, js: true do
 
   describe 'トリミング画面の検証' do
     before {
-      within('#profile-edit-form') {
-        attach_file('プロフィール画像', "#{Rails.root}/spec/fixtures/images/sample2.png", visible: false)
-      }
+      within('#profile-edit-form') do
+        attach_file('プロフィール画像', "#{Rails.root}/spec/fixtures/images/sample.png", visible: false)
+      end
     }
 
     it '写真を選択すると、トリミング画面が表示される' do
@@ -72,12 +74,12 @@ RSpec.describe "プロフィール編集", type: :system, js: true do
     end
     it '「キャンセル」ボタンを押すとトリミング画面は閉じる' do
       find('#trimming-dialog') { click_on('キャンセル') }
-      sleep 0.5
+      sleep 1
       expect(find('#trimming-dialog', visible: false).visible?).to eq(false)
     end
     it '「トリミング」ボタンを押すとプレビュー画像が表示される' do
       find('#trimming-dialog') { click_on('トリミングする') }
-      sleep 0.5
+      sleep 1
       expect(find('#trimming-dialog', visible: false).visible?).to eq(false)
     end
   end

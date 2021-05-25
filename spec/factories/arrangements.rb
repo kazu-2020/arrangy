@@ -10,6 +10,14 @@ FactoryBot.define do
       end
     end
 
+    trait :with_after_arrangement_photo do
+      after(:build) do |arrangement|
+        arrangement.after_arrangement_photo = create(:after_arrangement_photo)
+      end
+
+
+    end
+
     trait :with_comment do
       after(:build) do |arrangement|
         arrangement.comments << create(:comment)

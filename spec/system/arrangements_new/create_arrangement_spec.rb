@@ -19,10 +19,29 @@ RSpec.describe "投稿作成", type: :system, js: true do
       within('#header-menu-list') { click_on('新規投稿') }
     }
 
+    context '適当な値を入力した場合' do
+      before {
+        within('#arrangement-new-form') do
+          fill_in('タイトル', with: 'a' * 30)
+          fill_in('投稿内容', with: 'a' * 1_000)
+          attach_file('投稿写真', "#{Rails.root}/spec/fixtures/images/sample.png", visible: false)
+        end
+        find('#trimming-dialog') { click_on('トリミングする') }
+      }
+
+      it '投稿詳細ページへ遷移し、「新しいアレンジ飯を投稿しました」と表示される。' do
+        expect {
+          within('#arrangement-new-form') { click_on('アレンジ飯を投稿する') }
+          find('#global-snackbar', text: '新しいアレンジ飯を投稿しました')
+        }.to change { Arrangement.count }.by(1)
+        expect(current_path).to eq("/arrangements/#{encode_id(Arrangement.last.id)}")
+      end
+    end
+
     describe 'トリミング画面の検証' do
       before {
         within('#arrangement-new-form') {
-          attach_file('投稿写真', "#{Rails.root}/spec/fixtures/images/sample2.png", visible: false)
+          attach_file('投稿写真', "#{Rails.root}/spec/fixtures/images/sample.png", visible: false)
         }
       }
 
@@ -36,30 +55,12 @@ RSpec.describe "投稿作成", type: :system, js: true do
       end
       it '「トリミング」ボタンを押すとプレビュー画像が表示される' do
         find('#trimming-dialog') { click_on('トリミングする') }
-        sleep 0.5
+        sleep 2
         expect(find('#trimming-dialog', visible: false).visible?).to eq(false)
         expect(has_selector?('#preview-image')).to eq(true)
       end
     end
 
-    context '適当な値を入力した場合' do
-      before {
-        within('#arrangement-new-form') do
-          fill_in('タイトル', with: 'a' * 30)
-          fill_in('投稿内容', with: 'a' * 1_000)
-          attach_file('投稿写真', "#{Rails.root}/spec/fixtures/images/sample2.png", visible: false)
-        end
-        find('#trimming-dialog') { click_on('トリミングする') }
-      }
-
-      it '投稿詳細ページへ遷移し、「新しいアレンジ飯を投稿しました」と表示される。' do
-        expect {
-          within('#arrangement-new-form') { click_on('アレンジ飯を投稿する') }
-          find('#global-snackbar', text: '新しいアレンジ飯を投稿しました')
-        }.to change { Arrangement.count }.by(1)
-        expect(current_path).to eq("/arrangements/#{encode_id(Arrangement.last.id)}")
-      end
-    end
 
     describe 'フロント側のバリデーション機能' do
       describe '必須項目の検証' do
