@@ -1,9 +1,15 @@
 <template>
   <div>
-    <v-app-bar id="page-header" fixed height="60" elevation="1" class="px-md-10" color="#FAFAFA">
-      <v-toolbar-title class="logo">
+    <v-app-bar id="page-header" class="px-md-10" app flat clippedRight color="#FAFAFA">
+      <v-app-bar-nav-icon
+        id="navigation-icon"
+        class="hidden-lg-and-up"
+        @click="drawer = true"
+      ></v-app-bar-nav-icon>
+      <v-toolbar-title style="cursor: pointer">
         <router-link :to="{ name: 'TopPage' }">
-          <v-img src="/images/header-logo.png" />
+          <v-img class="hidden-sm-and-down" src="/images/header-logo.png" />
+          <v-img class="hidden-md-and-up" src="/images/mobile-header-logo.png" />
         </router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
@@ -16,7 +22,6 @@
           </template>
           <template #list>
             <v-list id="header-menu-list" dense flat>
-              <v-list-item plain :to="{ name: 'ArrangementNew' }">新規投稿</v-list-item>
               <v-list-item plain :to="{ name: 'UserProfile' }">マイページ</v-list-item>
               <v-list-item plain :to="{ name: 'Favorites' }">お気に入り一覧</v-list-item>
               <v-list-item plain tag="button" @click="logoutFunction"> ログアウト </v-list-item>
@@ -31,6 +36,69 @@
         <v-btn plain text xLarge :to="{ name: 'UserLogin' }"> ログイン </v-btn>
       </template>
     </v-app-bar>
+
+    <!-- drower -->
+    <v-navigation-drawer v-model="drawer" app clipped right color="#FAFAFA">
+      <v-list
+        id="navigation-menu"
+        class="d-flex flex-column justify-space-between"
+        nav
+        dense
+        height="100%"
+      >
+        <v-list-item-group>
+          <v-list-item :to="{ name: 'TopPage' }" exact>
+            <v-list-item-icon>
+              <v-icon>mdi-home</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>ホーム</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item :to="{ name: 'ArrangementNew' }">
+            <v-list-item-icon>
+              <v-icon>mdi-clipboard-edit</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>新規投稿</v-list-item-title>
+          </v-list-item>
+        </v-list-item-group>
+
+        <v-list-item-group>
+          <v-divider />
+
+          <v-list-item :to="{ name: 'TermsPage' }">
+            <v-list-item-icon />
+            <v-list-item-title>利用規約</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item :to="{ name: 'PrivacyPolicy' }">
+            <v-list-item-icon />
+            <v-list-item-title>プライバシーポリシー</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item :to="{ name: 'ContactPage' }">
+            <v-list-item-icon />
+            <v-list-item-title>お問い合せ</v-list-item-title>
+          </v-list-item>
+
+          <v-divider />
+
+          <v-list-item :to="{ name: 'ServiceDescription' }">
+            <v-list-item-icon>
+              <v-img src="/images/sidebar-logo.png" />
+            </v-list-item-icon>
+
+            <v-list-item-title>Arrangyとは</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item href="https://twitter.com/Arrangy1">
+            <v-list-item-icon>
+              <v-icon color="#1DA1F2">mdi-twitter</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>公式アカウント</v-list-item-title>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+    </v-navigation-drawer>
   </div>
 </template>
 
@@ -41,6 +109,11 @@ import InitializedMenu from '../parts/menus/InitializedMenu';
 export default {
   components: {
     InitializedMenu,
+  },
+  data() {
+    return {
+      drawer: null,
+    };
   },
   computed: {
     ...mapGetters('users', ['authUser']),
@@ -74,9 +147,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.logo {
-  cursor: pointer;
-}
-</style>

@@ -6,20 +6,22 @@
       <template v-else>
         <router-view name="header" />
         <router-view name="snackbar" />
-        <router-view class="py-15" />
-        <router-view name="footer" />
+        <router-view />
       </template>
     </v-main>
+    <TheFooter />
   </v-app>
 </template>
 
 <script>
+import TheFooter from './components/global/TheFooter';
 import NotFound from './components/pages/error/NotFound';
 import ServerError from './components/pages/error/ServerError';
 import { mapGetters } from 'vuex';
 
 export default {
   components: {
+    TheFooter,
     NotFound,
     ServerError,
   },

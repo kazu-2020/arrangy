@@ -3,7 +3,9 @@
     <template slot="main1-title"> ログイン </template>
     <template slot="main1-context">
       新規登録が済んでいない方は
-      <router-link class="router-link" :to="{ name: 'UserRegister' }"> こちら </router-link>
+      <router-link class="router-link" style="color: #cc3918" :to="{ name: 'UserRegister' }">
+        こちら
+      </router-link>
       から。
     </template>
 

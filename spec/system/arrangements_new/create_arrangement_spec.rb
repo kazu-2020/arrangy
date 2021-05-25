@@ -15,8 +15,9 @@ RSpec.describe "投稿作成", type: :system, js: true do
   context 'ログインしている場合' do
     before {
       log_in_as(user)
-      within('#page-header') { find('#header-avatar').click }
-      within('#header-menu-list') { click_on('新規投稿') }
+      find('#global-snackbar', text: 'ログインしました')
+      within('#page-header') { find('#navigation-icon').click }
+      within('#navigation-menu') { click_on('新規投稿') }
     }
 
     context '適当な値を入力した場合' do
