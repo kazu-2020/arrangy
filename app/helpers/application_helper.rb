@@ -8,7 +8,7 @@ module ApplicationHelper
         image: 'https://arrangy.jp/images/og-image.png'
       },
       twitter: {
-        card: 'summary_large-image',
+        card: 'summary_large_image',
         site: '@Arrangy1'
       },
       viewport: 'width=device-width, initial-scale=1'
