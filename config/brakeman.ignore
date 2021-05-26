@@ -3,11 +3,31 @@
     {
       "warning_type": "Unscoped Find",
       "warning_code": 82,
+      "fingerprint": "0221430395cd85eb3117ef22e6487915dd57075df5f9dff1fad9efd4670ab514",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `Arrangement#find`",
+      "file": "app/controllers/crawlers_controller.rb",
+      "line": 12,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "Arrangement.find(decode_id(params[:id]))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "CrawlersController",
+        "method": "set_arrangement"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
       "fingerprint": "06599edb49443be6f89f1ec1a0d1f6adde76835cf18b7bb16ea9d6c10edef3ef",
       "check_name": "UnscopedFind",
       "message": "Unscoped call to `Arrangement#find`",
       "file": "app/controllers/api/arrangements_controller.rb",
-      "line": 69,
+      "line": 89,
       "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
       "code": "Arrangement.find(decode_id(params[:id]))",
       "render_path": null,
@@ -101,6 +121,6 @@
       "note": ""
     }
   ],
-  "updated": "2021-04-07 16:05:28 +0900",
+  "updated": "2021-05-27 00:31:25 +0900",
   "brakeman_version": "5.0.0"
 }
