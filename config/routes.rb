@@ -33,6 +33,7 @@ Rails.application.routes.draw do
     end
   end
 
+  get '/arrangements/:id', to: 'crawlers#show', constraints: { user_agent: /Twitterbot\/1.0/ }
 
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
 
