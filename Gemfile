@@ -16,6 +16,7 @@ gem 'seed-fu'
 
 # Use Puma as the app server
 gem 'puma', '~> 4.1'
+
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
 gem 'webpacker', '~> 4.0'
 
@@ -46,6 +47,9 @@ gem 'slack-notifier'
 
 # sidekiq
 gem 'sidekiq'
+
+# SEO plugin
+gem 'meta-tags'
 
 # Error monitoring
 gem 'sentry-rails'
