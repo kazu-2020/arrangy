@@ -28,7 +28,6 @@ export default {
     },
     color: {
       type: String,
-      required: false,
       default: null,
     },
     disabled: {

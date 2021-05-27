@@ -24,6 +24,15 @@ const actions = {
       return null;
     }
   },
+  async destroyUser({ commit }, user) {
+    try {
+      const res = await devour.destroy('user', user.id);
+      commit('setAuthUser', null);
+      return res;
+    } catch (err) {
+      return null;
+    }
+  },
   async reregisterUser({ commit }, user) {
     try {
       const userResponse = await devour.request(

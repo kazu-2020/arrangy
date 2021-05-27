@@ -15,7 +15,7 @@ Rails.application.routes.draw do
     end
     resource :contacts, only: :create
     resources :password_resets, only: %i[create update], param: :token
-    resources :users, only: :create
+    resources :users, only: %i[create destroy]
     namespace  :validation do
       resource :uniqueness, only: :show, controller: 'uniqueness'
     end

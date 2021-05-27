@@ -42,6 +42,9 @@
               パスワードを変更する場合は
               <a style="color: #cc3918" @click.stop="displayPasswordEditDialog"> こちら </a>
             </p>
+            <SubmitButton :xLarge="true" :color="'#cc3918'" @submit="handleDestroyUser">
+              <template #text> 退会する </template>
+            </SubmitButton>
           </v-col>
         </v-row>
       </v-col>
@@ -81,12 +84,14 @@ import { mapActions, mapGetters } from 'vuex';
 import NormalButton from '../../parts/buttons/NormalButton';
 import PasswordEditForm from '../../parts/forms/PasswordEditForm';
 import ProfileEditForm from '../../parts/forms/ProfileEditForm';
+import SubmitButton from '../../parts/buttons/SubmitButton';
 
 export default {
   components: {
     NormalButton,
     PasswordEditForm,
     ProfileEditForm,
+    SubmitButton,
   },
   data() {
     return {
@@ -153,7 +158,7 @@ export default {
     this.$emit('updateHead');
   },
   methods: {
-    ...mapActions('users', ['updateAuthUser']),
+    ...mapActions('users', ['updateAuthUser', 'destroyUser']),
     ...mapActions('snackbars', ['fetchSnackbarData']),
 
     displayProfileEditDialog() {
@@ -221,6 +226,16 @@ export default {
             isShow: true,
           });
         });
+    },
+    handleDestroyUser() {
+      this.destroyUser(this.authUser).then(() => {
+        this.$router.push({ name: 'TopPage' });
+        this.fetchSnackbarData({
+          msg: '退会しました',
+          color: 'success',
+          isShow: true,
+        });
+      });
     },
   },
 };
