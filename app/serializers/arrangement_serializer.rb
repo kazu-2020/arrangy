@@ -1,3 +1,24 @@
+# == Schema Information
+#
+# Table name: arrangements
+#
+#  id             :bigint           not null, primary key
+#  comments_count :bigint           default(0)
+#  context        :text             not null
+#  likes_count    :bigint           default(0)
+#  title          :string           not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  user_id        :bigint
+#
+# Indexes
+#
+#  index_arrangements_on_user_id  (user_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (user_id => users.id)
+#
 class ArrangementSerializer
   include JSONAPI::Serializer
   singleton_class.include(Api::Base64Converting)

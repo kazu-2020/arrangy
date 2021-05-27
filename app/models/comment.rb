@@ -1,17 +1,24 @@
-# table informatioin
-# table name  comments
+# == Schema Information
 #
-# id                 bigint       not null, primary key
-# user_id            bigint       foreign key
-# arrangement_id     bigint       foreign key
-# body               text         not null
-# created_at         datetime     not null
-# updated_at         datetime     not null
+# Table name: comments
 #
-# Index
-#   index_comments_on_arrangement_id
-#   index_comments_on_user_id
-
+#  id             :bigint           not null, primary key
+#  body           :text             not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  arrangement_id :bigint
+#  user_id        :bigint
+#
+# Indexes
+#
+#  index_comments_on_arrangement_id  (arrangement_id)
+#  index_comments_on_user_id         (user_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (arrangement_id => arrangements.id)
+#  fk_rails_...  (user_id => users.id)
+#
 class Comment < ApplicationRecord
   belongs_to :user
   belongs_to :arrangement, counter_cache: true

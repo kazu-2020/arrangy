@@ -1,15 +1,22 @@
-# table informatioin
-# table name  likes
+# == Schema Information
 #
-# id                 bigint       not null, primary key
-# user_id            bigint       not null, foreign key
-# arrangement_id     bigint       not null, foreign key
-# created_at         datetime     not null
-# updated_at         datetime     not null
+# Table name: likes
 #
-# Index
-#   index_likes_on_arrangement_id
-#   index_likes_on_user_id
+#  id             :bigint           not null, primary key
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  arrangement_id :bigint           not null
+#  user_id        :bigint           not null
+#
+# Indexes
+#
+#  index_likes_on_user_id_and_arrangement_id  (user_id,arrangement_id) UNIQUE
+#
+# Foreign Keys
+#
+#  fk_rails_...  (arrangement_id => arrangements.id)
+#  fk_rails_...  (user_id => users.id)
+#
 
 class Like < ApplicationRecord
   belongs_to :user, counter_cache: true
