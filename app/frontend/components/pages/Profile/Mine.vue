@@ -9,8 +9,11 @@
         md="4"
         style="position: relative"
       >
-        <ArrangementSummary :arrangement="arrangement" />
-        <InitializedMenu :outlined="true" :absolute="true" class="initialized-menu">
+        <ArrangementSummary
+          :arrangement="arrangement"
+          :twitterShareUrl="twitterShareUrl(arrangement.id)"
+        />
+        <InitializedMenu :outlined="true" :absolute="true">
           <template #btn-text>
             <v-icon id="arrangement-menu-icon">mdi-dots-vertical</v-icon>
           </template>
@@ -117,6 +120,12 @@ export default {
         spiciness: this.arrangementEdit.spiciness,
         sweetness: this.arrangementEdit.sweetness,
         satisfaction: this.arrangementEdit.satisfaction,
+      };
+    },
+    twitterShareUrl() {
+      return function (id) {
+        const url = `https://arrangy.jp/arrangements/${id}`;
+        return `https://twitter.com/share?text=こちらは人気のアレンジ飯です。皆さんも実際に作って食べてみてください。%0a他のアレンジ飯が気になる方は是非、Arrangy(アレンジー)にお越し下さい。&url=${url}&hashtags=Arrangy,アレンジ飯`;
       };
     },
   },

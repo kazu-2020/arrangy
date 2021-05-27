@@ -2,7 +2,10 @@
   <v-row v-if="isCreated">
     <template v-if="arrangements.length">
       <v-col v-for="(arrangement, $index) in arrangements" :key="$index" cols="12" sm="4">
-        <ArrangementSummary :arrangement="arrangement">
+        <ArrangementSummary
+          :arrangement="arrangement"
+          :twitterShareUrl="twitterShareUrl(arrangement.id)"
+        >
           <template slot="user-information">
             <v-card-text>
               <v-row>
@@ -53,6 +56,14 @@ export default {
       },
       isCreated: false,
     };
+  },
+  computed: {
+    twitterShareUrl() {
+      return function (id) {
+        const url = `https://arrangy.jp/arrangements/${id}`;
+        return `https://twitter.com/share?text=こちらは人気のアレンジ飯です。皆さんも実際に作って食べてみてください。%0a他のアレンジ飯が気になる方は是非、Arrangy(アレンジー)にお越し下さい。&url=${url}&hashtags=Arrangy,アレンジ飯`;
+      };
+    },
   },
   created() {
     this.fetchArrangements();
