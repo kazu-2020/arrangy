@@ -113,6 +113,7 @@ RSpec.describe "自身の投稿一覧", type: :system, js: true do
       log_in_as(arrangement.user)
       access_profile
       first('.arrangement-summary').click
+      sleep 1
     }
 
     it '投稿詳細ページへ遷移する' do
