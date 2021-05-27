@@ -43,4 +43,5 @@ class ArrangementSerializer
   has_many :comments
   has_one :parameter
   has_one :after_arrangement_photo
+  has_one :before_arrangement_photo
 end

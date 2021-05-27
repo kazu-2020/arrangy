@@ -35,8 +35,12 @@ FactoryBot.define do
       after(:build) do |arrangement|
         arrangement.after_arrangement_photo = create(:after_arrangement_photo)
       end
+    end
 
-
+    trait :with_before_arrangement_photo do
+      after(:build) do |arrangement|
+        arrangement.before_arrangement_photo = create(:before_arrangement_photo)
+      end
     end
 
     trait :with_comment do

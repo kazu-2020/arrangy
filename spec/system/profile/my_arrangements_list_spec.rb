@@ -46,7 +46,7 @@ RSpec.describe "自身の投稿一覧", type: :system, js: true do
 
   describe '投稿表示機能' do
     describe 'タイトル、投稿日時表示' do
-      let!(:arrangement) { create(:arrangement, :with_after_arrangement_photo, :with_parameter, title: 'testタイトル') }
+      let!(:arrangement) { create(:arrangement, :with_after_arrangement_photo, :with_before_arrangement_photo, :with_parameter, title: 'testタイトル') }
 
       before {
         log_in_as(arrangement.user)
@@ -63,7 +63,7 @@ RSpec.describe "自身の投稿一覧", type: :system, js: true do
     end
 
     describe 'コメント数表示' do
-      let!(:arrangement) { create(:arrangement, :with_after_arrangement_photo, :with_parameter, :with_comments, count: 10) }
+      let!(:arrangement) { create(:arrangement, :with_after_arrangement_photo, :with_before_arrangement_photo, :with_parameter, :with_comments, count: 10) }
 
       before {
         log_in_as(arrangement.user)
@@ -78,7 +78,7 @@ RSpec.describe "自身の投稿一覧", type: :system, js: true do
     end
 
     describe 'いいね数表示' do
-      let!(:arrangement) { create(:arrangement, :with_after_arrangement_photo, :with_parameter, :with_likes, count: 10) }
+      let!(:arrangement) { create(:arrangement, :with_after_arrangement_photo, :with_before_arrangement_photo, :with_parameter, :with_likes, count: 10) }
 
       before {
         log_in_as(arrangement.user)
@@ -93,7 +93,7 @@ RSpec.describe "自身の投稿一覧", type: :system, js: true do
     end
 
     describe '編集/削除を選択できるメニューリスト表示' do
-      let!(:arrangement) { create(:arrangement, :with_after_arrangement_photo, :with_parameter, title: 'testタイトル') }
+      let!(:arrangement) { create(:arrangement, :with_after_arrangement_photo, :with_before_arrangement_photo, :with_parameter, title: 'testタイトル') }
 
       before {
         log_in_as(arrangement.user)
@@ -107,7 +107,7 @@ RSpec.describe "自身の投稿一覧", type: :system, js: true do
   end
 
   context '投稿をクリックした場合' do
-    let!(:arrangement) { create(:arrangement, :with_after_arrangement_photo, :with_parameter) }
+    let!(:arrangement) { create(:arrangement, :with_after_arrangement_photo, :with_before_arrangement_photo, :with_parameter) }
 
     before {
       log_in_as(arrangement.user)

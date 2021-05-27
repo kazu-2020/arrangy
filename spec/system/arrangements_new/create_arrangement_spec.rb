@@ -25,34 +25,57 @@ RSpec.describe "投稿作成", type: :system, js: true do
         within('#arrangement-new-form') do
           fill_in('タイトル', with: 'a' * 30)
           fill_in('投稿内容', with: 'a' * 1_000)
-          attach_file('投稿写真', "#{Rails.root}/spec/fixtures/images/sample.png", visible: false)
         end
-        find('#trimming-dialog') { click_on('トリミングする') }
+        within('#arrangement-new-form') do
+          attach_file('アレンジ前の写真', "#{Rails.root}/spec/fixtures/images/sample.png", visible: false)
+        end
+        find('#before-trimming-dialog') { click_on('トリミングする') }
+        within('#arrangement-new-form') do
+          attach_file('アレンジ後の写真', "#{Rails.root}/spec/fixtures/images/sample.png", visible: false)
+        end
+        find('#after-trimming-dialog') { click_on('トリミングする') }
       }
 
       it '投稿詳細ページへ遷移し、「新しいアレンジ飯を投稿しました」と表示される。' do
-        expect {
-          within('#arrangement-new-form') { click_on('アレンジ飯を投稿する') }
-          find('#global-snackbar', text: '新しいアレンジ飯を投稿しました')
-        }.to change { Arrangement.count }.by(1)
+        within('#arrangement-new-form') { click_on('アレンジ飯を投稿する') }
+        find('#global-snackbar', text: '新しいアレンジ飯を投稿しました')
         expect(current_path).to eq("/arrangements/#{encode_id(Arrangement.last.id)}")
       end
     end
 
     describe 'トリミング画面の検証' do
-      before {
-        within('#arrangement-new-form') {
-          attach_file('投稿写真', "#{Rails.root}/spec/fixtures/images/sample.png", visible: false)
+      context 'アレンジ前の写真を選択した時' do
+        before {
+            within('#arrangement-new-form') do
+            attach_file('アレンジ前の写真', "#{Rails.root}/spec/fixtures/images/sample.png", visible: false)
+          end
         }
-      }
 
-      it '写真を選択すると、トリミング画面が表示される' do
-        expect(has_selector?('#trimming-dialog')).to eq(true)
+        it 'トリミング画面が表示される' do
+          expect(has_selector?('#before-trimming-dialog')).to eq(true)
+        end
+        it '「キャンセル」ボタンを押すとトリミング画面は閉じる' do
+          find('#before-trimming-dialog') { click_on('キャンセル') }
+          sleep 0.5
+          expect(find('#before-trimming-dialog', visible: false).visible?).to eq(false)
+        end
       end
-      it '「キャンセル」ボタンを押すとトリミング画面は閉じる' do
-        find('#trimming-dialog') { click_on('キャンセル') }
-        sleep 0.5
-        expect(find('#trimming-dialog', visible: false).visible?).to eq(false)
+
+      context 'アレンジ後の写真を選択した時' do
+        before {
+            within('#arrangement-new-form') do
+            attach_file('アレンジ後の写真', "#{Rails.root}/spec/fixtures/images/sample.png", visible: false)
+          end
+        }
+
+        it 'トリミング画面が表示される' do
+          expect(has_selector?('#after-trimming-dialog')).to eq(true)
+        end
+        it '「キャンセル」ボタンを押すとトリミング画面は閉じる' do
+          find('#after-trimming-dialog') { click_on('キャンセル') }
+          sleep 0.5
+          expect(find('#after-trimming-dialog', visible: false).visible?).to eq(false)
+        end
       end
     end
 
@@ -95,25 +118,52 @@ RSpec.describe "投稿作成", type: :system, js: true do
       end
 
       describe '投稿画像の検証' do
-        context '10MBよりも大きいサイズの画像を投稿した場合' do
-          before { within('#arrangement-new-form') { attach_file('投稿写真', "#{Rails.root}/spec/fixtures/images/15MB.jpg", visible: false) } }
+        context 'アレンジ前の写真を選択した時' do
+          context '10MBよりも大きいサイズの画像を投稿した場合' do
+            before { within('#arrangement-new-form') { attach_file('アレンジ前の写真', "#{Rails.root}/spec/fixtures/images/15MB.jpg", visible: false) } }
 
-          it '画像は投稿されない' do
-            within('#arrangement-new-form') do
-              expect(has_selector?('#preview-image')).to eq(false)
-              expect(has_button?('写真を選択')).to eq(true)
-              expect(page).to have_content('サイズは10MB以内でなければなりません')
+            it '画像は投稿されない' do
+              within('#arrangement-new-form') do
+                expect(has_selector?('#preview-image')).to eq(false)
+                expect(has_button?('アレンジ前の写真を選択')).to eq(true)
+                expect(page).to have_content('サイズは10MB以内でなければなりません')
+              end
+            end
+          end
+
+          context '.txtファイルを選択した場合' do
+            before { within('#arrangement-new-form') { attach_file('アレンジ前の写真', "#{Rails.root}/spec/fixtures/images/sample1.txt", visible: false) } }
+
+            it '画像は投稿されない' do
+              within('#arrangement-new-form') do
+                expect(has_selector?('#preview-image')).to eq(false)
+                expect(has_button?('アレンジ前の写真を選択')).to eq(true)
+              end
             end
           end
         end
 
-        context '.txtファイルを選択した場合' do
-          before { within('#arrangement-new-form') { attach_file('投稿写真', "#{Rails.root}/spec/fixtures/images/sample1.txt", visible: false) } }
+        context 'アレンジ後の写真を選択した時' do
+          context '10MBよりも大きいサイズの画像を投稿した場合' do
+            before { within('#arrangement-new-form') { attach_file('アレンジ後の写真', "#{Rails.root}/spec/fixtures/images/15MB.jpg", visible: false) } }
 
-          it '画像は投稿されない' do
-            within('#arrangement-new-form') do
-              expect(has_selector?('#preview-image')).to eq(false)
-              expect(has_button?('写真を選択')).to eq(true)
+            it '画像は投稿されない' do
+              within('#arrangement-new-form') do
+                expect(has_selector?('#preview-image')).to eq(false)
+                expect(has_button?('アレンジ後の写真を選択')).to eq(true)
+                expect(page).to have_content('サイズは10MB以内でなければなりません')
+              end
+            end
+          end
+
+          context '.txtファイルを選択した場合' do
+            before { within('#arrangement-new-form') { attach_file('アレンジ後の写真', "#{Rails.root}/spec/fixtures/images/sample1.txt", visible: false) } }
+
+            it '画像は投稿されない' do
+              within('#arrangement-new-form') do
+                expect(has_selector?('#preview-image')).to eq(false)
+                expect(has_button?('アレンジ後の写真を選択')).to eq(true)
+              end
             end
           end
         end

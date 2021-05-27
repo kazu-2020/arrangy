@@ -9,7 +9,11 @@
     </v-row>
     <v-row>
       <v-col cols="12" sm="6">
-        <v-img :src="arrangementInformation.after_arrangement_photo.url">
+        <v-img
+          :src="arrangementInformation.after_arrangement_photo.url"
+          :lazySrc="arrangementInformation.after_arrangement_photo.url"
+          style="position: relative"
+        >
           <div v-if="authUser && authUser.id === arrangementInformation.user.id" class="text-end">
             <InitializedMenu :outlined="true" :left="true">
               <template #btn-text>
@@ -27,6 +31,18 @@
               </template>
             </InitializedMenu>
           </div>
+
+          <v-img
+            :src="arrangementInformation.before_arrangement_photo.url"
+            width="25%"
+            style="position: absolute; bottom: 0; right: 0"
+          />
+
+          <template #placeholder>
+            <v-row class="fill-height ma-0" align="center" justify="center">
+              <VueLoading type="spiningDubbles" color="#4CAF50" />
+            </v-row>
+          </template>
         </v-img>
         <v-row>
           <v-col cols="auto">
@@ -252,12 +268,16 @@ export default {
         after_arrangement_photo: {
           url: '',
         },
+        before_arrangement_photo: {
+          url: '',
+        },
       },
       arrangementEdit: {
         id: '',
         title: '',
         context: '',
         afterArrangementPhotoURL: '',
+        beforeArrangementPhotoURL: '',
         taste: 0,
         spiciness: 0,
         sweetness: 0,
@@ -334,6 +354,11 @@ export default {
         url: this.arrangementEdit.afterArrangementPhotoURL,
       };
     },
+    beforeArrangementPhotoParams() {
+      return {
+        url: this.arrangementEdit.beforeArrangementPhotoURL,
+      };
+    },
     paramterParams() {
       return {
         taste: this.arrangementEdit.taste,
@@ -382,6 +407,7 @@ export default {
       this.arrangementEdit.title = this.arrangementInformation.title;
       this.arrangementEdit.context = this.arrangementInformation.context;
       this.arrangementEdit.afterArrangementPhotoURL = this.arrangementInformation.after_arrangement_photo.url;
+      this.arrangementEdit.beforeArrangementPhotoURL = this.arrangementInformation.before_arrangement_photo.url;
       this.arrangementEdit.taste = this.arrangementInformation.parameter.taste;
       this.arrangementEdit.spiciness = this.arrangementInformation.parameter.spiciness;
       this.arrangementEdit.sweetness = this.arrangementInformation.parameter.sweetness;
@@ -428,6 +454,7 @@ export default {
           {
             arrangement: this.arrangementParams,
             after_arrangement_photo: this.afterArrangementPhotoParams,
+            before_arrangement_photo: this.beforeArrangementPhotoParams,
             parameter: this.paramterParams,
           }
         )

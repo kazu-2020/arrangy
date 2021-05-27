@@ -12,7 +12,7 @@
   >
     <slot name="text" />
     <template #loader>
-      <VueLoading type="barsCylon" color=" #4CAF50" />
+      <VueLoading type="barsCylon" color="#4CAF50" />
     </template>
   </v-btn>
 </template>

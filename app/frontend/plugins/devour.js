@@ -55,6 +55,10 @@ jsonApi.define('arrangement', {
     jsonApi: 'hasOne',
     type: 'after_arrangement_photo',
   },
+  before_arrangement_photo: {
+    jsonApi: 'hasOne',
+    type: 'before_arrangement_photo',
+  },
 });
 
 jsonApi.define('comment', {
@@ -100,6 +104,15 @@ jsonApi.define('parameter', {
 });
 
 jsonApi.define('after_arrangement_photo', {
+  id: '',
+  url: '',
+  arrangement: {
+    jsonApi: 'hasOne',
+    type: 'arrangement',
+  },
+});
+
+jsonApi.define('before_arrangement_photo', {
   id: '',
   url: '',
   arrangement: {

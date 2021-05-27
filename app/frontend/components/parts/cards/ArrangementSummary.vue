@@ -8,7 +8,23 @@
       :to="{ name: 'ArrangementShow', params: { id: arrangement.id } }"
       elevation="0"
     >
-      <v-img :src="arrangement.after_arrangement_photo.url" />
+      <v-img
+        :src="arrangement.after_arrangement_photo.url"
+        :lazySrc="arrangement.after_arrangement_photo.url"
+        style="positon: relative"
+      >
+        <v-img
+          :src="arrangement.before_arrangement_photo.url"
+          width="25%"
+          style="position: absolute; bottom: 0; right: 0"
+        />
+
+        <template #placeholder>
+          <v-row class="fill-height ma-0" align="center" justify="center">
+            <VueLoading type="spiningDubbles" color="#4CAF50" />
+          </v-row>
+        </template>
+      </v-img>
       <v-card-title class="font-weight-bold text-truncate d-inline-block" style="width: 100%">
         {{ arrangement.title }}
       </v-card-title>

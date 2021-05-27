@@ -16,15 +16,9 @@
 #
 #  fk_rails_...  (arrangement_id => arrangements.id)
 #
-require 'rails_helper'
+class BeforeArrangementPhotoSerializer
+  include JSONAPI::Serializer
+  attributes :url
 
-RSpec.describe BeforeArrangementPhoto, type: :model do
-  let(:photo) { build(:before_arrangement_photo) }
-
-  describe 'presenceの検証' do
-    it 'urlが未入力場合、無効です' do
-      photo.url = ''
-      expect(photo).to be_invalid
-    end
-  end
+  belongs_to :arrangement
 end

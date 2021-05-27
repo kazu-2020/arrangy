@@ -18,7 +18,7 @@
 #
 FactoryBot.define do
   factory :before_arrangement_photo do
-    url { "MyString" }
-    arrangement { nil }
+    url { '/images/development/sample_for_photo.png' }
+    arrangement
   end
 end
