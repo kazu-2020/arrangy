@@ -140,7 +140,7 @@ export default {
     },
     twitterShareUrl() {
       return function (id) {
-        const url = location.href + id;
+        const url = `https://arrangy.jp/arrangements/${id}`;
         return `https://twitter.com/share?text=こちらは人気のアレンジ飯です。皆さんも実際に作って食べてみてください。%0a他のアレンジ飯が気になる方は是非、Arrangy(アレンジー)にお越し下さい。&url=${url}&hashtags=Arrangy,アレンジ飯`;
       };
     },
