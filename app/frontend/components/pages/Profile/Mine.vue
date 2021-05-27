@@ -86,6 +86,7 @@ export default {
         title: '',
         context: '',
         afterArrangementPhotoURL: '',
+        beforeArrangementPhotoURL: '',
         taste: 0,
         spiciness: 0,
         sweetness: 0,
@@ -112,6 +113,11 @@ export default {
     afterArrangementPhotoParams() {
       return {
         url: this.arrangementEdit.afterArrangementPhotoURL,
+      };
+    },
+    beforeArrangementPhotoParams() {
+      return {
+        url: this.arrangementEdit.beforeArrangementPhotoURL,
       };
     },
     paramterParams() {
@@ -141,6 +147,7 @@ export default {
       this.arrangementEdit.title = arrangement.title;
       this.arrangementEdit.context = arrangement.context;
       this.arrangementEdit.afterArrangementPhotoURL = arrangement.after_arrangement_photo.url;
+      this.arrangementEdit.beforeArrangementPhotoURL = arrangement.before_arrangement_photo.url;
       this.arrangementEdit.taste = arrangement.parameter.taste;
       this.arrangementEdit.spiciness = arrangement.parameter.spiciness;
       this.arrangementEdit.sweetness = arrangement.parameter.sweetness;
@@ -199,6 +206,7 @@ export default {
           {
             arrangement: this.arrangementParams,
             after_arrangement_photo: this.afterArrangementPhotoParams,
+            before_arrangement_photo: this.beforeArrangementPhotoParams,
             parameter: this.paramterParams,
           }
         )

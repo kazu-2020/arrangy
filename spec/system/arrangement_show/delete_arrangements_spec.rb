@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "投稿削除", type: :system, js: true do
-  let!(:arrangement) { create(:arrangement, :with_after_arrangement_photo, :with_parameter) }
+  let!(:arrangement) { create(:arrangement, :with_after_arrangement_photo, :with_before_arrangement_photo, :with_parameter) }
 
   before {
     log_in_as(arrangement.user)

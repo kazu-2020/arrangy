@@ -32,6 +32,7 @@ export default {
         title: '',
         context: '',
         afterArrangementPhotoURL: '',
+        beforeArrangementPhotoURL: '',
         taste: 0,
         spiciness: 0,
         sweetness: 0,
@@ -88,6 +89,11 @@ export default {
         context: this.arrangementForm.context,
       };
     },
+    beforeArrangementPhoto() {
+      return {
+        url: this.arrangementForm.beforeArrangementPhotoURL,
+      };
+    },
     afterArrangementPhoto() {
       return {
         url: this.arrangementForm.afterArrangementPhotoURL,
@@ -115,6 +121,7 @@ export default {
           {
             arrangement: this.arrangement,
             after_arrangement_photo: this.afterArrangementPhoto,
+            before_arrangement_photo: this.beforeArrangementPhoto,
             parameter: this.parameter,
           }
         )

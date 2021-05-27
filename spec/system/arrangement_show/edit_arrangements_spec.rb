@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "投稿編集", type: :system, js: true do
-  let!(:arrangement) { create(:arrangement, :with_after_arrangement_photo, :with_parameter,) }
+  let!(:arrangement) { create(:arrangement, :with_after_arrangement_photo, :with_before_arrangement_photo, :with_parameter, ) }
 
   before do
     log_in_as(arrangement.user)
@@ -58,26 +58,53 @@ RSpec.describe "投稿編集", type: :system, js: true do
     end
 
     describe '投稿画像の検証' do
-      context '10MBよりも大きいサイズの画像を投稿した場合' do
-        before do
-          within('#arrangement-edit-form') do
-            attach_file('投稿写真', "#{Rails.root}/spec/fixtures/images/15MB.jpg", visible: false)
+      context 'アレンジ前の写真を選択した時' do
+        context '10MBよりも大きいサイズの画像を投稿した場合' do
+          before do
+            within('#arrangement-edit-form') do
+              attach_file('アレンジ前の写真', "#{Rails.root}/spec/fixtures/images/15MB.jpg", visible: false)
+            end
+          end
+
+          it '「サイズは10MB以内でなければなりません」と表示される' do
+            expect(page).to have_content('サイズは10MB以内でなければなりません')
           end
         end
 
-        it '「サイズは10MB以内でなければなりません」と表示される' do
-          expect(page).to have_content('サイズは10MB以内でなければなりません')
+        context '.txtファイルを選択した場合' do
+          before do
+            attach_file('アレンジ前の写真', "#{Rails.root}/spec/fixtures/images/sample1.txt", visible: false)
+          end
+
+          it 'エラーメッセージが表示される' do
+            #期待するエラーメッセージを返していないが、そのまま進める
+            expect(page).to have_content('サイズは10MB以内でなければなりません')
+          end
         end
       end
 
-      context '.txtファイルを選択した場合' do
-        before do
-          attach_file('投稿写真', "#{Rails.root}/spec/fixtures/images/sample1.txt", visible: false)
+      context 'アレンジ後の写真を選択した時' do
+        context '10MBよりも大きいサイズの画像を投稿した場合' do
+          before do
+            within('#arrangement-edit-form') do
+              attach_file('アレンジ後の写真', "#{Rails.root}/spec/fixtures/images/15MB.jpg", visible: false)
+            end
+          end
+
+          it '「サイズは10MB以内でなければなりません」と表示される' do
+            expect(page).to have_content('サイズは10MB以内でなければなりません')
+          end
         end
 
-        it 'エラーメッセージが表示される' do
-          #期待するエラーメッセージを返していないが、そのまま進める
-          expect(page).to have_content('サイズは10MB以内でなければなりません')
+        context '.txtファイルを選択した場合' do
+          before do
+            attach_file('アレンジ後の写真', "#{Rails.root}/spec/fixtures/images/sample1.txt", visible: false)
+          end
+
+          it 'エラーメッセージが表示される' do
+            #期待するエラーメッセージを返していないが、そのまま進める
+            expect(page).to have_content('サイズは10MB以内でなければなりません')
+          end
         end
       end
     end
@@ -88,10 +115,15 @@ RSpec.describe "投稿編集", type: :system, js: true do
       within('#arrangement-edit-form') do
         fill_in('タイトル', with: 'タイトルを更新')
         fill_in('投稿内容', with: '投稿内容を更新')
-        attach_file('投稿写真', "#{Rails.root}/spec/fixtures/images/sample.png", visible: false)
       end
-      find('#trimming-dialog') { click_on('トリミングする') }
-      sleep 1
+      within('#arrangement-edit-form') do
+        attach_file('アレンジ前の写真', "#{Rails.root}/spec/fixtures/images/sample.png", visible: false)
+      end
+      find('#before-trimming-dialog') { click_on('トリミングする') }
+      within('#arrangement-edit-form') do
+        attach_file('アレンジ後の写真', "#{Rails.root}/spec/fixtures/images/sample.png", visible: false)
+      end
+      find('#after-trimming-dialog') { click_on('トリミングする') }
       click_on('変更する')
     }
 
@@ -107,19 +139,38 @@ RSpec.describe "投稿編集", type: :system, js: true do
   end
 
   describe 'トリミング画面の検証' do
-    before {
-      within('#arrangement-edit-form') {
-        attach_file('投稿写真', "#{Rails.root}/spec/fixtures/images/sample.png", visible: false)
+    context 'アレンジ前の写真を選択した時' do
+      before {
+        within('#arrangement-edit-form') do
+          attach_file('アレンジ前の写真', "#{Rails.root}/spec/fixtures/images/sample.png", visible: false)
+        end
       }
-    }
 
-    it '写真を選択すると、トリミング画面が表示される' do
-      expect(has_selector?('#trimming-dialog')).to eq(true)
+      it '写真を選択すると、トリミング画面が表示される' do
+        expect(has_selector?('#before-trimming-dialog')).to eq(true)
+      end
+      it '「キャンセル」ボタンを押すとトリミング画面は閉じる' do
+        find('#before-trimming-dialog') { click_on('キャンセル') }
+        sleep 1
+        expect(find('#before-trimming-dialog', visible: false).visible?).to eq(false)
+      end
     end
-    it '「キャンセル」ボタンを押すとトリミング画面は閉じる' do
-      find('#trimming-dialog') { click_on('キャンセル') }
-      sleep 1
-      expect(find('#trimming-dialog', visible: false).visible?).to eq(false)
+
+    context 'アレンジ後の写真を選択した時' do
+      before {
+        within('#arrangement-edit-form') do
+          attach_file('アレンジ後の写真', "#{Rails.root}/spec/fixtures/images/sample.png", visible: false)
+        end
+      }
+
+      it '写真を選択すると、トリミング画面が表示される' do
+        expect(has_selector?('#after-trimming-dialog')).to eq(true)
+      end
+      it '「キャンセル」ボタンを押すとトリミング画面は閉じる' do
+        find('#after-trimming-dialog') { click_on('キャンセル') }
+        sleep 1
+        expect(find('#after-trimming-dialog', visible: false).visible?).to eq(false)
+      end
     end
   end
 end

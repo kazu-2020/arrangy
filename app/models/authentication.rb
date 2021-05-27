@@ -1,16 +1,18 @@
-# table information
-# table name authentications
+# == Schema Information
 #
-# id                               bigint       not null, primary key
-# user_id                          bigint       not null
-# provider                         string       not null
-# uid                              string       not null
-# created_at                       datetime     not null
-# updated_at"                      datetime     not null
+# Table name: authentications
 #
-# Index
-#   index_authentications_on_provider_and_uid"
-
+#  id         :bigint           not null, primary key
+#  provider   :string           not null
+#  uid        :string           not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  user_id    :bigint           not null
+#
+# Indexes
+#
+#  index_authentications_on_provider_and_uid  (provider,uid)
+#
 class Authentication < ApplicationRecord
   belongs_to :user
 

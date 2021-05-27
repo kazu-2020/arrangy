@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "コメント作成", type: :system, js: true do
-  let!(:arrangement) { create(:arrangement, :with_after_arrangement_photo, :with_parameter) }
+  let!(:arrangement) { create(:arrangement, :with_after_arrangement_photo, :with_before_arrangement_photo, :with_parameter) }
 
   context 'ログインしている場合' do
     before {

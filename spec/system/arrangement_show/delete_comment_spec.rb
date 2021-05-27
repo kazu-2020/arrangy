@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "コメント削除", type: :system, js: true do
-  let(:arrangement) { build(:arrangement, :with_after_arrangement_photo, :with_parameter)}
+  let(:arrangement) { build(:arrangement, :with_after_arrangement_photo, :with_before_arrangement_photo, :with_parameter)}
   let!(:comment) { create(:comment, arrangement: arrangement) }
 
   before {
