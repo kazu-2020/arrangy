@@ -10,7 +10,7 @@
             コンビニ商品や外食店の料理を使用した<br class="br-pc" />アレンジ飯を共有するサービスです
           </v-card-text>
           <v-card-actions class="d-flex justify-center">
-            <v-btn xLarge outlined class="btn" color="#cc3918" :to="{ name: 'ArrangementNew' }">
+            <v-btn xLarge outlined class="btn" color="#cc3918" :to="{ name: 'UserRegister' }">
               <div class="font-weight-bold">新規登録ページへ</div>
             </v-btn>
           </v-card-actions>

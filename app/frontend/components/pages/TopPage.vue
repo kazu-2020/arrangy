@@ -27,10 +27,14 @@
         </v-col>
       </v-row>
     </v-container>
+
     <v-container>
-      <v-row>
+      <v-row class="pb-10">
         <v-col v-for="(arrangement, $index) in arrangements" :key="$index" cols="12" sm="4" md="4">
-          <ArrangementSummary :arrangement="arrangement">
+          <ArrangementSummary
+            :arrangement="arrangement"
+            :twitterShareUrl="twitterShareUrl(arrangement.id)"
+          >
             <template slot="user-information">
               <v-card-text>
                 <v-row>
@@ -42,19 +46,17 @@
                       />
                     </v-avatar>
                   </v-col>
-                  <v-col cols="auto">
-                    <div class="text-subtitle-1 font-weight-black">
+                  <v-col cols="10" md="9">
+                    <div class="text-subtitle-1 font-weight-black text-truncate">
                       {{ arrangement.user.nickname }}
                     </div>
                   </v-col>
                 </v-row>
               </v-card-text>
             </template>
-            <template slot="arrangement-parameter">
-              <RadarChart :chartData="arrangement.parameter" />
-            </template>
           </ArrangementSummary>
         </v-col>
+
         <infinite-loading
           v-if="pagy.isActioned"
           direction="bottom"
@@ -65,6 +67,7 @@
           <div slot="no-results" />
         </infinite-loading>
       </v-row>
+
       <!-- 新規投稿者案内用ダイアログ -->
       <WelcomeDialog :dialog="welcomeDialogDisplayed" @close-dialog="closeWelcomeDialog" />
     </v-container>
@@ -75,13 +78,11 @@
 import { mapActions, mapGetters } from 'vuex';
 
 import ArrangementSummary from '../parts/cards/ArrangementSummary';
-import RadarChart from '../parts/charts/RadarChart';
 import WelcomeDialog from '../parts/dialogs/WelcomeDialog';
 
 export default {
   components: {
     ArrangementSummary,
-    RadarChart,
     WelcomeDialog,
   },
   data() {
@@ -136,6 +137,12 @@ export default {
     ...mapGetters('users', ['authUser']),
     siteDescription() {
       return 'Arrangy(アレンジー)はアレンジ飯の共有サービスです。コンビニ商品や外食店の料理を使用したアレンジ飯を「知りたい」「共有したい」という方達は、是非覗いてみてください!!';
+    },
+    twitterShareUrl() {
+      return function (id) {
+        const url = location.href + id;
+        return `https://twitter.com/share?text=こちらは人気のアレンジ飯です。皆さんも実際に作って食べてみてください。%0a他のアレンジ飯が気になる方は是非、Arrangy(アレンジー)にお越し下さい。&url=${url}&hashtags=Arrangy,アレンジ飯`;
+      };
     },
   },
   created() {

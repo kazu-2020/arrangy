@@ -48,8 +48,8 @@
 
       <v-col cols="12" sm="6">
         <v-row>
-          <v-btn class="mr-2" outlined plain :to="{ name: 'UserProfile' }">投稿一覧</v-btn>
-          <v-btn class="ml-s" outlined plain :to="{ name: 'Favorites' }">お気に入り一覧</v-btn>
+          <v-btn class="mr-2" outlined :to="{ name: 'UserProfile' }" exact>投稿一覧</v-btn>
+          <v-btn class="ml-s" outlined :to="{ name: 'Favorites' }" exact>お気に入り一覧</v-btn>
         </v-row>
         <!-- 投稿一覧 お気に入り一覧-->
         <router-view />

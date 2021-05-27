@@ -7,6 +7,7 @@
     :disabled="disabled"
     :loading="loading"
     :xLarge="xLarge"
+    :small="small"
     @click="$emit('submit')"
   >
     <slot name="text" />
@@ -19,6 +20,9 @@
 <script>
 export default {
   props: {
+    small: {
+      type: Boolean,
+    },
     xLarge: {
       type: Boolean,
     },

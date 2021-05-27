@@ -1,10 +1,10 @@
 <template>
   <v-container :id="`arrangement-${arrangementInformation.id}`">
     <v-row>
-      <v-col class="pt-10 d-flex" cols="12">
-        <h4 class="text-h4 mb-4 font-weight-black">
+      <v-col class="pt-10" cols="12">
+        <div class="text-justify text-h4 mb-4 font-weight-black" style="word-break: break-all">
           {{ arrangementInformation.title }}
-        </h4>
+        </div>
       </v-col>
     </v-row>
     <v-row>
@@ -36,20 +36,30 @@
         </v-row>
       </v-col>
       <v-col cols="12" sm="6">
-        <v-row class="mb-3">
-          <v-col cols="auto">
+        <v-row class="">
+          <v-col cols="auto pb-0">
             <v-avatar>
-              <v-img :src="arrangementInformation.user.avatar" />
+              <v-img :src="arrangementInformation.user.avatar_url" />
             </v-avatar>
           </v-col>
-          <v-col cols="auto">
-            <h6 class="text-subtitle-1 font-weight-black">
+          <v-col cols="9" class="pb-0">
+            <div class="text-subtitle-1 font-weight-black text-truncate">
               {{ arrangementInformation.user.nickname }}
-            </h6>
+            </div>
           </v-col>
-          <v-col class="text-end">
+        </v-row>
+        <v-row class="d-flex justify-end">
+          <v-col cols="6" md="auto">
+            <!-- twitterシェアボタン -->
+            <v-btn color="#1DA1F2" style="color: white" small :value="true" :href="twitterShare">
+              <v-icon class="mr-1"> mdi-twitter </v-icon>
+              シェアする
+            </v-btn>
+          </v-col>
+          <v-col cols="6" md="auto">
             <!-- いいねボタン -->
             <SubmitButton
+              :small="true"
               :color="arrangementInformation.liked_authuser ? '#cc3918' : null"
               :disabled="authUser ? false : true"
               @submit="handleLikedArrangement"
@@ -62,9 +72,13 @@
             </SubmitButton>
           </v-col>
         </v-row>
-        <v-sheet class="pa-5 mb-5" :rounded="true" outlined color="#F5F5F5">
-          <pre class="text-body-1">{{ arrangementInformation.context }}</pre>
-        </v-sheet>
+        <v-row>
+          <v-col cols="12">
+            <v-sheet class="pa-5 mb-5" :rounded="true" outlined color="#F5F5F5">
+              <pre class="text-body-1">{{ arrangementInformation.context }}</pre>
+            </v-sheet>
+          </v-col>
+        </v-row>
         <!-- レーダチャート -->
         <RadarChart :chartData="arrangementInformation.parameter" />
       </v-col>
@@ -90,7 +104,7 @@
     </v-row>
 
     <v-row>
-      <v-col cols="12" sm="8" class="mx-auto">
+      <v-col cols="12" md="8" class="mx-auto">
         <!-- コメント入力フォーム -->
         <template v-if="authUser">
           <CommentCreateForm v-bind.sync="commentCreate" @createComment="createComment" />
@@ -98,7 +112,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="12" sm="8" class="mx-auto">
+      <v-col cols="12" md="8" class="mx-auto">
         <template v-if="comments.length">
           <v-row class="d-flex flex-column">
             <v-col
@@ -111,23 +125,23 @@
               <v-row>
                 <v-col cols="auto">
                   <v-avatar>
-                    <v-img :src="comment.user.avatar" />
+                    <v-img :src="comment.user.avatar_url" />
                   </v-avatar>
                 </v-col>
-                <v-col cols="auto">
-                  <h6 class="text-subtitle-1 font-weight-black">
+                <v-col cols="5" md="7">
+                  <div class="text-subtitle-1 font-weight-black text-truncate">
                     {{ comment.user.nickname }}
-                  </h6>
+                  </div>
                 </v-col>
-                <v-col>
-                  <p class="text-caption font-weight-light pt-1">
+                <v-col cols="2" md="2">
+                  <div class="text-caption font-weight-light pt-1 text-center">
                     {{ comment.created_at }}
-                  </p>
+                  </div>
                 </v-col>
-                <v-col class="text-end">
+                <v-col class="text-center">
                   <!-- メニューリスト -->
                   <div v-if="authUser && authUser.id === comment.user.id">
-                    <InitializedMenu :left="true">
+                    <InitializedMenu>
                       <template #btn-text>
                         <v-icon class="comment-menu-icon">mdi-dots-vertical</v-icon>
                       </template>
@@ -227,7 +241,7 @@ export default {
         likes_count: '',
         user: {
           nickname: '',
-          avatar: '',
+          avatar_url: '',
         },
         parameter: {
           taste: 0,
@@ -327,6 +341,10 @@ export default {
         sweetness: this.arrangementEdit.sweetness,
         satisfaction: this.arrangementEdit.satisfaction,
       };
+    },
+    twitterShare() {
+      const url = location.href;
+      return `https://twitter.com/share?text=こちらは人気のアレンジ飯です。皆さんも実際に作って食べてみてください。%0a他のアレンジ飯が気になる方は是非、Arrangy(アレンジー)にお越し下さい。&url=${url}&hashtags=Arrangy,アレンジ飯`;
     },
   },
   created() {
