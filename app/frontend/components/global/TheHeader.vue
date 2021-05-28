@@ -6,28 +6,19 @@
         class="hidden-lg-and-up"
         @click="drawer = true"
       ></v-app-bar-nav-icon>
-      <v-toolbar-title style="cursor: pointer">
+      <v-toolbar-title id="header-logo" style="cursor: pointer">
         <router-link :to="{ name: 'TopPage' }">
           <v-img class="hidden-sm-and-down" src="/images/header-logo.png" />
           <v-img class="hidden-md-and-up" src="/images/mobile-header-logo.png" />
         </router-link>
       </v-toolbar-title>
+
       <v-spacer></v-spacer>
+
       <template v-if="authUser">
-        <InitializedMenu :bottom="true" :offsetY="true">
-          <template #btn-text>
-            <v-avatar>
-              <img id="header-avatar" :src="authUser.avatar_url" />
-            </v-avatar>
-          </template>
-          <template #list>
-            <v-list id="header-menu-list" dense flat>
-              <v-list-item plain :to="{ name: 'UserProfile' }">マイページ</v-list-item>
-              <v-list-item plain :to="{ name: 'Favorites' }">お気に入り一覧</v-list-item>
-              <v-list-item plain tag="button" @click="logoutFunction"> ログアウト </v-list-item>
-            </v-list>
-          </template>
-        </InitializedMenu>
+        <v-avatar>
+          <img id="header-avatar" :src="authUser.avatar_url" />
+        </v-avatar>
       </template>
       <template v-else>
         <v-btn class="hidden-sm-and-down" plain text xLarge :to="{ name: 'UserRegister' }">
@@ -54,6 +45,22 @@
             <v-list-item-title>ホーム</v-list-item-title>
           </v-list-item>
 
+          <template v-if="authUser">
+            <v-list-item :to="{ name: 'UserProfile' }" exact>
+              <v-list-item-icon>
+                <v-icon>mdi-account</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>マイページ</v-list-item-title>
+            </v-list-item>
+
+            <v-list-item :to="{ name: 'Favorites' }" exact>
+              <v-list-item-icon>
+                <v-icon>mdi-file-star</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>お気に入り一覧</v-list-item-title>
+            </v-list-item>
+          </template>
+
           <v-list-item :to="{ name: 'ArrangementNew' }">
             <v-list-item-icon>
               <v-icon>mdi-clipboard-edit</v-icon>
@@ -63,6 +70,12 @@
         </v-list-item-group>
 
         <v-list-item-group>
+          <template v-if="authUser">
+            <v-list-item @click="logoutFunction">
+              <v-btn block outlined color="#cc3918" rounded>ログアウト</v-btn>
+            </v-list-item>
+          </template>
+
           <v-divider />
 
           <v-list-item :to="{ name: 'TermsPage' }">
@@ -104,12 +117,8 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import InitializedMenu from '../parts/menus/InitializedMenu';
 
 export default {
-  components: {
-    InitializedMenu,
-  },
   data() {
     return {
       drawer: null,

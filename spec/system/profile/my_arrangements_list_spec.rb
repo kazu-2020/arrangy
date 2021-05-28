@@ -8,6 +8,7 @@ RSpec.describe "自身の投稿一覧", type: :system, js: true do
 
       before {
         log_in_as(user)
+        sleep 1
         access_profile
       }
 
@@ -35,6 +36,7 @@ RSpec.describe "自身の投稿一覧", type: :system, js: true do
 
       before {
         log_in_as(user)
+        sleep 1
         access_profile
       }
 
@@ -50,6 +52,7 @@ RSpec.describe "自身の投稿一覧", type: :system, js: true do
 
       before {
         log_in_as(arrangement.user)
+        sleep 1
         access_profile
       }
 
@@ -67,6 +70,7 @@ RSpec.describe "自身の投稿一覧", type: :system, js: true do
 
       before {
         log_in_as(arrangement.user)
+        sleep 1
         access_profile
       }
 
@@ -82,6 +86,7 @@ RSpec.describe "自身の投稿一覧", type: :system, js: true do
 
       before {
         log_in_as(arrangement.user)
+        sleep 1
         access_profile
       }
 
@@ -97,6 +102,7 @@ RSpec.describe "自身の投稿一覧", type: :system, js: true do
 
       before {
         log_in_as(arrangement.user)
+        sleep 1
         access_profile
       }
 
@@ -111,6 +117,7 @@ RSpec.describe "自身の投稿一覧", type: :system, js: true do
 
     before {
       log_in_as(arrangement.user)
+      sleep 1
       access_profile
       first('.arrangement-summary').click
       sleep 1
@@ -126,6 +133,7 @@ RSpec.describe "自身の投稿一覧", type: :system, js: true do
 
     before {
       log_in_as(user)
+      sleep 1
       access_profile
       click_on 'お気に入り一覧'
     }

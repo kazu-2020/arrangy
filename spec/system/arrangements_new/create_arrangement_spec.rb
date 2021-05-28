@@ -29,11 +29,11 @@ RSpec.describe "投稿作成", type: :system, js: true do
         within('#arrangement-new-form') do
           attach_file('アレンジ前の写真', "#{Rails.root}/spec/fixtures/images/sample.png", visible: false)
         end
-        find('#before-trimming-dialog') { click_on('トリミングする') }
+        within('#before-trimming-dialog') { click_on('トリミングする') }
         within('#arrangement-new-form') do
           attach_file('アレンジ後の写真', "#{Rails.root}/spec/fixtures/images/sample.png", visible: false)
         end
-        find('#after-trimming-dialog') { click_on('トリミングする') }
+        within('#after-trimming-dialog') { click_on('トリミングする') }
       }
 
       it '投稿詳細ページへ遷移し、「新しいアレンジ飯を投稿しました」と表示される。' do
