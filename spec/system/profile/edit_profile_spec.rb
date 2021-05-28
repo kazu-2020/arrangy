@@ -5,6 +5,7 @@ RSpec.describe "プロフィール編集", type: :system, js: true do
 
   before {
     log_in_as(user)
+    sleep 1
     access_profile
     within('#myprofile') { click_on('編集する') }
   }

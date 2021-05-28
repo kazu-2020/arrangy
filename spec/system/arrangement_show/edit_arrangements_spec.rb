@@ -119,12 +119,15 @@ RSpec.describe "投稿編集", type: :system, js: true do
       within('#arrangement-edit-form') do
         attach_file('アレンジ前の写真', "#{Rails.root}/spec/fixtures/images/sample.png", visible: false)
       end
-      find('#before-trimming-dialog') { click_on('トリミングする') }
+      within('#before-trimming-dialog') { click_on('トリミングする') }
+      sleep 1
       within('#arrangement-edit-form') do
         attach_file('アレンジ後の写真', "#{Rails.root}/spec/fixtures/images/sample.png", visible: false)
       end
-      find('#after-trimming-dialog') { click_on('トリミングする') }
-      click_on('変更する')
+      within('#after-trimming-dialog') { click_on('トリミングする') }
+      within('#arrangement-edit-form') do
+        click_on('変更する')
+      end
     }
 
     it '「投稿を更新しました」と表示され、編集用のダイアログは非表示になる' do

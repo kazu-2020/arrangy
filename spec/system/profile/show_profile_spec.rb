@@ -17,6 +17,7 @@ RSpec.describe "プロフィール詳細", type: :system, js: true do
   context 'ログイン後' do
     before {
       log_in_as(user)
+      sleep 1
       access_profile
     }
 

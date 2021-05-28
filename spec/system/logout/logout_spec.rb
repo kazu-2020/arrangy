@@ -5,18 +5,24 @@ RSpec.describe "ログアウト", type: :system, js: true do
 
   before {
     log_in_as(user)
-    find('#header-avatar').click
+    sleep 1
   }
 
-  it 'ヘッダーのメニューリスト内に「ログアウト」が表示されている' do
-    within('#header-menu-list') { expect(page.has_button?('ログアウト')).to eq(true) }
-  end
-
   context '「ログアウト」をクリックした時' do
-    before { within('#header-menu-list') { click_on 'ログアウト'} }
+    before {
+      within('#page-header') do
+        find('#navigation-icon').click
+      end
+      within('#navigation-menu') do
+        click_on 'ログアウト'
+      end
+    }
 
-    it 'ヘッダーのメニューリスト内の「ログアウト」は非表示になっている' do
-      expect(page.has_no_css?('#header-avatar')).to eq(true)
+    it 'ログアウトする' do
+      find('#global-snackbar', text: 'ログアウトしました')
+      within('#navigation-menu') do
+        expect(has_button?('ログアウト')).to eq(false)
+      end
     end
   end
 end

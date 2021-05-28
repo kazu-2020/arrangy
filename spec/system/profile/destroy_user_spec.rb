@@ -5,6 +5,7 @@ RSpec.describe "退会機能", type: :system, js: true do
 
   before {
     log_in_as(user)
+    sleep 1
     access_profile
   }
 
@@ -16,5 +17,4 @@ RSpec.describe "退会機能", type: :system, js: true do
       expect(current_path).to eq('/')
     end
   end
-
 end
