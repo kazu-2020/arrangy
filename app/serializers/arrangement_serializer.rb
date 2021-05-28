@@ -6,6 +6,7 @@
 #  comments_count :bigint           default(0)
 #  context        :text             not null
 #  likes_count    :bigint           default(0)
+#  rating         :integer          not null
 #  title          :string           not null
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
@@ -28,10 +29,7 @@ class ArrangementSerializer
     encode_id(record.id)
   end
 
-  attributes :title, :context, :likes_count, :comments_count
-  attribute :images do |record|
-    record.images.map(&:url)
-  end
+  attributes :title, :context, :rating, :likes_count, :comments_count
   attribute :liked_authuser do |record, params|
     record.liked_by?(params[:current_user]) if params[:current_user]
   end
@@ -41,7 +39,6 @@ class ArrangementSerializer
 
   belongs_to :user
   has_many :comments
-  has_one :parameter
   has_one :after_arrangement_photo
   has_one :before_arrangement_photo
 end
