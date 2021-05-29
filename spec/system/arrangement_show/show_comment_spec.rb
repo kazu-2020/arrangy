@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "コメント詳細", type: :system, js: true do
-  let(:arrangement) { build(:arrangement, :with_after_arrangement_photo, :with_before_arrangement_photo, :with_parameter) }
+  let(:arrangement) { build(:arrangement, :with_after_arrangement_photo, :with_before_arrangement_photo) }
   let!(:self_comment) { create(:comment, :set_user, body: 'これはテストです', nickname: 'mimata', arrangement: arrangement) }
   let!(:nonself_comment) { create(:comment, arrangement: self_comment.arrangement) }
 

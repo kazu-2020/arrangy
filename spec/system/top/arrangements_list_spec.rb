@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "投稿一覧", type: :system, js: true do
   # describe '無限スクロール機能(条件: 投稿データが50件)' do
-  #   let!(:arrangements) { create_list(:arrangement, 50, :with_after_arrangement_photo, :with_parameter) }
+  #   let!(:arrangements) { create_list(:arrangement, 50, :with_after_arrangement_photo) }
 
   #   before { visit('/') }
 
@@ -26,7 +26,7 @@ RSpec.describe "投稿一覧", type: :system, js: true do
 
   describe '投稿表示機能' do
     describe 'タイトル、投稿日時、ユーザー情報表示' do
-      let!(:arrangement) { create(:arrangement, :with_after_arrangement_photo, :with_before_arrangement_photo, :with_parameter, title: 'testタイトル') }
+      let!(:arrangement) { create(:arrangement, :with_after_arrangement_photo, :with_before_arrangement_photo, title: 'testタイトル') }
 
       before { visit('/') }
 
@@ -41,7 +41,7 @@ RSpec.describe "投稿一覧", type: :system, js: true do
     end
 
     describe 'コメント数表示' do
-      let!(:arrangement) { create(:arrangement, :with_after_arrangement_photo, :with_before_arrangement_photo, :with_parameter, :with_comments, count: 10) }
+      let!(:arrangement) { create(:arrangement, :with_after_arrangement_photo, :with_before_arrangement_photo, :with_comments, count: 10) }
 
       before { visit('/') }
 
@@ -53,7 +53,7 @@ RSpec.describe "投稿一覧", type: :system, js: true do
     end
 
     describe 'いいね数表示' do
-      let!(:arrangement) { create(:arrangement, :with_after_arrangement_photo, :with_before_arrangement_photo, :with_parameter, :with_likes, count: 10) }
+      let!(:arrangement) { create(:arrangement, :with_after_arrangement_photo, :with_before_arrangement_photo, :with_likes, count: 10) }
 
       before { visit('/') }
 

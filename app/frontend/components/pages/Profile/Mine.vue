@@ -85,12 +85,9 @@ export default {
         id: '',
         title: '',
         context: '',
+        rating: 0,
         afterArrangementPhotoURL: '',
         beforeArrangementPhotoURL: '',
-        taste: 0,
-        spiciness: 0,
-        sweetness: 0,
-        satisfaction: 0,
       },
       arrangementDelete: {},
       pagy: {
@@ -108,6 +105,7 @@ export default {
       return {
         title: this.arrangementEdit.title,
         context: this.arrangementEdit.context,
+        rating: this.arrangementEdit.rating,
       };
     },
     afterArrangementPhotoParams() {
@@ -118,14 +116,6 @@ export default {
     beforeArrangementPhotoParams() {
       return {
         url: this.arrangementEdit.beforeArrangementPhotoURL,
-      };
-    },
-    paramterParams() {
-      return {
-        taste: this.arrangementEdit.taste,
-        spiciness: this.arrangementEdit.spiciness,
-        sweetness: this.arrangementEdit.sweetness,
-        satisfaction: this.arrangementEdit.satisfaction,
       };
     },
     twitterShareUrl() {
@@ -146,12 +136,9 @@ export default {
       this.arrangementEdit.id = arrangement.id;
       this.arrangementEdit.title = arrangement.title;
       this.arrangementEdit.context = arrangement.context;
+      this.arrangementEdit.rating = arrangement.rating;
       this.arrangementEdit.afterArrangementPhotoURL = arrangement.after_arrangement_photo.url;
       this.arrangementEdit.beforeArrangementPhotoURL = arrangement.before_arrangement_photo.url;
-      this.arrangementEdit.taste = arrangement.parameter.taste;
-      this.arrangementEdit.spiciness = arrangement.parameter.spiciness;
-      this.arrangementEdit.sweetness = arrangement.parameter.sweetness;
-      this.arrangementEdit.satisfaction = arrangement.parameter.satisfaction;
 
       this.editArrangementDialogDisplayed = true;
     },

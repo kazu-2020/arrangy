@@ -9,7 +9,6 @@
       <v-col cols="12" class="mx-auto">
         <ArrangementNewForm
           v-bind.sync="arrangementForm"
-          :parameter="parameter"
           :loading="arrangementCreating"
           @createArrangement="createArrangement"
         />
@@ -31,12 +30,9 @@ export default {
       arrangementForm: {
         title: '',
         context: '',
+        rating: 0,
         afterArrangementPhotoURL: '',
         beforeArrangementPhotoURL: '',
-        taste: 0,
-        spiciness: 0,
-        sweetness: 0,
-        satisfaction: 0,
       },
       arrangementCreating: false,
     };
@@ -87,6 +83,7 @@ export default {
       return {
         title: this.arrangementForm.title,
         context: this.arrangementForm.context,
+        rating: this.arrangementForm.rating,
       };
     },
     beforeArrangementPhoto() {
@@ -97,14 +94,6 @@ export default {
     afterArrangementPhoto() {
       return {
         url: this.arrangementForm.afterArrangementPhotoURL,
-      };
-    },
-    parameter() {
-      return {
-        taste: this.arrangementForm.taste,
-        spiciness: this.arrangementForm.spiciness,
-        sweetness: this.arrangementForm.sweetness,
-        satisfaction: this.arrangementForm.satisfaction,
       };
     },
   },
@@ -122,7 +111,6 @@ export default {
             arrangement: this.arrangement,
             after_arrangement_photo: this.afterArrangementPhoto,
             before_arrangement_photo: this.beforeArrangementPhoto,
-            parameter: this.parameter,
           }
         )
         .then((res) => {

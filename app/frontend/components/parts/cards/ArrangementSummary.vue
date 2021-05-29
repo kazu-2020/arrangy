@@ -13,6 +13,15 @@
         :lazySrc="arrangement.after_arrangement_photo.url"
         style="positon: relative"
       >
+        <v-rating
+          :length="arrangement.rating"
+          :value="arrangement.rating"
+          color="orange"
+          readonly
+          :large="raitingLarge"
+          style="positon: absolute; top: 0"
+        />
+
         <v-img
           :src="arrangement.before_arrangement_photo.url"
           width="25%"
@@ -62,6 +71,10 @@ export default {
     twitterShareUrl: {
       type: String,
       default: '',
+    },
+    raitingLarge: {
+      type: Boolean,
+      default: false,
     },
   },
 };

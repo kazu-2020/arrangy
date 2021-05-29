@@ -5,14 +5,7 @@ RSpec.describe ArrangementForm, type: :model do
     {
       title: 'テスト投稿タイトル',
       context: 'テスト投稿内容',
-    }
-  }
-  let(:parameter_params) {
-    {
-      taste: 3,
-      sweetness: 3,
-      spiciness: 3,
-      satisfaction: 3
+      rating: '3'
     }
   }
   let(:after_arrangement_photo_params) { { url: '/images/development/sample_for_photo.png' } }
@@ -23,7 +16,6 @@ RSpec.describe ArrangementForm, type: :model do
                         arrangement_params: arrangement_params,
                         after_arrangement_photo_params: after_arrangement_photo_params,
                         before_arrangement_photo_params: before_arrangement_photo_params,
-                        parameter_params: parameter_params
                        )
   }
 
@@ -34,72 +26,24 @@ RSpec.describe ArrangementForm, type: :model do
   end
 
   describe '最小値の検証' do
-    it '美味さがマイナス値の場合、無効です' do
-      parameter_params[:taste] = -1
-      expect(arrangement_form).to be_invalid
-    end
-    it '辛さがマイナス値の場合、無効です' do
-      parameter_params[:spiciness] = -2
-      expect(arrangement_form).to be_invalid
-    end
-    it '甘さがマイナス値の場合、無効です' do
-      parameter_params[:sweetness] = -3
-      expect(arrangement_form).to be_invalid
-    end
-    it '食べ応えがマイナス値の場合、無効です' do
-      parameter_params[:satisfaction] = -4
-      expect(arrangement_form).to be_invalid
-    end
-    it '美味さが0の場合、有効です' do
-      parameter_params[:taste] = 0
+    it '評価(rating)が1の場合、有効です' do
+      arrangement_params[:rating] = 1
       expect(arrangement_form).to be_valid
     end
-    it '辛さが0の場合、有効です' do
-      parameter_params[:spiciness] = 0
-      expect(arrangement_form).to be_valid
-    end
-    it '甘さが0の場合、有効です' do
-      parameter_params[:sweetness] = 0
-      expect(arrangement_form).to be_valid
-    end
-    it '食べ応えが0の場合、有効です' do
-      parameter_params[:satisfaction] = 0
-      expect(arrangement_form).to be_valid
+    it '評価(rating)が0の場合、無効です' do
+      arrangement_params[:rating] = 0
+      expect(arrangement_form).to be_invalid
     end
   end
 
   describe '最大値の検証' do
-    it '美味さの値が5より大きい場合、無効です' do
-      parameter_params[:taste] = 6
-      expect(arrangement_form).to be_invalid
-    end
-    it '辛さの値が5より大きい場合、無効です' do
-      parameter_params[:spiciness] = 7
-      expect(arrangement_form).to be_invalid
-    end
-    it '甘さの値が5より大きい場合、無効です' do
-      parameter_params[:sweetness] = 8
-      expect(arrangement_form).to be_invalid
-    end
-    it '食べ応えの値が5より大きい場合、無効です' do
-      parameter_params[:satisfaction] = 9
-      expect(arrangement_form).to be_invalid
-    end
-    it '美味さの値が5の場合、有効です' do
-      parameter_params[:taste] = 5
+    it '評価(rating)が5の場合、有効です' do
+      arrangement_params[:rating] = 5
       expect(arrangement_form).to be_valid
     end
-    it '辛さの値が5の場合、有効です' do
-      parameter_params[:spiciness] = 5
-      expect(arrangement_form).to be_valid
-    end
-    it '甘さの値が5の場合、有効です' do
-      parameter_params[:sweetness] =5
-      expect(arrangement_form).to be_valid
-    end
-    it '食べ応えの値が5の場合、有効です' do
-      parameter_params[:satisfaction] = 5
-      expect(arrangement_form).to be_valid
+    it '評価(rating)が6の場合、無効です' do
+      arrangement_params[:rating] = 6
+      expect(arrangement_form).to be_invalid
     end
   end
 

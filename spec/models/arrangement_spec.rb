@@ -6,6 +6,7 @@
 #  comments_count :bigint           default(0)
 #  context        :text             not null
 #  likes_count    :bigint           default(0)
+#  rating         :integer          not null
 #  title          :string           not null
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
@@ -39,6 +40,9 @@ RSpec.describe Arrangement, type: :model do
       arrangement.context = ''
       expect(arrangement).to be_invalid
     end
+    it '評価値が未入力の場合、無効です' do
+      arrangement.rating = ''
+      expect(arrangement).to be_invalid
+    end
   end
-
 end

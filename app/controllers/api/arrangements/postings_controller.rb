@@ -3,16 +3,15 @@ module Api
     class PostingsController < ApplicationController
       def index
         pagy, arrangements = pagy(
-          current_user.arrangements.sorted_by_new.preload(:parameter, :after_arrangement_photo,
+          current_user.arrangements.sorted_by_new.preload(:after_arrangement_photo,
                                                           :before_arrangement_photo),
           items: 20
         )
         options = {
-          include: %i[parameter after_arrangement_photo before_arrangement_photo],
+          include: %i[after_arrangement_photo before_arrangement_photo],
           fields: {
-            arrangement: %i[title context created_at likes_count comments_count parameter after_arrangement_photo
+            arrangement: %i[title context rating created_at likes_count comments_count after_arrangement_photo
                             before_arrangement_photo],
-            parameter: %i[taste spiciness sweetness satisfaction],
             after_arrangement_photo: %i[url],
             before_arrangement_photo: %i[url]
           },

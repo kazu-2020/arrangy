@@ -5,16 +5,16 @@ module Api
 
     def index
       pagy, arrangements = pagy(
-        Arrangement.order(likes_count: :desc).preload(:user, :parameter, :after_arrangement_photo,
+        Arrangement.order(likes_count: :desc).preload(:user,
+                                                      :after_arrangement_photo,
                                                       :before_arrangement_photo),
         items: 20
       )
       options = {
-        include: %i[user parameter after_arrangement_photo before_arrangement_photo],
+        include: %i[user after_arrangement_photo before_arrangement_photo],
         fields: {
-          arrangement: %i[title created_at likes_count comments_count user parameter after_arrangement_photo
+          arrangement: %i[title created_at rating likes_count comments_count user after_arrangement_photo
                           before_arrangement_photo],
-          parameter: %i[taste spiciness sweetness satisfaction],
           after_arrangement_photo: %i[url],
           before_arrangement_photo: %i[url],
           user: %i[nickname avatar_url]
@@ -28,8 +28,7 @@ module Api
       arrangement_form = ArrangementForm.new(arrangement: current_user.arrangements.build,
                                              arrangement_params: arrangement_params,
                                              after_arrangement_photo_params: after_arrangement_photo_params,
-                                             before_arrangement_photo_params: before_arrangement_photo_params,
-                                             parameter_params: parameter_params)
+                                             before_arrangement_photo_params: before_arrangement_photo_params)
       arrangement_form.save!
       options = {
         fields: { arrangement: %i[set_id] }
@@ -42,11 +41,10 @@ module Api
       # {}だとフロントで使用しているdevourが期待する値を返してくれない。
       # 参考 => https://github.com/Netflix/fast_jsonapi/issues/304
       options = {
-        include: %i[user parameter after_arrangement_photo before_arrangement_photo],
+        include: %i[user after_arrangement_photo before_arrangement_photo],
         fields: {
-          arrangement: %i[title context likes_count liked_authuser created_at user parameter after_arrangement_photo
+          arrangement: %i[title context rating likes_count liked_authuser created_at user after_arrangement_photo
                           before_arrangement_photo],
-          parameter: %i[taste spiciness sweetness satisfaction],
           after_arrangement_photo: %i[url],
           before_arrangement_photo: %i[url],
           user: %i[nickname avatar_url]
@@ -60,15 +58,13 @@ module Api
       arrangement_form = ArrangementForm.new(arrangement: set_arrangement,
                                              arrangement_params: arrangement_params,
                                              after_arrangement_photo_params: after_arrangement_photo_params,
-                                             before_arrangement_photo_params: before_arrangement_photo_params,
-                                             parameter_params: parameter_params)
+                                             before_arrangement_photo_params: before_arrangement_photo_params)
       arrangement_form.save!
       options = {
-        include: %i[user parameter after_arrangement_photo before_arrangement_photo],
+        include: %i[user after_arrangement_photo before_arrangement_photo],
         fields: {
-          arrangement: %i[title context likes_count liked_authuser created_at user parameter after_arrangement_photo
+          arrangement: %i[title context rating likes_count liked_authuser created_at user after_arrangement_photo
                           before_arrangement_photo],
-          parameter: %i[taste spiciness sweetness satisfaction],
           after_arrangement_photo: %i[url],
           before_arrangement_photo: %i[url],
           user: %i[nickname avatar_url]
@@ -86,7 +82,7 @@ module Api
     private
 
     def arrangement_params
-      params.require(:arrangement).permit(:title, :context)
+      params.require(:arrangement).permit(:title, :context, :rating)
     end
 
     def after_arrangement_photo_params
@@ -95,10 +91,6 @@ module Api
 
     def before_arrangement_photo_params
       params.require(:before_arrangement_photo).permit(:url)
-    end
-
-    def parameter_params
-      params.require(:parameter).permit(:taste, :spiciness, :sweetness, :satisfaction)
     end
 
     def set_arrangement

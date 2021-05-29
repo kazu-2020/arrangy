@@ -6,6 +6,7 @@
 #  comments_count :bigint           default(0)
 #  context        :text             not null
 #  likes_count    :bigint           default(0)
+#  rating         :integer          not null
 #  title          :string           not null
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
@@ -23,13 +24,8 @@ FactoryBot.define do
   factory :arrangement do
     title { "テスト投稿" }
     context { "これはテスト投稿です" }
+    rating { 3 }
     user
-
-    trait :with_parameter do
-      after(:build) do |arrangement|
-        arrangement.parameter = create(:parameter)
-      end
-    end
 
     trait :with_after_arrangement_photo do
       after(:build) do |arrangement|

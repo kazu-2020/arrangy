@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe '投稿詳細', type: :system, js: true do
-  let!(:self_arrangement) { create(:arrangement, :with_after_arrangement_photo, :with_before_arrangement_photo, :with_parameter) }
+  let!(:self_arrangement) { create(:arrangement, :with_after_arrangement_photo, :with_before_arrangement_photo) }
 
   context 'ログイン前' do
     context '自分が投稿したページへアクセスした時' do
@@ -44,7 +44,7 @@ RSpec.describe '投稿詳細', type: :system, js: true do
     end
 
     context '他人の投稿ページへアクセスした時' do
-      let!(:unself_arrangement) { create(:arrangement, :with_after_arrangement_photo, :with_before_arrangement_photo, :with_parameter) }
+      let!(:unself_arrangement) { create(:arrangement, :with_after_arrangement_photo, :with_before_arrangement_photo) }
 
       before { visit("/arrangements/#{encode_id(unself_arrangement.id)}")}
 

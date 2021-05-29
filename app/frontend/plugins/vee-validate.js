@@ -18,6 +18,8 @@ import {
   ext,
   size,
   oneOf,
+  max_value,
+  min_value,
 } from 'vee-validate/dist/rules';
 
 localize('ja', ja);
@@ -45,6 +47,8 @@ extend('max', max);
 extend('regex', regex);
 extend('confirmed', confirmed);
 extend('oneOf', oneOf);
+extend('max_value', max_value);
+extend('min_value', min_value);
 extend('ext', {
   ...ext,
   message: '有効なファイル形式はではありません',

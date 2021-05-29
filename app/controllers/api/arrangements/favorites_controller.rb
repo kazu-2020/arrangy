@@ -10,7 +10,7 @@ module Api
         options = {
           include: %i[user after_arrangement_photo before_arrangement_photo],
           fields: {
-            arrangement: %i[title created_at likes_count comments_count user after_arrangement_photo
+            arrangement: %i[title created_at rating likes_count comments_count user after_arrangement_photo
                             before_arrangement_photo],
             user: %i[nickname avatar_url],
             after_arrangement_photo: %i[url],
