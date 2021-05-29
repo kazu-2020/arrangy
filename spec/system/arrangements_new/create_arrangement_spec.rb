@@ -25,6 +25,9 @@ RSpec.describe "投稿作成", type: :system, js: true do
         within('#arrangement-new-form') do
           fill_in('タイトル', with: 'a' * 30)
           fill_in('投稿内容', with: 'a' * 1_000)
+          within('#rating-field') do
+            first('.mdi-star-outline').click
+          end
         end
         within('#arrangement-new-form') do
           attach_file('アレンジ前の写真', "#{Rails.root}/spec/fixtures/images/sample.png", visible: false)

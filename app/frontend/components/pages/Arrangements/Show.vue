@@ -14,23 +14,42 @@
           :lazySrc="arrangementInformation.after_arrangement_photo.url"
           style="position: relative"
         >
-          <div v-if="authUser && authUser.id === arrangementInformation.user.id" class="text-end">
-            <InitializedMenu :outlined="true" :left="true">
-              <template #btn-text>
-                <v-icon id="arrangement-menu-icon">mdi-dots-vertical</v-icon>
-              </template>
-              <template #list>
-                <v-list id="arrangement-menu-list" dense>
-                  <v-list-item tag="button" @click.stop="displayArrangementEditDialog">
-                    編集する
-                  </v-list-item>
-                  <v-list-item tag="button" @click.stop="displayDeleteArrangementDialog">
-                    削除する
-                  </v-list-item>
-                </v-list>
-              </template>
-            </InitializedMenu>
-          </div>
+          <v-rating
+            :length="arrangementInformation.rating"
+            :value="arrangementInformation.rating"
+            color="orange"
+            readonly
+            large
+            style="positon: absolute; top: 0"
+          />
+          <!-- <div
+            v-if="authUser && authUser.id === arrangementInformation.user.id"
+            class="text-end"
+            style="z-index: 20"
+          > -->
+          <InitializedMenu :absolute="true">
+            <template #btn-text>
+              <v-icon id="arrangement-menu-icon">mdi-dots-vertical</v-icon>
+            </template>
+            <template #list>
+              <v-list id="arrangement-menu-list" dense>
+                <v-list-item tag="button" @click.stop="displayArrangementEditDialog">
+                  編集する
+                </v-list-item>
+                <v-list-item tag="button" @click.stop="displayDeleteArrangementDialog">
+                  削除する
+                </v-list-item>
+              </v-list>
+            </template>
+          </InitializedMenu>
+          <!-- </div> -->
+
+          <!-- <v-avatar color="white">
+            <v-icon color="orange"> mdi-star </v-icon>
+            <div class="text-button font-weight-bold">
+              {{ arrangementInformation.rating }}
+            </div>
+          </v-avatar> -->
 
           <v-img
             :src="arrangementInformation.before_arrangement_photo.url"
@@ -95,8 +114,6 @@
             </v-sheet>
           </v-col>
         </v-row>
-        <!-- レーダチャート -->
-        <RadarChart :chartData="arrangementInformation.parameter" />
       </v-col>
       <!-- 投稿編集用ダイアログ -->
       <ArrangementEditForm
@@ -144,38 +161,44 @@
                     <v-img :src="comment.user.avatar_url" />
                   </v-avatar>
                 </v-col>
-                <v-col cols="5" md="7">
-                  <div class="text-subtitle-1 font-weight-black text-truncate">
-                    {{ comment.user.nickname }}
-                  </div>
+                <v-col alignSelf="center" class="text-subtitle-1 font-weight-black text-truncate">
+                  {{ comment.user.nickname }}
                 </v-col>
-                <v-col cols="2" md="2">
-                  <div class="text-caption font-weight-light pt-1 text-center">
-                    {{ comment.created_at }}
-                  </div>
-                </v-col>
-                <v-col class="text-center">
-                  <!-- メニューリスト -->
-                  <div v-if="authUser && authUser.id === comment.user.id">
-                    <InitializedMenu>
-                      <template #btn-text>
-                        <v-icon class="comment-menu-icon">mdi-dots-vertical</v-icon>
+                <v-col cols="auto" alignSelf="center">
+                  <v-row>
+                    <v-col
+                      cols="auto"
+                      class="text-caption font-weight-light pt-1 text-center"
+                      alignSelf="center"
+                    >
+                      {{ comment.created_at }}
+                    </v-col>
+                    <v-col cols="auto">
+                      <template v-if="authUser && authUser.id === comment.user.id">
+                        <InitializedMenu>
+                          <template #btn-text>
+                            <v-icon class="comment-menu-icon">mdi-dots-vertical</v-icon>
+                          </template>
+                          <template #list>
+                            <v-list class="comment-menu-list" dense>
+                              <v-list-item
+                                tag="button"
+                                @click.stop="displayCommentEditDialog(comment)"
+                              >
+                                編集する
+                              </v-list-item>
+                              <v-list-item
+                                tag="button"
+                                @click.stop="displayCommentDeleteDialog(comment)"
+                              >
+                                削除する
+                              </v-list-item>
+                            </v-list>
+                          </template>
+                        </InitializedMenu>
                       </template>
-                      <template #list>
-                        <v-list class="comment-menu-list" dense>
-                          <v-list-item tag="button" @click.stop="displayCommentEditDialog(comment)">
-                            編集する
-                          </v-list-item>
-                          <v-list-item
-                            tag="button"
-                            @click.stop="displayCommentDeleteDialog(comment)"
-                          >
-                            削除する
-                          </v-list-item>
-                        </v-list>
-                      </template>
-                    </InitializedMenu>
-                  </div>
+                    </v-col>
+                  </v-row>
                 </v-col>
               </v-row>
               <v-row class="d-flex justify-end">
@@ -220,6 +243,13 @@
             </DeleteConfirmationDialog>
           </v-row>
         </template>
+        <template v-else>
+          <v-row>
+            <v-col cols="12" class="text-center font-weight-black">
+              現在コメントはありません。
+            </v-col>
+          </v-row>
+        </template>
       </v-col>
     </v-row>
   </v-container>
@@ -233,7 +263,6 @@ import CommentCreateForm from '../../parts/forms/CommentCreateForm';
 import CommentEditForm from '../../parts/forms/CommentEditForm';
 import DeleteConfirmationDialog from '../../parts/dialogs/DeleteConfirmationDialog';
 import InitializedMenu from '../../parts/menus/InitializedMenu';
-import RadarChart from '../../parts/charts/RadarChart';
 import SubmitButton from '../../parts/buttons/SubmitButton';
 
 export default {
@@ -243,7 +272,6 @@ export default {
     CommentEditForm,
     DeleteConfirmationDialog,
     InitializedMenu,
-    RadarChart,
     SubmitButton,
   },
   data() {
@@ -252,18 +280,13 @@ export default {
         id: '',
         title: '',
         context: '',
+        rating: 0,
         created_at: '',
         liked_authuser: '',
         likes_count: '',
         user: {
           nickname: '',
           avatar_url: '',
-        },
-        parameter: {
-          taste: 0,
-          spiciness: 0,
-          sweetness: 0,
-          satisfaction: 0,
         },
         after_arrangement_photo: {
           url: '',
@@ -276,12 +299,9 @@ export default {
         id: '',
         title: '',
         context: '',
+        rating: 0,
         afterArrangementPhotoURL: '',
         beforeArrangementPhotoURL: '',
-        taste: 0,
-        spiciness: 0,
-        sweetness: 0,
-        satisfaction: 0,
       },
       comments: [],
       commentCreate: {
@@ -347,6 +367,7 @@ export default {
       return {
         title: this.arrangementEdit.title,
         context: this.arrangementEdit.context,
+        rating: this.arrangementEdit.rating,
       };
     },
     afterArrangementPhotoParams() {
@@ -357,14 +378,6 @@ export default {
     beforeArrangementPhotoParams() {
       return {
         url: this.arrangementEdit.beforeArrangementPhotoURL,
-      };
-    },
-    paramterParams() {
-      return {
-        taste: this.arrangementEdit.taste,
-        spiciness: this.arrangementEdit.spiciness,
-        sweetness: this.arrangementEdit.sweetness,
-        satisfaction: this.arrangementEdit.satisfaction,
       };
     },
     twitterShare() {
@@ -406,12 +419,9 @@ export default {
       this.arrangementEdit.id = this.arrangementInformation.id;
       this.arrangementEdit.title = this.arrangementInformation.title;
       this.arrangementEdit.context = this.arrangementInformation.context;
+      this.arrangementEdit.rating = this.arrangementInformation.rating;
       this.arrangementEdit.afterArrangementPhotoURL = this.arrangementInformation.after_arrangement_photo.url;
       this.arrangementEdit.beforeArrangementPhotoURL = this.arrangementInformation.before_arrangement_photo.url;
-      this.arrangementEdit.taste = this.arrangementInformation.parameter.taste;
-      this.arrangementEdit.spiciness = this.arrangementInformation.parameter.spiciness;
-      this.arrangementEdit.sweetness = this.arrangementInformation.parameter.sweetness;
-      this.arrangementEdit.satisfaction = this.arrangementInformation.parameter.satisfaction;
 
       this.handleShowEditArrangement();
     },
@@ -455,7 +465,6 @@ export default {
             arrangement: this.arrangementParams,
             after_arrangement_photo: this.afterArrangementPhotoParams,
             before_arrangement_photo: this.beforeArrangementPhotoParams,
-            parameter: this.paramterParams,
           }
         )
         .then((res) => {

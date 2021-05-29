@@ -27,12 +27,6 @@ FactoryBot.define do
     rating { 3 }
     user
 
-    trait :with_parameter do
-      after(:build) do |arrangement|
-        arrangement.parameter = create(:parameter)
-      end
-    end
-
     trait :with_after_arrangement_photo do
       after(:build) do |arrangement|
         arrangement.after_arrangement_photo = create(:after_arrangement_photo)

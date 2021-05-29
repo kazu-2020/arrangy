@@ -2,15 +2,15 @@ ja:
   activerecord:
     models:
       arrangement: 投稿
-      comment: コメント
-      parameter: パラメーター
       after_arrangement_photo: アレンジ後の写真
+      before_arrangement_photo: アレンジ前の写真
+      comment: コメント
       user: ユーザー
     attributes:
       arrangement:
         title: タイトル
         context: 投稿内容
-        images: 投稿写真
+        rating: 評価値
       comment:
         body: 内容
       user:

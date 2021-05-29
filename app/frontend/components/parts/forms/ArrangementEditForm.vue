@@ -21,7 +21,7 @@
                 :loading="beforeArrangement.fileUploading"
                 @click="uploadBeforeArrangementfile"
               >
-                <template #text>アレンジ前の写真を変更する</template>
+                <template #text>アレンジ前の写真を変更</template>
               </NormalButton>
               <div>
                 <div class="text-caption light-weight-text">画像形式: JPEG/PNG</div>
@@ -74,7 +74,7 @@
                 :loading="afterArrangement.fileUploading"
                 @click="uploadAfterArrangementfile"
               >
-                <template #text>アレンジ後の写真を変更する</template>
+                <template #text>アレンジ後の写真を変更</template>
               </NormalButton>
               <div>
                 <div class="text-caption light-weight-text">画像形式: JPEG/PNG</div>
@@ -186,29 +186,19 @@
           :rules="rules.context"
           @input="$emit('update:context', $event)"
         />
-        <div>
-          <ParameterField :value="taste" @input="$emit('update:taste', $event)">
-            <template #label>
-              <div class="mr-4">美味さ</div>
-            </template>
-          </ParameterField>
-          <ParameterField :value="spiciness" @input="$emit('update:spiciness', $event)">
-            <template #label>
-              <div class="mr-8">辛さ</div>
-            </template>
-          </ParameterField>
-          <ParameterField :value="sweetness" @input="$emit('update:sweetness', $event)">
-            <template #label>
-              <div class="mr-8">甘さ</div>
-            </template>
-          </ParameterField>
-          <ParameterField :value="satisfaction" @input="$emit('update:satisfaction', $event)">
-            <template #label>
-              <div>食べ応え</div>
-            </template>
-          </ParameterField>
-        </div>
-        <div class="text-center">
+        <v-row>
+          <v-col cols="12" class="pb-0 font-weight-bold"> アレンジ飯の評価 </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12">
+            <RatingField
+              :value="rating"
+              :rules="rules.rating"
+              @input="$emit('update:rating', $event)"
+            />
+          </v-col>
+        </v-row>
+        <div class="d-flex justify-center">
           <SubmitButton
             class="mx-2"
             :xLarge="true"
@@ -234,17 +224,17 @@ import JimpJPEG from 'jpeg-js';
 
 import ContextField from '../formInputs/ContextField';
 import NormalButton from '../buttons/NormalButton';
+import RatingField from '../formInputs/RatingField';
 import SubmitButton from '../buttons/SubmitButton';
 import TitleField from '../formInputs/TitleField';
-import ParameterField from '../formInputs/ParameterField';
 
 export default {
   components: {
     ContextField,
     NormalButton,
+    RatingField,
     SubmitButton,
     TitleField,
-    ParameterField,
   },
   props: {
     id: {
@@ -259,6 +249,10 @@ export default {
       type: String,
       required: true,
     },
+    rating: {
+      type: Number,
+      required: true,
+    },
     afterArrangementPhotoURL: {
       type: String,
       required: true,
@@ -267,23 +261,6 @@ export default {
       type: String,
       required: true,
     },
-    taste: {
-      type: Number,
-      required: true,
-    },
-    spiciness: {
-      type: Number,
-      required: true,
-    },
-    sweetness: {
-      type: Number,
-      required: true,
-    },
-    satisfaction: {
-      type: Number,
-      required: true,
-    },
-
     isShow: {
       type: Boolean,
     },
@@ -318,6 +295,7 @@ export default {
         title: { required: true, max: 30 },
         context: { required: true, max: 1000 },
         images: { required: true, size: 10000, ext: ['jpg', 'jpeg', 'png'] },
+        rating: { required: true, min_value: 1, max_value: 5 },
       };
     },
   },

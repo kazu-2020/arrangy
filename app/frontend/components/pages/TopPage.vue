@@ -34,6 +34,7 @@
           <ArrangementSummary
             :arrangement="arrangement"
             :twitterShareUrl="twitterShareUrl(arrangement.id)"
+            :raitingLarge="true"
           >
             <template slot="user-information">
               <v-card-text>

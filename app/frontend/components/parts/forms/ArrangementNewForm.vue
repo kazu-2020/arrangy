@@ -8,7 +8,9 @@
           <div class="text-caption light-weight-text">画像形式: JPEG/PNG</div>
           <div class="text-caption light-weight-text">容量: 10MB以内</div>
         </div>
-
+      </v-col>
+      <!-- アレンジ前の写真投稿 -->
+      <v-col cols="12" md="auto">
         <ValidationProvider
           ref="beforeArrangement"
           name="アレンジ前の写真"
@@ -24,23 +26,6 @@
           />
         </ValidationProvider>
 
-        <ValidationProvider
-          ref="afterArrangement"
-          name="アレンジ後の写真"
-          mode="change"
-          :rules="rules.images"
-        >
-          <v-file-input
-            id="after-arrangement"
-            label="アレンジ後の写真"
-            style="display: none"
-            accept="image/jpeg, image/jpg, image/png"
-            @change="handleFileChange('afterArrangement', $event)"
-          />
-        </ValidationProvider>
-      </v-col>
-      <!-- アレンジ前の写真投稿 -->
-      <v-col cols="12" md="auto">
         <v-sheet
           class="d-flex align-center justify-center mx-auto"
           height="300"
@@ -94,6 +79,21 @@
       </v-col>
       <!-- アレンジ後の写真投稿 -->
       <v-col cols="12" md="auto">
+        <ValidationProvider
+          ref="afterArrangement"
+          name="アレンジ後の写真"
+          mode="change"
+          :rules="rules.images"
+        >
+          <v-file-input
+            id="after-arrangement"
+            label="アレンジ後の写真"
+            style="display: none"
+            accept="image/jpeg, image/jpg, image/png"
+            @change="handleFileChange('afterArrangement', $event)"
+          />
+        </ValidationProvider>
+
         <v-sheet
           class="d-flex align-center justify-center mx-auto"
           height="300"
@@ -226,7 +226,7 @@
 
     <v-row class="mb-10">
       <v-col cols="12" sm="4">
-        <div class="text-h6 font-weight-bold">コメントを追加する</div>
+        <div class="text-h6 font-weight-bold">投稿内容を追加する</div>
         <div class="text-caption" style="color: #cc3918">※必須</div>
         <div class="d-flex flex-column">
           <div class="text-caption light-weight-text">文字数: 1000字以内</div>
@@ -243,35 +243,19 @@
 
     <v-row class="mb-10">
       <v-col cols="12" sm="4">
-        <div class="text-h6 font-weight-bold">パラメーターを設定する</div>
-        <div class="text-caption">※任意</div>
+        <div class="text-h6 font-weight-bold">アレンジ飯の評価</div>
+        <div class="text-caption" style="color: #cc3918">※必須</div>
         <div class="d-flex flex-column">
-          <div class="text-caption light-weight-text">各項目: 1~5で設定できます</div>
+          <div class="text-caption light-weight-text">5段階で設定できます</div>
         </div>
       </v-col>
       <v-col>
-        <div>
-          <ParameterField :value="taste" @input="$emit('update:taste', $event)">
-            <template #label>
-              <div class="mr-4">美味さ</div>
-            </template>
-          </ParameterField>
-          <ParameterField :value="spiciness" @input="$emit('update:spiciness', $event)">
-            <template #label>
-              <div class="mr-8">辛さ</div>
-            </template>
-          </ParameterField>
-          <ParameterField :value="sweetness" @input="$emit('update:sweetness', $event)">
-            <template #label>
-              <div class="mr-8">甘さ</div>
-            </template>
-          </ParameterField>
-          <ParameterField :value="satisfaction" @input="$emit('update:satisfaction', $event)">
-            <template #label>
-              <div>食べ応え</div>
-            </template>
-          </ParameterField>
-        </div>
+        <RatingField
+          :value="rating"
+          :rules="rules.rating"
+          :large="true"
+          @input="$emit('update:rating', $event)"
+        />
       </v-col>
     </v-row>
 
@@ -295,7 +279,7 @@ import JimpJPEG from 'jpeg-js';
 
 import ContextField from '../formInputs/ContextField';
 import NormalButton from '../buttons/NormalButton';
-import ParameterField from '../formInputs/ParameterField';
+import RatingField from '../formInputs/RatingField';
 import SubmitButton from '../buttons/SubmitButton';
 import TitleField from '../formInputs/TitleField';
 
@@ -303,9 +287,9 @@ export default {
   components: {
     ContextField,
     NormalButton,
-    ParameterField,
-    TitleField,
+    RatingField,
     SubmitButton,
+    TitleField,
   },
   props: {
     title: {
@@ -316,28 +300,16 @@ export default {
       type: String,
       required: true,
     },
+    rating: {
+      type: Number,
+      required: true,
+    },
     afterArrangementPhotoURL: {
       type: String,
       required: true,
     },
     beforeArrangementPhotoURL: {
       type: String,
-      required: true,
-    },
-    taste: {
-      type: Number,
-      required: true,
-    },
-    spiciness: {
-      type: Number,
-      required: true,
-    },
-    sweetness: {
-      type: Number,
-      required: true,
-    },
-    satisfaction: {
-      type: Number,
       required: true,
     },
     loading: {
@@ -369,6 +341,7 @@ export default {
         title: { required: true, max: 30 },
         context: { required: true, max: 1000 },
         images: { required: true, ext: ['jpeg', 'jpg', 'png'], size: 10000 },
+        rating: { required: true, min_value: 1, max_value: 5 },
       };
     },
     tickLabels() {

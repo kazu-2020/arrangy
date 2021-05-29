@@ -35,6 +35,7 @@ jsonApi.define('arrangement', {
   id: '',
   title: '',
   context: '',
+  rating: '',
   created_at: '',
   liked_authuser: '',
   likes_count: '',
@@ -46,10 +47,6 @@ jsonApi.define('arrangement', {
   comments: {
     jsonApi: 'hasMany',
     type: 'comments',
-  },
-  parameter: {
-    jsonApi: 'hasOne',
-    type: 'parameter',
   },
   after_arrangement_photo: {
     jsonApi: 'hasOne',
@@ -84,19 +81,6 @@ jsonApi.define('like', {
     jsonApi: 'hasOne',
     type: 'user',
   },
-  arrangement: {
-    jsonApi: 'hasOne',
-    type: 'arrangement',
-  },
-});
-
-jsonApi.define('parameter', {
-  id: '',
-  arrangement_id: '',
-  taste: '',
-  spiciness: '',
-  sweetness: '',
-  satisfaction: '',
   arrangement: {
     jsonApi: 'hasOne',
     type: 'arrangement',
