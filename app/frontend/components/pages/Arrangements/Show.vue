@@ -22,35 +22,23 @@
             large
             style="positon: absolute; top: 0"
           />
-          <!-- <div
-            v-if="authUser && authUser.id === arrangementInformation.user.id"
-            class="text-end"
-            style="z-index: 20"
-          > -->
-          <InitializedMenu :absolute="true">
-            <template #btn-text>
-              <v-icon id="arrangement-menu-icon">mdi-dots-vertical</v-icon>
-            </template>
-            <template #list>
-              <v-list id="arrangement-menu-list" dense>
-                <v-list-item tag="button" @click.stop="displayArrangementEditDialog">
-                  編集する
-                </v-list-item>
-                <v-list-item tag="button" @click.stop="displayDeleteArrangementDialog">
-                  削除する
-                </v-list-item>
-              </v-list>
-            </template>
-          </InitializedMenu>
-          <!-- </div> -->
-
-          <!-- <v-avatar color="white">
-            <v-icon color="orange"> mdi-star </v-icon>
-            <div class="text-button font-weight-bold">
-              {{ arrangementInformation.rating }}
-            </div>
-          </v-avatar> -->
-
+          <template v-if="authUser && authUser.id === arrangementInformation.user.id">
+            <InitializedMenu :absolute="true">
+              <template #btn-text>
+                <v-icon id="arrangement-menu-icon">mdi-dots-vertical</v-icon>
+              </template>
+              <template #list>
+                <v-list id="arrangement-menu-list" dense>
+                  <v-list-item tag="button" @click.stop="displayArrangementEditDialog">
+                    編集する
+                  </v-list-item>
+                  <v-list-item tag="button" @click.stop="displayDeleteArrangementDialog">
+                    削除する
+                  </v-list-item>
+                </v-list>
+              </template>
+            </InitializedMenu>
+          </template>
           <v-img
             :src="arrangementInformation.before_arrangement_photo.url"
             width="25%"
