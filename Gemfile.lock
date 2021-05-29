@@ -118,6 +118,7 @@ GEM
     debug_inspector (1.0.0)
     deep_merge (1.2.1)
     diff-lcs (1.4.4)
+    docile (1.4.0)
     dry-configurable (0.12.1)
       concurrent-ruby (~> 1.0)
       dry-core (~> 0.5, >= 0.5.0)
@@ -374,6 +375,11 @@ GEM
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
       redis (>= 4.2.0)
+    simplecov (0.17.1)
+      docile (~> 1.1)
+      json (>= 1.8, < 3)
+      simplecov-html (~> 0.10.0)
+    simplecov-html (0.10.2)
     slack-notifier (2.3.2)
     sorcery (0.16.0)
       bcrypt (~> 3.1)
@@ -464,6 +470,7 @@ DEPENDENCIES
   sentry-ruby
   sentry-sidekiq
   sidekiq
+  simplecov (~> 0.10, < 0.18)
   slack-notifier
   sorcery
   spring
