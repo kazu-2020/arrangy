@@ -105,7 +105,7 @@ end
 
 group :test do
   gem 'capybara', require: false
-  gem 'simplecov', require: false
+  gem 'simplecov', '~> 0.10', '< 0.18', require: false
   gem 'webdrivers'
 end
 
