@@ -1,4 +1,4 @@
-name: RailsAutoTest
+name: check code
 
 on:
   push:
@@ -26,6 +26,7 @@ jobs:
     env:
       RAILS_ENV: test
       RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+      TEST_REPORTER_ID: ${{ secrets.TEST_REPORTER_ID }}
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
       POSTGRES_HOST: 127.0.0.1
@@ -72,5 +73,13 @@ jobs:
           yarn eslint-config-prettier  app/frontend/**/{*.js,*.vue}
           yarn prettier --check app/frontend
           yarn eslint  --max-warnings=0 app/frontend/**/{*.js,*.vue}
+      - name: set Code Climate
+        run: |
+          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+          chmod +x ./cc-test-reporter
+          ./cc-test-reporter before-build
       - name: run Rspec
         run: bundle exec rspec
+      - name: Publish code coverage
+        run: |
+          ./cc-test-reporter after-build -r ${{ secrets.TEST_REPORTER_ID }}
