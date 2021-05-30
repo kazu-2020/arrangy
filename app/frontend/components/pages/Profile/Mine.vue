@@ -2,7 +2,12 @@
   <v-container v-if="isCreated" fluid>
     <v-row v-if="pagy.pageCounts > 1">
       <v-col cols="12">
-        <v-pagination v-model="pagy.currentPage" :length="pagy.pageCounts" circle />
+        <v-pagination
+          id="top-pagination"
+          v-model="pagy.currentPage"
+          :length="pagy.pageCounts"
+          circle
+        />
       </v-col>
     </v-row>
 
