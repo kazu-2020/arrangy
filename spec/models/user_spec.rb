@@ -9,6 +9,8 @@
 #  email                           :string           not null
 #  likes_count                     :bigint           default(0)
 #  nickname                        :string           not null
+#  remember_me_token               :string
+#  remember_me_token_expires_at    :datetime
 #  reset_password_email_sent_at    :datetime
 #  reset_password_token            :string
 #  reset_password_token_expires_at :datetime
@@ -19,8 +21,9 @@
 #
 # Indexes
 #
-#  index_users_on_email     (email) UNIQUE
-#  index_users_on_nickname  (nickname) UNIQUE
+#  index_users_on_email              (email) UNIQUE
+#  index_users_on_nickname           (nickname) UNIQUE
+#  index_users_on_remember_me_token  (remember_me_token)
 #
 require 'rails_helper'
 

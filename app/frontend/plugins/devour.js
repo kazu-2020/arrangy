@@ -16,6 +16,7 @@ jsonApi.define('user', {
   email: '',
   avatar_url: '',
   role: '',
+  remember: '',
   password: '',
   password_confirmation: '',
   arrangements_count: '',

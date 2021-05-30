@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_28_164059) do
+ActiveRecord::Schema.define(version: 2021_05_30_150115) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,8 +84,11 @@ ActiveRecord::Schema.define(version: 2021_05_28_164059) do
     t.bigint "likes_count", default: 0
     t.bigint "arrangements_count", default: 0
     t.integer "role", default: 0
+    t.string "remember_me_token"
+    t.datetime "remember_me_token_expires_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["nickname"], name: "index_users_on_nickname", unique: true
+    t.index ["remember_me_token"], name: "index_users_on_remember_me_token"
   end
 
   add_foreign_key "after_arrangement_photos", "arrangements"

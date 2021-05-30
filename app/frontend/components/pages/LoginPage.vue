@@ -55,6 +55,7 @@ export default {
       user: {
         email: '',
         password: '',
+        remember: false,
       },
     };
   },

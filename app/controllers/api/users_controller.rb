@@ -7,7 +7,7 @@ module Api
     def create
       signup_form = SignupForm.new(user_params)
       signup_form.save!
-      auto_login(signup_form.user)
+      auto_login(signup_form.user, params[:remember])
       options = { fields: { user: %i[nickname email avatar_url] } }
       json_string = UserSerializer.new(signup_form.user, options)
       render json: json_string

@@ -57,6 +57,7 @@ export default {
         email: '',
         password: '',
         password_confirmation: '',
+        remember: false,
       },
     };
   },
