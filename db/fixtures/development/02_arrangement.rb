@@ -1,6 +1,3 @@
-# 前回のシード画像を削除
-FileUtils.rm_rf("#{Rails.root}/public/uploads/arrangement")
-
 30.times do |n|
   Arrangement.seed(
     :id,
@@ -8,7 +5,21 @@ FileUtils.rm_rf("#{Rails.root}/public/uploads/arrangement")
       id: n,
       title: Faker::Food.dish,
       context: Faker::Food.description,
-      images: [File.open("#{Rails.root}/db/fixtures/images/img1.jpg")], user_id: User.ids.sample
+      rating: rand(1..5),
+      user_id: User.first.id
+    }
+  )
+end
+
+31.upto(60) do |n|
+  Arrangement.seed(
+    :id,
+    {
+      id: n,
+      title: Faker::Food.dish,
+      context: Faker::Food.description,
+      rating: rand(1..5),
+      user_id: User.ids.sample
     }
   )
 end

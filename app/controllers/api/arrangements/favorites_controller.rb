@@ -3,9 +3,10 @@ module Api
     class FavoritesController < ApplicationController
       def index
         pagy, arrangements = pagy(
-          current_user.liking_arrangements.preload(:user, :after_arrangement_photo,
+          current_user.liking_arrangements.preload(:user,
+                                                   :after_arrangement_photo,
                                                    :before_arrangement_photo),
-          items: 20
+          items: 15
         )
         options = {
           include: %i[user after_arrangement_photo before_arrangement_photo],

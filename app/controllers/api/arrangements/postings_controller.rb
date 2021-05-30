@@ -5,7 +5,7 @@ module Api
         pagy, arrangements = pagy(
           current_user.arrangements.sorted_by_new.preload(:after_arrangement_photo,
                                                           :before_arrangement_photo),
-          items: 20
+          items: 15
         )
         options = {
           include: %i[after_arrangement_photo before_arrangement_photo],

@@ -1,11 +1,10 @@
-FileUtils.rm_rf("#{Rails.root}/public/uploads/user")
-
 User.seed(
   :id,
   {
     id: 0,
     nickname: 'mimata',
-    email: 'mimata@mimata.com',
+    email: 'mimata@example.com',
+    avatar_url: '/images/development/sample_avatar.png',
     crypted_password: User.encrypt('password'),
     role: 1
   }

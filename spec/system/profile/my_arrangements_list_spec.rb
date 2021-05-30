@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "自身の投稿一覧", type: :system, js: true do
 
-  describe '無限スクロール機能' do
+  describe 'ページネーション機能' do
     context '50件投稿している場合' do
       let!(:user) { create(:user, :with_arrangements, count: 50) }
 
@@ -12,22 +12,36 @@ RSpec.describe "自身の投稿一覧", type: :system, js: true do
         access_profile
       }
 
-      it 'スクロール前は20件分のデータが表示されている' do
+      it '15件分のデータが表示されている' do
         expect(has_selector?('.arrangement-summary')).to eq(true)
-        expect(all('.arrangement-summary').count).to eq(20)
+        expect(all('.arrangement-summary').count).to eq(15)
       end
 
-      context '下までスクロールした場合' do
-        before do
-          5.times do
-            sleep 1
-            execute_script('window.scroll(0,10000);')
+      context '最後のページへ切り替えた時' do
+        before {
+          within '#top-pagination' do
+            click_button('4')
           end
-        end
+        }
 
-        it '50件分のデータが表示されている' do
-          expect(all('.arrangement-summary').count).to eq(50)
+        it '5件分のデータが表示されている' do
+          expect(has_selector?('.arrangement-summary')).to eq(true)
+          expect(all('.arrangement-summary').count).to eq(5)
         end
+      end
+    end
+
+    context '投稿が10件の場合' do
+      let!(:user) { create(:user, :with_arrangements, count: 10) }
+
+      before {
+        log_in_as(user)
+        sleep 1
+        access_profile
+      }
+
+      it 'ページネーションは表示されない' do
+          expect(has_selector?('.top-pagination')).to eq(false)
       end
     end
 
