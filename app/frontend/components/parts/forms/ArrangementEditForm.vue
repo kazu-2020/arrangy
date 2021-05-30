@@ -8,7 +8,7 @@
             <v-img
               class="mx-auto mb-5"
               :src="beforeArrangementPhotoURL"
-              :lazySrc="beforeArrangementPhotoURL"
+              lazySrc="/images/dummy.png"
             >
               <template #placeholder>
                 <v-row class="fill-height ma-0" align="center" justify="center">
@@ -58,11 +58,7 @@
         <!-- アレンジ後の写真 -->
         <v-col cols="12" md="6">
           <div class="text-center mb-5">
-            <v-img
-              class="mx-auto mb-5"
-              :src="afterArrangementPhotoURL"
-              :lazySrc="afterArrangementPhotoURL"
-            >
+            <v-img class="mx-auto mb-5" :src="afterArrangementPhotoURL" lazySrc="/images/dummy.png">
               <template #placeholder>
                 <v-row class="fill-height ma-0" align="center" justify="center">
                   <VueLoading type="spiningDubbles" color="#4CAF50" />

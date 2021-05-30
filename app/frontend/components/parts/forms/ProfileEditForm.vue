@@ -3,7 +3,7 @@
     <v-sheet id="profile-edit-form" class="pa-5 pa-md--10">
       <div class="text-center mb-5">
         <v-avatar class="mb-5" tile size="200">
-          <v-img :src="avatar_url" />
+          <v-img :src="avatar_url" lazySrc="/images/dummy.png" />
         </v-avatar>
         <div>
           <NormalButton :loading="fileUploading" @click="fileUpload">

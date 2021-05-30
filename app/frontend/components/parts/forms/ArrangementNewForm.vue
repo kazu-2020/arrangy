@@ -37,7 +37,7 @@
             <v-img
               id="preview-image"
               :src="beforeArrangementPhotoURL"
-              :lazySrc="beforeArrangementPhotoURL"
+              lazySrc="/images/dummy.png"
               maxHeight="300"
               maxWidth="300"
             >
@@ -104,7 +104,7 @@
           <template v-if="afterArrangement.previewDisplayed">
             <v-img
               id="preview-image"
-              :lazySrc="afterArrangementPhotoURL"
+              lazySrc="/images/dummy.png"
               :src="afterArrangementPhotoURL"
               maxHeight="300"
               maxWidth="300"

@@ -10,7 +10,7 @@
     >
       <v-img
         :src="arrangement.after_arrangement_photo.url"
-        :lazySrc="arrangement.after_arrangement_photo.url"
+        lazySrc="/images/dummy.png"
         style="positon: relative"
       >
         <v-rating
