@@ -10,6 +10,7 @@
       <v-checkbox
         label="次回からのログインを省略する。"
         :inputValue="remember"
+        color="success"
         @change="$emit('update:remember', $event)"
       />
       <div class="text-body-2">
