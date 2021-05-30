@@ -13,6 +13,6 @@ class ApplicationController < ActionController::Base
   end
 
   def not_authenticated
-    render_401(nil, 'ログインしてください')
+    redirect_to '/login'
   end
 end

@@ -17,6 +17,12 @@
         :rules="rules.password_confirmation"
         @input="$emit('update:password_confirmation', $event)"
       />
+      <v-checkbox
+        label="次回からのログインを省略する。"
+        :inputValue="remember"
+        color="success"
+        @change="$emit('update:remember', $event)"
+      />
       <div class="text-body-2">
         Arrangyの利用を開始した場合、
         <a style="color: #cc3918" @click.stop="termsDialogDisplayed = true">利用規約</a>
@@ -99,6 +105,10 @@ export default {
     // eslint-disable-next-line vue/prop-name-casing
     password_confirmation: {
       type: String,
+      required: true,
+    },
+    remember: {
+      type: Boolean,
       required: true,
     },
   },

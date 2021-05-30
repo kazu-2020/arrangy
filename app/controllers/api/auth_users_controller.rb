@@ -3,7 +3,7 @@ module Api
     skip_before_action :require_login, only: %i[create show]
 
     def create
-      user = login(params[:email], params[:password])
+      user = login(params[:email], params[:password], params[:remember])
       return render_400 unless user
 
       options = { fields: { user: %i[nickname email avatar_url likes_count arrangements_count] } }
@@ -27,6 +27,7 @@ module Api
       # session[:_csrf_token]がnilになる為。
       session[:user_id] = nil
       current_user = nil # rubocop:disable Lint/UselessAssignment
+      force_forget_me!
       head :no_content
     end
 

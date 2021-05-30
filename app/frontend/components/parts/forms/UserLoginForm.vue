@@ -7,6 +7,12 @@
         :rules="rules.password"
         @input="$emit('update:password', $event)"
       />
+      <v-checkbox
+        label="次回からのログインを省略する。"
+        :inputValue="remember"
+        color="success"
+        @change="$emit('update:remember', $event)"
+      />
       <div class="text-body-2">
         Arrangyの利用を継続した場合、
         <a style="color: #cc3918" @click.stop="termsDialogDisplayed = true"> 利用規約 </a>
@@ -82,6 +88,10 @@ export default {
     },
     password: {
       type: String,
+      required: true,
+    },
+    remember: {
+      type: Boolean,
       required: true,
     },
   },
