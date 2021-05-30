@@ -53,7 +53,7 @@ Rails.application.configure do
         namespace: 'session'
       },
     ],
-    expire_after: 1.hour
+    expire_after: 1.week
   }
 
   # Store uploaded files on the local file system (see config/storage.yml for options).

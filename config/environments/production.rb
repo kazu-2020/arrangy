@@ -55,8 +55,8 @@ Rails.application.configure do
 
   config.session_store :redis_store, {
     servers: [ENV['REDIS_URL']],
-    expire_after: 1.hour,
-    key: "_#{Rails.application.class.module_parent_name.downcase}session",
+    expire_after: 1.week,
+    key: "#{Rails.application.class.module_parent_name.downcase}_session",
     threadsafe: true,
     secure: true,
     httponly: true
