@@ -3,6 +3,7 @@
 # Table name: arrangements
 #
 #  id             :bigint           not null, primary key
+#  arrange_level  :integer          default(0), not null
 #  comments_count :bigint           default(0)
 #  context        :text             not null
 #  likes_count    :bigint           default(0)
@@ -29,7 +30,7 @@ class ArrangementSerializer
     encode_id(record.id)
   end
 
-  attributes :title, :context, :rating, :likes_count, :comments_count
+  attributes :title, :context, :rating, :arrange_level, :likes_count, :comments_count
   attribute :liked_authuser do |record, params|
     record.liked_by?(params[:current_user]) if params[:current_user]
   end

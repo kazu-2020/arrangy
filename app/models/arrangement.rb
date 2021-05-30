@@ -3,6 +3,7 @@
 # Table name: arrangements
 #
 #  id             :bigint           not null, primary key
+#  arrange_level  :integer          default(0), not null
 #  comments_count :bigint           default(0)
 #  context        :text             not null
 #  likes_count    :bigint           default(0)
@@ -28,10 +29,13 @@ class Arrangement < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_many :liked_by_users, through: :likes, source: :user
 
+  enum arrange_level: { row: 0, high: 1 }
+
   with_options presence: true do
     validates :title
     validates :context
     validates :rating
+    validates :arrange_level
   end
 
   scope :sorted_by_new, -> { order(created_at: :desc) }

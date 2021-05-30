@@ -3,6 +3,7 @@
 # Table name: arrangements
 #
 #  id             :bigint           not null, primary key
+#  arrange_level  :integer          default(0), not null
 #  comments_count :bigint           default(0)
 #  context        :text             not null
 #  likes_count    :bigint           default(0)
@@ -42,6 +43,10 @@ RSpec.describe Arrangement, type: :model do
     end
     it '評価値が未入力の場合、無効です' do
       arrangement.rating = ''
+      expect(arrangement).to be_invalid
+    end
+    it 'アレンジ度(arrange_level)が未入力の場合、無効です' do
+      arrangement.arrange_level = nil
       expect(arrangement).to be_invalid
     end
   end
