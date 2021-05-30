@@ -55,7 +55,9 @@
           <v-btn class="ml-s" outlined :to="{ name: 'Favorites' }" exact>お気に入り一覧</v-btn>
         </v-row>
         <!-- 投稿一覧 お気に入り一覧-->
-        <router-view />
+        <v-row>
+          <router-view />
+        </v-row>
       </v-col>
     </v-row>
     <!-- プロフィール編集フォーム -->

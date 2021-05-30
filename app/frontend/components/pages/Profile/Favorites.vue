@@ -1,6 +1,12 @@
 <template>
-  <v-row v-if="isCreated">
-    <template v-if="arrangements.length">
+  <v-container v-if="isCreated">
+    <v-row v-if="pagy.pageCounts > 1">
+      <v-col cols="12">
+        <v-pagination v-model="pagy.currentPage" :length="pagy.pageCounts" circle />
+      </v-col>
+    </v-row>
+
+    <v-row v-if="arrangements.length">
       <v-col v-for="(arrangement, $index) in arrangements" :key="$index" cols="12" sm="4">
         <ArrangementSummary
           :arrangement="arrangement"
@@ -24,20 +30,19 @@
           </template>
         </ArrangementSummary>
       </v-col>
-      <infinite-loading
-        v-if="pagy.isActioned"
-        direction="bottom"
-        spinner="circles"
-        @infinite="infinitieHandler"
-      >
-        <div slot="no-more" />
-        <div slot="no-results" />
-      </infinite-loading>
-    </template>
-    <template v-else>
-      <div class="mx-auto">現在、お気に入りのアレンジ飯はありません</div>
-    </template>
-  </v-row>
+    </v-row>
+    <v-row v-else>
+      <v-col cols="12" class="font-weight-bold text-center">
+        現在、お気に入りのアレンジ飯はありません。
+      </v-col>
+    </v-row>
+
+    <v-row v-if="pagy.pageCounts > 1">
+      <v-col cols="12">
+        <v-pagination v-model="pagy.currentPage" :length="pagy.pageCounts" circle />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -52,7 +57,7 @@ export default {
       arrangements: [],
       pagy: {
         currentPage: 1,
-        isActioned: false,
+        pageCounts: 1,
       },
       isCreated: false,
     };
@@ -65,38 +70,25 @@ export default {
       };
     },
   },
+  watch: {
+    'pagy.currentPage': function (newValue) {
+      this.fetchArrangements(newValue);
+    },
+  },
   created() {
     this.fetchArrangements();
   },
   methods: {
-    fetchArrangements() {
+    fetchArrangements(page) {
       this.$devour
         .request(`${this.$devour.apiUrl}/arrangements/favorites`, 'GET', {
-          page: this.pagy.currentPage,
+          page: page,
         })
         .then((res) => {
-          this.arrangements.push(...res.data);
+          this.arrangements = res.data;
           this.isCreated = true;
-          this.pagy.currentPage += 1;
-          if (res.meta.pagy.pages !== 1) {
-            this.pagy.isActioned = true;
-          }
-        });
-    },
-    infinitieHandler($state) {
-      this.$devour
-        .request(`${this.$devour.apiUrl}/arrangements/favorites`, 'GET', {
-          page: this.pagy.currentPage,
-        })
-        .then((res) => {
-          if (this.pagy.currentPage < res.meta.pagy.pages) {
-            this.pagy.currentPage += 1;
-            this.arrangements.push(...res.data);
-            $state.loaded();
-          } else {
-            this.arrangements.push(...res.data);
-            $state.complete();
-          }
+          this.pagy.currentPage = res.meta.pagy.page;
+          this.pagy.pageCounts = res.meta.pagy.pages;
         });
     },
   },

@@ -1,6 +1,12 @@
 <template>
-  <v-row v-if="isCreated">
-    <template v-if="arrangements.length">
+  <v-container v-if="isCreated" fluid>
+    <v-row v-if="pagy.pageCounts > 1">
+      <v-col cols="12">
+        <v-pagination v-model="pagy.currentPage" :length="pagy.pageCounts" circle />
+      </v-col>
+    </v-row>
+
+    <v-row v-if="arrangements.length">
       <v-col
         v-for="(arrangement, $index) in arrangements"
         :key="$index"
@@ -29,20 +35,16 @@
           </template>
         </InitializedMenu>
       </v-col>
+    </v-row>
+    <v-row v-else>
+      <v-col cols="12" class="font-weight-bold text-center">現在、投稿はありません。</v-col>
+    </v-row>
 
-      <infinite-loading
-        v-if="pagy.isActioned"
-        direction="bottom"
-        spinner="circles"
-        @infinite="infinitieHandler"
-      >
-        <div slot="no-more" />
-        <div slot="no-results" />
-      </infinite-loading>
-    </template>
-    <template v-else>
-      <div class="mx-auto">現在、投稿はありません</div>
-    </template>
+    <v-row v-if="pagy.pageCounts > 1">
+      <v-col cols="12">
+        <v-pagination v-model="pagy.currentPage" :length="pagy.pageCounts" circle />
+      </v-col>
+    </v-row>
     <!-- 投稿編集フォーム -->
     <ArrangementEditForm
       :isShow="editArrangementDialogDisplayed"
@@ -60,7 +62,7 @@
       <template #title>投稿を削除する</template>
       <template #text> この投稿を本当に削除しますか？削除後は元に戻すことはできません。 </template>
     </DeleteConfirmationDialog>
-  </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -92,7 +94,7 @@ export default {
       arrangementDelete: {},
       pagy: {
         currentPage: 1,
-        isActioned: false,
+        pageCounts: 1,
       },
       isCreated: false,
       arrangementEditing: false,
@@ -125,8 +127,13 @@ export default {
       };
     },
   },
+  watch: {
+    'pagy.currentPage': function (newValue) {
+      this.fetchArrangements(newValue);
+    },
+  },
   created() {
-    this.fetchArrangements();
+    this.fetchArrangements(1);
   },
   methods: {
     ...mapActions('snackbars', ['fetchSnackbarData']),
@@ -153,34 +160,16 @@ export default {
     closeDeleteArrangementDialog() {
       this.deleteArrangementDialogDisplayed = false;
     },
-    fetchArrangements() {
+    fetchArrangements(page) {
       this.$devour
         .request(`${this.$devour.apiUrl}/arrangements/postings`, 'GET', {
-          page: this.pagy.currentPage,
+          page: page,
         })
         .then((res) => {
-          this.arrangements.push(...res.data);
+          this.arrangements = res.data;
           this.isCreated = true;
-          this.pagy.currentPage += 1;
-          if (res.meta.pagy.pages !== 1) {
-            this.pagy.isActioned = true;
-          }
-        });
-    },
-    infinitieHandler($state) {
-      this.$devour
-        .request(`${this.$devour.apiUrl}/arrangements/postings`, 'GET', {
-          page: this.pagy.currentPage,
-        })
-        .then((res) => {
-          if (this.pagy.currentPage < res.meta.pagy.pages) {
-            this.pagy.currentPage += 1;
-            this.arrangements.push(...res.data);
-            $state.loaded();
-          } else {
-            this.arrangements.push(...res.data);
-            $state.complete();
-          }
+          this.pagy.currentPage = res.meta.pagy.page;
+          this.pagy.pageCounts = res.meta.pagy.pages;
         });
     },
     updateArrangement() {
