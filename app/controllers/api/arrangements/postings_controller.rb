@@ -10,7 +10,9 @@ module Api
         options = {
           include: %i[after_arrangement_photo before_arrangement_photo],
           fields: {
-            arrangement: %i[title context rating created_at likes_count comments_count after_arrangement_photo
+            arrangement: %i[title context rating arrange_level
+                            created_at likes_count comments_count
+                            after_arrangement_photo
                             before_arrangement_photo],
             after_arrangement_photo: %i[url],
             before_arrangement_photo: %i[url]

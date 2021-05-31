@@ -3,6 +3,7 @@
 # Table name: arrangements
 #
 #  id             :bigint           not null, primary key
+#  arrange_level  :integer          default(0), not null
 #  comments_count :bigint           default(0)
 #  context        :text             not null
 #  likes_count    :bigint           default(0)
@@ -25,6 +26,7 @@ FactoryBot.define do
     title { "テスト投稿" }
     context { "これはテスト投稿です" }
     rating { 3 }
+    arrange_level { 0 }
     user
 
     trait :with_after_arrangement_photo do

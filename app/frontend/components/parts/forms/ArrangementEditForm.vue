@@ -182,6 +182,19 @@
           :rules="rules.context"
           @input="$emit('update:context', $event)"
         />
+
+        <v-row>
+          <v-col cols="12" class="pb-0 font-weight-bold"> アレンジ度 </v-col>
+          <v-row>
+            <v-col cols="12">
+              <ArrangeLevelField
+                :value="arrangeLevel"
+                @change="$emit('update:arrangeLevel', $event)"
+              />
+            </v-col>
+          </v-row>
+        </v-row>
+
         <v-row>
           <v-col cols="12" class="pb-0 font-weight-bold"> アレンジ飯の評価 </v-col>
         </v-row>
@@ -218,6 +231,7 @@
 import Jimp from 'jimp/es';
 import JimpJPEG from 'jpeg-js';
 
+import ArrangeLevelField from '../formInputs/ArrangeLevelField';
 import ContextField from '../formInputs/ContextField';
 import NormalButton from '../buttons/NormalButton';
 import RatingField from '../formInputs/RatingField';
@@ -226,6 +240,7 @@ import TitleField from '../formInputs/TitleField';
 
 export default {
   components: {
+    ArrangeLevelField,
     ContextField,
     NormalButton,
     RatingField,
@@ -246,6 +261,10 @@ export default {
       required: true,
     },
     rating: {
+      type: Number,
+      required: true,
+    },
+    arrangeLevel: {
       type: Number,
       required: true,
     },

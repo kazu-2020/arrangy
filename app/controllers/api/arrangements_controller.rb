@@ -13,7 +13,9 @@ module Api
       options = {
         include: %i[user after_arrangement_photo before_arrangement_photo],
         fields: {
-          arrangement: %i[title created_at rating likes_count comments_count user after_arrangement_photo
+          arrangement: %i[title created_at arrange_level rating
+                          likes_count comments_count user
+                          after_arrangement_photo
                           before_arrangement_photo],
           after_arrangement_photo: %i[url],
           before_arrangement_photo: %i[url],
@@ -43,7 +45,9 @@ module Api
       options = {
         include: %i[user after_arrangement_photo before_arrangement_photo],
         fields: {
-          arrangement: %i[title context rating likes_count liked_authuser created_at user after_arrangement_photo
+          arrangement: %i[title context arrange_level rating likes_count
+                          liked_authuser created_at user
+                          after_arrangement_photo
                           before_arrangement_photo],
           after_arrangement_photo: %i[url],
           before_arrangement_photo: %i[url],
@@ -63,7 +67,9 @@ module Api
       options = {
         include: %i[user after_arrangement_photo before_arrangement_photo],
         fields: {
-          arrangement: %i[title context rating likes_count liked_authuser created_at user after_arrangement_photo
+          arrangement: %i[title context arrange_level rating likes_count
+                          liked_authuser created_at user
+                          after_arrangement_photo
                           before_arrangement_photo],
           after_arrangement_photo: %i[url],
           before_arrangement_photo: %i[url],
@@ -82,7 +88,7 @@ module Api
     private
 
     def arrangement_params
-      params.require(:arrangement).permit(:title, :context, :rating)
+      params.require(:arrangement).permit(:title, :context, :rating, :arrange_level)
     end
 
     def after_arrangement_photo_params
