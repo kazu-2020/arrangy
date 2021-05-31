@@ -5,7 +5,8 @@ RSpec.describe ArrangementForm, type: :model do
     {
       title: 'テスト投稿タイトル',
       context: 'テスト投稿内容',
-      rating: '3'
+      rating: 3,
+      arrange_level: 0
     }
   }
   let(:after_arrangement_photo_params) { { url: '/images/development/sample_for_photo.png' } }

@@ -13,14 +13,26 @@
         lazySrc="/images/dummy.png"
         style="positon: relative"
       >
-        <v-rating
-          :length="arrangement.rating"
-          :value="arrangement.rating"
-          color="orange"
-          readonly
-          :large="raitingLarge"
-          style="positon: absolute; top: 0"
-        />
+        <template v-if="arrangement.arrange_level === 1">
+          <v-avatar
+            color="red"
+            class="font-weight-bold"
+            style="position: absolute; top: 0; left: 0; color: #ffef02"
+            size="52"
+          >
+            激変
+          </v-avatar>
+        </template>
+        <template v-else>
+          <v-avatar
+            color="#009FE8"
+            class="font-weight-bold"
+            style="position: absolute; top: 0; left: 0; color: #ffef02"
+            size="52"
+          >
+            <span>ちょい足し</span>
+          </v-avatar>
+        </template>
 
         <v-img
           :src="arrangement.before_arrangement_photo.url"
@@ -34,7 +46,20 @@
           </v-row>
         </template>
       </v-img>
-      <v-card-title class="font-weight-bold text-truncate d-inline-block" style="width: 100%">
+
+      <v-card-title class="d-flex justify-end pa-0">
+        <v-rating
+          dense
+          small
+          color="orange"
+          readonly
+          backgroundColor="orange ligh"
+          :length="5"
+          :value="arrangement.rating"
+        />
+      </v-card-title>
+
+      <v-card-title class="pt-0 font-weight-bold text-truncate d-inline-block" style="width: 100%">
         {{ arrangement.title }}
       </v-card-title>
       <v-card-subtitle class="d-flex text-caption">

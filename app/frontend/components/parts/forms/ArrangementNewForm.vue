@@ -3,7 +3,6 @@
     <v-row class="mb-10">
       <v-col cols="12" sm="4">
         <div class="text-h6 font-weight-bold">写真を選択する</div>
-        <div class="text-caption" style="color: #cc3918">※必須</div>
         <div class="d-flex flex-column">
           <div class="text-caption light-weight-text">画像形式: JPEG/PNG</div>
           <div class="text-caption light-weight-text">容量: 10MB以内</div>
@@ -214,7 +213,6 @@
     <v-row class="mb-10">
       <v-col cols="12" sm="4">
         <div class="text-h6 font-weight-bold">タイトルを追加する</div>
-        <div class="text-caption" style="color: #cc3918">※必須</div>
         <div class="d-flex flex-column">
           <div class="text-caption light-weight-text">文字数: 30字以内</div>
         </div>
@@ -227,7 +225,6 @@
     <v-row class="mb-10">
       <v-col cols="12" sm="4">
         <div class="text-h6 font-weight-bold">投稿内容を追加する</div>
-        <div class="text-caption" style="color: #cc3918">※必須</div>
         <div class="d-flex flex-column">
           <div class="text-caption light-weight-text">文字数: 1000字以内</div>
         </div>
@@ -243,11 +240,14 @@
 
     <v-row class="mb-10">
       <v-col cols="12" sm="4">
-        <div class="text-h6 font-weight-bold">アレンジ飯の評価</div>
-        <div class="text-caption" style="color: #cc3918">※必須</div>
-        <div class="d-flex flex-column">
-          <div class="text-caption light-weight-text">5段階で設定できます</div>
-        </div>
+        <div class="text-h6 font-weight-bold">アレンジ度</div>
+      </v-col>
+      <ArrangeLevelField :value="arrange_level" @change="$emit('update:arrange_level', $event)" />
+    </v-row>
+
+    <v-row class="mb-10">
+      <v-col cols="12" sm="4">
+        <div class="text-h6 font-weight-bold">おすすめ度</div>
       </v-col>
       <v-col>
         <RatingField
@@ -277,6 +277,7 @@
 import Jimp from 'jimp/es';
 import JimpJPEG from 'jpeg-js';
 
+import ArrangeLevelField from '../formInputs/ArrangeLevelField';
 import ContextField from '../formInputs/ContextField';
 import NormalButton from '../buttons/NormalButton';
 import RatingField from '../formInputs/RatingField';
@@ -285,6 +286,7 @@ import TitleField from '../formInputs/TitleField';
 
 export default {
   components: {
+    ArrangeLevelField,
     ContextField,
     NormalButton,
     RatingField,
@@ -301,6 +303,11 @@ export default {
       required: true,
     },
     rating: {
+      type: Number,
+      required: true,
+    },
+    // eslint-disable-next-line vue/prop-name-casing
+    arrange_level: {
       type: Number,
       required: true,
     },

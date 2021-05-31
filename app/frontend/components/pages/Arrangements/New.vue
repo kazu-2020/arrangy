@@ -31,6 +31,7 @@ export default {
         title: '',
         context: '',
         rating: 0,
+        arrange_level: 0,
         afterArrangementPhotoURL: '',
         beforeArrangementPhotoURL: '',
       },
@@ -84,6 +85,7 @@ export default {
         title: this.arrangementForm.title,
         context: this.arrangementForm.context,
         rating: this.arrangementForm.rating,
+        arrange_level: this.arrangementForm.arrange_level,
       };
     },
     beforeArrangementPhoto() {

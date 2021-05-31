@@ -37,6 +37,7 @@ jsonApi.define('arrangement', {
   title: '',
   context: '',
   rating: '',
+  arrange_level: '',
   created_at: '',
   liked_authuser: '',
   likes_count: '',

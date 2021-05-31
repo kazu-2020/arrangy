@@ -6,7 +6,8 @@ class ArrangementForm
 
   attribute :title, :string
   attribute :context, :string
-  attribute :rating, :string
+  attribute :rating, :integer
+  attribute :arrange_level, :integer
   attribute :after_arrangement_photo_url, :string
   attribute :before_arrangement_photo_url, :string
 

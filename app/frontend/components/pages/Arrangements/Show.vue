@@ -1,10 +1,23 @@
 <template>
   <v-container :id="`arrangement-${arrangementInformation.id}`">
-    <v-row>
-      <v-col class="pt-10" cols="12">
-        <div class="text-justify text-h4 mb-4 font-weight-black" style="word-break: break-all">
-          {{ arrangementInformation.title }}
-        </div>
+    <v-row class="pt-10">
+      <v-col
+        class="text-justify text-h4 font-weight-black"
+        style="word-break: break-all"
+        cols="12"
+        md
+      >
+        {{ arrangementInformation.title }}
+      </v-col>
+      <v-col cols="auto">
+        <v-rating
+          :length="5"
+          :value="arrangementInformation.rating"
+          color="orange"
+          backgroundColor="orange lighten-3"
+          readonly
+          large
+        />
       </v-col>
     </v-row>
     <v-row>
@@ -14,14 +27,27 @@
           :lazySrc="arrangementInformation.after_arrangement_photo.url"
           style="position: relative"
         >
-          <v-rating
-            :length="arrangementInformation.rating"
-            :value="arrangementInformation.rating"
-            color="orange"
-            readonly
-            large
-            style="positon: absolute; top: 0"
-          />
+          <template v-if="arrangementInformation.arrange_level === 1">
+            <v-avatar
+              color="red"
+              class="font-weight-bold"
+              style="position: absolute; top: 0; left: 0; color: #ffef02"
+              size="52"
+            >
+              激変
+            </v-avatar>
+          </template>
+          <template v-else>
+            <v-avatar
+              color="#009FE8"
+              class="font-weight-bold"
+              style="position: absolute; top: 0; left: 0; color: #ffef02"
+              size="52"
+            >
+              <span>ちょい足し</span>
+            </v-avatar>
+          </template>
+
           <template v-if="authUser && authUser.id === arrangementInformation.user.id">
             <InitializedMenu :absolute="true">
               <template #btn-text>
@@ -51,11 +77,11 @@
             </v-row>
           </template>
         </v-img>
+
         <v-row>
           <v-col cols="auto">
             {{ arrangementInformation.created_at }}
           </v-col>
-          <v-col> </v-col>
         </v-row>
       </v-col>
       <v-col cols="12" sm="6">
@@ -268,6 +294,7 @@ export default {
         id: '',
         title: '',
         context: '',
+        arrange_level: 0,
         rating: 0,
         created_at: '',
         liked_authuser: '',
@@ -287,6 +314,7 @@ export default {
         id: '',
         title: '',
         context: '',
+        arrangeLevel: 0,
         rating: 0,
         afterArrangementPhotoURL: '',
         beforeArrangementPhotoURL: '',
@@ -356,6 +384,7 @@ export default {
         title: this.arrangementEdit.title,
         context: this.arrangementEdit.context,
         rating: this.arrangementEdit.rating,
+        arrange_level: this.arrangementEdit.arrangeLevel,
       };
     },
     afterArrangementPhotoParams() {
@@ -408,6 +437,7 @@ export default {
       this.arrangementEdit.title = this.arrangementInformation.title;
       this.arrangementEdit.context = this.arrangementInformation.context;
       this.arrangementEdit.rating = this.arrangementInformation.rating;
+      this.arrangementEdit.arrangeLevel = this.arrangementInformation.arrange_level;
       this.arrangementEdit.afterArrangementPhotoURL = this.arrangementInformation.after_arrangement_photo.url;
       this.arrangementEdit.beforeArrangementPhotoURL = this.arrangementInformation.before_arrangement_photo.url;
 

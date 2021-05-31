@@ -92,6 +92,7 @@ export default {
         id: '',
         title: '',
         context: '',
+        arrangeLevel: 0,
         rating: 0,
         afterArrangementPhotoURL: '',
         beforeArrangementPhotoURL: '',
@@ -113,6 +114,7 @@ export default {
         title: this.arrangementEdit.title,
         context: this.arrangementEdit.context,
         rating: this.arrangementEdit.rating,
+        arrange_level: this.arrangementEdit.arrangeLevel,
       };
     },
     afterArrangementPhotoParams() {
@@ -149,6 +151,7 @@ export default {
       this.arrangementEdit.title = arrangement.title;
       this.arrangementEdit.context = arrangement.context;
       this.arrangementEdit.rating = arrangement.rating;
+      this.arrangementEdit.arrangeLevel = arrangement.arrange_level;
       this.arrangementEdit.afterArrangementPhotoURL = arrangement.after_arrangement_photo.url;
       this.arrangementEdit.beforeArrangementPhotoURL = arrangement.before_arrangement_photo.url;
 
