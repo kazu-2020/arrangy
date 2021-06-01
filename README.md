@@ -42,10 +42,14 @@
 
 アレンジ飯を作ってみたい、広めたい人達
 
-## 画面遷移図
-
-https://xd.adobe.com/view/d0b37ae3-78ed-47a0-b6c1-953b4116184b-85e0/
-
 ## ER 図
+
+<img src="https://user-images.githubusercontent.com/64774307/120371875-66d5ff80-c351-11eb-8af5-2bad1be49f84.png">
+
+## インフラ図
+
+<img src="https://user-images.githubusercontent.com/64774307/120373968-e9f85500-c353-11eb-8a5c-40ffff80c357.png">
+
+## 画面遷移図
 
 https://drive.google.com/file/d/12sw0wh9Y-LYrw-pcvJGS2xaTSUEQgte5/view?usp=sharing
