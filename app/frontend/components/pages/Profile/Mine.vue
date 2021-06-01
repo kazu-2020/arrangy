@@ -23,7 +23,7 @@
       >
         <ArrangementSummary
           :arrangement="arrangement"
-          :twitterShareUrl="twitterShareUrl(arrangement.id)"
+          :twitterShareUrl="twitterShareUrl(arrangement)"
         />
         <InitializedMenu :outlined="true" :absolute="true">
           <template #btn-text>
@@ -141,9 +141,9 @@ export default {
       };
     },
     twitterShareUrl() {
-      return function (id) {
-        const url = `https://arrangy.jp/arrangements/${id}`;
-        return `https://twitter.com/share?text=こちらは人気のアレンジ飯です。皆さんも実際に作って食べてみてください。%0a他のアレンジ飯が気になる方は是非、Arrangy(アレンジー)にお越し下さい。&url=${url}&hashtags=Arrangy,アレンジ飯`;
+      return function (arrangement) {
+        const url = `https://arrangy.jp/arrangements/${arrangement.id}`;
+        return `https://twitter.com/share?text=今回、紹介するアレンジ飯は「${arrangement.title}」です。皆さんも実際に作って食べてみてください。%0a他のアレンジ飯が気になる方は是非、Arrangy(アレンジー)にお越し下さい。&url=${url}&hashtags=Arrangy,アレンジ飯`;
       };
     },
   },

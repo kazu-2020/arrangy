@@ -45,7 +45,7 @@
         <v-col v-for="(arrangement, $index) in arrangements" :key="$index" cols="12" sm="4" md="4">
           <ArrangementSummary
             :arrangement="arrangement"
-            :twitterShareUrl="twitterShareUrl(arrangement.id)"
+            :twitterShareUrl="twitterShareUrl(arrangement)"
             :raitingLarge="true"
           >
             <template slot="user-information">
@@ -168,9 +168,9 @@ export default {
       return 'Arrangy(アレンジー)はアレンジ飯の共有サービスです。コンビニ商品や外食店の料理を使用したアレンジ飯を「知りたい」「共有したい」という方達は、是非覗いてみてください!!';
     },
     twitterShareUrl() {
-      return function (id) {
-        const url = `https://arrangy.jp/arrangements/${id}`;
-        return `https://twitter.com/share?text=こちらは人気のアレンジ飯です。皆さんも実際に作って食べてみてください。%0a他のアレンジ飯が気になる方は是非、Arrangy(アレンジー)にお越し下さい。&url=${url}&hashtags=Arrangy,アレンジ飯`;
+      return function (arrangement) {
+        const url = `https://arrangy.jp/arrangements/${arrangement.id}`;
+        return `https://twitter.com/share?text=今回、紹介するアレンジ飯は「${arrangement.title}」です。皆さんも実際に作って食べてみてください。%0a他のアレンジ飯が気になる方は是非、Arrangy(アレンジー)にお越し下さい。&url=${url}&hashtags=Arrangy,アレンジ飯`;
       };
     },
   },

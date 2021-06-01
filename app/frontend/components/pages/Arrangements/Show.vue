@@ -404,8 +404,8 @@ export default {
       };
     },
     twitterShare() {
-      const url = location.href;
-      return `https://twitter.com/share?text=こちらは人気のアレンジ飯です。皆さんも実際に作って食べてみてください。%0a他のアレンジ飯が気になる方は是非、Arrangy(アレンジー)にお越し下さい。&url=${url}&hashtags=Arrangy,アレンジ飯`;
+      const url = `https://arrangy.jp/arrangements/${this.arrangementInformation.id}`;
+      return `https://twitter.com/share?text=今回、紹介するアレンジ飯は「${this.arrangementInformation.title}」です。皆さんも実際に作って食べてみてください。%0a他のアレンジ飯が気になる方は是非、Arrangy(アレンジー)にお越し下さい。&url=${url}&hashtags=Arrangy,アレンジ飯`;
     },
   },
   created() {
