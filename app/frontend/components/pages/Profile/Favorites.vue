@@ -2,7 +2,13 @@
   <v-container v-if="isCreated">
     <v-row v-if="pagy.pageCounts > 1">
       <v-col cols="12">
-        <v-pagination v-model="pagy.currentPage" :length="pagy.pageCounts" circle />
+        <v-pagination
+          id="top-pagination"
+          v-model="pagy.currentPage"
+          circle
+          color="#cc3918"
+          :length="pagy.pageCounts"
+        />
       </v-col>
     </v-row>
 
@@ -39,7 +45,13 @@
 
     <v-row v-if="pagy.pageCounts > 1">
       <v-col cols="12">
-        <v-pagination v-model="pagy.currentPage" :length="pagy.pageCounts" circle />
+        <v-pagination
+          id="bottom-pagination"
+          v-model="pagy.currentPage"
+          :length="pagy.pageCounts"
+          circle
+          color="#cc3918"
+        />
       </v-col>
     </v-row>
   </v-container>

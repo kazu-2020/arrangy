@@ -5,13 +5,14 @@
       class="arrangement-summary"
       height="100%"
       color="#eeeeee"
-      :to="{ name: 'ArrangementShow', params: { id: arrangement.id } }"
       elevation="0"
+      @click="jumpArrangementPage(arrangement.id)"
     >
       <v-img
         :src="arrangement.after_arrangement_photo.url"
         lazySrc="/images/dummy.png"
         style="positon: relative"
+        height="300"
       >
         <template v-if="arrangement.arrange_level === 1">
           <v-avatar
@@ -100,6 +101,12 @@ export default {
     raitingLarge: {
       type: Boolean,
       default: false,
+    },
+  },
+  methods: {
+    jumpArrangementPage(id) {
+      sessionStorage.setItem('position', window.pageYOffset);
+      this.$router.push({ name: 'ArrangementShow', params: { id: id } });
     },
   },
 };

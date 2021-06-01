@@ -45,6 +45,13 @@
             <v-list-item-title>ホーム</v-list-item-title>
           </v-list-item>
 
+          <v-list-item :to="{ name: 'ArrangementNew' }">
+            <v-list-item-icon>
+              <v-icon>mdi-clipboard-edit</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>新規投稿</v-list-item-title>
+          </v-list-item>
+
           <template v-if="authUser">
             <v-list-item :to="{ name: 'UserProfile' }" exact>
               <v-list-item-icon>
@@ -60,13 +67,6 @@
               <v-list-item-title>お気に入り一覧</v-list-item-title>
             </v-list-item>
           </template>
-
-          <v-list-item :to="{ name: 'ArrangementNew' }">
-            <v-list-item-icon>
-              <v-icon>mdi-clipboard-edit</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>新規投稿</v-list-item-title>
-          </v-list-item>
         </v-list-item-group>
 
         <v-list-item-group>
