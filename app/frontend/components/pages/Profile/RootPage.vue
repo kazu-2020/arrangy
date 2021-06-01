@@ -42,7 +42,7 @@
               パスワードを変更する場合は
               <a style="color: #cc3918" @click.stop="displayPasswordEditDialog"> こちら </a>
             </p>
-            <SubmitButton :xLarge="true" :color="'#cc3918'" @submit="handleDestroyUser">
+            <SubmitButton :xLarge="true" :color="'#cc3918'" @submit="handledeleteUser">
               <template #text> 退会する </template>
             </SubmitButton>
           </v-col>
@@ -77,12 +77,24 @@
       @changeDialog="changePasswordToProfile"
       @closeDialog="closeEditPasswordDialog"
     />
+    <!-- 退会確認用ダイアログ -->
+    <DeleteConfirmationDialog
+      :isShow="deleteUserDialogDisplayed"
+      @closeDialog="closeDeleteUser"
+      @deleteData="deleteUser"
+    >
+      <template #title>Arrangyを退会する</template>
+      <template #text>
+        退会するとこれまで投稿したアレンジ飯なども削除されます。よろしいですか?
+      </template>
+    </DeleteConfirmationDialog>
   </v-container>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
+import DeleteConfirmationDialog from '../../parts/dialogs/DeleteConfirmationDialog';
 import NormalButton from '../../parts/buttons/NormalButton';
 import PasswordEditForm from '../../parts/forms/PasswordEditForm';
 import ProfileEditForm from '../../parts/forms/ProfileEditForm';
@@ -90,6 +102,7 @@ import SubmitButton from '../../parts/buttons/SubmitButton';
 
 export default {
   components: {
+    DeleteConfirmationDialog,
     NormalButton,
     PasswordEditForm,
     ProfileEditForm,
@@ -109,6 +122,7 @@ export default {
       },
       editProfileDialogDisplayed: false,
       editPasswordDialogDisplayed: false,
+      deleteUserDialogDisplayed: false,
       profileUpdating: false,
     };
   },
@@ -179,7 +193,9 @@ export default {
       this.passwordEdit.password_confirmation = '';
       this.passwordEdit.password = '';
     },
-
+    closeDeleteUser() {
+      this.deleteUserDialogDisplayed = false;
+    },
     changeProfileToPassword() {
       this.closeEditProfileDialog();
       this.displayPasswordEditDialog();
@@ -229,7 +245,7 @@ export default {
           });
         });
     },
-    handleDestroyUser() {
+    deleteUser() {
       this.destroyUser(this.authUser).then(() => {
         this.$router.push({ name: 'TopPage' });
         this.fetchSnackbarData({
@@ -238,6 +254,9 @@ export default {
           isShow: true,
         });
       });
+    },
+    handledeleteUser() {
+      this.deleteUserDialogDisplayed = true;
     },
   },
 };
