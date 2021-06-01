@@ -56,10 +56,16 @@
               <template #list>
                 <v-list id="arrangement-menu-list" dense>
                   <v-list-item tag="button" @click.stop="displayArrangementEditDialog">
-                    編集する
+                    <v-list-item-icon>
+                      <v-icon>mdi-clipboard-edit</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-title> 編集する</v-list-item-title>
                   </v-list-item>
                   <v-list-item tag="button" @click.stop="displayDeleteArrangementDialog">
-                    削除する
+                    <v-list-item-icon>
+                      <v-icon>mdi-trash-can-outline</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-title> 削除する</v-list-item-title>
                   </v-list-item>
                 </v-list>
               </template>

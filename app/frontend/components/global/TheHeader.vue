@@ -47,7 +47,7 @@
 
           <v-list-item :to="{ name: 'ArrangementNew' }">
             <v-list-item-icon>
-              <v-icon>mdi-clipboard-edit</v-icon>
+              <v-icon>mdi-clipboard-plus</v-icon>
             </v-list-item-icon>
             <v-list-item-title>新規投稿</v-list-item-title>
           </v-list-item>
