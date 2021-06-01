@@ -29,6 +29,18 @@
     </v-container>
 
     <v-container>
+      <v-row v-if="pagy.pageCounts > 1">
+        <v-col cols="12">
+          <v-pagination
+            id="top-pagination"
+            v-model="pagy.currentPage"
+            :length="pagy.pageCounts"
+            circle
+            color="#cc3918"
+          />
+        </v-col>
+      </v-row>
+
       <v-row class="pb-10">
         <v-col v-for="(arrangement, $index) in arrangements" :key="$index" cols="12" sm="4" md="4">
           <ArrangementSummary
@@ -57,16 +69,18 @@
             </template>
           </ArrangementSummary>
         </v-col>
+      </v-row>
 
-        <infinite-loading
-          v-if="pagy.isActioned"
-          direction="bottom"
-          spinner="circles"
-          @infinite="infiniteHandler"
-        >
-          <div slot="no-more" />
-          <div slot="no-results" />
-        </infinite-loading>
+      <v-row v-if="pagy.pageCounts > 1">
+        <v-col cols="12">
+          <v-pagination
+            id="bottom-pagination"
+            v-model="pagy.currentPage"
+            :length="pagy.pageCounts"
+            circle
+            color="#cc3918"
+          />
+        </v-col>
       </v-row>
 
       <!-- 新規投稿者案内用ダイアログ -->
@@ -76,7 +90,8 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import devour from '../../plugins/devour';
+import store from '../../store/index';
 
 import ArrangementSummary from '../parts/cards/ArrangementSummary';
 import WelcomeDialog from '../parts/dialogs/WelcomeDialog';
@@ -86,11 +101,25 @@ export default {
     ArrangementSummary,
     WelcomeDialog,
   },
+  beforeRouteEnter(to, from, next) {
+    const query = new URLSearchParams(location.search);
+    const page = query.has('page') ? Number(query.get('page')) : 1;
+
+    devour.findAll('arrangement', { page: page }).then((res) => {
+      next((self) => {
+        self.arrangements = res.data;
+        self.pagy.currentPage = res.meta.pagy.page;
+        self.pagy.pageCounts = res.meta.pagy.pages;
+      });
+    });
+    store.dispatch('users/fetchAuthUser');
+  },
   data() {
     return {
       arrangements: [],
       welcomeDialogDisplayed: false,
       pagy: {
+        pageCounts: 1,
         currentPage: 1,
         isActioned: false,
       },
@@ -135,7 +164,6 @@ export default {
     },
   },
   computed: {
-    ...mapGetters('users', ['authUser']),
     siteDescription() {
       return 'Arrangy(アレンジー)はアレンジ飯の共有サービスです。コンビニ商品や外食店の料理を使用したアレンジ飯を「知りたい」「共有したい」という方達は、是非覗いてみてください!!';
     },
@@ -146,40 +174,40 @@ export default {
       };
     },
   },
+  watch: {
+    'pagy.currentPage': function (newValue) {
+      const url = new URL(location);
+      url.searchParams.set('page', newValue);
+      window.history.pushState({}, '', url);
+      this.fetchArrangements(newValue);
+    },
+  },
   created() {
     if (location.search.includes('registration=true')) {
       this.handleShowWelcomeDialog();
     }
-    this.fetchAuthUser();
-    this.fetchArrangements();
+  },
+  updated() {
+    const position = sessionStorage.getItem('position');
+    if (position) {
+      this.$nextTick(() => {
+        window.scrollTo(0, position);
+        sessionStorage.removeItem('position');
+      });
+    }
   },
   methods: {
-    ...mapActions('users', ['fetchAuthUser']),
     closeWelcomeDialog() {
       this.handleShowWelcomeDialog();
     },
     handleShowWelcomeDialog() {
       this.welcomeDialogDisplayed = !this.welcomeDialogDisplayed;
     },
-    fetchArrangements() {
-      this.$devour.findAll('arrangement', { page: this.pagy.currentPage }).then((res) => {
-        this.arrangements.push(...res.data);
-        this.pagy.currentPage += 1;
-        if (res.meta.pagy.pages !== 1) {
-          this.pagy.isActioned = true;
-        }
-      });
-    },
-    infiniteHandler($state) {
-      this.$devour.findAll('arrangement', { page: this.pagy.currentPage }).then((res) => {
-        if (this.pagy.currentPage < res.meta.pagy.pages) {
-          this.pagy.currentPage += 1;
-          this.arrangements.push(...res.data);
-          $state.loaded();
-        } else {
-          this.arrangements.push(...res.data);
-          $state.complete();
-        }
+    fetchArrangements(page) {
+      this.$devour.findAll('arrangement', { page: page }).then((res) => {
+        this.arrangements = res.data;
+        this.pagy.currentPage = res.meta.pagy.page;
+        this.pagy.pageCounts = res.meta.pagy.pages;
       });
     },
   },
