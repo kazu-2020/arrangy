@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import VueGtag from 'vue-gtag';
 import store from '../store/index';
 
 Vue.use(VueRouter);
@@ -197,6 +198,16 @@ router.beforeEach((to, from, next) => {
     next();
   }
 });
+
+Vue.use(
+  VueGtag,
+  {
+    config: { id: 'G-1HHB3Z579Z' },
+    appName: 'Arrangy',
+    pageTrackerScreenviewEnabled: true,
+  },
+  router
+);
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.requireAdmin)) {
