@@ -26,7 +26,7 @@ RSpec.describe "退会機能", type: :system, js: true do
         end
       }
 
-      fit '「退会しました」と表示され、トップページへ遷移する' do
+      it '「退会しました」と表示され、トップページへ遷移する' do
         expect(find('#global-snackbar')).to have_text('退会しました')
         sleep 1
         expect(current_path).to eq('/')
