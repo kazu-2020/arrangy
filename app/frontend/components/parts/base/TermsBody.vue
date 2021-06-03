@@ -4,7 +4,7 @@
       <v-col cols="auto">
         <div class="mb-5 text-h4 font-weight-bold">利用規約</div>
         <div class="text-body-1 font-weight-medium">
-          この利用規約（以下，「本規約」といいます。）は，このウェブサイト上で提供するサービス（以下，「本サービス」といいます。）の利用条件を定めるものです。登録ユーザーの皆さま（以下，「ユーザー」といいます。）には本規約に従って，本サービスをご利用いただきます。
+          本利用規約（以下，「本規約」といいます。）は，このウェブサイト上で提供するサービス「Arrangy」（以下，「本サービス」といいます。）の利用条件を定めるものです。登録ユーザーの皆さま（以下，「ユーザー」といいます。）には本規約に従って，本サービスをご利用いただきます。
           <br class=".br-pc" />
           ユーザーは本サービスに利用登録することにより，本規約の全ての記載内容について同意したものとみなされます。
         </div>
@@ -18,14 +18,20 @@
           <div class="mb-2 d-flex">
             <div class="mr-2">1.</div>
             <div>
-              本規約は，ユーザーと当社との間の本サービスの利用に関わる一切の関係に適用されるものとします。
+              本規約は，ユーザーと本サービスの利用に関わる一切の関係に適用されるものとします。
             </div>
           </div>
           <div class="d-flex">
             <div class="mr-2">2.</div>
             <div>
-              当社は本サービスに関し，本規約のほか，ご利用にあたってのルール等，各種の定め（以下，「個別規定」といいます。）をすることがあります。<br />
+              本サービスに関し，本規約のほか，ご利用にあたってのルール等，各種の定め（以下，「個別規定」といいます。）をすることがあります。<br />
               これら個別規定はその名称のいかんに関わらず，本規約の一部を構成するものとします。
+            </div>
+          </div>
+          <div class="d-flex">
+            <div class="mr-2">3.</div>
+            <div>
+              登録ユーザー以外のユーザーによる本サービスの利用につきましては、本規約にご同意いただく手続に代えて、実際にご利用いただくことで本規約にご同意いただいたものとみなします。
             </div>
           </div>
         </div>
@@ -34,12 +40,17 @@
 
     <v-row class="mb-3">
       <v-col cols="auto">
-        <div class="mb-5 text-h5 font-weight-bold">第2条（利用規約）</div>
+        <div class="mb-5 text-h5 font-weight-bold">第2条（利用登録）</div>
         <div class="pl-5 text-body-1 font-weight-medium d-flex">
           <div class="mr-2">１.</div>
           <div>
-            当社は本サービスに関し，本規約のほかにご利用にあたってのルール等，各種の定め（以下，「個別規定」といいます。）をすることがあります。<br />
-            これら個別規定はその名称のいかんに関わらず，本規約の一部を構成するものとします。
+            本サービスの登録ユーザーとなることを希望する者は、本規約を遵守することに同意し、かつ本サービスの定める一定の情報を本サービスの定める方法で提供することにより、利用登録を完了するものとします。
+          </div>
+        </div>
+        <div class="pl-5 text-body-1 font-weight-medium d-flex">
+          <div class="mr-2">2.</div>
+          <div>
+            本条第1項の規定に係わらず、登録希望者が外部SNSサービスにおけるID等を利用して、本規約を遵守することに同意した上で、登録手続を行うことで、本サービスの登録ユーザーとなることができる場合があります。この場合は、本サービスが定める登録手続の完了時点で、本条第3項に定める利用契約が登録ユーザーと当サービスの間で成立するものとします。
           </div>
         </div>
       </v-col>
@@ -76,7 +87,39 @@
 
     <v-row class="mb-3">
       <v-col cols="auto">
-        <div class="mb-5 text-h5 font-weight-bold">第４条（禁止事項）</div>
+        <div class="mb-5 text-h5 font-weight-bold">第4条（外部SNSサービス）</div>
+        <div class="pl-5 text-body-1 font-weight-medium">
+          <div class="mb-2 d-flex">
+            <div class="mr-2">1.</div>
+            <div>
+              外部SNSサービスと連携して本サービスを提供することがありますが、ユーザーは、自らの責任において外部SNSサービスを利用するものとし、本サービスは、外部SNSサービスの利用に関連してユーザーに発生した損害について、一切の責任を負いません。
+            </div>
+          </div>
+          <div class="mb-2 d-flex">
+            <div class="mr-2">2.</div>
+            <div>
+              ユーザーは、外部SNSサービスの利用に当たっては、外部SNS利用規約を遵守するものとします。
+            </div>
+          </div>
+          <div class="d-flex">
+            <div class="mr-2">3.</div>
+            <div>
+              ユーザーは、外部SNSサービスに登録されたユーザーのプロフィール情報(外部SNSサービスにおけるユーザー名、メールアドレスを意味します。)を取得し、本サービスにおいて表示、公開をすること、また、投稿情報が、外部SNSサービスに投稿されることを予め承認するものとします。また、ユーザーは、他のユーザーにより、自らの投稿情報が、外部SNSサービスに投稿されることがあることを予め承認するものとします。本サービスは、外部SNSサービスに投稿された投稿情報について、削除等を行う義務を負わないものとします。
+            </div>
+          </div>
+          <div class="d-flex">
+            <div class="mr-2">4.</div>
+            <div>
+              ユーザーが外部SNSサービスのID等を利用して本サービスに登録した場合、そのID等の登録、利用については、外部SNSサービスが規定する各規約の定めに従うものとし、本サービスはその内容について一切の責任を負うものではありません。
+            </div>
+          </div>
+        </div>
+      </v-col>
+    </v-row>
+
+    <v-row class="mb-3">
+      <v-col cols="auto">
+        <div class="mb-5 text-h5 font-weight-bold">第5条（禁止事項）</div>
         <div class="pl-5 mb-5 text-body-1 font-weight-medium">
           ユーザーは本サービスの利用にあたり、以下の行為をしてはなりません。
         </div>
@@ -203,7 +246,7 @@
 
     <v-row class="mb-3">
       <v-col cols="auto">
-        <div class="mb-5 text-h5 font-weight-bold">第5条（本サービスの提供の停止等）</div>
+        <div class="mb-5 text-h5 font-weight-bold">第6条（本サービスの提供の停止等）</div>
         <div class="pl-5 mb-5 text-body-1 font-weight-medium">
           <div class="mb-5 d-flex">
             <div class="mr-2">1.</div>
@@ -245,7 +288,7 @@
 
     <v-row class="mb-3">
       <v-col cols="auto">
-        <div class="mb-5 text-h5 font-weight-bold">第6条（著作権）</div>
+        <div class="mb-5 text-h5 font-weight-bold">第7条（著作権）</div>
         <div class="pl-5 mb-5 text-body-1 font-weight-medium">
           <div class="mb-5 d-flex">
             <div class="mr-2">1.</div>
@@ -271,7 +314,7 @@
 
     <v-row class="mb-3">
       <v-col cols="auto">
-        <div class="mb-5 text-h5 font-weight-bold">第7条（利用制限および登録抹消）</div>
+        <div class="mb-5 text-h5 font-weight-bold">第8条（利用制限および登録抹消）</div>
         <div class="pl-5 mb-5 text-body-1 font-weight-medium">
           <div class="mb-5 d-flex">
             <div class="mr-2">1.</div>
@@ -311,7 +354,7 @@
 
     <v-row class="mb-3">
       <v-col cols="auto">
-        <div class="mb-5 text-h5 font-weight-bold">第8条（保証の否認および免責事項）</div>
+        <div class="mb-5 text-h5 font-weight-bold">第9条（保証の否認および免責事項）</div>
         <div class="pl-5 mb-5 text-body-1 font-weight-medium">
           <div class="mb-5 d-flex">
             <div class="mr-2">1.</div>
@@ -337,7 +380,7 @@
 
     <v-row class="mb-3">
       <v-col cols="auto">
-        <div class="mb-5 text-h5 font-weight-bold">第9条（サービス内容の変更等）</div>
+        <div class="mb-5 text-h5 font-weight-bold">第10条（サービス内容の変更等）</div>
         <div class="pl-5 mb-5 text-body-1 font-weight-medium">
           本サービスは，ユーザーに通知することなく，本サービスの内容を変更しまたは本サービスの提供を中止することができるものとし，これによってユーザーに生じた損害について一切の責任を負いません。
         </div>
@@ -346,7 +389,7 @@
 
     <v-row class="mb-3">
       <v-col cols="auto">
-        <div class="mb-5 text-h5 font-weight-bold">第10条（利用規約の変更）</div>
+        <div class="mb-5 text-h5 font-weight-bold">第11条（利用規約の変更）</div>
         <div class="pl-5 mb-5 text-body-1 font-weight-medium">
           本サービスが必要と判断した場合には，ユーザーに通知することなくいつでも本規約を変更することができるものとします。なお，本規約の変更後，本サービスの利用を開始した場合には，当該ユーザーは変更後の規約に同意したものとみなします。
         </div>
@@ -355,7 +398,7 @@
 
     <v-row class="mb-3">
       <v-col cols="auto">
-        <div class="mb-5 text-h5 font-weight-bold">第11条（個人情報の取扱い）</div>
+        <div class="mb-5 text-h5 font-weight-bold">第12条（個人情報の取扱い）</div>
         <div class="pl-5 mb-5 text-body-1 font-weight-medium">
           本サービスの利用によって取得する個人情報については，本サービスの「プライバシーポリシー」に従い適切に取り扱うものとします。
         </div>
@@ -364,7 +407,16 @@
 
     <v-row class="mb-3">
       <v-col cols="auto">
-        <div class="mb-5 text-h5 font-weight-bold">第12条（準拠法・裁判管轄）</div>
+        <div class="mb-5 text-h5 font-weight-bold">第13条（退会）</div>
+        <div class="pl-5 mb-5 text-body-1 font-weight-medium">
+          ユーザーはプロフィールページからユーザー情報を削除することにより、本サービスから退会できるものとします。
+        </div>
+      </v-col>
+    </v-row>
+
+    <v-row class="mb-3">
+      <v-col cols="auto">
+        <div class="mb-5 text-h5 font-weight-bold">第14条（準拠法・裁判管轄）</div>
         <div class="pl-5 mb-5 text-body-1 font-weight-medium">
           <div class="d-flex">
             <div class="mr-2">1.</div>

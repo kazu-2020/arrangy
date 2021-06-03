@@ -8,7 +8,7 @@ module Api
         Arrangement.order(likes_count: :desc).preload(:user,
                                                       :after_arrangement_photo,
                                                       :before_arrangement_photo),
-        items: 24
+        items: 18
       )
       options = {
         include: %i[user after_arrangement_photo before_arrangement_photo],
