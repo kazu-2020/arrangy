@@ -1,5 +1,5 @@
 <template>
-  <v-footer app absolute inset padless color="grey lighten-5">
+  <v-footer app absolute inset padless color="#fafafa">
     <v-col class="text-center">© 2021-Arrangy.</v-col>
   </v-footer>
 </template>
