@@ -3,7 +3,7 @@
 # Table name: arrangements
 #
 #  id             :bigint           not null, primary key
-#  arrange_level  :integer          default(0), not null
+#  arrange_level  :integer          default("row"), not null
 #  comments_count :bigint           default(0)
 #  context        :text             not null
 #  likes_count    :bigint           default(0)

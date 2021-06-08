@@ -20,9 +20,6 @@ gem 'puma', '~> 4.1'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
 gem 'webpacker', '~> 4.0'
 
-# Use Active Storage variant
-# gem 'image_processing', '~> 1.2'
-
 # authentication
 gem 'sorcery'
 
@@ -94,11 +91,9 @@ group :development do
   # For email testing
   gem 'letter_opener_web', '~> 1.0'
 
-  # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'listen', '~> 3.2'
   gem 'web-console', '>= 3.3.0'
 
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
 end

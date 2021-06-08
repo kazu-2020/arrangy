@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     namespace :arrangements do
       resources :favorites, only: :index
       resources :postings, only: :index
+      resources :new_postings, only: :index
     end
     resources :arrangements, only: %i[index create show update destroy] do
       resources :comments, only: %i[index create update destroy], shallow: true

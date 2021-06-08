@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_30_192041) do
+ActiveRecord::Schema.define(version: 2021_06_08_173127) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 2021_05_30_192041) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["provider", "uid"], name: "index_authentications_on_provider_and_uid"
+    t.index ["user_id"], name: "index_authentications_on_user_id"
   end
 
   create_table "before_arrangement_photos", force: :cascade do |t|
@@ -94,6 +95,7 @@ ActiveRecord::Schema.define(version: 2021_05_30_192041) do
 
   add_foreign_key "after_arrangement_photos", "arrangements"
   add_foreign_key "arrangements", "users"
+  add_foreign_key "authentications", "users"
   add_foreign_key "before_arrangement_photos", "arrangements"
   add_foreign_key "comments", "arrangements"
   add_foreign_key "comments", "users"

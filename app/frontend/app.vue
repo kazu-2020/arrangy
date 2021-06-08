@@ -9,19 +9,17 @@
         <router-view />
       </template>
     </v-main>
-    <TheFooter />
+    <router-view name="footer" />
   </v-app>
 </template>
 
 <script>
-import TheFooter from './components/global/TheFooter';
 import NotFound from './components/pages/error/NotFound';
 import ServerError from './components/pages/error/ServerError';
 import { mapGetters } from 'vuex';
 
 export default {
   components: {
-    TheFooter,
     NotFound,
     ServerError,
   },

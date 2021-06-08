@@ -1,9 +1,7 @@
 <template>
-  <div>
-    <v-footer padless color="grey lighten-5">
-      <v-col class="text-center">© 2021-Arrangy.</v-col>
-    </v-footer>
-  </div>
+  <v-footer app absolute inset padless color="#fafafa">
+    <v-col class="text-center">© 2021-Arrangy.</v-col>
+  </v-footer>
 </template>
 
 <script>
