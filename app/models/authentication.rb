@@ -12,6 +12,11 @@
 # Indexes
 #
 #  index_authentications_on_provider_and_uid  (provider,uid)
+#  index_authentications_on_user_id           (user_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (user_id => users.id)
 #
 class Authentication < ApplicationRecord
   belongs_to :user
