@@ -21,10 +21,10 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="12" sm="6">
+      <v-col cols="12" md="5">
         <v-img
           :src="arrangementInformation.after_arrangement_photo.url"
-          :lazySrc="arrangementInformation.after_arrangement_photo.url"
+          lazySrc="/images/dummy.png"
           style="position: relative"
         >
           <template v-if="arrangementInformation.arrange_level === 1">
@@ -90,7 +90,8 @@
           </v-col>
         </v-row>
       </v-col>
-      <v-col cols="12" sm="6">
+      <v-col cols="12" md="1" />
+      <v-col cols="12" md="6">
         <v-row class="">
           <v-col cols="auto pb-0">
             <v-avatar>
