@@ -60,6 +60,7 @@
           circle
           color="#cc3918"
           :length="pagy.pageCounts"
+          @input="scrollToTop"
         />
       </v-col>
     </v-row>
@@ -242,6 +243,10 @@ export default {
         });
         this.fetchAuthUser();
       });
+    },
+    scrollToTop() {
+      const element = document.querySelector('#top-pagination');
+      element.scrollIntoView({ behavior: 'auto', block: 'center', inline: 'nearest' });
     },
   },
 };
