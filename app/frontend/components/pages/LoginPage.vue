@@ -27,7 +27,7 @@
         Googleアカウントでログイン
       </v-btn>
       <v-btn
-        class="mb-12 font-weight-bold text-capitalize"
+        class="mb-12 ml-0 font-weight-bold text-capitalize"
         href="/api/oauths/twitter"
         xLarge
         color="#1DA1F2"

@@ -48,9 +48,10 @@
         <v-pagination
           id="bottom-pagination"
           v-model="pagy.currentPage"
-          :length="pagy.pageCounts"
           circle
           color="#cc3918"
+          :length="pagy.pageCounts"
+          @input="scrollToTop"
         />
       </v-col>
     </v-row>
@@ -102,6 +103,10 @@ export default {
           this.pagy.currentPage = res.meta.pagy.page;
           this.pagy.pageCounts = res.meta.pagy.pages;
         });
+    },
+    scrollToTop() {
+      const element = document.querySelector('#top-pagination');
+      element.scrollIntoView({ behavior: 'auto', block: 'center', inline: 'nearest' });
     },
   },
 };
