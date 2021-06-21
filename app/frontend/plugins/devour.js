@@ -4,7 +4,6 @@ import { csrfToken } from 'rails-ujs';
 
 const jsonApi = new JsonApi({
   apiUrl: '/api',
-  fll: 'bar',
 });
 
 jsonApi.headers['X-CSRF-TOKEN'] = csrfToken();
