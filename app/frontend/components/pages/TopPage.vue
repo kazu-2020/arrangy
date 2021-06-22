@@ -305,7 +305,7 @@ export default {
   },
   created() {
     if (location.search.includes('registration=true')) {
-      this.handleShowWelcomeDialog();
+      this.welcomeDialogDisplayed = true;
     }
   },
   updated() {
@@ -319,10 +319,7 @@ export default {
   },
   methods: {
     closeWelcomeDialog() {
-      this.handleShowWelcomeDialog();
-    },
-    handleShowWelcomeDialog() {
-      this.welcomeDialogDisplayed = !this.welcomeDialogDisplayed;
+      this.welcomeDialogDisplayed = false;
     },
     fetchArrangements(page) {
       this.$devour.findAll('arrangement', { page: page }).then((res) => {

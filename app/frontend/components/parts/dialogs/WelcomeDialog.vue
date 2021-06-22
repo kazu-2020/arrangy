@@ -9,16 +9,10 @@
         早速、あなたのアレンジ飯を投稿してみましょう。
       </v-card-text>
       <v-card-actions class="d-flex justify-space-around pb-8">
-        <v-btn
-          class="font-weight-bold btn"
-          outlined
-          color="#cc3918"
-          xLarge
-          :to="{ name: 'ArrangementNew' }"
-        >
+        <v-btn class="font-weight-bold btn" outlined color="#cc3918" xLarge @click="handlePageJump">
           投稿ページへ
         </v-btn>
-        <NormalButton :xLarge="true" @click="$emit('close-dialog')">
+        <NormalButton :xLarge="true" @click="handleCloseDialog">
           <template #text>あとで</template>
         </NormalButton>
       </v-card-actions>
@@ -35,6 +29,23 @@ export default {
   props: {
     dialog: {
       type: Boolean,
+    },
+  },
+  methods: {
+    deleteQuery() {
+      const url = new URL(location);
+      if (url.searchParams.has('registration')) {
+        url.searchParams.delete('registration');
+        window.history.pushState({}, '', url);
+      }
+    },
+    handleCloseDialog() {
+      this.deleteQuery();
+      this.$emit('close-dialog');
+    },
+    handlePageJump() {
+      this.deleteQuery();
+      this.$router.push({ name: 'ArrangementNew' });
     },
   },
 };
